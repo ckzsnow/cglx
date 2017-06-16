@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>DIY研习社</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<!-- Bootstrap 3.3.6 -->
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="/css/font-awesome.min.css">
+		<!-- Theme style -->
+		<link rel="stylesheet" href="/css/AdminLTE.min.css">
+		<!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+		<link rel="stylesheet" href="/css/_all-skins.min.css">
+		<!-- jQuery 2.2.3 -->
+		<script src="/js/jquery.min.js"></script>
+	</head>
+
+	<body class="hold-transition skin-blue fixed sidebar-mini">
+		<div class="wrapper">
+			<header class="main-header">
+				<!-- Logo -->
+				<a href="index2.html" class="logo">
+					<!-- mini logo for sidebar mini 50x50 pixels -->
+					<span class="logo-mini"><b>D</b>ED</span>
+					<!-- logo for regular state and mobile devices -->
+					<span class="logo-lg"><b>DIY研习社</b></span>
+				</a>
+				<!-- Header Navbar: style can be found in header.less -->
+				<nav class="navbar navbar-static-top">
+					<!-- Sidebar toggle button-->
+					<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+					<div class="navbar-custom-menu">
+						<ul class="nav navbar-nav">
+							<!-- Notifications: style can be found in dropdown.less -->
+							<li class="dropdown notifications-menu">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-bell-o"></i>
+									<span class="label label-warning">10</span>
+								</a>
+								<ul class="dropdown-menu">
+									<li class="header">暂无消息</li>
+									<li>
+										<!-- inner menu: contains the actual data -->
+										<ul class="menu">
+											<li>
+												<a href="#">
+													<i class="fa fa-users text-aqua"></i>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="footer">
+										<a href="#">查看全部</a>
+									</li>
+								</ul>
+							</li>
+							<!-- User Account: style can be found in dropdown.less -->
+							<li class="dropdown user user-menu">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<img src="/images/user3-128x128.jpg" class="user-image" alt="User Image">
+									<span class="hidden-xs username"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<!-- User image -->
+									<li class="user-header">
+										<img src="/images/user3-128x128.jpg" class="img-circle" alt="User Image">
+										<p class="username">
+										</p>
+									</li>
+									<!-- Menu Footer-->
+									<li class="user-footer">
+										<div class="pull-right">
+											<a href="#" id="logout" class="btn btn-default btn-flat">退出</a>
+										</div>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+
+			<!-- =============================================== -->
+
+			<!-- Left side column. contains the sidebar -->
+			<aside class="main-sidebar">
+				<!-- sidebar: style can be found in sidebar.less -->
+				<section class="sidebar">
+					<!-- Sidebar user panel -->
+					<div class="user-panel">
+						<div class="pull-left image">
+							<img src="/images/user3-128x128.jpg" class="img-circle" alt="User Image">
+						</div>
+						<div class="pull-left info" style="margin-top: 10px;">
+							<p class="username"></p>
+						</div>
+					</div>
+					<!-- sidebar menu: : style can be found in sidebar.less -->
+					<ul class="sidebar-menu">
+					<li class="header">DIY研习社</li>
+					<li><a href="bannerlist.html"> <i
+							class="fa fa-dashboard"></i><span>横幅列表</span>
+					</a></li>
+					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+							<span>文章</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="articallist.html"><i class="fa fa-circle-o"></i>文章列表</a>
+							</li>
+							<li class="active"><a href="addartical.html"><i
+									class="fa fa-circle-o"></i>添加文章</a></li>
+						</ul></li>
+					<li><a href="appreport.html"> <i class="fa fa-dashboard"></i><span>申请报道列表</span>
+					</a></li>
+					<li><a href="userlist.html"> <i class="fa fa-dashboard"></i><span>用户列表</span>
+					</a></li>
+					<li><a href="evalist.html"> <i class="fa fa-dashboard"></i><span>申请表列表</span>
+					</a></li>
+					<li class="treeview active"><a href="#"> <i class="fa fa-joomla"></i>
+							<span>成功案例</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li class="active"><a href="caselist.html"><i class="fa fa-circle-o"></i>成功案例列表</a>
+							</li>
+							<li><a href="addcase.html"><i
+									class="fa fa-circle-o"></i>添加成功案例</a></li>
+						</ul></li>
+						<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+							<span>媒体报道</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="medialist.html"><i class="fa fa-circle-o"></i>媒体报道列表</a>
+							</li>
+							<li class="active"><a href="addmedia.html"><i
+									class="fa fa-circle-o"></i>添加媒体报道</a></li>
+						</ul></li>
+				</ul>
+				</section>
+				<!-- /.sidebar -->
+			</aside>
+
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<!-- Main content -->
+				<section class="content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-primary" style=" margin: 10px auto;">
+								<div class="box-header with-border">
+									<i class="fa fa-table"></i>
+									<h3 class="box-title">案例列表</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="box-body no-padding">
+									<table class="table table-striped">
+										<tbody id="tbody">
+											<tr>
+												<th>ID</th>
+												<th>专业分类</th>
+												<th>国家分类</th>
+												<th>标题</th>
+												<th>子标题</th>
+												<th>是否推荐</th>
+												<th>是否导航推荐</th>
+												<th>创建时间</th>
+												<th>编辑</th>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<!-- /.box-body -->
+							</div>
+							<!-- /.box -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</section>
+				<!-- /.content -->
+			</div>
+			<!-- /.content-wrapper -->
+			<footer class="main-footer">
+				<div class="pull-right hidden-xs">
+					<b>Version</b> 1.0.0
+				</div>
+				<strong>Copyright &copy; 2016-2017.</strong> All rights reserved.
+			</footer>
+		</div>
+		<!-- ./wrapper -->
+
+		<!-- jQuery 2.2.3 -->
+		<script src="/js/jquery.min.js"></script>
+		<!-- Bootstrap 3.3.6 -->
+		<script src="/js/bootstrap.min.js"></script>
+		<!-- SlimScroll -->
+		<script src="/js/jquery.slimscroll.min.js"></script>
+		<!-- AdminLTE App -->
+		<script src="/js/app.min.js"></script>
+		<script>
+			$.post('/cases/getCaseListByTag', {page:1, length:1000}, function(data) {
+				for(var index in data) {
+					$('#tbody').append('<tr>'
+							+ '<td>'+data[index].id+'</td>'
+							+ '<td>'+data[index].tag_category_name+'</td>'
+							+ '<td>'+data[index].tag_country_name+'</td>'
+							+ '<td>'+data[index].title+'</td>'
+							+ '<td>'+data[index].sub_title+'</td>'
+							+ '<td>'+(data[index].is_recommend==0?"非推荐":(data[index].is_recommend==1?"主推荐":"次推荐"))+'</td>'
+							+ '<td>'+(data[index].is_nav_recommend==1?"侧导航推荐":"非侧导航推荐")+'</td>'
+							+ '<td>'+data[index].readable_date+'</td>'
+							+ '<td><a id="'+data[index].id+'" class="delete" style="margin-right: 10px;color:red">删除</a><a href="addcase.html?id='+data[index].id+'">编辑</a></td>'
+							+ '</tr>');
+				}
+				$('.delete').on('click', function() {
+					var id = $(this).attr('id');
+					$.post('/cases/deleteCase', {id:id}, function(data) {
+						alert(data.msg);
+						window.location.reload();
+					});
+				});
+			});
+			
+			$('#logout').on('click', function() {
+				window.location.href = '/user/userLogout?view=homepage';
+			});
+		</script>
+	</body>
+
+</html>

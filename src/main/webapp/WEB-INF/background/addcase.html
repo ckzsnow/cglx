@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>DIY研习社</title>
+		<!-- Tell the browser to be responsive to screen width -->
+		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+		<!-- Bootstrap 3.3.6 -->
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<!-- Font Awesome -->
+		<link rel="stylesheet" href="/css/font-awesome.min.css">
+		<!-- Theme style -->
+		<link rel="stylesheet" href="/css/AdminLTE.min.css">
+		<!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+		<link rel="stylesheet" href="/css/_all-skins.min.css">
+		<!-- jQuery 2.2.3 -->
+		<script src="/js/jquery.min.js"></script>
+	</head>
+
+	<body class="hold-transition skin-blue fixed sidebar-mini">
+		<div class="wrapper">
+			<header class="main-header">
+				<!-- Logo -->
+				<a href="index2.html" class="logo">
+					<!-- mini logo for sidebar mini 50x50 pixels -->
+					<span class="logo-mini"><b>D</b>ED</span>
+					<!-- logo for regular state and mobile devices -->
+					<span class="logo-lg"><b>DIY研习社</b></span>
+				</a>
+				<!-- Header Navbar: style can be found in header.less -->
+				<nav class="navbar navbar-static-top">
+					<!-- Sidebar toggle button-->
+					<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+					<div class="navbar-custom-menu">
+						<ul class="nav navbar-nav">
+							<!-- Notifications: style can be found in dropdown.less -->
+							<li class="dropdown notifications-menu">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-bell-o"></i>
+									<span class="label label-warning">10</span>
+								</a>
+								<ul class="dropdown-menu">
+									<li class="header">暂无消息</li>
+									<li>
+										<!-- inner menu: contains the actual data -->
+										<ul class="menu">
+											<li>
+												<a href="#">
+													<i class="fa fa-users text-aqua"></i>
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="footer">
+										<a href="#">查看全部</a>
+									</li>
+								</ul>
+							</li>
+							<!-- User Account: style can be found in dropdown.less -->
+							<li class="dropdown user user-menu">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<img src="/images/user3-128x128.jpg" class="user-image" alt="User Image">
+									<span class="hidden-xs username"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<!-- User image -->
+									<li class="user-header">
+										<img src="/images/user3-128x128.jpg" class="img-circle" alt="User Image">
+										<p class="username">
+										</p>
+									</li>
+									<!-- Menu Footer-->
+									<li class="user-footer">
+										<div class="pull-right">
+											<a href="#" id="logout" class="btn btn-default btn-flat">退出</a>
+										</div>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</nav>
+			</header>
+
+			<!-- =============================================== -->
+
+			<!-- Left side column. contains the sidebar -->
+			<aside class="main-sidebar">
+				<!-- sidebar: style can be found in sidebar.less -->
+				<section class="sidebar">
+					<!-- Sidebar user panel -->
+					<div class="user-panel">
+						<div class="pull-left image">
+							<img src="/images/user3-128x128.jpg" class="img-circle" alt="User Image">
+						</div>
+						<div class="pull-left info" style="margin-top: 10px;">
+							<p class="username"></p>
+						</div>
+					</div>
+					<!-- sidebar menu: : style can be found in sidebar.less -->
+					<ul class="sidebar-menu">
+					<li class="header">DIY研习社</li>
+					<li><a href="bannerlist.html"> <i
+							class="fa fa-dashboard"></i><span>横幅列表</span>
+					</a></li>
+					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+							<span>文章</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="articallist.html"><i class="fa fa-circle-o"></i>文章列表</a>
+							</li>
+							<li class="active"><a href="addartical.html"><i
+									class="fa fa-circle-o"></i>添加文章</a></li>
+						</ul></li>
+					<li><a href="appreport.html"> <i class="fa fa-dashboard"></i><span>申请报道列表</span>
+					</a></li>
+					<li><a href="userlist.html"> <i class="fa fa-dashboard"></i><span>用户列表</span>
+					</a></li>
+					<li><a href="evalist.html"> <i class="fa fa-dashboard"></i><span>申请表列表</span>
+					</a></li>
+					<li class="treeview active"><a href="#"> <i class="fa fa-joomla"></i>
+							<span>成功案例</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="caselist.html"><i class="fa fa-circle-o"></i>成功案例列表</a>
+							</li>
+							<li class="active"><a href="addcase.html"><i
+									class="fa fa-circle-o"></i>添加成功案例</a></li>
+						</ul></li>
+						<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+							<span>媒体报道</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="medialist.html"><i class="fa fa-circle-o"></i>媒体报道列表</a>
+							</li>
+							<li class="active"><a href="addmedia.html"><i
+									class="fa fa-circle-o"></i>添加媒体报道</a></li>
+						</ul></li>
+				</ul>
+				</section>
+				<!-- /.sidebar -->
+			</aside>
+
+			<!-- Content Wrapper. Contains page content -->
+			<div class="content-wrapper">
+				<!-- Main content -->
+				<section class="content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-primary" style=" margin: 10px auto;">
+								<div class="box-header with-border">
+									<i class="fa fa-file-text"></i>
+									<h3 class="box-title">添加/编辑案例</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="form-horizontal" style="text-align:center">
+									<div class="box-body" style="text-align:center">
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">标题</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="title" placeholder="标题">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">子标题</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="sub_title" placeholder="子标题">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">国家标签</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="tag_country_name" placeholder="国家标签">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">专业标签</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="tag_category_name" placeholder="专业标签">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">封面图</label>
+											<div class="col-sm-10">
+												<input type="file" id="snapshot">
+												<img id="snapshot_"/>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">是否推荐</label>
+											<div class="col-sm-10">
+												<select id="recommend" class="form-control">
+													<option value="0">非推荐</option>
+													<option value="1">主推荐</option>
+													<option value="2">次推荐</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">是否导航推荐</label>
+											<div class="col-sm-10">
+												<select id="nav_recommend" class="form-control">
+													<option value="0">非侧导航推荐</option>
+													<option value="1">侧导航推荐</option>
+												</select>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">学生姓名</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="background_name">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">本科专业</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="background_major">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">毕业学校</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="background_college">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">申请专业</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="background_apply_major">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">申请学校</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="background_apply_college">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">录取时间</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="background_enroll_time">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">背景介绍</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="background_info">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">入学时间</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="background_enter_time">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">培养目标</label>
+											<div class="col-sm-10">
+												<textarea class="form-control detail" id="train_target">
+												</textarea>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">录取通知书图片</label>
+											<div class="col-sm-10">
+												<input type="file" id="offer_img">
+												<img id="offer_img_"/>
+											</div>
+										</div>
+						                <div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">专业名称（中文）</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="major_chi">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">专业名称（英文）</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="major_eng">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">专业介绍</label>
+											<div class="col-sm-10">
+												<textarea class="form-control detail" id="major_info"></textarea>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">学校图片</label>
+											<div class="col-sm-10">
+												<input type="file" id="college_image">
+												<img id="college_image_">
+											</div>
+										</div>
+										<div id="progress_tip" class="progress" style="display:none;margin-top:10px;">
+											<div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+												<span class="sr-only" id="text_tips" style="position:relative;">0%</span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label"></label>
+											<div class="col-sm-10">
+												<button id="submit_btn" class="btn btn-default">提交</button>
+											</div>
+										</div>
+									</div>
+									<!-- /.box-body -->
+								</div>
+								<!-- /.box -->
+							</div>
+							<!-- /.box -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</section>
+				<!-- /.content -->
+			</div>
+			<!-- /.content-wrapper -->
+			<footer class="main-footer">
+				<div class="pull-right hidden-xs">
+					<b>Version</b> 1.0.0
+				</div>
+				<strong>Copyright &copy; 2016-2017.</strong> All rights reserved.
+			</footer>
+		</div>
+		<!-- ./wrapper -->
+
+		<!-- jQuery 2.2.3 -->
+		<script src="/js/jquery.min.js"></script>
+		<!-- Bootstrap 3.3.6 -->
+		<script src="/js/bootstrap.min.js"></script>
+		<!-- SlimScroll -->
+		<script src="/js/jquery.slimscroll.min.js"></script>
+		<!-- AdminLTE App -->
+		<script src="/js/app.min.js"></script>
+		<script>
+			(function ($) {
+	            $.getUrlParam = function (name) {
+	                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	                var r = window.location.search.substr(1).match(reg);
+	                if (r != null) return unescape(r[2]); return null;
+	            }
+	        })(jQuery);	
+		
+		
+			var id = $.getUrlParam('id');
+			if(id != null && id != '') {
+				$.post('/cases/getCaseById', {id:id}, function(data) {
+					$('#tag_category_name').val(data.tag_category_name);
+					$('#tag_country_name').val(data.tag_country_name);
+					$('#title').val(data.title);
+					$('#sub_title').val(data.sub_title);
+					$("#snapshot_").attr("style", "float:left;");
+					$("#snapshot_").attr("width", "200px;");
+					$("#snapshot_").attr("src", "/cglx/files/imgs/"+data.image);
+					console.log(data.is_nav_recommend == "0"?"非推荐":"推荐");
+					$('#nav_recommend').val(data.is_nav_recommend);
+					$("#recommend").val(data.is_recommend);
+				});
+				$.post('/cases/getCaseDetail', {id:id}, function(data) {
+					$('#background_name').val(data.background_name);
+					$('#background_major').val(data.background_major);
+					$('#background_college').val(data.background_college);
+					$('#background_apply_major').val(data.background_apply_major);
+					$('#background_apply_college').val(data.background_apply_college);
+					$('#background_enroll_time').val(data.background_enroll_time);
+					$('#background_enter_time').val(data.background_enter_time);
+					$('#background_info').val(data.background_info);
+					$('#train_target').val(data.train_target);
+					$("#offer_img_").attr("style", "float:left;");
+					$("#offer_img_").attr("width", "200px;");
+					$("#offer_img_").attr("src", "/cglx/files/imgs/"+data.image);
+					$('#major_info').val(data.major_info);
+					$('#major_chi').val(data.major_chi);
+					$('#major_eng').val(data.major_eng);
+					$("#college_image_").attr("style", "float:left;");
+					$("#college_image_").attr("width", "200px;");
+					$("#college_image_").attr("src", "/cglx/files/imgs/"+data.college_image);
+				});
+			}
+		</script>
+		<script>
+			$('#submit_btn').on('click', function() {
+				$('.btn-primary').attr('disabled', "");
+				$("#progress_tip").show();
+				var fd = new FormData();
+				var snapshot = $('#snapshot')[0].files[0];
+				var offer_img = $('#offer_img')[0].files[0];
+				var college_image = $('#college_image')[0].files[0];
+				
+				fd.append('case_id', $.getUrlParam('id'));
+				fd.append('tag_category_name', $('#tag_category_name').val());
+				fd.append('tag_country_name', $('#tag_country_name').val());
+				fd.append('title', $('#title').val());
+				fd.append('sub_title', $('#sub_title').val());
+				fd.append('snapshot', snapshot);
+				fd.append('recommend', $('#recommend').val());
+				fd.append('nav_recommend', $('#nav_recommend').val());
+				fd.append('background_name', $('#background_name').val());
+				fd.append('background_major', $('#background_major').val());
+				fd.append('background_college', $('#background_college').val());
+				fd.append('background_apply_major', $('#background_apply_major').val());
+				fd.append('background_apply_college', $('#background_apply_college').val());
+				fd.append('background_enroll_time', $('#background_enroll_time').val());
+				fd.append('background_info', $('#background_info').val());
+				fd.append('background_enter_time', $('#background_enter_time').val());
+				fd.append('train_target', $('#train_target').val());
+				fd.append('offer_img', offer_img);
+				fd.append('major_chi', $('#major_chi').val());
+				fd.append('major_eng', $('#major_eng').val());
+				fd.append('major_info', $('#major_info').val());
+				fd.append('college_image', college_image);
+				
+				var xhr = new XMLHttpRequest();
+				xhr.upload.addEventListener("progress", function(evt) {
+					if (evt.lengthComputable) {
+						var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+						var percent = percentComplete + "%";
+						$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", percent);
+						$('#text_tips').html(percent);
+					}
+				}, false);
+				xhr.addEventListener("load", function(evt) {
+					$("#progress_tip").hide();
+					$('#submit_btn').removeAttr('disabled');
+					$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
+					$('#text_tips').html("0%");
+					var res = JSON.parse(evt.target.responseText);
+					if (res.error == '0') {
+						alert("提交信息成功");
+						window.location.reload();
+					} else {
+						alert("提交信息失败！");
+					}
+				}, false);
+				xhr.addEventListener("error", function(evt) {
+					$("#progress_tip").hide();
+					$('#submit_btn').removeAttr('disabled');
+					$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
+					$('#text_tips').html("0%");
+					alert("提交信息失败！");
+				}, false);
+				xhr.open('post', "/articles/addCaseTotal");
+				xhr.send(fd);
+			});
+			
+			
+			function getFileUrl(sourceId) { 
+		    	var url; 
+		    	if (navigator.userAgent.indexOf("MSIE")>=1) { // IE 
+		    	url = document.getElementById(sourceId).value; 
+		    	} else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox 
+		    	url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
+		    	} else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome 
+		    	url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
+		    	} 
+		    	return url; 
+		    }
+			
+			$("#snapshot").on("change", function(){
+				var url = getFileUrl("snapshot");
+				$("#snapshot_")[0].src = url;
+			});
+			
+			$("#offer_img").on("change", function(){
+				var url = getFileUrl("offer_img");
+				$("#offer_img_")[0].src = url;
+			});
+			
+			$("#college_image").on("change", function(){
+				var url = getFileUrl("college_image");
+				$("#college_image_")[0].src = url;
+			});
+			$('#logout').on('click', function() {
+				window.location.href = '/user/userLogout?view=homepage';
+			});
+		</script>
+	</body>
+
+</html>

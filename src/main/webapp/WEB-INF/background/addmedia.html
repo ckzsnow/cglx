@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>DIY研习社</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<!-- Bootstrap 3.3.6 -->
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href="/css/AdminLTE.min.css">
+<!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+<link rel="stylesheet" href="/css/_all-skins.min.css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+<style>
+.para h3 {
+	font-size: 18px;
+	font-weight: 700;
+	color: #212121;
+	margin: 20px auto;
+	line-height: 30px;
+	border-left: 5px solid #5b86db;
+	padding-left: 15px;
+}
+
+.para p {
+	font-size: 16px;
+	line-height: 30px;
+	margin: 10px 0;
+	text-align: justify;
+}
+</style>
+</head>
+
+<body class="hold-transition skin-blue fixed sidebar-mini">
+	<div class="wrapper">
+		<header class="main-header">
+			<!-- Logo -->
+			<a href="index2.html" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+				<span class="logo-mini"><b>D</b>ED</span> <!-- logo for regular state and mobile devices -->
+				<span class="logo-lg"><b>DIY研习社</b></span>
+			</a>
+			<!-- Header Navbar: style can be found in header.less -->
+			<nav class="navbar navbar-static-top">
+				<!-- Sidebar toggle button-->
+				<a href="#" class="sidebar-toggle" data-toggle="offcanvas"
+					role="button"> <span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+				</a>
+				<div class="navbar-custom-menu">
+					<ul class="nav navbar-nav">
+						<!-- Notifications: style can be found in dropdown.less -->
+						<li class="dropdown notifications-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> <i
+								class="fa fa-bell-o"></i> <span class="label label-warning">10</span>
+						</a>
+							<ul class="dropdown-menu">
+								<li class="header">暂无消息</li>
+								<li>
+									<!-- inner menu: contains the actual data -->
+									<ul class="menu">
+										<li><a href="#"> <i class="fa fa-users text-aqua"></i>
+										</a></li>
+									</ul>
+								</li>
+								<li class="footer"><a href="#">查看全部</a></li>
+							</ul></li>
+						<!-- User Account: style can be found in dropdown.less -->
+						<li class="dropdown user user-menu"><a href="#"
+							class="dropdown-toggle" data-toggle="dropdown"> <img
+								src="/images/user3-128x128.jpg" class="user-image"
+								alt="User Image"> <span class="hidden-xs username"></span>
+						</a>
+							<ul class="dropdown-menu">
+								<!-- User image -->
+								<li class="user-header"><img
+									src="/images/user3-128x128.jpg" class="img-circle"
+									alt="User Image">
+									<p class="username"></p></li>
+								<!-- Menu Footer-->
+								<li class="user-footer">
+									<div class="pull-right">
+										<a href="#" id="logout" class="btn btn-default btn-flat">退出</a>
+									</div>
+								</li>
+							</ul></li>
+					</ul>
+				</div>
+			</nav>
+		</header>
+
+		<!-- =============================================== -->
+
+		<!-- Left side column. contains the sidebar -->
+		<aside class="main-sidebar">
+			<!-- sidebar: style can be found in sidebar.less -->
+			<section class="sidebar">
+				<!-- Sidebar user panel -->
+				<div class="user-panel">
+					<div class="pull-left image">
+						<img src="/images/user3-128x128.jpg" class="img-circle"
+							alt="User Image">
+					</div>
+					<div class="pull-left info" style="margin-top: 10px;">
+						<p class="username"></p>
+					</div>
+				</div>
+				<!-- sidebar menu: : style can be found in sidebar.less -->
+				<ul class="sidebar-menu">
+					<li class="header">DIY研习社</li>
+					<li><a href="bannerlist.html"> <i class="fa fa-dashboard"></i><span>横幅列表</span>
+					</a></li>
+					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+							<span>文章</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="articallist.html"><i class="fa fa-circle-o"></i>文章列表</a>
+							</li>
+							<li><a href="addartical.html"><i class="fa fa-circle-o"></i>添加文章</a>
+							</li>
+						</ul></li>
+					<li><a href="appreport.html"> <i class="fa fa-dashboard"></i><span>申请报道列表</span>
+					</a></li>
+					<li><a href="userlist.html"> <i class="fa fa-dashboard"></i><span>用户列表</span>
+					</a></li>
+					<li><a href="evalist.html"> <i class="fa fa-dashboard"></i><span>申请表列表</span>
+					</a></li>
+					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+							<span>成功案例</span> <span class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="caselist.html"><i class="fa fa-circle-o"></i>成功案例列表</a>
+							</li>
+							<li><a href="addcase.html"><i class="fa fa-circle-o"></i>添加成功案例</a></li>
+						</ul></li>
+					<li class="treeview active"><a href="#"> <i
+							class="fa fa-joomla"></i> <span>媒体报道</span> <span
+							class="pull-right-container"> <i
+								class="fa fa-angle-left pull-right"></i>
+						</span>
+					</a>
+						<ul class="treeview-menu">
+							<li><a href="medialist.html"><i class="fa fa-circle-o"></i>媒体报道列表</a>
+							</li>
+							<li class="active"><a href="addmedia.html"><i
+									class="fa fa-circle-o"></i>添加媒体报道</a></li>
+						</ul></li>
+				</ul>
+			</section>
+			<!-- /.sidebar -->
+		</aside>
+
+		<!-- Content Wrapper. Contains page content -->
+		<div class="content-wrapper">
+			<!-- Main content -->
+			<section class="content">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="box box-primary" style="margin: 10px auto;">
+							<div class="box-header with-border">
+								<i class="fa fa-file-text"></i>
+								<h3 class="box-title">添加文章</h3>
+							</div>
+							<!-- /.box-header -->
+							<div class="form-horizontal">
+								<div class="box-body">
+									<div id="base_info">
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">图片</label>
+											<div class="col-sm-10">
+												<input type="file" id="snapshot"> <img
+													id="snapshot_" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">视频源</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail"
+													id="video_src" value="http://">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">标题</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="title">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">子标题</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail"
+													id="sub_title">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">名称</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="name">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">发布时间</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail"
+													id="publish_time">
+											</div>
+										</div>
+									</div>
+									<div id="para_s">
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">文章详情</label>
+											<div class="col-sm-10">
+												<button onclick="addPars();" type="button"
+													class="btn btn-primary">添加段落</button>
+												<button onclick="preContent();" type="button"
+													class="btn btn-success">预览</button>
+											</div>
+										</div>
+									</div>
+									<div id="progress_tip" class="progress"
+										style="display: none; margin-top: 10px;">
+										<div
+											class="progress-bar progress-bar-primary progress-bar-striped"
+											role="progressbar" aria-valuenow="50" aria-valuemin="0"
+											aria-valuemax="100">
+											<span class="sr-only" id="text_tips"
+												style="position: relative;">0%</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputEmail3" class="col-sm-2 control-label"></label>
+										<div class="col-sm-10">
+											<button id="submit_btn" class="btn btn-default">提交</button>
+										</div>
+									</div>
+									<div style="display: none;">
+										<input type="file" name="imgOne" id="imgOne"
+											onchange="preImg(this.id,'imgPre');" /> <img id="imgPre"
+											src="" />
+									</div>
+								</div>
+								<!-- /.box-body -->
+							</div>
+							<!-- /.box -->
+						</div>
+						<!-- /.box -->
+					</div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row -->
+			</section>
+			<!-- /.content -->
+		</div>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">文章预览</h4>
+					</div>
+					<div class="modal-body"
+						style="max-height: 400px; overflow: scroll; overflow-x: hidden;">
+						<div id="pre_content" class="para"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+		<!-- /.content-wrapper -->
+		<footer class="main-footer">
+			<div class="pull-right hidden-xs">
+				<b>Version</b> 1.0.0
+			</div>
+			<strong>Copyright &copy; 2016-2017.</strong> All rights reserved.
+		</footer>
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- jQuery 2.2.3 -->
+	<script src="/js/jquery.min.js"></script>
+	<!-- Bootstrap 3.3.6 -->
+	<script src="/js/bootstrap.min.js"></script>
+	<!-- SlimScroll -->
+	<script src="/js/jquery.slimscroll.min.js"></script>
+	<!-- AdminLTE App -->
+	<script src="/js/app.min.js"></script>
+	<script>
+	
+	(function ($) {
+        $.getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+    })(jQuery);
+		
+	    function getPreContent() {
+	    	var tmp = "";
+	    	$("#para_s input, #para_s textarea").each(function(){
+	    		if($(this).is("input") && $(this).attr("type") == "button") return true;
+	    		if($(this).is("input")) {
+	    			tmp += "<div><h3>" + $(this).val() + "</h3>";
+	    		} else {
+	    			var currentContent = $(this).val();
+	    			var flag = currentContent.indexOf("###IMG###" + $(this).parent().parent().attr("id")  + "###IMG###");
+					if(flag>=0) {
+						var testTmp = currentContent.substring(flag + 18);
+	    				tmp += "<p>" + currentContent.substring(0, flag) + "</p>";
+	    				tmp += "<p><img src='"+imgData[$(this).parent().parent().attr("id")]+"' style='width:100%;'></p>";
+	    				tmp += "<p>" + currentContent.substring(flag + 18 + $(this).parent().parent().attr("id").length) + "</p></div>";
+	    			} else {
+	    				tmp += "<p>" + currentContent + "</p></div>";
+	    			}
+	    		}
+	    	});
+	    	return tmp;
+	    }
+		$('#submit_btn').on('click', function() {
+			$('.btn-primary').attr('disabled', "");
+			$("#progress_tip").show();
+			var id = $.getUrlParam('id');
+			var fd = new FormData();
+			var image = $('#snapshot')[0].files[0];
+			fd.append('id', id);
+			fd.append('image', image);
+			fd.append('video_src', $('#video_src').val());
+			fd.append('title', $('#title').val());
+			fd.append('sub_title', $('#sub_title').val());
+			fd.append('name', $('#name').val());
+			fd.append('publish_time', $('#publish_time').val());
+			fd.append('contents', getPreContent());
+			var xhr = new XMLHttpRequest();
+			xhr.upload.addEventListener("progress", function(evt) {
+				if (evt.lengthComputable) {
+					var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+					var percent = percentComplete + "%";
+					$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", percent);
+					$('#text_tips').html(percent);
+				}
+			}, false);
+			xhr.addEventListener("load", function(evt) {
+				$("#progress_tip").hide();
+				$('#submit_btn').removeAttr('disabled');
+				$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
+				$('#text_tips').html("0%");
+				var res = JSON.parse(evt.target.responseText);
+				if (res.error == '0') {
+					alert("提交信息成功");
+					window.location.reload();
+				} else {
+					alert("提交信息失败！");
+				}
+			}, false);
+			xhr.addEventListener("error", function(evt) {
+				$("#progress_tip").hide();
+				$('#submit_btn').removeAttr('disabled');
+				$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
+				$('#text_tips').html("0%");
+				alert("提交信息失败！");
+			}, false);
+			if(id==null || id == '') {
+				xhr.open('post', "/medias/addMedia");
+			} else {
+				xhr.open('post', "/medias/updateMedia");
+			}
+			xhr.send(fd);
+		});
+	</script>
+	<script>
+			var imgData = {};
+		    function getBase64Image(img) {
+		        var canvas = document.createElement("canvas");
+		        canvas.width = img.width;
+		        canvas.height = img.height;
+		        var ctx = canvas.getContext("2d");
+		        ctx.drawImage(img, 0, 0, img.width, img.height);
+		        var dataURL = canvas.toDataURL("image/png");
+		        return dataURL // return dataURL.replace("data:image/png;base64,", ""); 
+		    } 
+		    function main() { 
+		        var img = document.createElement('img');
+		        img.onload =function() { 
+		            var data = getBase64Image(img); 
+		            console.log(data); 
+		        } 
+		        document.body.appendChild(img); 
+		    }
+		    //main();
+		    function getFileUrl(sourceId) { 
+		    	var url; 
+		    	if (navigator.userAgent.indexOf("MSIE")>=1) { // IE 
+		    	url = document.getElementById(sourceId).value; 
+		    	} else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox 
+		    	url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
+		    	} else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome 
+		    	url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
+		    	} 
+		    	return url; 
+		    	} 
+		    
+		    function preImg(sourceId, targetId) { 
+		    	var url = getFileUrl(sourceId); 
+		    	var imgPre = document.getElementById(targetId); 
+		    	imgPre.onload =function() {
+		            var data = getBase64Image(imgPre);
+		            var tmp1 = $("#imgOne").attr("div_id");
+		            var tmp = $("#" + $("#imgOne").attr("div_id")).find("textarea");
+		            var pos = $("#" + $("#imgOne").attr("div_id")).find("textarea").getCursorPosition();
+		    		var curContent = $("#" + $("#imgOne").attr("div_id")).find("textarea").val();
+		    		$("#" + $("#imgOne").attr("div_id")).find("textarea").val(curContent.substring(0,pos) + 
+		    				"###IMG###" + $("#imgOne").attr("div_id") + 
+		    				"###IMG###" + curContent.substring(pos));
+		            imgData[$("#imgOne").attr("div_id")] = data;
+		        }
+		        imgPre.src = url;
+		    	} 
+		    var param_index = 1;
+		    function addPars() {
+		    	$('#para_s').append("<div id='auto_"+param_index+"' class='form-group'><label for='inputEmail3' class='col-sm-2 control-label'></label><div class='col-sm-10'><button onclick='insertImg(this);' type='button' class='btn btn-default'>插入图片</button><button type='button' class='btn btn-danger delete_para' onclick='deletePara(this);'>删除段落</button><input type='text' class='form-control detail' id='video_src' placeholder='请输入段落标题...'><textarea class='form-control detail' rows='3' id='contents' placeholder='请输入段落内容...'></textarea></div></div>");
+		    	param_index++ ;
+		    }
+		    
+		    function deletePara(ele) {
+		    	$(ele).parent().parent().remove();
+		    }
+		    function preContent() {
+		    	$("#pre_content").html("");
+		    	$('#myModal').modal('show')
+		    	var tmp = getPreContent();
+		    	$("#pre_content").append(tmp);
+		    }
+		    (function($, undefined) {
+		        $.fn.getCursorPosition = function() {
+		            var el = $(this).get(0);
+		            var pos = 0;
+		            if ('selectionStart' in el) {
+		                pos = el.selectionStart;
+		            } else if ('selection' in document) {
+		                el.focus();
+		                var Sel = document.selection.createRange();
+		                var SelLength = document.selection.createRange().text.length;
+		                Sel.moveStart('character', -el.value.length);
+		                pos = Sel.text.length - SelLength;
+		            }
+		            return pos;
+		        }
+		    })(jQuery);
+			function insertImg(ele) {
+				$("#imgOne").attr("div_id", $(ele).parent().parent().attr("id"));
+				$("#imgOne").click();
+			}
+			
+			var paraIndex = 0;
+			var paraHead = [];
+			var paraContent = [];
+			var paraContentImg = {};
+			function analyseContent(content) {
+				if(content == null || content == "undefined" ||
+						content == "") {
+					return;
+				}
+				var curStr = content;
+				var curBeginPos = curStr.indexOf("<div>");
+				var curEndPos = 0;
+				while(curBeginPos >=0) {
+					paraIndex++;
+					curBeginPos += 5;
+					curEndPos = curStr.indexOf("</div>", curBeginPos);
+					var subContent = curStr.substring(curBeginPos, curEndPos);
+					//h3 begin
+					var h3EndPos = subContent.indexOf("</h3>");
+					paraHead[paraIndex] = subContent.substring(4, h3EndPos);
+					subContent = subContent.substring(h3EndPos + 5);
+					//h3 end
+					var pBeginPos = subContent.indexOf("<p>");
+					while(pBeginPos>=0) {
+						var pEndPos = subContent.indexOf('</p>', pBeginPos);
+						var imgBeginPos = subContent.indexOf("<img src='", pBeginPos);
+						if(imgBeginPos>=0 && imgBeginPos<=pEndPos) {
+							var imgEndPos = subContent.indexOf("'", imgBeginPos+10);
+							paraContentImg["auto_" + paraIndex] = subContent.substring(imgBeginPos+10, imgEndPos);
+							imgData["auto_" + paraIndex] = paraContentImg["auto_" + paraIndex];
+							paraContent[paraIndex] = (paraContent[paraIndex]==undefined ? "" : paraContent[paraIndex]) + "###IMG###auto_" + paraIndex + "###IMG###";
+							pEndPos = imgEndPos + 22;
+						} else {
+							paraContent[paraIndex] = (paraContent[paraIndex]==undefined ? "" : paraContent[paraIndex]) + subContent.substring(pBeginPos+3, pEndPos);
+							pEndPos = pEndPos + 4;
+						}
+						pBeginPos = subContent.indexOf('<p>', pEndPos);
+					}
+					curBeginPos = curStr.indexOf("<div>", curEndPos + 6);
+				}
+				console.log(paraHead);
+				console.log(paraContent);
+				console.log(paraContentImg);
+				
+				for(var index in paraHead) {
+					$('#para_s').append("<div id='auto_"+param_index+"' class='form-group'><label for='inputEmail3' class='col-sm-2 control-label'></label><div class='col-sm-10'><button onclick='insertImg(this);' type='button' class='btn btn-default'>插入图片</button><button type='button' class='btn btn-danger delete_para' onclick='deletePara(this);'>删除段落</button><input type='text' value='"+paraHead[index]+"' class='form-control detail' id='video_src' placeholder='请输入段落标题...'><textarea class='form-control detail' rows='3' id='contents' placeholder='请输入段落内容...'>"+paraContent[index]+"</textarea></div></div>");
+			    	param_index++ ;
+				}
+			}
+			
+			//
+			var media_id = $.getUrlParam('id');
+			if(media_id != null && media_id != "") {
+				$.post('/medias/getMediaById', {id:media_id}, function(data) {
+					$("#snapshot_").attr("style", "float:left;");
+					$("#snapshot_").attr("width", "200px;");
+					$("#snapshot_").attr("src", "/cglx/files/imgs/"+data.image);
+					$('#video_src').val(data.video_src);
+					$('#title').val(data.title);
+					$('#sub_title').val(data.sub_title);
+					$('#name').val(data.name);
+					$('#publish_time').val(data.publish_time);
+					analyseContent(data.contents);
+				});
+			}
+			
+			
+			
+			$("#snapshot").on("change", function(){
+				var url = getFileUrl("snapshot");
+				$("#snapshot_")[0].src = url;
+			});
+			$('#logout').on('click', function() {
+				window.location.href = '/user/userLogout?view=homepage';
+			});
+	</script>
+</body>
+
+</html>
