@@ -39,7 +39,7 @@
 							<a href="about.html">关于我们</a>
 						</li>
 						<li class="ventureservice" data-id="ventureservice">
-							<a href="report.html">媒体报道</a>
+							<a href="report.html">社员风采</a>
 						</li>
 						<li class="search" data-id="search">
 							<a href="search.html">搜索</a>
@@ -56,7 +56,7 @@
 							<a href="success.html">成功案例</a>
 						</li>
 						<li class="fa" data-id="fa">
-							<a href="report.html">媒体报道</a>
+							<a href="report.html">社员风采</a>
 						</li>
 					</ul>
 
@@ -68,7 +68,7 @@
 							<a href="success.html">成功案例</a>
 						</li>
 						<li class="search">
-							<a href="report.html">媒体报道</a>
+							<a href="report.html">社员风采</a>
 						</li>
 					</ul>
 					<ul class="expand-nav-list" id="mobile_login" style="display:none;">
@@ -292,7 +292,7 @@
 							<div class="articles-news">
 								<div class="row">
 									<div class="pc_apply_base_info">
-										<h3>学生教育背景</h3>
+										<h3>背景介绍</h3>
 										<table class="table">
 											<thead>
 												<tr>
@@ -329,7 +329,7 @@
 										</table>
 									</div>
 									<div class="mobile_apply_base_info">
-										<h3>学生教育背景</h3>
+										<h3>背景介绍</h3>
 										<table class="table">
 											<tbody>
 												<tr>
@@ -372,12 +372,13 @@
 										</table>
 									</div>
 									<div>
-										<h3 id="train_target"></h3>
+										<h3>申请方法</h3>
 										<p id="train_target_detail"></p>
 									</div>
 									<div>
-										<h3 id="enroll_info"></h3>
+										<h3>录取通知书</h3>
 										<p><img id="enroll_info_img"></p>
+										<p>案例来源：<a id="major_chi" target="_blank"></a></p>
 									</div>
 									<!-- <div>
 										<h3 id="major_info"></h3>
@@ -464,7 +465,7 @@
 						<a
 							href="about.html"
 							target="_blank"> </a> <a href="http://www.xfz.cn/about">关于我们</a>
-						| <a href="about.html">社员风采</a> <!-- | <a
+						| <a href="report.html">社员风采</a> <!-- | <a
 							href="http://www.xfz.cn/apply/media/?code=report&amp;channel=web"
 							target="_blank">寻求报道</a> | <a href="http://www.xfz.cn/xfzgifts"
 							target="_blank">创业礼包</a> -->
@@ -528,14 +529,15 @@
 					$("#m_enter_time").html(data.background_enter_time);
 					$("#m_info").html(data.background_info);
 					
-					$("#train_target").html(data.background_apply_college+data.background_apply_major+"培养目标");
+					//$("#train_target").html(data.background_apply_college+data.background_apply_major+"申请方法");
 					$("#train_target_detail").html(data.train_target);
-					$("#enroll_info").html(data.background_apply_college+data.background_apply_major+"录取通知");
+					//$("#enroll_info").html(data.background_apply_college+data.background_apply_major+"录取通知");
 					$("#enroll_info_img")[0].src = "/cglx/files/imgs/"+data.image;
+					$("#major_chi").html(data.major_eng);
+					$("#major_chi").attr('href', data.major_chi);
 					
 					/* $("#major_info").html(data.background_apply_college+data.background_apply_major+"专业介绍");
 					$("#major_info_name").html(data.background_apply_major);
-					$("#major_info_eng").html(data.major_eng);
 					$("#major_info_detail").html(data.major_info); */
 					$.ajax({
 						url: '/cases/getRelatedCase',

@@ -558,8 +558,8 @@ public class CglxDaoImpl implements ICglxDao {
 					ps.setString(3, caseMap.get("title")[0]);
 					ps.setString(4, caseMap.get("sub_title")[0]);
 					ps.setString(5, caseMap.get("image")[0]);
-					ps.setInt(6, Integer.valueOf(caseMap.get("recommend")[0]));
-					ps.setInt(7, Integer.valueOf(caseMap.get("nav_recommend")[0]));
+					ps.setInt(6, Integer.valueOf(caseMap.get("is_recommend")[0]));
+					ps.setInt(7, Integer.valueOf(caseMap.get("is_nav_recommend")[0]));
 					ps.setTimestamp(8, new Timestamp(System.currentTimeMillis()));
 					return ps;
 				}
@@ -575,7 +575,7 @@ public class CglxDaoImpl implements ICglxDao {
 	public boolean updateCase(Map<String, String[]> caseMap) {
 		StringBuilder sb = new StringBuilder();
 		List<Object> args = new ArrayList<>();
-		sb.append("update case set ");
+		sb.append("update cases set ");
 		Long case_id = Long.valueOf(caseMap.remove("case_id")[0]);
 		for(Map.Entry<String, String[]> entry : caseMap.entrySet()) {
 			sb.append(" ");
@@ -618,12 +618,12 @@ public class CglxDaoImpl implements ICglxDao {
 			jdbcTemplate.update(new PreparedStatementCreator() {
 				public PreparedStatement createPreparedStatement(
 						Connection connection) throws SQLException {
-					String sql= "insert into cases_detail(case_id, title, "
+					String sql= "insert into cases_detail (case_id, title, "
 							+ "background_name, background_major, background_college, background_apply_major, background_apply_college, "
 							+ "background_enroll_time, background_enter_time,"
 							+ "background_info,train_target,image,"
-							+ "major_info, major_chi, major_eng,college_image,"
-							+ "create_time) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+							+ "major_chi, major_eng,"
+							+ "create_time) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 					PreparedStatement ps = connection.prepareStatement(sql,
 							Statement.RETURN_GENERATED_KEYS);
 					ps.setLong(1, Long.valueOf(caseDetailMap.get("case_id")[0]));
@@ -638,11 +638,11 @@ public class CglxDaoImpl implements ICglxDao {
 					ps.setString(10, caseDetailMap.get("background_info")[0]);
 					ps.setString(11, caseDetailMap.get("train_target")[0]);
 					ps.setString(12, caseDetailMap.get("image")[0]);
-					ps.setString(13, caseDetailMap.get("major_info")[0]);
-					ps.setString(14, caseDetailMap.get("major_chi")[0]);
-					ps.setString(15, caseDetailMap.get("major_eng")[0]);
-					ps.setString(16, caseDetailMap.get("college_image")[0]);
-					ps.setTimestamp(17, new Timestamp(System.currentTimeMillis()));
+					//ps.setString(13, caseDetailMap.get("major_info")[0]);
+					ps.setString(13, caseDetailMap.get("major_chi")[0]);
+					ps.setString(14, caseDetailMap.get("major_eng")[0]);
+					//ps.setString(16, caseDetailMap.get("college_image")[0]);
+					ps.setTimestamp(15, new Timestamp(System.currentTimeMillis()));
 					return ps;
 				}
 			}, keyHolder);
@@ -658,20 +658,16 @@ public class CglxDaoImpl implements ICglxDao {
 		StringBuilder sb = new StringBuilder();
 		List<Object> args = new ArrayList<>();
 		sb.append("update cases_detail set ");
-		Long caseDetailId = Long.valueOf(caseDetailMap.remove("case_detail_id")[0]);
+		Long caseId = Long.valueOf(caseDetailMap.remove("case_id")[0]);
 		for(Map.Entry<String, String[]> entry : caseDetailMap.entrySet()) {
 			sb.append(" ");
 			sb.append(entry.getKey());
 			sb.append("=?,");
-			if(("case_id").equals(entry.getKey())) {
-				args.add(Long.valueOf(entry.getValue()[0]));
-			} else {
-				args.add(entry.getValue()[0]);
-			}
+			args.add(entry.getValue()[0]);
 		}
 		sb = sb.deleteCharAt(sb.length() - 1);
-		sb.append(" where id=?");
-		args.add(caseDetailId);
+		sb.append(" where case_id=?");
+		args.add(caseId);
 		String sql = sb.toString();
 		int num = 0;
 		try{

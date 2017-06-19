@@ -281,6 +281,21 @@
 												<img id="offer_img_"/>
 											</div>
 										</div>
+										
+										
+										<!-- 用major_eng字段储存案例来源， 用major_chi字段暂存案例来源链接字段 -->
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">案例来源</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="major_eng">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">案例来源链接</label>
+											<div class="col-sm-10">
+												<input type="text" class="form-control detail" id="major_chi" placeholder="http://">
+											</div>
+										</div>
 						                <!-- <div class="form-group">
 											<label for="inputEmail3" class="col-sm-2 control-label">专业名称（中文）</label>
 											<div class="col-sm-10">
@@ -385,12 +400,12 @@
 					$("#offer_img_").attr("style", "float:left;");
 					$("#offer_img_").attr("width", "200px;");
 					$("#offer_img_").attr("src", "/cglx/files/imgs/"+data.image);
-					$('#major_info').val(data.major_info);
-					$('#major_chi').val(data.major_chi);
+					/* $('#major_info').val(data.major_info); */
 					$('#major_eng').val(data.major_eng);
-					$("#college_image_").attr("style", "float:left;");
+					$('#major_chi').val(data.major_chi);
+					/* $("#college_image_").attr("style", "float:left;");
 					$("#college_image_").attr("width", "200px;");
-					$("#college_image_").attr("src", "/cglx/files/imgs/"+data.college_image);
+					$("#college_image_").attr("src", "/cglx/files/imgs/"+data.college_image); */
 				});
 			}
 		</script>
@@ -398,11 +413,20 @@
 			$('#submit_btn').on('click', function() {
 				$('.btn-primary').attr('disabled', "");
 				$("#progress_tip").show();
+				var index = 0;
 				var fd = new FormData();
 				var snapshot = $('#snapshot')[0].files[0];
 				var offer_img = $('#offer_img')[0].files[0];
-				var college_image = $('#college_image')[0].files[0];
+				/* var college_image = $('#college_image')[0].files[0]; */
+				if(snapshot != undefined && offer_img != undefined) {
+					index = 2;
+				} else if(snapshot != undefined) {
+					index = 0;
+				} else if(offer_img != undefined) {
+					index = 1;
+				} 
 				
+				fd.append('index', index);
 				fd.append('case_id', $.getUrlParam('id'));
 				fd.append('tag_category_name', $('#tag_category_name').val());
 				fd.append('tag_country_name', $('#tag_country_name').val());
@@ -421,10 +445,10 @@
 				fd.append('background_enter_time', $('#background_enter_time').val());
 				fd.append('train_target', $('#train_target').val());
 				fd.append('offer_img', offer_img);
-				fd.append('major_chi', $('#major_chi').val());
 				fd.append('major_eng', $('#major_eng').val());
-				fd.append('major_info', $('#major_info').val());
-				fd.append('college_image', college_image);
+				fd.append('major_chi', $('#major_chi').val());
+				/* fd.append('major_info', $('#major_info').val());
+				fd.append('college_image', college_image); */
 				
 				var xhr = new XMLHttpRequest();
 				xhr.upload.addEventListener("progress", function(evt) {

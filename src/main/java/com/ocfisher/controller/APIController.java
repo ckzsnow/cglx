@@ -864,12 +864,20 @@ public class APIController {
 		Map<String, String[]> caseParamsMap = new HashMap<>();
 		Map<String, String[]> caseDetailParamsMap = new HashMap<>();
 		
+		String indexStr = request.getParameter("index");
+		int index = -1;
+		try{
+			index = Integer.valueOf(indexStr);
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		caseParamsMap.put("case_id", paramsMap.get("case_id"));
 		caseParamsMap.put("tag_category_name", paramsMap.get("tag_category_name"));
 		caseParamsMap.put("tag_country_name", paramsMap.get("tag_country_name"));
 		caseParamsMap.put("title", paramsMap.get("title"));
 		caseParamsMap.put("sub_title", paramsMap.get("sub_title"));
-		caseParamsMap.put("recommend", paramsMap.get("recommend"));
-		caseParamsMap.put("nav_recommend", paramsMap.get("nav_recommend"));
+		caseParamsMap.put("is_recommend", paramsMap.get("recommend"));
+		caseParamsMap.put("is_nav_recommend", paramsMap.get("nav_recommend"));
 		
 		caseDetailParamsMap.put("case_id", paramsMap.get("case_id"));
 		caseDetailParamsMap.put("title", paramsMap.get("title"));
@@ -882,14 +890,15 @@ public class APIController {
 		caseDetailParamsMap.put("background_enter_time", paramsMap.get("background_enter_time"));
 		caseDetailParamsMap.put("background_info", paramsMap.get("background_info"));
 		caseDetailParamsMap.put("train_target", paramsMap.get("train_target"));
-		caseDetailParamsMap.put("major_info", paramsMap.get("major_info"));
+		//caseDetailParamsMap.put("major_info", paramsMap.get("major_info"));
 		caseDetailParamsMap.put("major_chi", paramsMap.get("major_chi"));
 		caseDetailParamsMap.put("major_eng", paramsMap.get("major_eng"));
 		
 		
 		String realPath = "/data/cglx/files/imgs";
 		String fileName = "";
-		int index = 0;
+		
+		int count = 0;
 		if (multipartRequest != null) {
 			Iterator<String> iterator = multipartRequest.getFileNames();
 			while (iterator.hasNext()) {
@@ -900,15 +909,18 @@ public class APIController {
 				} catch (IOException e) {
 					logger.error("Failed in saving file, exception : {}", e.toString());
 				}
-				switch(index) {
-				case 0: caseParamsMap.put("image", new String[] { fileName });
-						break;
-				case 1: caseDetailParamsMap.put("image", new String[] { fileName });
-						break;
-				case 2: caseDetailParamsMap.put("college_image", new String[] { fileName });
-						break;	
+				if(index != 2) {
+					count = index;
 				}
-				index ++;
+				switch(count) {
+				case 0: caseParamsMap.put("image", new String[] { fileName });
+				break;
+				case 1: caseDetailParamsMap.put("image", new String[] { fileName });
+				break;
+				/*case 2: caseDetailParamsMap.put("college_image", new String[] { fileName });
+					break;	*/
+				}
+				count ++;
 			}
 		}
 		if(case_id == null || case_id.isEmpty() || ("null").equals(case_id)) {
