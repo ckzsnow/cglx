@@ -147,7 +147,7 @@
 							<li><a href="addartical.html"><i class="fa fa-circle-o"></i>添加文章</a>
 							</li>
 						</ul></li>
-					<li><a href="appreport.html"> <i class="fa fa-dashboard"></i><span>申请报道列表</span>
+					<li><a href="appreport.html"> <i class="fa fa-dashboard"></i><span>申请分享列表</span>
 					</a></li>
 					<li><a href="userlist.html"> <i class="fa fa-dashboard"></i><span>用户列表</span>
 					</a></li>
@@ -165,15 +165,15 @@
 							<li><a href="addcase.html"><i class="fa fa-circle-o"></i>添加成功案例</a></li>
 						</ul></li>
 					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
-							<span>媒体报道</span> <span class="pull-right-container"> <i
+							<span>社员风采</span> <span class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li><a href="medialist.html"><i class="fa fa-circle-o"></i>媒体报道列表</a>
+							<li><a href="medialist.html"><i class="fa fa-circle-o"></i>社员风采列表</a>
 							</li>
 							<li class="active"><a href="addmedia.html"><i
-									class="fa fa-circle-o"></i>添加媒体报道</a></li>
+									class="fa fa-circle-o"></i>添加社员风采</a></li>
 						</ul></li>
 				</ul>
 			</section>
@@ -345,8 +345,7 @@
 	<script src="/js/app.min.js"></script>
 	<script>
 		var form = {};
-		$
-				.post(
+		$.post(
 						'/eval/getAllEval',
 						function(data) {
 							form = data;
@@ -421,8 +420,7 @@
 				window.location.reload();
 			});
 		});
-		
-		
+
 		$('#logout').on('click', function() {
 			window.location.href = '/user/userLogout?view=homepage';
 		});
