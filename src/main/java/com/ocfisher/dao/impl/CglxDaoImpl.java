@@ -237,6 +237,19 @@ public class CglxDaoImpl implements ICglxDao {
 	}
 	
 	@Override
+	public List<Map<String, Object>> getAllArticles(int beginIndex, int length) {
+		List<Map<String, Object>> retList = null;
+		try {
+			String sql = "select articles.*, tag.name, DATE_FORMAT(articles.create_time, '%Y-%m-%d') as readable_date from articles as articles INNER JOIN tag as tag on tag.id=articles.tag_id order by articles.create_time desc limit ?, ?";
+			retList = jdbcTemplate.queryForList(sql, new Object[]{beginIndex, length});
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return retList;
+	}
+	
+	
+	@Override
 	public Map<String, Object> getArticlesDetail(int id) {
 		Map<String, Object> retMap = null;
 		try {

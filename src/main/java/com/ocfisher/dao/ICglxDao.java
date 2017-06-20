@@ -35,6 +35,8 @@ public interface ICglxDao {
 	
 	public List<Map<String, Object>> getArticlesByTag(int tag, int beginIndex, int length);
 	
+	public List<Map<String, Object>> getAllArticles(int beginIndex, int length);
+	
 	public Map<String, Object> getArticlesDetail(int id);
 	
 	public List<Map<String, Object>> getArticlesByTagExcludeId(int tag, int exculdeId);

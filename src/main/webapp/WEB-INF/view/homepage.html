@@ -293,11 +293,11 @@
 						</ul>
 						<nav class="news-nav">
 							<ul>
-								<li class="active main" data-name="">
+								<li class="active main" tag-id="0" data-name="">
 									<a href="javascript:void(0);">最新资讯</a>
 								</li>
 
-								<li class="active" tag-id="1">
+								<li tag-id="1">
 									<a href="javascript:void(0);">热点文章</a>
 								</li>
 
@@ -323,7 +323,7 @@
 							</ul>
 						</nav>
 						<div class="list-container">
-							<ul id="articlelist" class="news-list" current-tag-id="1">
+							<ul id="articlelist" class="news-list" current-tag-id="0">
 							</ul>
 						</div>
 					</div>
@@ -532,7 +532,7 @@
 				}
 			});
 			$.ajax({
-				url: '/articles/getArticlesByTag',
+				url: '/articles/getAllArticlesForHomepage',
 				type: "POST",
 				data: {},
 				success: function(data) {

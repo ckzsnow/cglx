@@ -306,6 +306,22 @@ public class APIController {
 		return cglxDao.getArticlesByTag(tag_id_, (page_ - 1) * length_, length_);
 	}
 
+	@RequestMapping("/articles/getAllArticlesForHomepage")
+	@ResponseBody
+	public List<Map<String, Object>> getAllArticlesForHomepage(HttpServletRequest request) {
+		String page = request.getParameter("page");
+		String length = request.getParameter("length");
+		int page_ = 1;
+		int length_ = 5;
+		try {
+			page_ = Integer.valueOf(page);
+			length_ = Integer.valueOf(length);
+		} catch (Exception ex) {
+			logger.error(ex.toString());
+		}
+		return cglxDao.getAllArticles((page_ - 1) * length_, length_);
+	}
+	
 	@RequestMapping("/articles/getArticleDetail")
 	@ResponseBody
 	public Map<String, Object> getArticleDetail(HttpServletRequest request) {
