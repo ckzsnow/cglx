@@ -788,7 +788,7 @@ public class APIController {
 	@RequestMapping("/cases/getRecommendCase")
 	@ResponseBody
 	public List<Map<String, Object>> getRecommendCase(HttpServletRequest request) {
-		return cglxDao.getRecommendCase();
+		return cglxDao.getRecommendCaseLimit();
 	}
 
 	@RequestMapping("/cases/getCaseListByTag")

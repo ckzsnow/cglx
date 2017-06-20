@@ -70,6 +70,7 @@ public interface ICglxDao {
 	
 	//case
 	public List<Map<String, Object>> getRecommendCase();
+	public List<Map<String, Object>> getRecommendCaseLimit();
 	
 	public List<Map<String, Object>> getCaseListByTag(String categoryTag, String countryTag, int beginIndex, int length);
 	

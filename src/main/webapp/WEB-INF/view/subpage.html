@@ -20,7 +20,7 @@
 				</div>
 				<nav class="PC-nav">
 					<ul>
-						<li class="news active" data-id="news">
+						<li class="news" data-id="news">
 							<a href="homepage.html">留学专栏</a>
 						</li>
 						<li class="activity" data-id="activity">
@@ -308,6 +308,8 @@
 								</div>
 							</div>
 						</div>
+						<video id="video_src" width="100%" controls="controls">
+						</video>
 						<div id="article_detail" class="content-detail">
 							
 						</div>
@@ -474,6 +476,8 @@
 					$("#article-intro").html(data.abstract);
 					$("#article-photo").html(data.snapshot);
 					$("#article_detail").html(data.contents);
+					document.getElementById("video_src").src = data.video_src;
+					document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.image;
 					$("#share_weibo").attr("url", window.location.href);
 					$("#share_weibo").attr("title", data.title);
 					$("#share_weibo").attr("image", "/cglx/files/imgs/"+data.snapshot);

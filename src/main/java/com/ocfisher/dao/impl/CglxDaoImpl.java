@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -505,6 +506,23 @@ public class CglxDaoImpl implements ICglxDao {
 		return retList;
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<Map<String, Object>> getRecommendCaseLimit() {
+		List<Map<String, Object>> retList1 = null;
+		List<Map<String, Object>> retList2 = null;
+		try {
+			String sql = "select * from cases where is_recommend=1 order by create_time desc limit 0,1";
+			retList1 = jdbcTemplate.queryForList(sql);
+			String sql2 = "select * from cases where is_recommend=2 order by create_time desc limit 0,2";
+			retList2 = jdbcTemplate.queryForList(sql2);
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return ListUtils.union(retList1, retList2);
+	}
+	
+	
 	@Override
 	public List<Map<String, Object>> getCaseListByTag(String categoryTag, String countryTag, int beginIndex,
 			int length) {
