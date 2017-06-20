@@ -712,7 +712,7 @@ public class CglxDaoImpl implements ICglxDao {
 	public List<Map<String, Object>> getMediaList(int beginIndex, int length) {
 		List<Map<String, Object>> retList = null;
 		try {
-			String sql = "select id, video_src, title, sub_title, name, publish_time, DATE_FORMAT(create_time, '%Y-%m-%d') as readable_date from medias order by publish_time desc limit ?, ?";
+			String sql = "select id, image, video_src, title, sub_title, name, publish_time, DATE_FORMAT(create_time, '%Y-%m-%d') as readable_date from medias order by publish_time desc limit ?, ?";
 			retList = jdbcTemplate.queryForList(sql, new Object[]{beginIndex, length});
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
