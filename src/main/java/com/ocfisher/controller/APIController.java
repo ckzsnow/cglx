@@ -789,7 +789,7 @@ public class APIController {
 		method.setRequestHeader("ContentType", "application/x-www-form-urlencoded;charset=UTF-8");
 		int mobile_code = (int) ((Math.random() * 9 + 1) * 1000);
 		retMap.put("check_code", String.valueOf(mobile_code));
-		String content = new String("您的验证码是：" + mobile_code + "。请不要把验证码泄露给其他人。");
+		String content = new String("欢迎您注册DIY研习社，验证码：" + mobile_code + "。请勿将验证码泄露他人。");
 		NameValuePair[] data = { // 提交短信
 				new NameValuePair("account", "cf_ckzsnow"),
 				new NameValuePair("password", "52d39430ddb918ddc0f57d5fc6717b24"), // 密码可以使用明文密码或使用32位MD5加密
