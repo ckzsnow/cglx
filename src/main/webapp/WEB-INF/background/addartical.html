@@ -571,7 +571,7 @@
 							imgEndPos = line.indexOf("IMG###", imgBeginPos);
 							htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
 							var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-							htmlStr += "<p><img src='"+imgPreData[imgDataId]+"'></p>";
+							htmlStr += "<p><img src='"+imgPreData[imgDataId]+"' style='width:100%'></p>";
 							imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
 							curLinePos = imgEndPos+6;
 						}

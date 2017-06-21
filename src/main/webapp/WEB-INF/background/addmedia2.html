@@ -67,7 +67,7 @@
 						<!-- Notifications: style can be found in dropdown.less -->
 						<li class="dropdown notifications-menu"><a href="#"
 							class="dropdown-toggle" data-toggle="dropdown"> <i
-								class="fa fa-bell-o"></i> <span class="label label-warning">0</span>
+								class="fa fa-bell-o"></i> <span class="label label-warning">10</span>
 						</a>
 							<ul class="dropdown-menu">
 								<li class="header">暂无消息</li>
@@ -187,8 +187,8 @@
 										<div class="form-group">
 											<label for="inputEmail3" class="col-sm-2 control-label">图片</label>
 											<div class="col-sm-10">
-												<input type="file" id="inputFile"> <img
-													id="article_img" style="width:300px;"/>
+												<input type="file" id="snapshot"> <img
+													id="snapshot_" />
 											</div>
 										</div>
 										<div class="form-group">
@@ -229,14 +229,10 @@
 										<div class="form-group">
 											<label for="inputEmail3" class="col-sm-2 control-label">文章详情</label>
 											<div class="col-sm-10">
-												<button onclick="preContent();" type="button" class="btn btn-success">预览</button>
-												<button onclick="insertImg();" type="button" class="btn btn-success">插入图片</button>
-											</div>
-										</div>
-										<div class="form-group">
-							               	<label for="inputEmail3" class="col-sm-2 control-label">编辑文章</label>
-							               	<div class="col-sm-10">
-												<textarea style="width:100%;min-height:300px;" id="article_content"></textarea>
+												<button onclick="addPars();" type="button"
+													class="btn btn-primary">添加段落</button>
+												<button onclick="preContent();" type="button"
+													class="btn btn-success">预览</button>
 											</div>
 										</div>
 									</div>
@@ -256,8 +252,11 @@
 											<button id="submit_btn" class="btn btn-default">提交</button>
 										</div>
 									</div>
-									<div style="display: none;" id="content_img">
-										</div>
+									<div style="display: none;">
+										<input type="file" name="imgOne" id="imgOne"
+											onchange="preImg(this.id,'imgPre');" /> <img id="imgPre"
+											src="" />
+									</div>
 								</div>
 								<!-- /.box-body -->
 							</div>
@@ -311,6 +310,7 @@
 	<!-- AdminLTE App -->
 	<script src="/js/app.min.js"></script>
 	<script>
+	
 	(function ($) {
         $.getUrlParam = function (name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -318,157 +318,42 @@
             if (r != null) return unescape(r[2]); return null;
         }
     })(jQuery);
-	function Trim(str,is_global){
-    	var result;
-    	result = str.replace(/(^\s+)|(\s+$)/g,"");
-    	if(is_global.toLowerCase()=="g"){
-        	result = result.replace(/\s/g,"");
-     	}
-    	return result;
-	}
-	(function($, undefined) {
-        $.fn.getCursorPosition = function() {
-            var el = $(this).get(0);
-            var pos = 0;
-            if ('selectionStart' in el) {
-                pos = el.selectionStart;
-            } else if ('selection' in document) {
-                el.focus();
-                var Sel = document.selection.createRange();
-                var SelLength = document.selection.createRange().text.length;
-                Sel.moveStart('character', -el.value.length);
-                pos = Sel.text.length - SelLength;
-            }
-            return pos;
-        }
-    })(jQuery);
-
-	var insertImgIndex = 0;
-	
-	var imgPreData = {};
-	var filesFormData = {};
-	
-	function uuid() {
-	    var s = [];
-	    var hexDigits = "0123456789abcdef";
-	    for (var i = 0; i < 36; i++) {
-	        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+		
+	    function getPreContent() {
+	    	var tmp = "";
+	    	$("#para_s input, #para_s textarea").each(function(){
+	    		if($(this).is("input") && $(this).attr("type") == "button") return true;
+	    		if($(this).is("input")) {
+	    			tmp += "<div><h3>" + $(this).val() + "</h3>";
+	    		} else {
+	    			var currentContent = $(this).val();
+	    			var flag = currentContent.indexOf("###IMG###" + $(this).parent().parent().attr("id")  + "###IMG###");
+					if(flag>=0) {
+						var testTmp = currentContent.substring(flag + 18);
+	    				tmp += "<p>" + currentContent.substring(0, flag) + "</p>";
+	    				tmp += "<p><img src='"+imgData[$(this).parent().parent().attr("id")]+"' style='width:100%;'></p>";
+	    				tmp += "<p>" + currentContent.substring(flag + 18 + $(this).parent().parent().attr("id").length) + "</p></div>";
+	    			} else {
+	    				tmp += "<p>" + currentContent + "</p></div>";
+	    			}
+	    		}
+	    	});
+	    	return tmp;
 	    }
-	    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
-	    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
-	    s[8] = s[13] = s[18] = s[23] = "-";
-	 
-	    var uuid = s.join("");
-	    return uuid;
-	}
-	function generateContent() {
-		var htmlStr = "";
-		var content = $("#article_content").val();
-		var beginPos = 0;
-		var endPos = content.indexOf("\n");
-		while(endPos != -1) {
-			var line = content.substring(beginPos, endPos);
-			line = Trim(line, "g");
-			var titlePos = line.indexOf("标题-");
-			if(titlePos != -1) {
-				htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
-			} else {
-				var curLinePos = 0;
-				var imgBeginPos = line.indexOf("###IMG");
-				var imgEndPos = 0;
-				while(imgBeginPos != -1) {
-					imgEndPos = line.indexOf("IMG###", imgBeginPos);
-					htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-					var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-					var file = $("#" + imgDataId).val();
-					if(file == null || file == undefined) {
-						htmlStr += "<p><img src='/cglx/files/imgs/"+imgPreData["insertImgIndex_" + insertImgIndex]+"'></p>";
-					} else {
-						var FileExt=file.replace(/.+\./,"");
-						var fileName = uuid() + "." + FileExt;
-						htmlStr += "<p><img src='/cglx/files/imgs/"+fileName+"'></p>";
-						filesFormData[fileName] = $("#" + imgDataId)[0].files[0];
-					}
-					imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-					curLinePos = imgEndPos+6;
-				}
-				if(line.length-1 > imgEndPos) {
-					if(imgEndPos == 0) {
-						htmlStr += "<p>" + line + "</p>";
-					} else {
-						htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
-					}
-				}
-			}
-			beginPos = endPos + 1;
-			endPos = content.indexOf("\n", beginPos);
-		}
-		if(content.length-1 > endPos) {
-			var line = content.substring(beginPos);
-			line = Trim(line, "g");
-			var titlePos = line.indexOf("标题-");
-			if(titlePos != -1) {
-				htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
-			} else {
-				var curLinePos = 0;
-				var imgBeginPos = line.indexOf("###IMG");
-				var imgEndPos = 0;
-				while(imgBeginPos != -1) {
-					imgEndPos = line.indexOf("IMG###", imgBeginPos);
-					htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-					var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-					var file = $("#" + imgDataId).val();
-					if(file == null || file == undefined) {
-						htmlStr += "<p><img src='/cglx/files/imgs/"+imgPreData["insertImgIndex_" + insertImgIndex]+"'></p>";
-					} else {
-						var FileExt=file.replace(/.+\./,"");
-						var fileName = uuid() + "." + FileExt;
-						htmlStr += "<p><img src='/cglx/files/imgs/"+fileName+"'></p>";
-						filesFormData[fileName] = $("#" + imgDataId)[0].files[0];
-					}
-					imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-					curLinePos = imgEndPos+6;
-				}
-				if(line.length-1 > imgEndPos) {
-					if(imgEndPos == 0) {
-						htmlStr += "<p>" + line + "</p>";
-					} else {
-						htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
-					}
-				}
-			}
-		}
-		return htmlStr;
-	}
-	
 		$('#submit_btn').on('click', function() {
-			var content = generateContent();
 			$('.btn-primary').attr('disabled', "");
 			$("#progress_tip").show();
 			var id = $.getUrlParam('id');
 			var fd = new FormData();
-			var fileObj = $('#inputFile')[0].files[0];
+			var image = $('#snapshot')[0].files[0];
 			fd.append('id', id);
+			fd.append('image', image);
 			fd.append('video_src', $('#video_src').val());
 			fd.append('title', $('#title').val());
 			fd.append('sub_title', $('#sub_title').val());
 			fd.append('name', $('#name').val());
 			fd.append('publish_time', $('#publish_time').val());
-			fd.append('contents', content);
-			if(fileObj != undefined ) {
-				fd.append('files_0', fileObj);
-				fd.append('flag', "1");
-			} else {
-				fd.append('flag', "0");
-			}
-			var fileNameList = "";
-			var fileIndex = 1;
-			for(var key in filesFormData) {
-				fd.append('files_' + fileIndex, filesFormData[key]);
-				fileIndex++;
-				fileNameList += key + ";";
-			}
-			fd.append('fileNameList', fileNameList);
+			fd.append('contents', getPreContent());
 			var xhr = new XMLHttpRequest();
 			xhr.upload.addEventListener("progress", function(evt) {
 				if (evt.lengthComputable) {
@@ -505,155 +390,148 @@
 			}
 			xhr.send(fd);
 		});
-	
-		function getPreContent() {
-			var htmlStr = "";
-			var content = $("#article_content").val();
-			var beginPos = 0;
-			var endPos = content.indexOf("\n");
-			while(endPos != -1) {
-				var line = content.substring(beginPos, endPos);
-				line = Trim(line, "g");
-				var titlePos = line.indexOf("标题-");
-				if(titlePos != -1) {
-					htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
-				} else {
-					var curLinePos = 0;
-					var imgBeginPos = line.indexOf("###IMG");
-					var imgEndPos = 0;
-					while(imgBeginPos != -1) {
-						imgEndPos = line.indexOf("IMG###", imgBeginPos);
-						htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-						var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-						htmlStr += "<p><img src='"+imgPreData[imgDataId]+"' style='width:100%'></p>";
-						imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-						curLinePos = imgEndPos+6;
-					}
-					if(line.length-1 > imgEndPos) {
-						if(imgEndPos == 0) {
-							htmlStr += "<p>" + line + "</p>";
+	</script>
+	<script>
+			var imgData = {};
+		    function getBase64Image(img) {
+		        var canvas = document.createElement("canvas");
+		        canvas.width = img.width;
+		        canvas.height = img.height;
+		        var ctx = canvas.getContext("2d");
+		        ctx.drawImage(img, 0, 0, img.width, img.height);
+		        var dataURL = canvas.toDataURL("image/png");
+		        return dataURL // return dataURL.replace("data:image/png;base64,", ""); 
+		    } 
+		    function main() { 
+		        var img = document.createElement('img');
+		        img.onload =function() { 
+		            var data = getBase64Image(img); 
+		            console.log(data); 
+		        } 
+		        document.body.appendChild(img); 
+		    }
+		    //main();
+		    function getFileUrl(sourceId) { 
+		    	var url; 
+		    	if (navigator.userAgent.indexOf("MSIE")>=1) { // IE 
+		    	url = document.getElementById(sourceId).value; 
+		    	} else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox 
+		    	url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
+		    	} else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome 
+		    	url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
+		    	} 
+		    	return url; 
+		    	} 
+		    
+		    function preImg(sourceId, targetId) { 
+		    	var url = getFileUrl(sourceId); 
+		    	var imgPre = document.getElementById(targetId); 
+		    	imgPre.onload =function() {
+		            var data = getBase64Image(imgPre);
+		            var tmp1 = $("#imgOne").attr("div_id");
+		            var tmp = $("#" + $("#imgOne").attr("div_id")).find("textarea");
+		            var pos = $("#" + $("#imgOne").attr("div_id")).find("textarea").getCursorPosition();
+		    		var curContent = $("#" + $("#imgOne").attr("div_id")).find("textarea").val();
+		    		$("#" + $("#imgOne").attr("div_id")).find("textarea").val(curContent.substring(0,pos) + 
+		    				"###IMG###" + $("#imgOne").attr("div_id") + 
+		    				"###IMG###" + curContent.substring(pos));
+		            imgData[$("#imgOne").attr("div_id")] = data;
+		        }
+		        imgPre.src = url;
+		    	} 
+		    var param_index = 1;
+		    function addPars() {
+		    	$('#para_s').append("<div id='auto_"+param_index+"' class='form-group'><label for='inputEmail3' class='col-sm-2 control-label'></label><div class='col-sm-10'><button onclick='insertImg(this);' type='button' class='btn btn-default'>插入图片</button><button type='button' class='btn btn-danger delete_para' onclick='deletePara(this);'>删除段落</button><input type='text' class='form-control detail' id='video_src' placeholder='请输入段落标题...'><textarea class='form-control detail' rows='3' id='contents' placeholder='请输入段落内容...'></textarea></div></div>");
+		    	param_index++ ;
+		    }
+		    
+		    function deletePara(ele) {
+		    	$(ele).parent().parent().remove();
+		    }
+		    function preContent() {
+		    	$("#pre_content").html("");
+		    	$('#myModal').modal('show')
+		    	var tmp = getPreContent();
+		    	$("#pre_content").append(tmp);
+		    }
+		    (function($, undefined) {
+		        $.fn.getCursorPosition = function() {
+		            var el = $(this).get(0);
+		            var pos = 0;
+		            if ('selectionStart' in el) {
+		                pos = el.selectionStart;
+		            } else if ('selection' in document) {
+		                el.focus();
+		                var Sel = document.selection.createRange();
+		                var SelLength = document.selection.createRange().text.length;
+		                Sel.moveStart('character', -el.value.length);
+		                pos = Sel.text.length - SelLength;
+		            }
+		            return pos;
+		        }
+		    })(jQuery);
+			function insertImg(ele) {
+				$("#imgOne").attr("div_id", $(ele).parent().parent().attr("id"));
+				$("#imgOne").click();
+			}
+			
+			var paraIndex = 0;
+			var paraHead = [];
+			var paraContent = [];
+			var paraContentImg = {};
+			function analyseContent(content) {
+				if(content == null || content == "undefined" ||
+						content == "") {
+					return;
+				}
+				var curStr = content;
+				var curBeginPos = curStr.indexOf("<div>");
+				var curEndPos = 0;
+				while(curBeginPos >=0) {
+					paraIndex++;
+					curBeginPos += 5;
+					curEndPos = curStr.indexOf("</div>", curBeginPos);
+					var subContent = curStr.substring(curBeginPos, curEndPos);
+					//h3 begin
+					var h3EndPos = subContent.indexOf("</h3>");
+					paraHead[paraIndex] = subContent.substring(4, h3EndPos);
+					subContent = subContent.substring(h3EndPos + 5);
+					//h3 end
+					var pBeginPos = subContent.indexOf("<p>");
+					while(pBeginPos>=0) {
+						var pEndPos = subContent.indexOf('</p>', pBeginPos);
+						var imgBeginPos = subContent.indexOf("<img src='", pBeginPos);
+						if(imgBeginPos>=0 && imgBeginPos<=pEndPos) {
+							var imgEndPos = subContent.indexOf("'", imgBeginPos+10);
+							paraContentImg["auto_" + paraIndex] = subContent.substring(imgBeginPos+10, imgEndPos);
+							imgData["auto_" + paraIndex] = paraContentImg["auto_" + paraIndex];
+							paraContent[paraIndex] = (paraContent[paraIndex]==undefined ? "" : paraContent[paraIndex]) + "###IMG###auto_" + paraIndex + "###IMG###";
+							pEndPos = imgEndPos + 22;
 						} else {
-							htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
+							paraContent[paraIndex] = (paraContent[paraIndex]==undefined ? "" : paraContent[paraIndex]) + subContent.substring(pBeginPos+3, pEndPos);
+							pEndPos = pEndPos + 4;
 						}
+						pBeginPos = subContent.indexOf('<p>', pEndPos);
 					}
+					curBeginPos = curStr.indexOf("<div>", curEndPos + 6);
 				}
-				beginPos = endPos + 1;
-				endPos = content.indexOf("\n", beginPos);
-			}
-			if(content.length-1 > endPos) {
-				var line = content.substring(beginPos);
-				line = Trim(line, "g");
-				var titlePos = line.indexOf("标题-");
-				if(titlePos != -1) {
-					htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
-				} else {
-					var curLinePos = 0;
-					var imgBeginPos = line.indexOf("###IMG");
-					var imgEndPos = 0;
-					while(imgBeginPos != -1) {
-						imgEndPos = line.indexOf("IMG###", imgBeginPos);
-						htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-						var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-						htmlStr += "<p><img src='"+imgPreData[imgDataId]+"' style='width:100%'></p>";
-						imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-						curLinePos = imgEndPos+6;
-					}
-					if(line.length-1 > imgEndPos) {
-						if(imgEndPos == 0) {
-							htmlStr += "<p>" + line + "</p>";
-						} else {
-							htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
-						}
-					}
+				console.log(paraHead);
+				console.log(paraContent);
+				console.log(paraContentImg);
+				
+				for(var index in paraHead) {
+					$('#para_s').append("<div id='auto_"+param_index+"' class='form-group'><label for='inputEmail3' class='col-sm-2 control-label'></label><div class='col-sm-10'><button onclick='insertImg(this);' type='button' class='btn btn-default'>插入图片</button><button type='button' class='btn btn-danger delete_para' onclick='deletePara(this);'>删除段落</button><input type='text' value='"+paraHead[index]+"' class='form-control detail' id='video_src' placeholder='请输入段落标题...'><textarea class='form-control detail' rows='3' id='contents' placeholder='请输入段落内容...'>"+paraContent[index]+"</textarea></div></div>");
+			    	param_index++ ;
 				}
 			}
-			console.log(htmlStr);
-			return htmlStr;
-		}
-		
-		function preContent() {
-	    	$("#pre_content").html("");
-	    	$('#myModal').modal('show')
-	    	var tmp = getPreContent();
-	    	$("#pre_content").append(tmp);
-	    }
-		
-		function getFileUrl(sourceId) { 
-	    	var url; 
-	    	if (navigator.userAgent.indexOf("MSIE")>=1) { // IE 
-	    		url = document.getElementById(sourceId).value; 
-	    	} else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox 
-	    		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
-	    	} else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome 
-	    		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
-	    	} 
-	    	return url; 
-	    } 
-		
-		function selectedImg(imgId) {
-			var url = getFileUrl(imgId);
-			imgPreData[imgId] = url;
-			var pos = $("#article_content").getCursorPosition();
-			var curContent = $("#article_content").val();
-			$("#article_content").val(
-				 curContent.substring(0,pos)
-				 + "###IMG"
-				 + "insertImgIndex_" + insertImgIndex
-				 + "IMG###"
-				 + curContent.substring(pos));
-		}
-		
-		function insertImg() {
-			insertImgIndex++;
-			$("#content_img").append("<input type='file' onchange='selectedImg(this.id);' id='insertImgIndex_"+insertImgIndex+"'>");
-			$("#" + "insertImgIndex_"+insertImgIndex).click();
-		}
-		String.prototype.startWith=function(str){     
-			var reg=new RegExp("^"+str);     
-			return reg.test(this);        
-		}
-		function analyseContent(content) {
-			var displayContent = "";
-			if(content == null || content == "undefined" ||
-					content == "") {
-				return;
-			}
-			var curPos = 0; 
-			while(curPos < content.length - 1) {
-				if(content.startWith("<p><img src='")) {
-					curPos += 13;
-					var imgEndPos = content.indexOf("'></p>", curPos);
-					imgPreData["insertImgIndex_" + insertImgIndex] = content.substring(curPos, imgEndPos);
-					displayContent += "###IMGinsertImgIndex_" + insertImgIndex + "IMG###" + "\n";
-					insertImgIndex++;
-					curPos = imgEndPos + 6;
-					content = content.substring(curPos);
-				} else if(content.startWith("<p>")) {
-					curPos += 3;
-					var pEndPos = content.indexOf("</p>", curPos);
-					displayContent += content.substring(curPos, pEndPos) + "\n";
-					curPos = pEndPos + 4;
-					content = content.substring(curPos);
-				} else if(content.startWith("<h3>")) {
-					curPos += 4;
-					var hEndPos = content.indexOf("</h3>", curPos);
-					displayContent += "标题-" + content.substring(curPos, hEndPos) + "\n";
-					curPos = hEndPos + 5;
-					content = content.substring(curPos);
-				}
-				curPos = 0;
-			}
-			$("#article_content").val(displayContent);
-		}
+			
 			//
 			var media_id = $.getUrlParam('id');
 			if(media_id != null && media_id != "") {
 				$.post('/medias/getMediaById', {id:media_id}, function(data) {
-					if(data.image != null && data.image != "" && data.image != undefined) {
-						$("#article_img").attr("style", "float:left;");
-						$("#article_img").attr("width", "300px;");
-						$("#article_img").attr("src", "/cglx/files/imgs/"+data.image);
-					}
+					$("#snapshot_").attr("style", "float:left;");
+					$("#snapshot_").attr("width", "200px;");
+					$("#snapshot_").attr("src", "/cglx/files/imgs/"+data.image);
 					$('#video_src').val(data.video_src);
 					$('#title').val(data.title);
 					$('#sub_title').val(data.sub_title);
@@ -665,9 +543,9 @@
 			
 			
 			
-			$("#inputFile").on("change", function(){
-				var url = getFileUrl("inputFile");
-				$("#article_img")[0].src = url;
+			$("#snapshot").on("change", function(){
+				var url = getFileUrl("snapshot");
+				$("#snapshot_")[0].src = url;
 			});
 			$('#logout').on('click', function() {
 				window.location.href = '/user/userLogout?view=homepage';
