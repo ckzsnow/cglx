@@ -1162,21 +1162,35 @@ public class APIController {
 	public Map<String, String> addMedia(DefaultMultipartHttpServletRequest multipartRequest,
 			HttpServletRequest request) {
 		Map<String, String> retMap = new HashMap<>();
+		String flag = request.getParameter("flag");
+		String fileNameListStr = request.getParameter("fileNameList");
+		String[] fileNames = fileNameListStr.split(";");
 		String realPath = "/data/cglx/files/imgs";
+		String notContentImagefileName = "";
+		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
+		paramsMap.put("image", new String[] { "" });
+		int index = 0;
 		if (multipartRequest != null) {
 			Iterator<String> iterator = multipartRequest.getFileNames();
 			while (iterator.hasNext()) {
 				MultipartFile multifile = multipartRequest.getFile((String) iterator.next());
-				String fileName = getGernarateFileName(multifile);
+				String fileName = "";
 				try {
-					FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, fileName));
-					Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
-					paramsMap.put("image", new String[] { fileName });
-					cglxDao.addMedia(paramsMap);
+					if(("1").equals(flag)) {
+						notContentImagefileName = getGernarateFileName(multifile);
+						FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, notContentImagefileName));
+						flag = "0";
+						paramsMap.put("image", new String[] { notContentImagefileName });
+					} else {
+						fileName = fileNames[index];
+						index++;
+						FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, fileName));
+					}
 				} catch (IOException e) {
 					logger.error("Failed in saving file, exception : {}", e.toString());
 				}
 			}
+			cglxDao.addMedia(paramsMap);
 			retMap.put("msg", "");
 			retMap.put("error", "0");
 			return retMap;
@@ -1192,25 +1206,36 @@ public class APIController {
 	public Map<String, String> updateMedia(DefaultMultipartHttpServletRequest multipartRequest,
 			HttpServletRequest request) {
 		Map<String, String> retMap = new HashMap<>();
+		String flag = request.getParameter("flag");
+		String fileNameListStr = request.getParameter("fileNameList");
+		String[] fileNames = fileNameListStr.split(";");
 		String realPath = "/data/cglx/files/imgs";
-		String fileName = "";
+		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
+		paramsMap.remove("flag");
+		paramsMap.remove("fileNameList");
+		int index = 0;
+		String notContentImagefileName = "";
 		if (multipartRequest != null) {
 			Iterator<String> iterator = multipartRequest.getFileNames();
 			while (iterator.hasNext()) {
 				MultipartFile multifile = multipartRequest.getFile((String) iterator.next());
-				fileName = getGernarateFileName(multifile);
 				try {
-					FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, fileName));
+					if(("1").equals(flag)) {
+						notContentImagefileName = getGernarateFileName(multifile);
+						FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, notContentImagefileName));
+						flag = "0";
+						paramsMap.put("image", new String[] { notContentImagefileName });
+					} else {
+						String fileName = fileNames[index];
+						index++;
+						FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, fileName));
+					}
+					
 				} catch (IOException e) {
 					logger.error("Failed in saving file, exception : {}", e.toString());
 				}
 			}
 		}
-		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
-		if (fileName != null && !fileName.isEmpty())
-			paramsMap.put("image", new String[] { fileName });
-		else 
-			paramsMap.remove("image");
 		cglxDao.updateMedia(paramsMap);
 		retMap.put("msg", "");
 		retMap.put("error", "0");
