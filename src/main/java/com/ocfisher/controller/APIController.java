@@ -241,7 +241,7 @@ public class APIController {
 					logger.error("Failed in saving file, exception : {}", e.toString());
 				}
 			}
-			retMap.put("msg", "");
+			retMap.put("msg", "添加成功");
 			retMap.put("error", "0");
 			return retMap;
 		} else {
@@ -258,7 +258,7 @@ public class APIController {
 		String id = request.getParameter("id");
 		try {
 			if (cglxDao.delBanner(Long.valueOf(id))) {
-				retMap.put("msg", "");
+				retMap.put("msg", "删除成功！");
 				retMap.put("error", "0");
 				return retMap;
 			} else {
@@ -418,7 +418,7 @@ public class APIController {
 			cglxDao.updateArticle(articleParamsMap);
 			cglxDao.updateArticleDetail(articleDetailParamsMap);
 		}
-		retMap.put("msg", "");
+		retMap.put("msg", "添加成功！");
 		retMap.put("error", "0");
 		return retMap;
 	}
@@ -446,7 +446,7 @@ public class APIController {
 		if (fileName != null && !fileName.isEmpty())
 			paramsMap.put("image", new String[] { fileName });
 		cglxDao.updateArticle(paramsMap);
-		retMap.put("msg", "");
+		retMap.put("msg", "更新成功！");
 		retMap.put("error", "0");
 		return retMap;
 	}
@@ -458,7 +458,7 @@ public class APIController {
 		String id = request.getParameter("id");
 		try {
 			if (cglxDao.deleteArticle(Long.valueOf(id))) {
-				retMap.put("msg", "");
+				retMap.put("msg", "删除成功！");
 				retMap.put("error", "0");
 				return retMap;
 			} else {
@@ -497,7 +497,7 @@ public class APIController {
 		if (fileName != null && !fileName.isEmpty())
 			paramsMap.put("image", new String[] { fileName });
 		if (cglxDao.addArticleDetail(paramsMap) > 0) {
-			retMap.put("msg", "");
+			retMap.put("msg", "添加成功！");
 			retMap.put("error", "0");
 		} else {
 			retMap.put("msg", "写入数据库失败！");
@@ -529,7 +529,7 @@ public class APIController {
 		if (fileName != null && !fileName.isEmpty())
 			paramsMap.put("image", new String[] { fileName });
 		if (cglxDao.updateArticleDetail(paramsMap)) {
-			retMap.put("msg", "");
+			retMap.put("msg", "更新成功！");
 			retMap.put("error", "0");
 		} else {
 			retMap.put("msg", "写入数据库失败！");
@@ -564,7 +564,7 @@ public class APIController {
 		} else {
 			if (cglxDao.updateUserPwdByUserId(user_id, UserPwdMD5Encrypt.getPasswordByMD5Encrypt(user_pwd))) {
 				retMap.put("error", "0");
-				retMap.put("msg", "");
+				retMap.put("msg", "更改成功！");
 				return retMap;
 			} else {
 				retMap.put("error", "1");
@@ -960,7 +960,7 @@ public class APIController {
 			cglxDao.updateCase(caseParamsMap);
 			cglxDao.updateCaseDetail(caseDetailParamsMap);
 		}
-		retMap.put("msg", "");
+		retMap.put("msg", "添加成功！");
 		retMap.put("error", "0");
 		return retMap;
 	}
@@ -985,7 +985,7 @@ public class APIController {
 					logger.error("Failed in saving file, exception : {}", e.toString());
 				}
 			}
-			retMap.put("msg", "");
+			retMap.put("msg", "添加成功！");
 			retMap.put("error", "0");
 			return retMap;
 		} else {
@@ -1018,7 +1018,7 @@ public class APIController {
 		if (fileName != null && !fileName.isEmpty())
 			paramsMap.put("image", new String[] { fileName });
 		cglxDao.updateCase(paramsMap);
-		retMap.put("msg", "");
+		retMap.put("msg", "更新成功！");
 		retMap.put("error", "0");
 		return retMap;
 	}
@@ -1030,7 +1030,7 @@ public class APIController {
 		String id = request.getParameter("id");
 		try {
 			if (cglxDao.deleteCase(Long.valueOf(id))) {
-				retMap.put("msg", "");
+				retMap.put("msg", "删除成功！");
 				retMap.put("error", "0");
 				return retMap;
 			} else {
@@ -1067,7 +1067,7 @@ public class APIController {
 			}
 		}
 		if (cglxDao.addCaseDetail(paramsMap) > 0) {
-			retMap.put("msg", "");
+			retMap.put("msg", "添加成功！");
 			retMap.put("error", "0");
 		} else {
 			retMap.put("msg", "写入数据库失败！");
@@ -1099,7 +1099,7 @@ public class APIController {
 		if (fileName != null && !fileName.isEmpty())
 			paramsMap.put("image", new String[] { fileName });
 		if (cglxDao.updateCaseDetail(paramsMap)) {
-			retMap.put("msg", "");
+			retMap.put("msg", "更新成功！");
 			retMap.put("error", "0");
 		} else {
 			retMap.put("msg", "写入数据库失败！");
@@ -1177,7 +1177,7 @@ public class APIController {
 					logger.error("Failed in saving file, exception : {}", e.toString());
 				}
 			}
-			retMap.put("msg", "");
+			retMap.put("msg", "添加成功！");
 			retMap.put("error", "0");
 			return retMap;
 		} else {
@@ -1212,7 +1212,7 @@ public class APIController {
 		else 
 			paramsMap.remove("image");
 		cglxDao.updateMedia(paramsMap);
-		retMap.put("msg", "");
+		retMap.put("msg", "更新成功！");
 		retMap.put("error", "0");
 		return retMap;
 	}
@@ -1224,7 +1224,7 @@ public class APIController {
 		String id = request.getParameter("id");
 		try {
 			if (cglxDao.deleteMedia(Long.valueOf(id))) {
-				retMap.put("msg", "");
+				retMap.put("msg", "删除成功！");
 				retMap.put("error", "0");
 				return retMap;
 			} else {
@@ -1261,7 +1261,7 @@ public class APIController {
 		Map<String, String> retMap = new HashMap<>();
 		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
 		if (cglxDao.updateApplyReport(paramsMap)) {
-			retMap.put("msg", "");
+			retMap.put("msg", "更新成功");
 			retMap.put("error", "0");
 		} else {
 			retMap.put("msg", "写入数据库失败！");
@@ -1277,7 +1277,7 @@ public class APIController {
 		String id = request.getParameter("id");
 		try {
 			if (cglxDao.deleteApplyReport(Long.valueOf(id))) {
-				retMap.put("msg", "");
+				retMap.put("msg", "删除成功！");
 				retMap.put("error", "0");
 				return retMap;
 			} else {
