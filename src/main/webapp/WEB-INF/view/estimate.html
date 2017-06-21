@@ -257,6 +257,7 @@
 						$('.entrepreneur-form-items input').each(function(){
 							$(this).val(data[$(this).attr("name")]);
 						});
+						$('#experience').val(data['experience']);
 						if(data.audit_result == null || data.audit_result == undefined ||
 								data.audit_result == "") {
 							$("#eval_result").html("当前还没有评估结果~");
@@ -271,24 +272,25 @@
 				$('.entrepreneur-form-items input').each(function(){
 						data[$(this).attr("name")] = $(this).val();
 				});
-					$.ajax({
-						url: '/user/updateUserEvalInfo',
-						type: "POST",
-						data: data,
-						success: function(data) {
-							if (!checkJsonIsEmpty(data)) {
-								if(data.error_code != null && data.error_code != undefined && 
-										data.error_code == "0") {
-									alert("提交信息成功！");
-								} else {
-									alert("提交信息失败，错误原因：" + data.error_msg);
-								}
+				data['experience'] = $('#experience').val();
+				$.ajax({
+					url: '/user/updateUserEvalInfo',
+					type: "POST",
+					data: data,
+					success: function(data) {
+						if (!checkJsonIsEmpty(data)) {
+							if(data.error_code != null && data.error_code != undefined && 
+									data.error_code == "0") {
+								alert("提交信息成功！");
+							} else {
+								alert("提交信息失败，错误原因：" + data.error_msg);
 							}
-						},
-						error: function(status, error) {
-							alert("提交信息失败，错误码：" + status);
 						}
-					});
+					},
+					error: function(status, error) {
+						alert("提交信息失败，错误码：" + status);
+					}
+				});
 			});
 		</script>
 	</body>
