@@ -363,6 +363,9 @@ public class APIController {
 			HttpServletRequest request) {
 		Map<String, String> retMap = new HashMap<>();
 		String article_id = request.getParameter("article_id");
+		String flag = request.getParameter("flag");
+		String fileNameListStr = request.getParameter("fileNameList");
+		String[] fileNames = fileNameListStr.split(";");
 		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
 		System.out.println(paramsMap.toString());
 		Map<String, String[]> articleParamsMap = new HashMap<>();
@@ -378,29 +381,39 @@ public class APIController {
 		articleDetailParamsMap.put("video_src", paramsMap.get("video_src"));
 		articleDetailParamsMap.put("contents", paramsMap.get("contents"));
 		String realPath = "/data/cglx/files/imgs";
-		String fileName = "";
+		String notContentImagefileName = "";
+		int index = 0;
 		if (multipartRequest != null) {
 			Iterator<String> iterator = multipartRequest.getFileNames();
 			while (iterator.hasNext()) {
 				MultipartFile multifile = multipartRequest.getFile((String) iterator.next());
-				fileName = getGernarateFileName(multifile);
+				String fileName = "";
 				try {
-					FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, fileName));
+					if(("1").equals(flag)) {
+						notContentImagefileName = getGernarateFileName(multifile);
+						FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, notContentImagefileName));
+						flag = "0";
+					} else {
+						fileName = fileNames[index];
+						index++;
+						FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, fileName));
+					}
+					
 				} catch (IOException e) {
 					logger.error("Failed in saving file, exception : {}", e.toString());
 				}
 			}
 		}
 		if(article_id == null || article_id.isEmpty() || ("null").equals(article_id)) {
-			articleParamsMap.put("image", new String[] { fileName });
-			articleDetailParamsMap.put("image", new String[] { fileName });
+			articleParamsMap.put("image", new String[] { notContentImagefileName });
+			articleDetailParamsMap.put("image", new String[] { notContentImagefileName });
 			long id_ = cglxDao.addArticle(articleParamsMap);
 			articleDetailParamsMap.put("article_id", new String[]{String.valueOf(id_)});
 			cglxDao.addArticleDetail(articleDetailParamsMap);
 		} else {
-			if(!fileName.isEmpty()) {
-				articleParamsMap.put("image", new String[] { fileName });
-				articleDetailParamsMap.put("image", new String[] { fileName });
+			if(!notContentImagefileName.isEmpty()) {
+				articleParamsMap.put("image", new String[] { notContentImagefileName });
+				articleDetailParamsMap.put("image", new String[] { notContentImagefileName });
 			}
 			cglxDao.updateArticle(articleParamsMap);
 			cglxDao.updateArticleDetail(articleDetailParamsMap);
