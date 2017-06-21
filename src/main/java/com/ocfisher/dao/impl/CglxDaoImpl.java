@@ -829,7 +829,7 @@ public class CglxDaoImpl implements ICglxDao {
 	public List<Map<String, Object>> getNavRecommend() {
 		List<Map<String, Object>> retMap = null;
 		try {
-			String sql = "select * from cases where is_nav_recommend=1 limit 0,2";
+			String sql = "select * from cases where is_nav_recommend=1 order by create_time desc limit 0,2";
 			retMap = jdbcTemplate.queryForList(sql);
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
