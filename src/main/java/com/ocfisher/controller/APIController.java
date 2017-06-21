@@ -1310,7 +1310,7 @@ public class APIController {
 			return retMap;
 		}
 		if(cglxDao.updateEval(new HashMap<>(request.getParameterMap()))) {
-			retMap.put("msg", "");
+			retMap.put("msg", "提交报告成功");
 			retMap.put("error", "0");
 		} else {
 			retMap.put("msg", "写数据库失败！");

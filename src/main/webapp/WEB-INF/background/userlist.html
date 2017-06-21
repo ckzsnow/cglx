@@ -234,12 +234,14 @@
 							+ '<td><button type="button" class="btn btn-danger" id="'+data[index].user_id+'">删除</button></td>'
 							+ '</tr>');
 				}
+				
 				$('.btn-danger').on('click', function() {
-					var id = $(this).attr('id');
-					$.post('/user/deleteUserInfo', {phone : id}, function(data) {
-						alert(data.msg);
-						window.location.reload();
-					});
+					if(confirm('确定要删除此信息吗？')) {
+						var id = $(this).attr('id');
+						$.post('/user/deleteUserInfo', {phone : id}, function(data) {
+							window.location.reload();
+						});
+					}
 				});
 			});
 			$('#logout').on('click', function() {
