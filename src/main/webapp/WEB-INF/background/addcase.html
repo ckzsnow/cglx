@@ -426,7 +426,11 @@
 					$('#background_enroll_time').val(data.background_enroll_time);
 					$('#background_enter_time').val(data.background_enter_time);
 					$('#background_info').val(data.background_info);
-					$('#train_target').val(data.train_target);
+					
+					var train_target = data.train_target;
+					train_target = train_target.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+					
+					$('#train_target').val(train_target);
 					$("#offer_img_").attr("style", "float:left;");
 					$("#offer_img_").attr("width", "200px;");
 					$("#offer_img_").attr("src", "/cglx/files/imgs/"+data.image);
@@ -474,9 +478,11 @@
 				fd.append('background_info', $('#background_info').val());
 				fd.append('background_enter_time', $('#background_enter_time').val());
 				var train_target = $('#train_target').val();
-				train_target = train_target.replace(new RegExp(" ","gm"),"&nbsp;");
-				train_target = train_target.replace(new RegExp("\r","gm"),"<br/>");
+				train_target = train_target.replace(/\n/g,"_@").replace(/\r/g, '_#');
+				/* train_target = train_target.replace(/\s/g, '&nbsp;');
+				train_target = train_target.replace(/_@/g, '<br/>'); */
 				//fd.append('train_target', $('#train_target').val().replaceAll(" ","&nbsp;").replaceAll("\r","<br/>"));
+				fd.append('train_target', train_target);
 				fd.append('offer_img', offer_img);
 				fd.append('major_eng', $('#major_eng').val());
 				fd.append('major_chi', $('#major_chi').val());

@@ -491,10 +491,7 @@
 		</footer>
 		<script type="text/javascript" src="/js/main.js"></script>
 		<script type="text/javascript" src="/js/login.js"></script>
-		<script>
-		$(".name").on("click",function(a){a.stopPropagation(),$("#logout").toggle("fast")}),$(document).on("click",function(){$("#logout").hide(500)}),function(a){a.getUrlParam=function(a){var b=new RegExp("(^|&)"+a+"=([^&]*)(&|$)"),c=window.location.search.substr(1).match(b);return null!=c?unescape(c[2]):null}}(jQuery);var id=$.getUrlParam("id");$.ajax({url:"/cases/getCaseDetail",type:"POST",data:{id:id},success:function(a){checkJsonIsEmpty(a)||($("#pc_title").html(a.title),$("#pc_name").html(a.background_name),$("#pc_college").html(a.background_college),$("#pc_major").html(a.background_major),$("#pc_apply_college").html(a.background_apply_college),$("#pc_apply_major").html(a.background_apply_major),$("#pc_enroll_time").html(a.background_enroll_time),$("#pc_enter_time").html(a.background_enter_time),$("#pc_info").html(a.background_info),$("#m_title").html(a.title),$("#m_name").html(a.background_name),$("#m_college").html(a.background_college),$("#m_major").html(a.background_major),$("#m_apply_college").html(a.background_apply_college),$("#m_apply_major").html(a.background_apply_major),$("#m_enroll_time").html(a.background_enroll_time),$("#m_enter_time").html(a.background_enter_time),$("#m_info").html(a.background_info),$("#train_target_detail").html(a.train_target),$("#enroll_info_img")[0].src="/cglx/files/imgs/"+a.image,$("#major_chi").html(a.major_eng),$("#major_chi").attr("href",a.major_chi),$.ajax({url:"/cases/getRelatedCase",type:"POST",data:{page:1,length:3,category_tag:a.background_apply_major},success:function(a){if(!checkJsonIsEmpty(a))for(var b in a)a[b].id!=id&&$("#recommend_list").append("<li><a class='li-container' href='/view/item.html?id="+a[b].id+"' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/"+a[b].image+"' style='width:100%;'></div><div class='li-content'><div class='li-title'>"+a[b].title+"</div><div class='li-detail'>"+a[b].sub_title+"</div><div class='li-other'> <span class='li-type'>"+a[b].sub_title+"</span> <span class='li-time'>"+a[b].readable_date+"</span></div> </div></a></li>")},error:function(){}}))},error:function(){}}),$.ajax({url:"/cases/getNavRecommend",type:"POST",data:{},success:function(a){checkJsonIsEmpty(a)||($("#nav_recommend_title").html(a[0].title),$("#nav_recommend_image").attr("src","/cglx/files/imgs/"+a[0].image),$("#nav_recommend_href").attr("href","item.html?id="+a[0].id),a.length>=2?($("#nav_recommend_title2").html(a[1].title),$("#nav_recommend_image2").attr("src","/cglx/files/imgs/"+a[1].image),$("#nav_recommend_href2").attr("href","item.html?id="+a[1].id)):$("#recommond2").css("display","none"))},error:function(){}});
-		</script>
-		<!-- <script type="text/javascript">
+		<script type="text/javascript">
 		$('.name').on('click', function(event) {
 			event.stopPropagation();
 			$('#logout').toggle('fast');
@@ -536,7 +533,10 @@
 					$("#m_info").html(data.background_info);
 					
 					//$("#train_target").html(data.background_apply_college+data.background_apply_major+"申请方法");
-					$("#train_target_detail").html(data.train_target);
+					var train_target = data.train_target;
+					train_target.replace(/\n/g,"_@").replace(/\r/g, '_#').replace(/\s/g,"_$")
+					train_target = train_target.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/_$/g, '&nbsp;')
+					$("#train_target_detail").html(train_target);
 					//$("#enroll_info").html(data.background_apply_college+data.background_apply_major+"录取通知");
 					$("#enroll_info_img")[0].src = "/cglx/files/imgs/"+data.image;
 					$("#major_chi").html(data.major_eng);
@@ -587,7 +587,7 @@
 			error: function(status, error) {
 			}
 		});
-		</script> -->
+		</script>
 	</body>
 
 </html>
