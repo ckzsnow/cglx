@@ -389,10 +389,10 @@
 				var endPos = content.indexOf("\n");
 				while(endPos != -1) {
 					var line = content.substring(beginPos, endPos);
-					line = Trim(line, "g");
+					/* line = Trim(line, "g"); */
 					var titlePos = line.indexOf("标题-");
 					if(titlePos != -1) {
-						htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
+						htmlStr += "<h3>"+line.substring(titlePos+3)+"</h3>";
 					} else {
 						var curLinePos = 0;
 						var imgBeginPos = line.indexOf("###IMG");
@@ -426,10 +426,10 @@
 				}
 				if(content.length-1 > endPos) {
 					var line = content.substring(beginPos);
-					line = Trim(line, "g");
+					/* line = Trim(line, "g"); */
 					var titlePos = line.indexOf("标题-");
 					if(titlePos != -1) {
-						htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
+						htmlStr += "<h3>"+line.substring(titlePos+3)+"</h3>";
 					} else {
 						var curLinePos = 0;
 						var imgBeginPos = line.indexOf("###IMG");
@@ -531,10 +531,11 @@
 				var endPos = content.indexOf("\n");
 				while(endPos != -1) {
 					var line = content.substring(beginPos, endPos);
-					line = Trim(line, "g");
+					/* line = Trim(line, "g"); */
 					var titlePos = line.indexOf("标题-");
 					if(titlePos != -1) {
-						htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
+						/* htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>"; */
+						htmlStr += "<h3>"+line.substring(titlePos+3)+"</h3>";
 					} else {
 						var curLinePos = 0;
 						var imgBeginPos = line.indexOf("###IMG");
@@ -560,10 +561,10 @@
 				}
 				if(content.length-1 > endPos) {
 					var line = content.substring(beginPos);
-					line = Trim(line, "g");
+					/* line = Trim(line, "g"); */
 					var titlePos = line.indexOf("标题-");
 					if(titlePos != -1) {
-						htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
+						htmlStr += "<h3>"+line.substring(titlePos+3)+"</h3>";
 					} else {
 						var curLinePos = 0;
 						var imgBeginPos = line.indexOf("###IMG");

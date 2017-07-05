@@ -492,10 +492,7 @@
 		<script type="text/javascript" src="/js/main.js"></script>
 		<script type="text/javascript" src="/js/login.js"></script>
 		<script>
-		$(".name").on("click",function(a){a.stopPropagation(),$("#logout").toggle("fast")}),$(document).on("click",function(){$("#logout").hide(500)}),$.ajax({url:"/banner/getAllBanner",type:"POST",data:{},success:function(a){if(!checkJsonIsEmpty(a)){for(var b in a)$("#bannerlist").append("<li><a href='"+a[b].url+"'><img src='/cglx/files/imgs/"+a[b].file_name+"'/></a></li>");$(".flexslider").flexslider({animation:"fade",easing:"swing",slideshowSpeed:3e3,animationSpeed:1e3,touch:!0})}},error:function(){}}),$.ajax({url:"/articles/getRecommendArticle",type:"POST",data:{},success:function(a){if(!checkJsonIsEmpty(a))for(var b in a)$("#recommendarticles").append("<li><a href='/view/subpage.html?id="+a[b].id+"&tagId="+a[b].tag_id+"' target='_blank'><div class='photo'><img src='/cglx/files/imgs/"+a[b].image+"'></div><div class='info'>"+a[b].title+"</div></a></li>")},error:function(){}}),$.ajax({url:"/articles/getAllArticlesForHomepage",type:"POST",data:{},success:function(a){if(!checkJsonIsEmpty(a))for(var b in a)$("#articlelist").append("<li><a class='li-container' href='/view/subpage.html?id="+a[b].id+"&tagId="+a[b].tag_id+"' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/"+a[b].image+"'></div><div class='li-content'><div class='li-title'>"+a[b].title+"</div><div class='li-detail'>"+a[b].abstract+"</div><div class='li-other'> <span class='li-type'>"+a[b].name+"</span> <span class='li-time'>"+a[b].readable_date+"</span> <span class='li-author'><i class='li-author-name'>"+a[b].author+"</i> </span></div> </div></a></li>")},error:function(){}}),$.ajax({url:"/cases/getNavRecommend",type:"POST",data:{},success:function(a){checkJsonIsEmpty(a)||($("#nav_recommend_title").html(a[0].title),$("#nav_recommend_image").attr("src","/cglx/files/imgs/"+a[0].image),$("#nav_recommend_href").attr("href","item.html?id="+a[0].id),a.length>=2?($("#nav_recommend_title2").html(a[1].title),$("#nav_recommend_image2").attr("src","/cglx/files/imgs/"+a[1].image),$("#nav_recommend_href2").attr("href","item.html?id="+a[1].id)):$("#recommond2").css("display","none"))},error:function(){}});
-		</script>
-		<script>
-			/* $('.name').on('click', function(event) {
+			$('.name').on('click', function(event) {
 				event.stopPropagation();
 				$('#logout').toggle('fast');
 			});
@@ -530,7 +527,7 @@
 				success: function(data) {
 					if (!checkJsonIsEmpty(data)) {
 						for(var index in data) {
-							$("#recommendarticles").append("<li><a href='/view/subpage.html?id="+data[index].id+"&tagId="+data[index].tag_id+"' target='_blank'><div class='photo'><img src='/cglx/files/imgs/"+data[index].image+"'></div><div class='info'>"+data[index].title+"</div></a></li>");
+							$("#recommendarticles").append("<li><a href='/view/subpage.html?id="+data[index].id+"&tagId="+data[index].tag_id+"' target='_blank'><div class='photo'><img src='/cglx/files/imgs/"+data[index].image+"' style='width:100%; height:100%'></div><div class='info'>"+data[index].title+"</div></a></li>");
 						}
 					}
 				},
@@ -572,7 +569,7 @@
 				},
 				error: function(status, error) {
 				}
-			}); */
+			});
 		</script>
 	</body>
 

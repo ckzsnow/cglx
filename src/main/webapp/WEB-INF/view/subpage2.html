@@ -12,6 +12,19 @@
 		<link href="/css/newsDetail.min.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="/css/login.css">
 		<script type="text/javascript" src="/js/jquery.min.js"></script>
+		<style>
+			video::-internal-media-controls-download-button {
+			    display:none;
+			}
+			
+			video::-webkit-media-controls-enclosure {
+			    overflow:hidden;
+			}
+			
+			video::-webkit-media-controls-panel {
+			    width: calc(100% + 30px); /* Adjust as needed */
+			}
+		</style>
 	</head>
 
 	<body device="pc">
@@ -432,94 +445,95 @@
 		</footer>
 		<script type="text/javascript" src="/js/main.js"></script>
 		<script type="text/javascript" src="/js/login.js"></script>
-		<script>
-		function callshare(){var a=$("#share_weibo").attr("title"),b=$("#share_weibo").attr("image"),c=$("#share_weibo").attr("url");window.open("http://v.t.sina.com.cn/share/share.php?title="+encodeURIComponent(a)+"&url="+encodeURIComponent(c)+"&pic="+encodeURIComponent(b)+"&source=bookmark","_blank")}var exculdeId,tagId;$(".name").on("click",function(a){a.stopPropagation(),$("#logout").toggle("fast")}),$(document).on("click",function(){$("#logout"),$("#logout").hide(500)}),function(a){a.getUrlParam=function(a){var b=new RegExp("(^|&)"+a+"=([^&]*)(&|$)"),c=window.location.search.substr(1).match(b);return null!=c?unescape(c[2]):null}}(jQuery),exculdeId=$.getUrlParam("id"),tagId=$.getUrlParam("tagId"),$.ajax({url:"/articles/getArticlesByTagExcludeId",type:"POST",data:{tag_id:tagId,exculde_id:exculdeId},success:function(a){if(!checkJsonIsEmpty(a))for(var b in a)$("#recommend_list").append("<li><a class='li-container' href='/view/subpage.html?id="+a[b].id+"&tagId="+a[b].tag_id+"' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/"+a[b].image+"'></div><div class='li-content'><div class='li-title'>"+a[b].title+"</div><div class='li-detail'>"+a[b].abstract+"</div><div class='li-other'> <span class='li-type'>"+a[b].name+"</span> <span class='li-time'>"+a[b].readable_date+"</span> <span class='li-author'><i class='li-author-name'>"+a[b].author+"</i> </span></div> </div></a></li>")},error:function(){}}),$.ajax({url:"/articles/getArticleDetail",type:"POST",data:{id:exculdeId},success:function(a){checkJsonIsEmpty(a)||($("#article_title").html(a.title),$("#article_author").html(a.author),$("#article_time").html(a.readable_date),$("#article_tag").html(a.name),$("#article_author_").html(a.author),$("#article-title").html(a.title),$("#article-intro").html(a.abstract),$("#article-photo").html(a.snapshot),$("#article_detail").html(a.contents),document.getElementById("video_src").src=a.video_src,document.getElementById("video_src").poster="/cglx/files/imgs/"+a.image,$("#share_weibo").attr("url",window.location.href),$("#share_weibo").attr("title",a.title),$("#share_weibo").attr("image","/cglx/files/imgs/"+a.snapshot))},error:function(){}}),$.ajax({url:"/cases/getNavRecommend",type:"POST",data:{},success:function(a){checkJsonIsEmpty(a)||($("#nav_recommend_title").html(a[0].title),$("#nav_recommend_image").attr("src","/cglx/files/imgs/"+a[0].image),$("#nav_recommend_href").attr("href","item.html?id="+a[0].id),a.length>=2?($("#nav_recommend_title2").html(a[1].title),$("#nav_recommend_image2").attr("src","/cglx/files/imgs/"+a[1].image),$("#nav_recommend_href2").attr("href","item.html?id="+a[1].id)):$("#recommond2").css("display","none"))},error:function(){}});
-		</script>
 		<script type="text/javascript">
-		/* $('.name').on('click', function(event) {
-			event.stopPropagation();
-			$('#logout').toggle('fast');
-		});
-		$(document).on('click', function() {
-			var _con = $('#logout');
-			$('#logout').hide(500);
-		});
-		(function ($) {
-            $.getUrlParam = function (name) {
-                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-                var r = window.location.search.substr(1).match(reg);
-                if (r != null) return unescape(r[2]); return null;
-            }
-        })(jQuery);
-		var exculdeId = $.getUrlParam('id');
-		var tagId = $.getUrlParam('tagId');
-		$.ajax({
-			url: '/articles/getArticlesByTagExcludeId',
-			type: "POST",
-			data: {tag_id:tagId,exculde_id:exculdeId},
-			success: function(data) {
-				if (!checkJsonIsEmpty(data)) {
-					for(var index in data) {
-						$("#recommend_list").append("<li><a class='li-container' href='/view/subpage.html?id="+data[index].id+"&tagId="+data[index].tag_id+"' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/"+data[index].image+"'></div><div class='li-content'><div class='li-title'>"+data[index].title+"</div><div class='li-detail'>"+data[index].abstract+"</div><div class='li-other'> <span class='li-type'>"+data[index].name+"</span> <span class='li-time'>"+data[index].readable_date+"</span> <span class='li-author'><i class='li-author-name'>"+data[index].author+"</i> </span></div> </div></a></li>");
+			$('.name').on('click', function(event) {
+				event.stopPropagation();
+				$('#logout').toggle('fast');
+			});
+			$(document).on('click', function() {
+				var _con = $('#logout');
+				$('#logout').hide(500);
+			});
+			(function ($) {
+	            $.getUrlParam = function (name) {
+	                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	                var r = window.location.search.substr(1).match(reg);
+	                if (r != null) return unescape(r[2]); return null;
+	            }
+	        })(jQuery);
+			var exculdeId = $.getUrlParam('id');
+			var tagId = $.getUrlParam('tagId');
+			$.ajax({
+				url: '/articles/getArticlesByTagExcludeId',
+				type: "POST",
+				data: {tag_id:tagId,exculde_id:exculdeId},
+				success: function(data) {
+					if (!checkJsonIsEmpty(data)) {
+						for(var index in data) {
+							$("#recommend_list").append("<li><a class='li-container' href='/view/subpage.html?id="+data[index].id+"&tagId="+data[index].tag_id+"' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/"+data[index].image+"' style='width:100%;height:100%'></div><div class='li-content'><div class='li-title'>"+data[index].title+"</div><div class='li-detail'>"+data[index].abstract+"</div><div class='li-other'> <span class='li-type'>"+data[index].name+"</span> <span class='li-time'>"+data[index].readable_date+"</span> <span class='li-author'><i class='li-author-name'>"+data[index].author+"</i> </span></div> </div></a></li>");
+						}
 					}
+				},
+				error: function(status, error) {
 				}
-			},
-			error: function(status, error) {
-			}
-		});
-		$.ajax({
-			url: '/articles/getArticleDetail',
-			type: "POST",
-			data: {id:exculdeId},
-			success: function(data) {
-				if (!checkJsonIsEmpty(data)) {
-					$("#article_title").html(data.title);
-					$("#article_author").html(data.author);
-					$("#article_time").html(data.readable_date);
-					$("#article_tag").html(data.name);
-					$("#article_author_").html(data.author);
-					$("#article-title").html(data.title);
-					$("#article-intro").html(data.abstract);
-					$("#article-photo").html(data.snapshot);
-					$("#article_detail").html(data.contents);
-					document.getElementById("video_src").src = data.video_src;
-					document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.image;
-					$("#share_weibo").attr("url", window.location.href);
-					$("#share_weibo").attr("title", data.title);
-					$("#share_weibo").attr("image", "/cglx/files/imgs/"+data.snapshot);
-				}
-			},
-			error: function(status, error) {
-			}
-		});
-		function callshare(){
-			var shareTitle = $("#share_weibo").attr("title");
-			var shareImg = $("#share_weibo").attr("image");
-			var shareURL = $("#share_weibo").attr("url");
-			window.open("http://v.t.sina.com.cn/share/share.php?title="+encodeURIComponent(shareTitle)+"&url="+encodeURIComponent(shareURL)+"&pic="+encodeURIComponent(shareImg)+"&source=bookmark","_blank");
-		};
-		$.ajax({
-			url: '/cases/getNavRecommend',
-			type: "POST",
-			data: {},
-			success: function(data) {
-				if (!checkJsonIsEmpty(data)) {
-					$("#nav_recommend_title").html(data[0].title);
-					$("#nav_recommend_image").attr("src", "/cglx/files/imgs/" + data[0].image);
-					$("#nav_recommend_href").attr("href", "item.html?id="+data[0].id); 
-					
-					if(data.length >= 2) {
-						$("#nav_recommend_title2").html(data[1].title);
-						$("#nav_recommend_image2").attr("src", "/cglx/files/imgs/" + data[1].image);
-						$("#nav_recommend_href2").attr("href", "item.html?id="+data[1].id); 
-					} else {
-						$('#recommond2').css('display', 'none');
+			});
+			$.ajax({
+				url: '/articles/getArticleDetail',
+				type: "POST",
+				data: {id:exculdeId},
+				success: function(data) {
+					if (!checkJsonIsEmpty(data)) {
+						$("#article_title").html(data.title);
+						$("#article_author").html(data.author);
+						$("#article_time").html(data.readable_date);
+						$("#article_tag").html(data.name);
+						$("#article_author_").html(data.author);
+						$("#article-title").html(data.title);
+						$("#article-intro").html(data.abstract);
+						$("#article-photo").html(data.snapshot);
+						$("#article_detail").html(data.contents);
+						if(data.video_src == undefined || data.video_src == '') {
+							$('#video_src').css('display', 'none');
+						} else {
+							document.getElementById("video_src").src = data.video_src;
+							document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.image;
+						}
+						$("#share_weibo").attr("url", window.location.href);
+						$("#share_weibo").attr("title", data.title);
+						$("#share_weibo").attr("image", "/cglx/files/imgs/"+data.snapshot);
 					}
+				},
+				error: function(status, error) {
 				}
-			},
-			error: function(status, error) {
-			}
-		}); */
+			});
+			function callshare(){
+				var shareTitle = $("#share_weibo").attr("title");
+				var shareImg = $("#share_weibo").attr("image");
+				var shareURL = $("#share_weibo").attr("url");
+				window.open("http://v.t.sina.com.cn/share/share.php?title="+encodeURIComponent(shareTitle)+"&url="+encodeURIComponent(shareURL)+"&pic="+encodeURIComponent(shareImg)+"&source=bookmark","_blank");
+			};
+			$.ajax({
+				url: '/cases/getNavRecommend',
+				type: "POST",
+				data: {},
+				success: function(data) {
+					if (!checkJsonIsEmpty(data)) {
+						$("#nav_recommend_title").html(data[0].title);
+						$("#nav_recommend_image").attr("src", "/cglx/files/imgs/" + data[0].image);
+						$("#nav_recommend_href").attr("href", "item.html?id="+data[0].id); 
+						
+						if(data.length >= 2) {
+							$("#nav_recommend_title2").html(data[1].title);
+							$("#nav_recommend_image2").attr("src", "/cglx/files/imgs/" + data[1].image);
+							$("#nav_recommend_href2").attr("href", "item.html?id="+data[1].id); 
+						} else {
+							$('#recommond2').css('display', 'none');
+						}
+					}
+				},
+				error: function(status, error) {
+				}
+			});
 		</script>
 	</body>
 

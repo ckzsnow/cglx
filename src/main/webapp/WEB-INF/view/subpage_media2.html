@@ -12,6 +12,22 @@
 		<link href="/css/newsDetail.min.css" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="/css/login.css">
 		<script type="text/javascript" src="/js/jquery.min.js"></script>
+		<style>
+			video::-internal-media-controls-download-button {
+			    display:none;
+			}
+			
+			video::-webkit-media-controls-enclosure {
+			    overflow:hidden;
+			}
+			
+			video::-webkit-media-controls-panel {
+			    width: calc(100% + 30px); /* Adjust as needed */
+			}
+			/* video{
+			   object-fit: cover;
+			} */
+		</style>
 	</head>
 
 	<body device="pc">
@@ -310,7 +326,7 @@
 								</div>
 							</div>
 						</div>
-						<video id="video_src" width="100%" controls="controls">
+						<video id="video_src" width="100%" height="400px" controls="controls">
 						</video>
 						<div id="article_detail" class="content-detail">
 							
@@ -405,7 +421,7 @@
 					</div>
 					<div class="attention">
 						关注我们： <a class="showWx"><span class="wx">DIY研习社</span></a> <a
-							class="showXl" href="http://weibo.com/u/5108257900"
+							class="showXl" href="#"
 							target="_blank"><span class="xl">DIY研习社</span></a>
 						<div class="wxQr"></div>
 					</div>
@@ -421,91 +437,92 @@
 		</footer>
 		<script type="text/javascript" src="/js/main.js"></script>
 		<script type="text/javascript" src="/js/login.js"></script>
-		<script>
-		function callshare(){var a=$("#share_weibo").attr("title"),b=$("#share_weibo").attr("image"),c=$("#share_weibo").attr("url");window.open("http://v.t.sina.com.cn/share/share.php?title="+encodeURIComponent(a)+"&url="+encodeURIComponent(c)+"&pic="+encodeURIComponent(b)+"&source=bookmark","_blank")}$(".name").on("click",function(a){a.stopPropagation(),$("#logout").toggle("fast")}),$(document).on("click",function(){$("#logout").hide(500)}),function(a){a.getUrlParam=function(a){var b=new RegExp("(^|&)"+a+"=([^&]*)(&|$)"),c=window.location.search.substr(1).match(b);return null!=c?unescape(c[2]):null}}(jQuery);var id=$.getUrlParam("id");$.ajax({url:"/medias/getRecommendMedia",type:"POST",data:{id:id},success:function(a){if(!checkJsonIsEmpty(a))for(var b in a)$("#recommend_list").append("<li><a class='li-container' href='/view/subpage_media.html?id="+a[b].id+"' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/"+a[b].image+"'></div><div class='li-content'><div class='li-title'>"+a[b].title+"</div><div class='li-detail'>"+a[b].abstract+"</div><div class='li-other'> <span class='li-type'>"+a[b].name+"</span> <span class='li-time'>"+a[b].publish_time+"</span></div></div></a></li>")},error:function(){}}),$.ajax({url:"/medias/getMediaById",type:"POST",data:{id:id},success:function(a){checkJsonIsEmpty(a)||($("#article_tag").html(a.name),$("#publish_time").html(a.publish_time),$("#article_title").html(a.title),document.getElementById("video_src").src=a.video_src,document.getElementById("video_src").poster="/cglx/files/imgs/"+a.image,$("#article_author_").html(a.author),$("#article-title").html(a.title),$("#article-intro").html(a.abstract),$("#article-photo").html(a.snapshot),$("#article_detail").html(a.contents),$("#share_weibo").attr("url",window.location.href),$("#share_weibo").attr("title",a.title),$("#share_weibo").attr("image","/cglx/files/imgs/"+a.snapshot))},error:function(){}}),$.ajax({url:"/cases/getNavRecommend",type:"POST",data:{},success:function(a){checkJsonIsEmpty(a)||($("#nav_recommend_title").html(a[0].title),$("#nav_recommend_image").attr("src","/cglx/files/imgs/"+a[0].image),$("#nav_recommend_href").attr("href","item.html?id="+a[0].id),a.length>=2?($("#nav_recommend_title2").html(a[1].title),$("#nav_recommend_image2").attr("src","/cglx/files/imgs/"+a[1].image),$("#nav_recommend_href2").attr("href","item.html?id="+a[1].id)):$("#recommond2").css("display","none"))},error:function(){}});
-		</script>
 		<script type="text/javascript">
-		/* $('.name').on('click', function(event) {
-			event.stopPropagation();
-			$('#logout').toggle('fast');
-		});
-		$(document).on('click', function() {
-			$('#logout').hide(500);
-		});
-		(function ($) {
-            $.getUrlParam = function (name) {
-                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-                var r = window.location.search.substr(1).match(reg);
-                if (r != null) return unescape(r[2]); return null;
-            }
-        })(jQuery);
-		var id = $.getUrlParam('id');
-		$.ajax({
-			url: '/medias/getRecommendMedia',
-			type: "POST",
-			data: {id:id},
-			success: function(data) {
-				if (!checkJsonIsEmpty(data)) {
-					for(var index in data) {
-						$("#recommend_list").append("<li><a class='li-container' href='/view/subpage_media.html?id="+data[index].id+"' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/"+data[index].image+"'></div><div class='li-content'><div class='li-title'>"+data[index].title+"</div><div class='li-detail'>"+data[index].abstract+"</div><div class='li-other'> <span class='li-type'>"+data[index].name+"</span> <span class='li-time'>"+data[index].publish_time+"</span></div></div></a></li>");
+			$('.name').on('click', function(event) {
+				event.stopPropagation();
+				$('#logout').toggle('fast');
+			});
+			$(document).on('click', function() {
+				$('#logout').hide(500);
+			});
+			(function ($) {
+	            $.getUrlParam = function (name) {
+	                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	                var r = window.location.search.substr(1).match(reg);
+	                if (r != null) return unescape(r[2]); return null;
+	            }
+	        })(jQuery);
+			var id = $.getUrlParam('id');
+			$.ajax({
+				url: '/medias/getRecommendMedia',
+				type: "POST",
+				data: {id:id},
+				success: function(data) {
+					if (!checkJsonIsEmpty(data)) {
+						for(var index in data) {
+							$("#recommend_list").append("<li><a class='li-container' href='/view/subpage_media.html?id="+data[index].id+"' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/"+data[index].image+"' style='width:100%; height=100%'></div><div class='li-content'><div class='li-title'>"+data[index].title+"</div><div class='li-detail'>"+data[index].abstract+"</div><div class='li-other'> <span class='li-type'>"+data[index].name+"</span> <span class='li-time'>"+data[index].publish_time+"</span></div></div></a></li>");
+						}
 					}
+				},
+				error: function(status, error) {
 				}
-			},
-			error: function(status, error) {
-			}
-		});
-		$.ajax({
-			url: '/medias/getMediaById',
-			type: "POST",
-			data: {id:id},
-			success: function(data) {
-				if (!checkJsonIsEmpty(data)) {
-					$("#article_tag").html(data.name);
-					$("#publish_time").html(data.publish_time);
-					$("#article_title").html(data.title);
-					document.getElementById("video_src").src = data.video_src;
-					document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.image;
-					$("#article_author_").html(data.author);
-					$("#article-title").html(data.title);
-					$("#article-intro").html(data.abstract);
-					$("#article-photo").html(data.snapshot);
-					$("#article_detail").html(data.contents);
-					$("#share_weibo").attr("url", window.location.href);
-					$("#share_weibo").attr("title", data.title);
-					$("#share_weibo").attr("image", "/cglx/files/imgs/"+data.snapshot);
-				}
-			},
-			error: function(status, error) {
-			}
-		});
-		function callshare(){
-			var shareTitle = $("#share_weibo").attr("title");
-			var shareImg = $("#share_weibo").attr("image");
-			var shareURL = $("#share_weibo").attr("url");
-			window.open("http://v.t.sina.com.cn/share/share.php?title="+encodeURIComponent(shareTitle)+"&url="+encodeURIComponent(shareURL)+"&pic="+encodeURIComponent(shareImg)+"&source=bookmark","_blank");
-		};
-		$.ajax({
-			url: '/cases/getNavRecommend',
-			type: "POST",
-			data: {},
-			success: function(data) {
-				if (!checkJsonIsEmpty(data)) {
-					$("#nav_recommend_title").html(data[0].title);
-					$("#nav_recommend_image").attr("src", "/cglx/files/imgs/" + data[0].image);
-					$("#nav_recommend_href").attr("href", "item.html?id="+data[0].id); 
-					
-					if(data.length >= 2) {
-						$("#nav_recommend_title2").html(data[1].title);
-						$("#nav_recommend_image2").attr("src", "/cglx/files/imgs/" + data[1].image);
-						$("#nav_recommend_href2").attr("href", "item.html?id="+data[1].id); 
-					} else {
-						$('#recommond2').css('display', 'none');
+			});
+			$.ajax({
+				url: '/medias/getMediaById',
+				type: "POST",
+				data: {id:id},
+				success: function(data) {
+					if (!checkJsonIsEmpty(data)) {
+						$("#article_tag").html(data.name);
+						$("#publish_time").html(data.publish_time);
+						$("#article_title").html(data.title);
+						if(data.video_src == undefined || data.video_src == '') {
+							$('#video_src').css('display', 'none');
+						} else {
+							document.getElementById("video_src").src = data.video_src;
+							document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.image;
+						}
+						$("#article_author_").html(data.author);
+						$("#article-title").html(data.title);
+						$("#article-intro").html(data.abstract);
+						$("#article-photo").html(data.snapshot);
+						$("#article_detail").html(data.contents);
+						$("#share_weibo").attr("url", window.location.href);
+						$("#share_weibo").attr("title", data.title);
+						$("#share_weibo").attr("image", "/cglx/files/imgs/"+data.snapshot);
 					}
+				},
+				error: function(status, error) {
 				}
-			},
-			error: function(status, error) {
-			}
-		}); */
+			});
+			function callshare(){
+				var shareTitle = $("#share_weibo").attr("title");
+				var shareImg = $("#share_weibo").attr("image");
+				var shareURL = $("#share_weibo").attr("url");
+				window.open("http://v.t.sina.com.cn/share/share.php?title="+encodeURIComponent(shareTitle)+"&url="+encodeURIComponent(shareURL)+"&pic="+encodeURIComponent(shareImg)+"&source=bookmark","_blank");
+			};
+			$.ajax({
+				url: '/cases/getNavRecommend',
+				type: "POST",
+				data: {},
+				success: function(data) {
+					if (!checkJsonIsEmpty(data)) {
+						$("#nav_recommend_title").html(data[0].title);
+						$("#nav_recommend_image").attr("src", "/cglx/files/imgs/" + data[0].image);
+						$("#nav_recommend_href").attr("href", "item.html?id="+data[0].id); 
+						
+						if(data.length >= 2) {
+							$("#nav_recommend_title2").html(data[1].title);
+							$("#nav_recommend_image2").attr("src", "/cglx/files/imgs/" + data[1].image);
+							$("#nav_recommend_href2").attr("href", "item.html?id="+data[1].id); 
+						} else {
+							$('#recommond2').css('display', 'none');
+						}
+					}
+				},
+				error: function(status, error) {
+				}
+			}); 
 		</script>
 	</body>
 
