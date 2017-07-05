@@ -300,7 +300,7 @@
 										<div class="form-group">
 											<label for="inputEmail3" class="col-sm-2 control-label">申请方法</label>
 											<div class="col-sm-10">
-												<textarea class="form-control detail" id="train_target">
+												<textarea class="form-control detail" id="train_target" style="height:250px">
 												</textarea>
 											</div>
 										</div>
@@ -473,7 +473,10 @@
 				fd.append('background_enroll_time', $('#background_enroll_time').val());
 				fd.append('background_info', $('#background_info').val());
 				fd.append('background_enter_time', $('#background_enter_time').val());
-				fd.append('train_target', $('#train_target').val());
+				var train_target = $('#train_target').val();
+				train_target = train_target.replace(new RegExp(" ","gm"),"&nbsp;");
+				train_target = train_target.replace(new RegExp("\r","gm"),"<br/>");
+				//fd.append('train_target', $('#train_target').val().replaceAll(" ","&nbsp;").replaceAll("\r","<br/>"));
 				fd.append('offer_img', offer_img);
 				fd.append('major_eng', $('#major_eng').val());
 				fd.append('major_chi', $('#major_chi').val());
