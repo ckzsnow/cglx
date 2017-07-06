@@ -534,8 +534,7 @@
 					
 					//$("#train_target").html(data.background_apply_college+data.background_apply_major+"申请方法");
 					var train_target = data.train_target;
-					train_target.replace(/\n/g,"_@").replace(/\r/g, '_#').replace(/\s/g,"_$")
-					train_target = train_target.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/_$/g, '&nbsp;')
+					train_target = train_target.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;')
 					$("#train_target_detail").html(train_target);
 					//$("#enroll_info").html(data.background_apply_college+data.background_apply_major+"录取通知");
 					$("#enroll_info_img")[0].src = "/cglx/files/imgs/"+data.image;
