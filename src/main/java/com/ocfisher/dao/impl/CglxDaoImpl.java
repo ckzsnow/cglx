@@ -899,7 +899,7 @@ public class CglxDaoImpl implements ICglxDao {
 	public List<Map<String, Object>> getAllArticle() {
 		List<Map<String, Object>> retList = null;
 		try {
-			String sql = "select articles.*, tag.id as tag_id, tag.name as tag_name, DATE_FORMAT(articles.create_time, '%Y-%m-%d') as readable_date from articles as articles INNER JOIN tag as tag on tag.id=articles.tag_id order by articles.create_time desc limit 0, 30";
+			String sql = "select articles.*, tag.id as tag_id, tag.name as tag_name, DATE_FORMAT(articles.create_time, '%Y-%m-%d') as readable_date from articles as articles INNER JOIN tag as tag on tag.id=articles.tag_id order by articles.create_time desc limit 0, 300";
 			retList = jdbcTemplate.queryForList(sql);
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
