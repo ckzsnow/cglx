@@ -233,7 +233,7 @@ public class CourseController {
 		return courseDao.getPaidCourse(user_id);
 	} 
 	
-	@RequestMapping()
+	@RequestMapping("/course/getSubcourseDetailById")
 	@ResponseBody
 	public Map<String, Object> getSubcourseDetailById(HttpServletRequest request) {
 		String id = request.getParameter("id");
