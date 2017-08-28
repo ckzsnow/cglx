@@ -1,3 +1,5 @@
+var user_id = '';
+
 $.ajax({
 	url: '/user/getUserInfo',
 	type: "POST",
@@ -5,6 +7,7 @@ $.ajax({
 	success: function(data) {
 		if (!checkJsonIsEmpty(data)) {
 			$("#user_id").html(data.user_id);
+			user_id = data.user_id;
 			$(".login-false-wrapper").hide();
 			$(".login-success-wrapper").show();
 			$("#mobile_not_login").hide();
@@ -29,6 +32,7 @@ $("#login_submit").click(function(){
 					$("#login_tip").html(data.error_msg);
 				} else {
 					if(data.user_type == "1") window.location.href="/background/bannerlist.html";
+					user_id = data.user_id;
 					$("#user_id").html(data.user_id);
 					$(".pc-login").hide();
 					$(".login-false-wrapper").hide();

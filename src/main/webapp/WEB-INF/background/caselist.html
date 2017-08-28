@@ -233,10 +233,12 @@
 				}
 				$('.delete').on('click', function() {
 					var id = $(this).attr('id');
-					$.post('/cases/deleteCase', {id:id}, function(data) {
-						alert(data.msg);
-						window.location.reload();
-					});
+					if(confirm("您确定要删除当前选定的数据吗？")) {
+						$.post('/cases/deleteCase', {id:id}, function(data) {
+							alert(data.msg);
+							window.location.reload();
+						});
+					}
 				});
 			});
 			

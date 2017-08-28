@@ -186,6 +186,13 @@
 			<artifactId>qiniu-java-sdk</artifactId>
 			<version>[7.0.0, 7.0.99]</version>
 		</dependency>
+		
+		<dependency>
+          <groupId>com.alipay</groupId>
+          <artifactId>sdk-java</artifactId>
+          <version>20170209153223</version>
+    	</dependency>
+		
 	</dependencies>
 
 	<build>

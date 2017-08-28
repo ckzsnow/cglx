@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -207,10 +208,11 @@ public class APIController {
 	}
 
 	private String getGernarateFileName(MultipartFile file) {
-		Random rdm = new Random(System.currentTimeMillis());
+		//Random rdm = new Random(System.currentTimeMillis());
 		String extendName = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf(".") + 1);
-		return System.currentTimeMillis() + Math.abs(rdm.nextInt()) % 1000
-				+ (extendName == null ? ".unknown" : "." + extendName);
+		/*return System.currentTimeMillis() + Math.abs(rdm.nextInt()) % 1000
+				+ (extendName == null ? ".unknown" : "." + extendName);*/
+		return UUID.randomUUID().toString() + (extendName == null ? ".unknown" : "." + extendName);
 	}
 
 	// banner

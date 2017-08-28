@@ -72,6 +72,8 @@
 	<mvc:resources mapping="/background/**" location="/WEB-INF/background/" cache-period="0" />
 	<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" cache-period="0" />
 	<mvc:resources mapping="/cglx/files/imgs/**" location="file:/data/cglx/files/imgs/" cache-period="0"/>
+	
+	<mvc:resources mapping="/courses/**" location="/WEB-INF/courses/" cache-period="0" />
 	<!-- static resources config end -->	
 
 	<!-- database config begin -->
@@ -95,5 +97,7 @@
 	<context:component-scan base-package="com.ocfisher.common" />
 	<context:component-scan base-package="com.ocfisher.controller" />
 	<context:component-scan base-package="com.ocfisher.dao.impl" />
+	<context:component-scan base-package="com.course.controller" />
+	<context:component-scan base-package="com.course.dao.impl" />
 
 </beans>

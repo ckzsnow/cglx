@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)http://www.xfz.cn/course/117.html -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport"
+	content="user-scalable=no,width=device-width,initial-scale=1.0">
+<meta name="keywords"
+	content="留学、美国留学、英国留学、澳洲留学、加拿大留学、韩国留学、日本留学、法国留学、德国留学、欧洲留学、新西兰留学、香港留学、新加坡留学、留学申请、留学文书、个人陈述、留学简历、留学推荐信、DIY留学、留学中介">
+<meta name="description"
+	content="DIY研习社是国内首家留学互助共享平台，致力于为所有留学申请者提供资源共享、交际交流的渠道和机会，社员和内容覆盖留学申请所有主流国家。">
+<title>DIY研习社－中国留学生互助交流平台，让留学不孤单</title>
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+
+<link href="/courses/css/video.min.css" rel="stylesheet">
+<script src="/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/login.css">
+
+</head>
+<body device="pc">
+	<header class="header">
+		<div class="transparent-mask"></div>
+		<div class="contain">
+			<div class="logo">
+				<a href="homepage.html"></a>
+			</div>
+			<nav class="PC-nav">
+				<ul>
+					<li class="news" data-id="news"><a href="homepage.html">留学专栏</a>
+					</li>
+					<li class="active"><a href="courses.html">在线课程</a></li>
+					<li class="activity" data-id="activity"><a
+						href="success.html">成功案例</a></li>
+					<li class="gift" data-id="gift"><a href="about.html">关于我们</a>
+					</li>
+					<li class="ventureservice" data-id="ventureservice"><a
+						href="report.html">社员风采</a></li>
+					<li class="search" data-id="search"><a href="search.html">搜索</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="mobile-nav">
+				<i class="top-menu-expand-icon"></i>
+				<ul class="nav-list">
+					<li class="news" data-id="news"><a href="homepage.html">留学专栏</a>
+					</li>
+					<li class="course active" data-id="course"><a
+						href="success.html">成功案例</a></li>
+				</ul>
+				<ul class="expand-nav-list" id="mobile_not_login">
+					<li class="user-info"><a href="javascript:void(0)"
+						id="login-btn-m">登录</a></li>
+					<li class="activity"><a href="success.html">成功案例</a></li>
+					<li class="search"><a href="report.html">社员风采</a></li>
+				</ul>
+				<ul class="expand-nav-list" id="mobile_login" style="display: none;">
+					<li class="activity"><a href="personalInfo.html"
+						class="myorder-btn">个人信息</a></li>
+					<li class="search"><a href="estimate.html">背景评估</a></li>
+					<li class="search"><a href="javascript:userlogout();">退出</a></li>
+				</ul>
+			</nav>
+			<div class="login-container">
+				<div class="logout" id="logout"
+					style="display: none; height: 140px;">
+					<i class="triangle"></i> <a href="personalInfo.html"
+						class="myorder-btn">个人信息</a> <a href="estimate.html">背景评估</a> <a
+						href="javascript:userlogout();">退出</a>
+				</div>
+				<div class="login-false-wrapper">
+					<i class="icon"></i> <a href="javascript:void(0)" id="login-btn">登录</a>
+				</div>
+				<div class="login-success-wrapper" style="display: none;">
+					<div class="photo">
+						<img src="/images/topic_photo.png">
+					</div>
+					<div class="name" id="user_id"></div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="cglx-login-mask pc-login"
+		style="display: none; position: fixed; z-index: 99999; background: rgba(56, 62, 68, .9)">
+		<div class="login-dialog dialog" id="login_view">
+			<div class="login-close close"></div>
+			<div class="dialog-bg">
+				<div class="dialog-title"
+					style="background: url(/images/logo.png) no-repeat center; width: 320px; height: 45px"></div>
+			</div>
+			<div class="login-fill-card">
+				<div class="login-card card">
+					<div class="inputs">
+						<div class="login-phone-input">
+							<input id="login_phone" type="text" pattern="^\d{11}$"
+								class="login-phone input long-input" placeholder="请输入手机号"
+								maxlength="11" autocomplete="off"> <i
+								class="phone-status-icon"></i>
+						</div>
+						<p class="button-height"></p>
+						<div class="login-phone-input">
+							<input id="login_pwd" type="password"
+								class="login-phone-pwd input long-input" style="margin: 0 auto;"
+								placeholder="请输入密码" maxlength="11" autocomplete="off">
+						</div>
+						<p class="button-height"></p>
+						<p class="phone-tips" id="login_tip" style="display: none;"></p>
+						<div class="login-submit submit" id="login_submit">登录</div>
+						<p class="voice-code" style="text-align: center;">
+							<span style="text-decoration: none;"><a
+								href="javascript:$('#login_view').hide();$('#register_view').show();">注册账号</a></span>
+							<span style="color: black; cursor: none; text-decoration: none;">|</span>
+							<span style="text-decoration: none;"><a
+								href="javascript:$('#login_view').hide();$('#forget_view').show();">忘记密码</a></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="login-dialog dialog" id="register_view"
+			style="display: none; height: 330px;">
+			<div class="login-close close"></div>
+			<div class="dialog-bg">
+				<div class="dialog-title"
+					style="background: url(/images/logo.png) no-repeat center; width: 320px; height: 45px"></div>
+			</div>
+			<div class="login-fill-card">
+				<div class="login-card card"
+					style="height: 240px; margin-top: -102px;">
+					<div class="inputs">
+						<div class="login-phone-input">
+							<input id="reg_phone" type="text" pattern="^\d{11}$"
+								class="login-phone input long-input" placeholder="仅支持中国大陆手机号"
+								maxlength="11" autocomplete="off">
+						</div>
+						<p class="button-height"></p>
+						<div class="login-phone-input">
+							<input id="reg_pwd" type="password"
+								class="login-phone-pwd input long-input" style="margin: 0 auto;"
+								placeholder="请输入密码" maxlength="11" autocomplete="off">
+						</div>
+						<p class="button-height"></p>
+						<div class="verify">
+							<input id="reg_verify" type="text" pattern="^\d{4}$"
+								class="verify-code input short-input" placeholder="验证码"
+								maxlength="4" validate="^\d{4}$" autocomplete="off"> <input
+								id="reg_get_code" type="button"
+								class="send-verify-code input-button short-button btn-disable"
+								send="false" value="发送验证码">
+						</div>
+						<p class="button-height"></p>
+						<p class="phone-tips" id="reg_tip" style="display: none;"></p>
+						<div class="login-submit submit" id="reg_submit">注册</div>
+						<p class="voice-code" style="text-align: center;">
+							<span style="text-decoration: none;"><a
+								href="javascript:$('#register_view').hide();$('#login_view').show();">登录账号</a></span>
+							<span style="color: black; cursor: none; text-decoration: none;">|</span>
+							<span style="text-decoration: none;"><a
+								href="javascript:$('#register_view').hide();$('#forget_view').show();">忘记密码</a></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="login-dialog dialog" id="forget_view"
+			style="display: none; height: 330px;">
+			<div class="login-close close"></div>
+			<div class="dialog-bg">
+				<div class="dialog-title"
+					style="background: url(/images/logo.png) no-repeat center; width: 320px; height: 45px"></div>
+			</div>
+			<div class="login-fill-card">
+				<div class="login-card card"
+					style="height: 240px; margin-top: -102px;">
+					<div class="inputs">
+						<div class="login-phone-input">
+							<input id="forget_phone" type="text" pattern="^\d{11}$"
+								class="login-phone input long-input" placeholder="仅支持中国大陆手机号"
+								maxlength="11" autocomplete="off">
+						</div>
+						<p class="button-height"></p>
+						<div class="login-phone-input">
+							<input id="forget_pwd" type="password"
+								class="login-phone-pwd input long-input" style="margin: 0 auto;"
+								placeholder="设定新密码" maxlength="11" autocomplete="off">
+						</div>
+						<p class="button-height"></p>
+						<div class="verify">
+							<input id="forget_verify" type="text" pattern="^\d{4}$"
+								class="verify-code input short-input" placeholder="验证码"
+								maxlength="4" validate="^\d{4}$" autocomplete="off"> <input
+								id="forget_get_code" type="button"
+								class="send-verify-code input-button short-button btn-disable"
+								send="false" value="发送验证码">
+						</div>
+						<p class="button-height"></p>
+						<p class="phone-tips" id="forget_tip" style="display: none;"></p>
+						<div class="login-submit submit" id="forget_submit">提交</div>
+						<p class="voice-code" style="text-align: center;">
+							<span style="text-decoration: none;"><a
+								href="javascript:$('#forget_view').hide();$('#login_view').show();">登录账号</a></span>
+							<span style="color: black; cursor: none; text-decoration: none;">|</span>
+							<span style="text-decoration: none;"><a
+								href="javascript:$('#forget_view').hide();$('#register_view').show();">注册账号</a></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="cglx-login-mask mobile-login"
+		style="display: none; position: fixed; top: 0; bottom: 0; left: 0; right: 0; z-index: 99999; background: rgba(0, 0, 0, .8);">
+		<div class="mobile-dialog login-regist" id="mobile_login_view">
+			<div class="login-close close"></div>
+			<div class="login-regist-card card" data-show="true">
+				<div class="logo"></div>
+				<div class="login-regist-phone-input">
+					<input id="mobile_login_phone" type="tel" pattern="^d{11}$"
+						class="login-phone input long-input" placeholder="手机号"
+						maxlength="11"> <i class="phone-status-icon"></i>
+				</div>
+				<div class="login-regist-phone-input">
+					<input id="mobile_login_pwd" type="password"
+						class="login-phone input long-input" placeholder="密码"
+						maxlength="11"> <i class="phone-status-icon"></i>
+				</div>
+				<p class="tips" id="mobile_login_tip"></p>
+				<div class="login-submit submit" id="mobile_login_submit">立即登录</div>
+				<p class="voice-code" style="text-align: center;">
+					<span style="text-decoration: none;"><a
+						href="javascript:$('#mobile_login_view').hide();$('#mobile_register_view').show();">注册账号</a></span>
+					<span style="color: black; cursor: none; text-decoration: none;">|</span>
+					<span style="text-decoration: none;"><a
+						href="javascript:$('#mobile_login_view').hide();$('#mobile_forget_view').show();">忘记密码</a></span>
+				</p>
+			</div>
+		</div>
+		<div class="mobile-dialog login-regist" style="display: none;"
+			id="mobile_register_view">
+			<div class="login-close close"></div>
+			<div class="login-regist-card card" data-show="true">
+				<div class="logo"></div>
+				<div class="login-regist-phone-input">
+					<input id="mobile_reg_phone" type="tel" pattern="^d{11}$"
+						class="login-phone input long-input" placeholder="手机号"
+						maxlength="11"> <i class="phone-status-icon"></i>
+				</div>
+				<div class="login-regist-phone-input">
+					<input id="mobile_reg_pwd" type="password"
+						class="login-phone input long-input" placeholder="密码"
+						maxlength="11"> <i class="phone-status-icon"></i>
+				</div>
+				<p class="p-height"></p>
+				<div class="verify">
+					<input id="mobile_reg_verify" type="tel" pattern="^d{4}$"
+						class="verify-code input short-input" placeholder="验证码"
+						maxlength="4" validate="^d{4}$">
+					<div id="mobile_reg_get_code"
+						class="send-verify-code input-button short-button btn-disable"
+						send="false">发送验证码</div>
+				</div>
+				<p class="tips" id="mobile_reg_tip"></p>
+				<div class="login-submit submit" id="mobile_reg_submit">立即注册</div>
+				<p class="voice-code" style="text-align: center;">
+					<span style="text-decoration: none;"><a
+						href="javascript:$('#mobile_register_view').hide();$('#mobile_login_view').show();">登录账号</a></span>
+					<span style="color: black; cursor: none; text-decoration: none;">|</span>
+					<span style="text-decoration: none;"><a
+						href="javascript:$('#mobile_register_view').hide();$('#mobile_forget_view').show();">忘记密码</a></span>
+				</p>
+			</div>
+		</div>
+		<div class="mobile-dialog login-regist" style="display: none;"
+			id="mobile_forget_view">
+			<div class="login-close close"></div>
+			<div class="login-regist-card card" data-show="true">
+				<div class="logo"></div>
+				<div class="login-regist-phone-input">
+					<input id="mobile_forget_phone" type="tel" pattern="^d{11}$"
+						class="login-phone input long-input" placeholder="手机号"
+						maxlength="11"> <i class="phone-status-icon"></i>
+				</div>
+				<div class="login-regist-phone-input">
+					<input id="mobile_forget_pwd" type="password"
+						class="login-phone input long-input" placeholder="设定新密码"
+						maxlength="11"> <i class="phone-status-icon"></i>
+				</div>
+				<p class="p-height"></p>
+				<div class="verify">
+					<input id="mobile_forget_verify" type="tel" pattern="^d{4}$"
+						class="verify-code input short-input" placeholder="验证码"
+						maxlength="4" validate="^d{4}$">
+					<div id="mobile_forget_get_code"
+						class="send-verify-code input-button short-button btn-disable"
+						send="false">发送验证码</div>
+				</div>
+				<p class="tips" id="mobile_forget_tip"></p>
+				<div class="login-submit submit" id="mobile_forget_submit">提交</div>
+				<p class="voice-code" style="text-align: center;">
+					<span style="text-decoration: none;"><a
+						href="javascript:$('#mobile_forget_view').hide();$('#mobile_login_view').show();">登录账号</a></span>
+					<span style="color: black; cursor: none; text-decoration: none;">|</span>
+					<span style="text-decoration: none;"><a
+						href="javascript:$('#mobile_forget_view').hide();$('#mobile_register_view').show();">注册账号</a></span>
+				</p>
+			</div>
+		</div>
+	</div>
+	<div class="modal-mask"></div>
+	<div class="wrapper" id="wrapper">
+		<nav class="video-nav">
+			<div class="container">
+				<div class="nav-title">
+					<a href="courses.html">在线课堂</a>
+				</div>
+				<ul>
+					<li class="active"><a href="courses.html">最新课程</a></li>
+					<li><a href="essay.html">文书写作</a></li>
+					<li><a href="major.html">院校专业</a></li>
+					<li><a href="case.html">成功案例</a></li>
+					<li><a href="experience.html">留学体验</a></li>
+					<li><a href="series.html">系列课</a></li>
+				</ul>
+				<div class="my-course">我的课堂</div>
+			</div>
+		</nav>
+		<!-- mobile nav -->
+		<nav class="second-mobile-nav">
+			<ul>
+				<li class="active"><a href="courses.html">最新课程</a></li>
+				<li><a href="essay.html">文书写作</a></li>
+				<li><a href="major.html">院校专业</a></li>
+				<li><a href="case.html">成功案例</a></li>
+				<li><a href="experience.html">留学体验</a></li>
+				<li><a href="series.html">系列课</a></li>
+				<li class="my-course">我的课堂</li>
+			</ul>
+		</nav>
+		<div class="page-video">
+			<div class="detail-content">
+				<div class="video">
+					<div class="banner">
+						<div class="banner-left">
+							<div class="video-title" id="title"></div>
+							<div class="video-info">
+								<div class="wxApi">
+									<input type="hidden" name="course-photo" id="course-photo"
+										value="#">
+								</div>
+								<div class="share">
+									<i>分享至：</i> <a class="share_bg weixin"></a> <a
+										class="share_bg sina" target="_blank"
+										href=""></a>
+									<wb:share-button appkey="123673426" addition="simple" type="icon"></wb:share-button>
+									<div class="panel-weixin">
+										<section class="weixin-section">
+											<p>
+												<img alt="" src="">
+											</p>
+										</section>
+										<h3>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="buy-link">
+
+							<div class="price">
+								<span>¥</span><span id="cost"></span>
+							</div>
+							<div class="buy-btn not_buy join-button watch-video">购买课程</div>
+
+						</div>
+					</div>
+
+
+					<div class="video-detail watch-video">
+						<div class="no-auth-player">
+							<div class="bg-photo">
+								<img
+									src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1499665647_146.jpg">
+							</div>
+							<div class="no-login-mask">
+								<div class="player-icon">
+									<img
+										src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/pc-icon-replay.png">
+								</div>
+								<div class="price-pay-box">
+									<div class="price">
+										<span>¥</span>59
+									</div>
+									<div class="join-button watch-video">购买课程</div>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="mobile-buy-status">
+					<div class="title">创业必备的新时代人才观</div>
+					<div class="time">时长: 27分钟</div>
+
+					<div class="buy-status no-buy">未购买</div>
+
+					<!-- 所属系列课手机 -->
+
+					<div class="series-recommend">
+						<span class="tips"></span>
+						<p class="info-title">所属系列课:CEO及高管的人才必修课</p>
+						<div class="info">
+							<div class="price-and-len">
+								<p>
+									组合价: <span>¥199</span>(省155元)
+								</p>
+								<p>共6节课 - 5小时</p>
+							</div>
+							<div class="detail">
+								<a href="http://www.xfz.cn/course/series/7.html" target="_blank">查看详情&gt;</a>
+							</div>
+						</div>
+					</div>
+
+
+				</div>
+
+				<div class="info-left">
+					<!-- 所属系列课pc -->
+
+					<div class="series-info">
+						<div class="sub-title">
+							<span>所属系列课</span>
+						</div>
+						<div class="main-content">
+							<div class="info-img-left">
+								<img src="" id="parent_snapshot">
+							</div>
+							<div class="info-detail-right">
+								<p class="content" id="parent_title"></p>
+								<div class="price-and-len">
+									<p>
+										组合价: <span id="parent_cost"></span>(省<span id="discount"></span>元)
+									</p>
+									<p>共<span id="sub_count"></span>节课 - <span id="sub_time_total"></span>小时</p>
+								</div>
+								<div class="detail">
+									<a href="http://www.xfz.cn/course/series/7.html"
+										target="_blank">查看详情&gt;</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div class="teacher-info">
+						<div class="teacher-title">课程讲师</div>
+						<div class="icon guide-img"></div>
+						<div class="guide-person">
+
+							<div class="photo">
+								<img src="" id="teacher_image">
+							</div>
+
+							<div class="person-info">
+								<span class="name" id="teacher"></span> <span class="position"
+									id="teacher_position"></span>
+							</div>
+						</div>
+						<div class="content" id="teacher_abstract"></div>
+					</div>
+
+					<div class="info">
+						<div class="sub-title">
+							<span>课程简介</span>
+						</div>
+						<div class="content">
+							<p id="description">
+							</p>
+						</div>
+					</div>
+
+
+
+					<div class="info">
+						<div class="sub-title">
+							<span>课程大纲</span>
+						</div>
+						<div class="content">
+							<p id="outline"></p>
+						</div>
+					</div>
+
+
+
+
+
+					<div class="info">
+						<div class="sub-title">
+							<span>课程信息</span>
+						</div>
+						<div class="content">
+							<p id="info"></p>
+						</div>
+					</div>
+
+
+
+					<div class="info">
+						<div class="sub-title">
+							<span>适宜人群</span>
+						</div>
+						<div class="content">
+							<p id="crowds">
+								
+							</p>
+						</div>
+					</div>
+
+
+					<div class="info">
+						<div class="sub-title">
+							<span>帮助中心</span>
+						</div>
+						<div class="content">
+							<p id="help">
+								
+							</p>
+						</div>
+					</div>
+					<div class="info">
+						<div class="sub-title">
+							<span>关于小饭桌在线课堂</span>
+						</div>
+						<div class="content">
+							<p id="about">
+								
+							</p>
+						</div>
+					</div>
+					<!-- 课程推荐 -->
+					<div class="info mobile-course-recommend">
+						<div class="sub-title">
+							<span>课程推荐</span>
+						</div>
+						<!-- 手机推荐课堂-->
+						<div class="course-recommend">
+							<div class="big">
+
+								<div class="recommend-big">
+									<a href="http://www.xfz.cn/course/series/10.html"
+										target="_blank"> <img
+										src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501670834_106.jpg-seriescourse.list"
+										alt="http://static-image.xfz.cn/1501670834_106.jpg">
+										<div class="detail">
+											<span class="left">共2节课</span> <span class="right"><span
+												class="free">免费</span> </span>
+										</div>
+									</a>
+								</div>
+
+								<div class="recommend-big">
+									<a href="http://www.xfz.cn/course/series/9.html"
+										target="_blank"> <img
+										src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501055014_550.jpg-seriescourse.list"
+										alt="http://static-image.xfz.cn/1501055014_550.jpg">
+										<div class="detail">
+											<span class="left">共3节课</span> <span class="right"><span
+												class="spend-price">¥39</span>(省120元) </span>
+										</div>
+									</a>
+								</div>
+
+							</div>
+							<div class="small">
+
+								<div class="recommend-every-course">
+									<a href="http://www.xfz.cn/course/107.html" target="_blank">
+										<div class="recommend-every-pic">
+											<img
+												src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501671804_236.jpg-course.list.small"
+												alt="http://static-image.xfz.cn/1501671804_236.jpg">
+										</div>
+										<div class="recommend-every-introduct">
+											<div class="every-title">文化娱乐产业投资逻辑</div>
+											<div class="every-price-mobile">
+
+												<span class="moneyfree">免费</span>
+											</div>
+										</div>
+									</a>
+								</div>
+
+								<div class="recommend-every-course">
+									<a href="http://www.xfz.cn/course/108.html" target="_blank">
+										<div class="recommend-every-pic">
+											<img
+												src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501828939_488.jpg-course.list.small"
+												alt="http://static-image.xfz.cn/1501828939_488.jpg">
+										</div>
+										<div class="recommend-every-introduct">
+											<div class="every-title">投资人眼中的好内容</div>
+											<div class="every-price-mobile">
+
+												<span class="moneyfree">免费</span>
+											</div>
+										</div>
+									</a>
+								</div>
+
+								<div class="recommend-every-course">
+									<a href="http://www.xfz.cn/course/124.html" target="_blank">
+										<div class="recommend-every-pic">
+											<img
+												src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1500973576_191.jpg-course.list.small"
+												alt="http://static-image.xfz.cn/1500973576_191.jpg">
+										</div>
+										<div class="recommend-every-introduct">
+											<div class="every-title">从阿里价值观看“中供”铁军的成功秘诀</div>
+											<div class="every-price-mobile">
+
+												<span class="money">￥19</span>
+											</div>
+										</div>
+									</a>
+								</div>
+
+								<div class="recommend-every-course">
+									<a href="http://www.xfz.cn/course/125.html" target="_blank">
+										<div class="recommend-every-pic">
+											<img
+												src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1500973259_428.jpg-course.list.small"
+												alt="http://static-image.xfz.cn/1500973259_428.jpg">
+										</div>
+										<div class="recommend-every-introduct">
+											<div class="every-title">大神之路：一线销售如何蜕变到企业CEO</div>
+											<div class="every-price-mobile">
+
+												<span class="money">￥19</span>
+											</div>
+										</div>
+									</a>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+				<div class="info-right">
+					<!-- pc推荐课堂 -->
+					<div class="recommend">
+						<div class="sub-title">
+							<span>推荐课堂</span>
+						</div>
+						<div class="recommend-big">
+
+							<div class="item">
+								<a href="http://www.xfz.cn/course/series/10.html">
+									<div class="photo">
+										<img
+											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501670834_106.jpg-course.list.small">
+									</div>
+									<div class="info">
+										<span class="left">共2节课</span> <span class="right"><span
+											class="free">免费</span> </span>
+									</div>
+								</a>
+							</div>
+
+							<div class="item">
+								<a href="http://www.xfz.cn/course/series/9.html">
+									<div class="photo">
+										<img
+											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501055014_550.jpg-course.list.small">
+									</div>
+									<div class="info">
+										<span class="left">共3节课</span> <span class="right"><span
+											class="spend-price">¥39</span>(省120元) </span>
+									</div>
+								</a>
+							</div>
+
+						</div>
+						<div class="recommend-small">
+
+							<div class="every-course">
+								<a href="http://www.xfz.cn/course/107.html">
+									<div class="info-left-recommond">
+										<div class="video-title">文化娱乐产业投资逻辑</div>
+										<div class="video-teacher">陈悦天/辰海资本合伙人</div>
+									</div>
+									<div class="photo-right">
+										<span class="tags"></span> <img
+											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501671804_236.jpg-course.list.small"
+											alt="">
+									</div>
+								</a>
+							</div>
+
+							<div class="every-course">
+								<a href="http://www.xfz.cn/course/108.html">
+									<div class="info-left-recommond">
+										<div class="video-title">投资人眼中的好内容</div>
+										<div class="video-teacher">陈悦天/辰海资本合伙人</div>
+									</div>
+									<div class="photo-right">
+										<span class="tags"></span> <img
+											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501828939_488.jpg-course.list.small"
+											alt="">
+									</div>
+								</a>
+							</div>
+
+							<div class="every-course">
+								<a href="http://www.xfz.cn/course/124.html">
+									<div class="info-left-recommond">
+										<div class="video-title">从阿里价值观看“中供”铁军的成功秘诀</div>
+										<div class="video-teacher">和阳/重读创始人&amp;主编</div>
+									</div>
+									<div class="photo-right">
+										<span class="tags"></span> <img
+											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1500973576_191.jpg-course.list.small"
+											alt="">
+									</div>
+								</a>
+							</div>
+
+							<div class="every-course">
+								<a href="http://www.xfz.cn/course/125.html">
+									<div class="info-left-recommond">
+										<div class="video-title">大神之路：一线销售如何蜕变到企业CEO</div>
+										<div class="video-teacher">和阳/重读创始人&amp;主编</div>
+									</div>
+									<div class="photo-right">
+										<span class="tags"></span> <img
+											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1500973259_428.jpg-course.list.small"
+											alt="">
+									</div>
+								</a>
+							</div>
+
+						</div>
+					</div>
+
+				</div>
+
+				<!-- 购买课程 -->
+				<div class="bottom-buy-link-wrap">
+					<div class="bottom-buy-link" style="display: none;">
+						<div class="buy-link-btn watch-video">购买课程</div>
+						<div class="info">创业必备的新时代人才观</div>
+
+						<div class="price">
+							<span>￥</span> 59
+						</div>
+
+					</div>
+				</div>
+
+				<div class="bottom-buy-link-float" style="display: none;">
+					<div class="buy-link-btn watch-video">购买课程</div>
+					<div class="info">创业必备的新时代人才观</div>
+
+					<div class="price">
+						<span>￥</span> 59
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<!-- <div class="loading"></div> -->
+		<div class="mask">
+			<div class="bigImg"></div>
+		</div>
+	</div>
+
+	<footer class="footer-simple">
+		<div class="section">
+			<section class="link-section">
+				<a href="apply_report.html" target="_blank">
+					<div class="foot-logo"></div>
+				</a>
+				<div class="links">
+					<a href="about.html" target="_blank"> </a> <a href="about.html">关于我们</a>
+					| <a href="report.html">社员风采</a>
+					<!-- | <a
+						href="http://www.xfz.cn/apply/media/?code=report&amp;channel=web"
+						target="_blank">寻求报道</a> | <a href="http://www.xfz.cn/xfzgifts"
+						target="_blank">创业礼包</a> -->
+				</div>
+				<div class="attention">
+					关注我们： <a class="showWx"><span class="wx">DIY研习社</span></a> <a
+						class="showXl" href="http://weibo.com/u/5108257900"
+						target="_blank"><span class="xl">DIY研习社</span></a>
+					<div class="wxQr"></div>
+				</div>
+				<div class="company-info">
+					<span class="address">
+						<!-- 地址：北京市朝阳区东三环北路38号院1号楼17层2001内1、16室 -->
+					</span> <span class="phonenum">
+						<!-- 联系方式：400-810-1090（工作日10点-18点) -->
+					</span>
+				</div>
+			</section>
+		</div>
+		<div class="bottom">
+			<p>©2017 沪ICP备13040906号－5</p>
+		</div>
+	</footer>
+
+	<script src="/courses/js/main.js"></script>
+	<script src="/js/login.js"></script>
+	<script src="/courses/js/course.min.js"></script>
+
+
+</body>
+</html>
