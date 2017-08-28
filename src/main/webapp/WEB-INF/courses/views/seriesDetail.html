@@ -578,6 +578,13 @@
 	<script type="text/javascript" src="/js/login2.js"></script>
 	<script src="/courses/js/courseSeriesDetail.min.js"></script>
 	<script type="text/javascript">
+	$('.name').on('click', function(event) {
+		event.stopPropagation();
+		$('#logout').toggle('fast');
+	});
+	$(document).on('click', function() {
+		$('#logout').hide(500);
+	});
 		(function ($) {
 	        $.getUrlParam = function (name) {
 	            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
