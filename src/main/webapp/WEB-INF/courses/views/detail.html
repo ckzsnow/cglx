@@ -29,8 +29,7 @@
 					<li class="news" data-id="news"><a href="homepage.html">留学专栏</a>
 					</li>
 					<li class="active"><a href="courses.html">在线课程</a></li>
-					<li class="activity" data-id="activity"><a
-						href="success.html">成功案例</a></li>
+					<li class="activity" data-id="activity"><a href="success.html">成功案例</a></li>
 					<li class="gift" data-id="gift"><a href="about.html">关于我们</a>
 					</li>
 					<li class="ventureservice" data-id="ventureservice"><a
@@ -306,7 +305,34 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal-mask"></div>
+	
+	<div class="modal-mask pc" style="opacity: 1; display: none;">
+		<div class="pay-fill-form-dialog dialog" style="opacity: 1;">
+		    <div class="pay-fill-form-close close"></div>
+		    <div class="content">
+		        <div class="title">请选择支付方式：</div>
+		        <div style="text-align:center">
+		        	<a href="#" id="alipay_btn"><img src="/courses/images/alipay.jpg" width="100px" height="70px" style="margin-right:100px"></a>
+		        	<a href="#" id="wechat_btn"><img src="/courses/images/WeChat.jpg" width="65px" height="60px"></a>
+		        </div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal-mask mobile" style="opacity: 1; display: none;">
+		<div class="pay-fill-form-dialog dialog" style="opacity: 1;">
+		    <div class="pay-fill-form-close close"></div>
+		    <div class="content">
+		        <div class="title">请选择支付方式：</div>
+		        <div style="text-align:center">
+		        	<a href="#" id="alipay_btn_mobile"><img src="/courses/images/alipay.jpg" width="100px" height="70px" style="margin-right:100px"></a>
+		        	<a href="#" id="wechat_btn_mobile"><img src="/courses/images/WeChat.jpg" width="65px" height="60px"></a>
+		        </div>
+			</div>
+		</div>
+	</div>
+
+
 	<div class="wrapper" id="wrapper">
 		<nav class="video-nav">
 			<div class="container">
@@ -339,23 +365,25 @@
 		<div class="page-video">
 			<div class="detail-content">
 				<div class="video">
+					<!-- 视频区 头部banner -->
 					<div class="banner">
+						<!-- banner信息 -->
 						<div class="banner-left">
-							<div class="video-title" id="title"></div>
+							<div class="video-title course_title"></div>
 							<div class="video-info">
 								<div class="wxApi">
 									<input type="hidden" name="course-photo" id="course-photo"
-										value="#">
+										value="http://static-image.xfz.cn/1503558453_980.jpg">
 								</div>
 								<div class="share">
 									<i>分享至：</i> <a class="share_bg weixin"></a> <a
-										class="share_bg sina" target="_blank"
-										href=""></a>
-									<wb:share-button appkey="123673426" addition="simple" type="icon"></wb:share-button>
+										class="share_bg sina" target="_blank"></a>
+									<wb:share-button appkey="123673426" addition="simple"
+										type="icon"></wb:share-button>
 									<div class="panel-weixin">
 										<section class="weixin-section">
 											<p>
-												<img alt="" src="">
+												<img alt="UDIY" src="">
 											</p>
 										</section>
 										<h3>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</h3>
@@ -363,44 +391,51 @@
 								</div>
 							</div>
 						</div>
-
+						<!-- banner buy button -->
 						<div class="buy-link">
 
+
 							<div class="price">
-								<span>¥</span><span id="cost"></span>
+								<span>¥</span><span class="cost"></span>
 							</div>
-							<div class="buy-btn not_buy join-button watch-video">购买课程</div>
+
+							<!-- button -->
+
+							<div class="buy-btn not_buy join-button watch-video">立即购买</div>
+
 
 						</div>
 					</div>
-
-
+					<!-- 视频播放区 -->
 					<div class="video-detail watch-video">
+						<!-- request.session.member  == is_login 但是这里不能直接用 is_login -->
+
+						<!-- 无播放权限 -->
 						<div class="no-auth-player">
 							<div class="bg-photo">
-								<img
-									src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1499665647_146.jpg">
+								<img src="http://static-image.xfz.cn/1503558453_980.jpg">
 							</div>
 							<div class="no-login-mask">
 								<div class="player-icon">
-									<img
-										src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/pc-icon-replay.png">
+									<img src="/static/build/images/pc-icon-replay.png">
 								</div>
 								<div class="price-pay-box">
-									<div class="price">
-										<span>¥</span>59
-									</div>
-									<div class="join-button watch-video">购买课程</div>
-								</div>
 
+									<div class="price">
+										<span>¥</span><span class="cost"></span>
+									</div>
+									<div class="join-button watch-video">立即购买</div>
+
+								</div>
 							</div>
 						</div>
 
 					</div>
 				</div>
+				<!-- mobile 购买按钮状态 -->
 				<div class="mobile-buy-status">
-					<div class="title">创业必备的新时代人才观</div>
-					<div class="time">时长: 27分钟</div>
+					<div class="title course_title"></div>
+					<div class="time">时长: <span id="time"></span>分钟</div>
 
 					<div class="buy-status no-buy">未购买</div>
 
@@ -408,23 +443,19 @@
 
 					<div class="series-recommend">
 						<span class="tips"></span>
-						<p class="info-title">所属系列课:CEO及高管的人才必修课</p>
+						<p class="info-title">所属系列课:<span class="parent_title"></span></p>
 						<div class="info">
 							<div class="price-and-len">
-								<p>
-									组合价: <span>¥199</span>(省155元)
-								</p>
-								<p>共6节课 - 5小时</p>
 							</div>
 							<div class="detail">
-								<a href="http://www.xfz.cn/course/series/7.html" target="_blank">查看详情&gt;</a>
+								<a class="parent_href" target="_blank">查看详情></a>
 							</div>
 						</div>
 					</div>
 
 
 				</div>
-
+				<!-- 课程详情介绍 -->
 				<div class="info-left">
 					<!-- 所属系列课pc -->
 
@@ -434,19 +465,14 @@
 						</div>
 						<div class="main-content">
 							<div class="info-img-left">
-								<img src="" id="parent_snapshot">
+								<img id="parent_snapshot" >
 							</div>
 							<div class="info-detail-right">
-								<p class="content" id="parent_title"></p>
+								<p class="content parent_title"></p>
 								<div class="price-and-len">
-									<p>
-										组合价: <span id="parent_cost"></span>(省<span id="discount"></span>元)
-									</p>
-									<p>共<span id="sub_count"></span>节课 - <span id="sub_time_total"></span>小时</p>
 								</div>
 								<div class="detail">
-									<a href="http://www.xfz.cn/course/series/7.html"
-										target="_blank">查看详情&gt;</a>
+									<a class="parent_href" target="_blank">查看详情></a>
 								</div>
 							</div>
 						</div>
@@ -459,7 +485,7 @@
 						<div class="guide-person">
 
 							<div class="photo">
-								<img src="" id="teacher_image">
+								<img id="teacher_image" src="">
 							</div>
 
 							<div class="person-info">
@@ -475,8 +501,7 @@
 							<span>课程简介</span>
 						</div>
 						<div class="content">
-							<p id="description">
-							</p>
+							<p id="description"></p>
 						</div>
 					</div>
 
@@ -511,9 +536,7 @@
 							<span>适宜人群</span>
 						</div>
 						<div class="content">
-							<p id="crowds">
-								
-							</p>
+							<p id="crowds"></p>
 						</div>
 					</div>
 
@@ -523,9 +546,7 @@
 							<span>帮助中心</span>
 						</div>
 						<div class="content">
-							<p id="help">
-								
-							</p>
+							<p id="help"></p>
 						</div>
 					</div>
 					<div class="info">
@@ -534,245 +555,78 @@
 						</div>
 						<div class="content">
 							<p id="about">
-								
 							</p>
 						</div>
 					</div>
-					<!-- 课程推荐 -->
+					<!-- mobile 课程推荐 -->
 					<div class="info mobile-course-recommend">
 						<div class="sub-title">
 							<span>课程推荐</span>
 						</div>
 						<!-- 手机推荐课堂-->
 						<div class="course-recommend">
-							<div class="big">
-
-								<div class="recommend-big">
-									<a href="http://www.xfz.cn/course/series/10.html"
-										target="_blank"> <img
-										src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501670834_106.jpg-seriescourse.list"
-										alt="http://static-image.xfz.cn/1501670834_106.jpg">
-										<div class="detail">
-											<span class="left">共2节课</span> <span class="right"><span
-												class="free">免费</span> </span>
-										</div>
-									</a>
-								</div>
-
-								<div class="recommend-big">
-									<a href="http://www.xfz.cn/course/series/9.html"
-										target="_blank"> <img
-										src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501055014_550.jpg-seriescourse.list"
-										alt="http://static-image.xfz.cn/1501055014_550.jpg">
-										<div class="detail">
-											<span class="left">共3节课</span> <span class="right"><span
-												class="spend-price">¥39</span>(省120元) </span>
-										</div>
-									</a>
-								</div>
+							<div class="big" id="big">
 
 							</div>
-							<div class="small">
-
-								<div class="recommend-every-course">
-									<a href="http://www.xfz.cn/course/107.html" target="_blank">
-										<div class="recommend-every-pic">
-											<img
-												src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501671804_236.jpg-course.list.small"
-												alt="http://static-image.xfz.cn/1501671804_236.jpg">
-										</div>
-										<div class="recommend-every-introduct">
-											<div class="every-title">文化娱乐产业投资逻辑</div>
-											<div class="every-price-mobile">
-
-												<span class="moneyfree">免费</span>
-											</div>
-										</div>
-									</a>
-								</div>
-
-								<div class="recommend-every-course">
-									<a href="http://www.xfz.cn/course/108.html" target="_blank">
-										<div class="recommend-every-pic">
-											<img
-												src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501828939_488.jpg-course.list.small"
-												alt="http://static-image.xfz.cn/1501828939_488.jpg">
-										</div>
-										<div class="recommend-every-introduct">
-											<div class="every-title">投资人眼中的好内容</div>
-											<div class="every-price-mobile">
-
-												<span class="moneyfree">免费</span>
-											</div>
-										</div>
-									</a>
-								</div>
-
-								<div class="recommend-every-course">
-									<a href="http://www.xfz.cn/course/124.html" target="_blank">
-										<div class="recommend-every-pic">
-											<img
-												src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1500973576_191.jpg-course.list.small"
-												alt="http://static-image.xfz.cn/1500973576_191.jpg">
-										</div>
-										<div class="recommend-every-introduct">
-											<div class="every-title">从阿里价值观看“中供”铁军的成功秘诀</div>
-											<div class="every-price-mobile">
-
-												<span class="money">￥19</span>
-											</div>
-										</div>
-									</a>
-								</div>
-
-								<div class="recommend-every-course">
-									<a href="http://www.xfz.cn/course/125.html" target="_blank">
-										<div class="recommend-every-pic">
-											<img
-												src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1500973259_428.jpg-course.list.small"
-												alt="http://static-image.xfz.cn/1500973259_428.jpg">
-										</div>
-										<div class="recommend-every-introduct">
-											<div class="every-title">大神之路：一线销售如何蜕变到企业CEO</div>
-											<div class="every-price-mobile">
-
-												<span class="money">￥19</span>
-											</div>
-										</div>
-									</a>
-								</div>
+							<div class="small" id="small">
 
 							</div>
 						</div>
 
 					</div>
 				</div>
+				<!-- pc 右侧课程推荐 -->
 				<div class="info-right">
 					<!-- pc推荐课堂 -->
 					<div class="recommend">
 						<div class="sub-title">
 							<span>推荐课堂</span>
 						</div>
-						<div class="recommend-big">
-
-							<div class="item">
-								<a href="http://www.xfz.cn/course/series/10.html">
-									<div class="photo">
-										<img
-											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501670834_106.jpg-course.list.small">
-									</div>
-									<div class="info">
-										<span class="left">共2节课</span> <span class="right"><span
-											class="free">免费</span> </span>
-									</div>
-								</a>
-							</div>
-
-							<div class="item">
-								<a href="http://www.xfz.cn/course/series/9.html">
-									<div class="photo">
-										<img
-											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501055014_550.jpg-course.list.small">
-									</div>
-									<div class="info">
-										<span class="left">共3节课</span> <span class="right"><span
-											class="spend-price">¥39</span>(省120元) </span>
-									</div>
-								</a>
-							</div>
+						<div class="recommend-big" id="recommend-big">
 
 						</div>
-						<div class="recommend-small">
-
-							<div class="every-course">
-								<a href="http://www.xfz.cn/course/107.html">
-									<div class="info-left-recommond">
-										<div class="video-title">文化娱乐产业投资逻辑</div>
-										<div class="video-teacher">陈悦天/辰海资本合伙人</div>
-									</div>
-									<div class="photo-right">
-										<span class="tags"></span> <img
-											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501671804_236.jpg-course.list.small"
-											alt="">
-									</div>
-								</a>
-							</div>
-
-							<div class="every-course">
-								<a href="http://www.xfz.cn/course/108.html">
-									<div class="info-left-recommond">
-										<div class="video-title">投资人眼中的好内容</div>
-										<div class="video-teacher">陈悦天/辰海资本合伙人</div>
-									</div>
-									<div class="photo-right">
-										<span class="tags"></span> <img
-											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1501828939_488.jpg-course.list.small"
-											alt="">
-									</div>
-								</a>
-							</div>
-
-							<div class="every-course">
-								<a href="http://www.xfz.cn/course/124.html">
-									<div class="info-left-recommond">
-										<div class="video-title">从阿里价值观看“中供”铁军的成功秘诀</div>
-										<div class="video-teacher">和阳/重读创始人&amp;主编</div>
-									</div>
-									<div class="photo-right">
-										<span class="tags"></span> <img
-											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1500973576_191.jpg-course.list.small"
-											alt="">
-									</div>
-								</a>
-							</div>
-
-							<div class="every-course">
-								<a href="http://www.xfz.cn/course/125.html">
-									<div class="info-left-recommond">
-										<div class="video-title">大神之路：一线销售如何蜕变到企业CEO</div>
-										<div class="video-teacher">和阳/重读创始人&amp;主编</div>
-									</div>
-									<div class="photo-right">
-										<span class="tags"></span> <img
-											src="./创业必备的新时代人才观_小饭桌在线课堂_小饭桌_创业从这里起步_files/1500973259_428.jpg-course.list.small"
-											alt="">
-									</div>
-								</a>
-							</div>
+						<div class="recommend-small" id="recommend-small">
 
 						</div>
 					</div>
 
 				</div>
-
-				<!-- 购买课程 -->
+				<!-- pc 立即购买固定栏 -->
 				<div class="bottom-buy-link-wrap">
-					<div class="bottom-buy-link" style="display: none;">
-						<div class="buy-link-btn watch-video">购买课程</div>
-						<div class="info">创业必备的新时代人才观</div>
+					<div class="bottom-buy-link">
+
+						<div class="buy-link-btn watch-video">立即购买</div>
+
+						<div class="info course_title"></div>
 
 						<div class="price">
-							<span>￥</span> 59
+							<span>￥</span> <span class="cost"></span>
 						</div>
 
 					</div>
 				</div>
+				<!-- pc 立即购买浮动栏 -->
+				<div class="bottom-buy-link-float">
 
-				<div class="bottom-buy-link-float" style="display: none;">
-					<div class="buy-link-btn watch-video">购买课程</div>
-					<div class="info">创业必备的新时代人才观</div>
+					<div class="buy-link-btn watch-video">立即购买</div>
+
+					<div class="info course_title"></div>
 
 					<div class="price">
-						<span>￥</span> 59
+						<span>￥</span> <span class="cost"></span>
 					</div>
 
 				</div>
 			</div>
 		</div>
-		<!-- <div class="loading"></div> -->
 		<div class="mask">
 			<div class="bigImg"></div>
 		</div>
+	</div>
+	<!-- <div class="loading"></div> -->
+	<div class="mask">
+		<div class="bigImg"></div>
+	</div>
 	</div>
 
 	<footer class="footer-simple">
@@ -796,10 +650,8 @@
 					<div class="wxQr"></div>
 				</div>
 				<div class="company-info">
-					<span class="address">
-						<!-- 地址：北京市朝阳区东三环北路38号院1号楼17层2001内1、16室 -->
-					</span> <span class="phonenum">
-						<!-- 联系方式：400-810-1090（工作日10点-18点) -->
+					<span class="address"> <!-- 地址：北京市朝阳区东三环北路38号院1号楼17层2001内1、16室 -->
+					</span> <span class="phonenum"> <!-- 联系方式：400-810-1090（工作日10点-18点) -->
 					</span>
 				</div>
 			</section>
@@ -810,9 +662,92 @@
 	</footer>
 
 	<script src="/courses/js/main.js"></script>
-	<script src="/js/login.js"></script>
-	<script src="/courses/js/course.min.js"></script>
-
+	<script type="text/javascript" src="/js/login2.js"></script>
+	<script src="/courses/js/courseSeriesDetail.min.js"></script>
+	<script>
+		(function ($) {
+	        $.getUrlParam = function (name) {
+	            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+	            var r = window.location.search.substr(1).match(reg);
+	            if (r != null) return unescape(r[2]); return null;
+	        }
+	    })(jQuery);	
+	
+		var id = $.getUrlParam('id');
+		
+		$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
+			$('.course_title').html(data.title);
+			$('.cost').html(data.cost);
+			$('#time').html(data.time);
+			$('#teacher_image').attr('href', '/cglx/files/imgs/' + data.final_image);
+			$('#teacher').html(data.final_tea);
+			$('#teacher_position').html(data.final_position);
+			$('#teacher_abstract').html(data.final_abstract);
+			$('#description').html(data.description);
+			$('#outline').html(data.outline);
+			$('#info').html(data.info);
+			$('#crowds').html(data.crowds);
+			$('#help').html(data.final_help);
+			$('#about').html(data.final_about);
+			
+		});
+		
+		$.post('/course/getParentCourseBrief', {id : id}, function(data) {
+			$('.parent_title').html(data.title);
+			$('.price-and-len').html('<p>组合价: <span>¥' + data.total + '</span>(省' + data.discount + '元)</p>'
+					+ '<p>共'+ data.sub_count + '节课 - ' + data.sub_time_total +'分钟</p>');
+			
+			$('.parent_href').attr('href', 'seriesDetail.html?id=' + data.id);
+			$('#parent_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
+		});
+		
+		$.post('/course/getNavRecommendCourse', function(data) {
+			for(var index in data) {
+				if(data[index].is_series == 1) {
+					
+					$('#big').append('<div class="recommend-big"><a href="seriesDetail.html?id='+data[index].id+'" target="_blank">' 
+							+ '<img src="/cglx/files/imgs/'+data[index].snapshot+'" alt=""><div class="detail"><span class="left">'
+							+ '共'+data[index].sub_count+'节课</span> <span class="right"><span class="spend-price">¥'+data[index].total+'</span>'
+							+ '(省'+data[index].discount+'元) </span></div></a></div>');
+					
+					$('#recommend-big').append('<div class="item"><a href="seriesDetail.html?id='+data[index].id+'"><div class="photo">'
+							+ '<img	src="/cglx/files/imgs/'+data[index].snapshot+'"></div><div class="info"><span class="left">'
+							+ '共'+data[index].sub_count+'节课</span> <span class="right"><span class="spend-price">¥'+data[index].total+'</span>'
+							+ '(省'+data[index].discount+'元) </span></div></a></div>');						
+				} else {
+					
+					$('#small').append('<div class="recommend-every-course"><a href="detail.html?id='+data[index].id+'" target="_blank">'
+							+ '<div class="recommend-every-pic"><img src="/cglx/files/imgs/'+data[index].snapshot+'" alt=""></div>'
+							+ '<div class="recommend-every-introduct"><div class="every-title">'+data[index].title+'</div>'
+							+ '<div class="every-price-mobile"><span class="money">￥'+data[index].cost+'</span></div></div></a></div>');
+					
+					$('#recommend-small').append('<div class="every-course"><a href="detail.html?id='+data[index].id+'"><div class="info-left-recommond">'
+							+ '<div class="video-title">'+data[index].title+'</div><div class="video-teacher">'+data[index].final_tea+'/'+data[index].final_position+'</div>'
+							+ '</div><div class="photo-right"><span class="tags"></span> <img src="/cglx/files/imgs/'+data[index].snapshot+'" alt="">'
+							+ '</div></a></div>');
+				}
+			}
+		});
+		
+		$('.watch-video').on('click', function() {
+			console.log(user_id);
+			if(user_id == '') {
+				$('#login-btn').click();
+			} else {
+				if(window.screen.width < 700) {
+					$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
+					$('.modal-mask.mobile').css('display', 'block');
+	 			} else {
+					$('#alipay_btn').attr('href', '/pay?course_id=' + id);
+	 				$('.modal-mask.pc').css('display', 'block');
+	 			}
+			}
+		});
+		
+		$('.pay-fill-form-close').on('click', function() {
+			$('.modal-mask').css('display', 'none');
+		});
+	</script>
 
 </body>
 </html>

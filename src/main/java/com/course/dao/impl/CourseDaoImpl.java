@@ -218,7 +218,7 @@ public class CourseDaoImpl implements ICourseDao {
 	}
 
 	@Override
-	public Map<String, Object> getSeriesDetailById(int id) {
+	public Map<String, Object> getSeriesDetailById(Long id) {
 		Map<String, Object> result = null;
 		String sql = "select course.*, course.cost as total, sum(course_2.time) as sub_time_total, "
 				+ "course_2.*, sum(course_2.cost) as sub_total, ABS(course.cost-sum(course_2.cost)) "
@@ -234,7 +234,7 @@ public class CourseDaoImpl implements ICourseDao {
 	}
 
 	@Override
-	public List<Map<String, Object>> getSeriesSubCourseById(int id) {
+	public List<Map<String, Object>> getSeriesSubCourseById(Long id) {
 		List<Map<String, Object>> result = null;
 		String sql = "select id, title, time, snapshot, cost, abstract from course where parent_id = " + id;
 		logger.debug("getSeriesSubCourseById sql : {}", sql);
@@ -336,8 +336,13 @@ public class CourseDaoImpl implements ICourseDao {
 	public Map<String, Object> getSubcourseDetailById(int id_) {
 		Map<String, Object> resultMap = null;
 		String sql = "select * from (select *,IFNULL(course_2.tea,course.teacher) " 
-				+ "as final_tea, IFNULL(course_2.tea_position, course.teacher_position) as final_position " 
-				+ "from course LEFT JOIN (select id as id1, teacher as tea, teacher_position as tea_position from course) as " 
+				+ "as final_tea, IFNULL(course_2.tea_position, course.teacher_position) as final_position, "
+				+ "IFNULL(course_2.tea_abstract, course.teacher_abstract) as final_abstract, " 
+				+ "IFNULL(course_2.tea_image, course.teacher_image) as final_image, "
+				+ "IFNULL(course_2.help_, course.help) as final_help, "
+				+ "IFNULL(course_2.about_, course.about) as final_about "
+				+ "from course LEFT JOIN (select id as id1, help as help_, about as about_, teacher as tea, teacher_position as tea_position, "
+				+ "teacher_abstract as tea_abstract, teacher_image as tea_image from course) as " 
 				+ "course_2 on course.parent_id=course_2.id1 where course.id=?) as final_data";
 		try {
 			resultMap = jdbcTemplate.queryForMap(sql, id_);
