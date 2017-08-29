@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -197,9 +196,9 @@ public class CourseController {
 	@ResponseBody
 	public Map<String, Object> getSeriesDetailById(HttpServletRequest request) {
 		String id = request.getParameter("id");
-		int id_ = 0;
+		long id_ = 0;
 		try {
-			id_ = Integer.valueOf(id);
+			id_ = Long.valueOf(id);
 		} catch (Exception ex) {
 			logger.error(ex.toString());
 		}
@@ -210,9 +209,9 @@ public class CourseController {
 	@ResponseBody
 	public List<Map<String, Object>> getSeriesSubCourseById(HttpServletRequest request) {
 		String id = request.getParameter("id");
-		int id_ = 0;
+		long id_ = 0;
 		try {
-			id_ = Integer.valueOf(id);
+			id_ = Long.valueOf(id);
 		} catch (Exception ex) {
 			logger.error(ex.toString());
 		}
@@ -244,6 +243,20 @@ public class CourseController {
 			logger.error(ex.toString());
 		}
 		return courseDao.getSubcourseDetailById(id_);
+	}
+	
+	@RequestMapping("/course/getParentCourseBrief")
+	@ResponseBody
+	public Map<String, Object> getParentCourseBrief(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		long id_ = 0;
+		try {
+			id_ = Integer.valueOf(id);
+		} catch (Exception ex) {
+			logger.error(ex.toString());
+		}
+		long parent_id = (long)courseDao.getCourseById(id_).get("parent_id");
+		return courseDao.getSeriesDetailById(parent_id);
 	}
 	
 	private String getGernarateFileName(MultipartFile file) {

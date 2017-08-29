@@ -25,9 +25,9 @@ public interface ICourseDao {
 
 	List<Map<String, Object>> getAllSubCourseBrief();
 
-	Map<String, Object> getSeriesDetailById(int id_);
+	Map<String, Object> getSeriesDetailById(Long id_);
 
-	List<Map<String, Object>> getSeriesSubCourseById(int id_);
+	List<Map<String, Object>> getSeriesSubCourseById(Long id_);
 
 	List<Map<String, Object>> getNavRecommendCourse();
 
