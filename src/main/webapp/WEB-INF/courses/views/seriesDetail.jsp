@@ -1,5 +1,19 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page
+	import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@ page import="org.springframework.web.context.WebApplicationContext"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.ddcb.utils.WeixinTools"%>
+<%
+	WebApplicationContext wac = WebApplicationContextUtils
+			.getRequiredWebApplicationContext(this.getServletContext());
+	String code = (String) session.getAttribute("url_code");
+	String courseId = (String) session.getAttribute("course_id");
+	Map<String, String> result = new HashMap<>();
+	result = WeixinTools.getSign(
+			"http://www.udiyclub.com/courses/views?code=" + code + "&state=123");	
+%>
 <!DOCTYPE html>
-<!-- saved from url=(0039)http://www.xfz.cn/course/series/10.html -->
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -577,7 +591,20 @@
 	<script src="/courses/js/main.js"></script>
 	<script type="text/javascript" src="/js/login2.js"></script>
 	<script src="/courses/js/courseSeriesDetail.min.js"></script>
+	<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
+	wx.config({
+		appId: 'wxf139053a88924f58',
+		timestamp: <%=result.get("timestamp")%>,
+		nonceStr: '<%=result.get("nonceStr")%>',
+		signature: '<%=result.get("signature")%>',
+		jsApiList: [
+			'onMenuShareQQ',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'chooseWXPay'
+		]
+	});
 	$('.name').on('click', function(event) {
 		event.stopPropagation();
 		$('#logout').toggle('fast');
@@ -593,7 +620,7 @@
 	        }
 	    })(jQuery);	
 
-		var id = $.getUrlParam('id');
+		var id = <%=courseId%>;//$.getUrlParam('id');
 		$.post('/course/getSeriesDetailById', {id : id}, function(data) {
 			$('#banner').attr('src', '/cglx/files/imgs/' + data.banner);
 			$('#abstract').html(data.abstract);
@@ -646,25 +673,71 @@
 				}
 			}
 		});
+		function isWeiXin(){ 
+			var ua = window.navigator.userAgent.toLowerCase(); 
+			if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
+				return true; 
+			}else{ 
+				return false; 
+			} 
+		}
 		
+		function weixinPay() {
+			wx.ready(function() {
+				$.post('/weixinUserCoursePay?course_id='+id, function(data) {
+					var jsonData = JSON.parse("{"+data+"}");
+	    			if(jsonData.ddcb_error_msg != null) {
+	    				alert(jsonData.ddcb_error_msg);
+	    			} else {
+	    				wx.chooseWXPay({
+	    		            timestamp: jsonData.timeStamp,
+	    		            nonceStr: jsonData.nonceStr,
+	    		            package: jsonData.package,
+	    		            signType: jsonData.signType,
+	    		            paySign: jsonData.paySign,
+	    		            success: function (res) {
+	    		            	if(res.errMsg != null && res.errMsg == "chooseWXPay:ok") {
+	                				ele.innerHTML = "点击进入";
+	                				ele.removeEventListener('tap', handler);
+	                				ele.addEventListener('tap', enterClass);
+	    		            		alert("支付成功!");
+	    		            	} else {
+	    		            		alert("支付失败！");
+	    		            	}																            
+	    		            },
+	    		            fail:function(res) {
+	    		            	alert(JSON.stringify(res));
+	    		            }
+	    		        });
+	    			}
+	    		});
+			});
+		}
 		$('.buy-series').on('click', function() {
 			if(user_id == '') {
-				$('#login-btn').click();
-			} else {
 				if(window.screen.width < 700) {
-					$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
-					$('.modal-mask.mobile').css('display', 'block');
+					$('#login-btn-m').click();
 	 			} else {
-					$('#alipay_btn').attr('href', '/pay?course_id=' + id);
-	 				$('.modal-mask.pc').css('display', 'block');
+	 				$('#login-btn').click();
 	 			}
+			} else {
+				if(isWeiXin()) {
+					weixinPay();
+				} else {
+					if(window.screen.width < 700) {
+						$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
+						$('.modal-mask.mobile').css('display', 'block');
+		 			} else {
+						$('#alipay_btn').attr('href', '/pay?course_id=' + id);
+		 				$('.modal-mask.pc').css('display', 'block');
+		 			}
+				}
 			}
 		});
 		
 		$('.pay-fill-form-close').on('click', function() {
 			$('.modal-mask').css('display', 'none');
 		});
-		
 	</script>
 
 </body>

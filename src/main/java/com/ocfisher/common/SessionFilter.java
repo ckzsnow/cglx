@@ -38,6 +38,18 @@ public class SessionFilter extends OncePerRequestFilter {
 				doFilter = true;
 			}
 		}
+		if(uri.indexOf("dispatcher-servlet.xml") != -1 || uri.indexOf("web.xml") != -1 ||
+				uri.indexOf("log4j.properties") != -1) {
+			boolean isAjaxRequest = isAjaxRequest(request);
+			if (isAjaxRequest) {
+				response.setCharacterEncoding("UTF-8");
+				response.sendError(HttpStatus.UNAUTHORIZED.value(),
+						"Unauthorized!");
+				return;
+			}
+			response.sendRedirect("/");
+			return;
+		}
 		if (doFilter) {
 			String userId = (String)request.getSession().getAttribute("user_id");
 			String isAdmin = (String)request.getSession().getAttribute("is_admin");
