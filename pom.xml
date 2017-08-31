@@ -190,7 +190,7 @@
 		<dependency>
           <groupId>com.alipay</groupId>
           <artifactId>sdk-java</artifactId>
-          <version>20151021120052</version>
+          <version>20170209153223</version>
     	</dependency>
 		
 	</dependencies>

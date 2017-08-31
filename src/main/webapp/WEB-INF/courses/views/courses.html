@@ -25,45 +25,45 @@
 			</div>
 			<nav class="PC-nav">
 				<ul>
-					<li class="news" data-id="news"><a href="homepage.html">留学专栏</a>
+					<li class="news" data-id="news"><a href="/view/homepage.html">留学专栏</a>
 					</li>
 					<li class="active"><a href="courses.html">在线课程</a></li>
 					<li class="activity" data-id="activity"><a
-						href="success.html">成功案例</a></li>
-					<li class="gift" data-id="gift"><a href="about.html">关于我们</a>
+						href="/view/success.html">成功案例</a></li>
+					<li class="gift" data-id="gift"><a href="/view/about.html">关于我们</a>
 					</li>
 					<li class="ventureservice" data-id="ventureservice"><a
-						href="report.html">社员风采</a></li>
-					<li class="search" data-id="search"><a href="search.html">搜索</a>
+						href="/view/report.html">社员风采</a></li>
+					<li class="search" data-id="search"><a href="/view/search.html">搜索</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="mobile-nav">
 				<i class="top-menu-expand-icon"></i>
 				<ul class="nav-list">
-					<li class="news" data-id="news"><a href="homepage.html">留学专栏</a>
+					<li class="news" data-id="news"><a href="/view/homepage.html">留学专栏</a>
 					</li>
 					<li class="course active" data-id="course"><a
-						href="success.html">成功案例</a></li>
+						href="/view/success.html">成功案例</a></li>
 				</ul>
 				<ul class="expand-nav-list" id="mobile_not_login">
 					<li class="user-info"><a href="javascript:void(0)"
 						id="login-btn-m">登录</a></li>
-					<li class="activity"><a href="success.html">成功案例</a></li>
-					<li class="search"><a href="report.html">社员风采</a></li>
+					<li class="activity"><a href="/view/success.html">成功案例</a></li>
+					<li class="search"><a href="/view/report.html">社员风采</a></li>
 				</ul>
 				<ul class="expand-nav-list" id="mobile_login" style="display: none;">
-					<li class="activity"><a href="personalInfo.html"
+					<li class="activity"><a href="/view/personalInfo.html"
 						class="myorder-btn">个人信息</a></li>
-					<li class="search"><a href="estimate.html">背景评估</a></li>
+					<li class="search"><a href="/view/estimate.html">背景评估</a></li>
 					<li class="search"><a href="javascript:userlogout();">退出</a></li>
 				</ul>
 			</nav>
 			<div class="login-container">
 				<div class="logout" id="logout"
 					style="display: none; height: 140px;">
-					<i class="triangle"></i> <a href="personalInfo.html"
-						class="myorder-btn">个人信息</a> <a href="estimate.html">背景评估</a> <a
+					<i class="triangle"></i> <a href="/view/personalInfo.html"
+						class="myorder-btn">个人信息</a> <a href="/view/estimate.html">背景评估</a> <a
 						href="javascript:userlogout();">退出</a>
 				</div>
 				<div class="login-false-wrapper">
@@ -323,7 +323,7 @@
 					<li><a href="experience.html">留学体验</a></li>
 					<li><a href="series.html">系列课</a></li>
 				</ul>
-				<div class="my-course">我的课堂</div>
+				<div class="my-course"><a href="/view/mycourse.html">我的课程</a></div>
 			</div>
 		</nav>
 		<!-- mobile nav -->
@@ -335,7 +335,7 @@
 				<li><a href="case.html">成功案例</a></li>
 				<li><a href="experience.html">留学体验</a></li>
 				<li><a href="series.html">系列课</a></li>
-				<li class="my-course">我的课堂</li>
+				<li class="my-course"><a href="/view/mycourse.html">我的课堂</a></li>
 			</ul>
 		</nav>
 		<!-- video main -->
@@ -412,7 +412,13 @@
 	<script src="/courses/js/main.js"></script>
 	<script type="text/javascript" src="/js/login.js"></script>
 	<script>
-	
+	$('.name').on('click', function(event) {
+		event.stopPropagation();
+		$('#logout').toggle('fast');
+	});
+	$(document).on('click', function() {
+		$('#logout').hide(500);
+	});
 	function bannerInit() {
 		this.iNow = 0, this.timer = null, this.$items = $("#slideWrapper").children(), this.bgUl = $("#dots"), 0 != this.$items.length && (1 == this.$items.length && ($(".arrow").hide(), $(".slideNum").hide()), this.bannerBind(), this.auto(), this.change())
 	}
@@ -456,21 +462,21 @@
 		if(!checkJsonIsEmpty(data)) {
 			for(var index in data) {
 				if(data[index].is_recommend==1) {
-					$("#recommend_course").append('<li class="video-info info large"><a href="seriesDetail.html?id='+data[index].id+'" target="_blank">'
+					$("#recommend_course").append('<li class="video-info info large"><a href="/courses/jsp?id='+data[index].id+'" target="_blank">'
 							+ '<div class="info-logo"><img src="/cglx/files/imgs/'+data[index].snapshot+'"></div><div class="info-content-big">'
 							+ '<div class="info-course">共 '+data[index].sub_count+' 节课 <span>时长:'+data[index].sub_time_total+'分钟</span>'
 							+ '</div><div class="series-right"><div class="info-fee"><span>¥</span>'+data[index].total+'</div>'
 							+ '<div class="info-savefee">（省<span>'+data[index].discount+'</span>元）</div></div></div></a></li>');
 					$("#slideWrapper").append('<li class="slide-animation" style="z-index: 0; display: none;"><a '
-							+ 'href="seriesDetail.html?id='+data[index].id+'" target="_blank"><img src="/cglx/files/imgs/'+data[index].snapshot+'"></a></li>');
+							+ 'href="/courses/jsp?id='+data[index].id+'" target="_blank"><img src="/cglx/files/imgs/'+data[index].snapshot+'"></a></li>');
 				} else {
-					$("#recommend_course").append('<li class="video-info info small"><a href="seriesDetail.html?id='+data[index].id+'" target="_blank">'
+					$("#recommend_course").append('<li class="video-info info small"><a href="/courses/jsp?id='+data[index].id+'" target="_blank">'
 							+ '<div class="info-logo"><img src="/cglx/files/imgs/'+data[index].snapshot+'"></div><div class="info-content">'
 							+ '<div class="info-course">共 '+data[index].sub_count+' 节课 <span>时长:'+data[index].sub_time_total+'分钟</span>'
 							+ '</div><div class="series-right"><div class="info-fee"><span>¥</span>'+data[index].total+'</div>'
 							+ '<div class="info-savefee">（省<span>'+data[index].discount+'</span>元）</div></div></div></a></li>');
 					$("#slideWrapper").append('<li class="slide-animation" style="z-index: 0; display: list-item; opacity: 0.517275;">'
-							+ '<a href="seriesDetail.html?id='+data[index].id+'" target="_blank"><img src="/cglx/files/imgs/'+data[index].snapshot+'"></a></li>');
+							+ '<a href="/courses/jsp?id='+data[index].id+'" target="_blank"><img src="/cglx/files/imgs/'+data[index].snapshot+'"></a></li>');
 				}
 			}
 			bannerInit();
@@ -480,7 +486,7 @@
 	$.post('/course/getAllSubCourseBrief', function(data) {
 		if (!checkJsonIsEmpty(data)) {
 			for(var index in data) {
-				$("#course_list").append('<li class="video-info info normal"><a href="detail.html?id='+data[index].id+'&&pid='+data[index].parent_id+'" target="_blank">'
+				$("#course_list").append('<li class="video-info info normal"><a href="/courses/jsp?id='+data[index].id+'&view=detail" target="_blank">'
 						+ '<div class="info-tag">'+data[index].tag+'</div><div class="info-logo"><img class="lazyload" src="/cglx/files/imgs/'+data[index].snapshot+'"></div>'
 						+ '<div class="info-content"><div class="info-title">'+data[index].title+'</div><div class="info-author">'+data[index].final_tea + '/ ' + data[index].final_position +'</div>'
 						+ '<div class="info-price"><span>¥</span>'+data[index].cost+'</div></div><div class="info-main"><div class="video-inline">'
@@ -492,6 +498,9 @@
 		}
 	});
 	
+	$('.mobile-mycourse').on('click', function() {
+		window.location.href = '/view/mycourse.html';
+	});
 	</script>
 </body>
 </html>

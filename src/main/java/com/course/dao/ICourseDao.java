@@ -25,7 +25,7 @@ public interface ICourseDao {
 
 	List<Map<String, Object>> getAllSubCourseBrief();
 
-	Map<String, Object> getSeriesDetailById(Long id_);
+	Map<String, Object> getSeriesDetailById(Long id, String user_id);
 
 	List<Map<String, Object>> getSeriesSubCourseById(Long id_);
 
@@ -39,6 +39,6 @@ public interface ICourseDao {
 
 	boolean updateUserCourseByTradeNo(String trade_no, int status);
 
-	Map<String, Object> getSubcourseDetailById(int id_);
+	Map<String, Object> getSubcourseDetailById(int id, String user_id);
 
 }

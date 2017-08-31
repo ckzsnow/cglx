@@ -218,15 +218,18 @@ public class CourseDaoImpl implements ICourseDao {
 	}
 
 	@Override
-	public Map<String, Object> getSeriesDetailById(Long id) {
+	public Map<String, Object> getSeriesDetailById(Long id, String user_id) {
 		Map<String, Object> result = null;
-		String sql = "select course.*, course.cost as total, sum(course_2.time) as sub_time_total, "
-				+ "course_2.*, sum(course_2.cost) as sub_total, ABS(course.cost-sum(course_2.cost)) "
-				+ "as discount, count(course.parent_id) as sub_count from course LEFT JOIN (select "
-				+ "course.parent_id as pd,course.cost, course.time from course) as course_2 on "
-				+ "course_2.pd=course.id where course.id="+id+" group by parent_id";
+		String sql = "select * from (select course.*, course.cost as total, sum(course_2.tim) as sub_time_total, "
+				+ "course_2.*, sum(course_2.cos) as sub_total, ABS(course.cost-sum(course_2.cos)) " 
+				+ "as discount, count(course.parent_id) as sub_count from course LEFT JOIN (select " 
+				+ "course.parent_id as pd,course.cost as cos, course.time as tim from course) as course_2 on " 
+				+ "course_2.pd=course.id where course.id=? group by parent_id) as detail "
+				+ "LEFT JOIN user_course on user_course.user_id=? and (user_course.course_id=detail.id "
+				+ "or detail.parent_id=user_course.course_id) and user_course.pay_status=1";
+		logger.debug("sql : {}", sql);
 		try {
-			result = jdbcTemplate.queryForMap(sql);
+			result = jdbcTemplate.queryForMap(sql, id, user_id);
 		} catch(Exception e) {
 			logger.error("getSeriesDetailById error : {}", e.toString());
 		}
@@ -333,7 +336,7 @@ public class CourseDaoImpl implements ICourseDao {
 	}
 
 	@Override
-	public Map<String, Object> getSubcourseDetailById(int id_) {
+	public Map<String, Object> getSubcourseDetailById(int id, String user_id) {
 		Map<String, Object> resultMap = null;
 		String sql = "select * from (select *,IFNULL(course_2.tea,course.teacher) " 
 				+ "as final_tea, IFNULL(course_2.tea_position, course.teacher_position) as final_position, "
@@ -343,9 +346,10 @@ public class CourseDaoImpl implements ICourseDao {
 				+ "IFNULL(course_2.about_, course.about) as final_about "
 				+ "from course LEFT JOIN (select id as id1, help as help_, about as about_, teacher as tea, teacher_position as tea_position, "
 				+ "teacher_abstract as tea_abstract, teacher_image as tea_image from course) as " 
-				+ "course_2 on course.parent_id=course_2.id1 where course.id=?) as final_data";
+				+ "course_2 on course.parent_id=course_2.id1 where course.id=?) as final_data "
+				+ "LEFT JOIN user_course on user_course.user_id=? and (user_course.course_id=final_data.id or final_data.parent_id=user_course.course_id) and user_course.pay_status=1";
 		try {
-			resultMap = jdbcTemplate.queryForMap(sql, id_);
+			resultMap = jdbcTemplate.queryForMap(sql, id, user_id);
 		} catch(Exception e) {
 			logger.error(e.toString());
 		}

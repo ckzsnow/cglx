@@ -13,7 +13,9 @@
 	result = WeixinTools.getSign(
 			"http://www.udiyclub.com/courses/views?code=" + code + "&state=123");	
 %>
+
 <!DOCTYPE html>
+<!-- saved from url=(0033)http://www.xfz.cn/course/117.html -->
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -25,9 +27,24 @@
 	content="DIY研习社是国内首家留学互助共享平台，致力于为所有留学申请者提供资源共享、交际交流的渠道和机会，社员和内容覆盖留学申请所有主流国家。">
 <title>DIY研习社－中国留学生互助交流平台，让留学不孤单</title>
 <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
-<link href="/courses/css/courseSeriesDetail.min.css" rel="stylesheet">
+
+<link href="/courses/css/video.min.css" rel="stylesheet">
 <script src="/js/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/login.css">
+<style>
+	video::-internal-media-controls-download-button {
+	    display:none;
+	}
+	
+	video::-webkit-media-controls-enclosure {
+	    overflow:hidden;
+	}
+	
+	video::-webkit-media-controls-panel {
+	    width: calc(100% + 30px); /* Adjust as needed */
+	}
+</style>
+
 </head>
 <body device="pc">
 	<header class="header">
@@ -40,9 +57,8 @@
 				<ul>
 					<li class="news" data-id="news"><a href="/view/homepage.html">留学专栏</a>
 					</li>
-					<li class="active"><a href="/courses/views/courses.html">在线课程</a></li>
-					<li class="activity" data-id="activity"><a
-						href="success.html">成功案例</a></li>
+					<li class="active"><a href="courses.html">在线课程</a></li>
+					<li class="activity" data-id="activity"><a href="/view/success.html">成功案例</a></li>
 					<li class="gift" data-id="gift"><a href="/view/about.html">关于我们</a>
 					</li>
 					<li class="ventureservice" data-id="ventureservice"><a
@@ -62,13 +78,13 @@
 				<ul class="expand-nav-list" id="mobile_not_login">
 					<li class="user-info"><a href="javascript:void(0)"
 						id="login-btn-m">登录</a></li>
-					<li class="activity"><a href="success.html">成功案例</a></li>
-					<li class="search"><a href="report.html">社员风采</a></li>
+					<li class="activity"><a href="/view/success.html">成功案例</a></li>
+					<li class="search"><a href="/view/report.html">社员风采</a></li>
 				</ul>
 				<ul class="expand-nav-list" id="mobile_login" style="display: none;">
-					<li class="activity"><a href="personalInfo.html"
+					<li class="activity"><a href="/view/personalInfo.html"
 						class="myorder-btn">个人信息</a></li>
-					<li class="search"><a href="estimate.html">背景评估</a></li>
+					<li class="search"><a href="/view/estimate.html">背景评估</a></li>
 					<li class="search"><a href="javascript:userlogout();">退出</a></li>
 				</ul>
 			</nav>
@@ -319,7 +335,6 @@
 		</div>
 	</div>
 	
-
 	<div class="modal-mask pc" style="opacity: 1; display: none;">
 		<div class="pay-fill-form-dialog dialog" style="opacity: 1;">
 		    <div class="pay-fill-form-close close"></div>
@@ -346,154 +361,241 @@
 		</div>
 	</div>
 
-	<div class="wap-wrapper" id="wap-wrapper">
-		<div class="tips">很抱歉，因微信支付限制，只能从微信内或者电脑端购买</div>
-		<div class="info">
-			<div class="title">文化娱乐产业投资逻辑</div>
-			<div class="link">http://www.xfz.cn/course/series/10.html</div>
-		</div>
-		<div class="wx-tips">微信内打开方法：长按网址复制，在微信内发送该网址，在消息内打开。</div>
-		<div class="bottom-logo"></div>
-	</div>
+
 	<div class="wrapper" id="wrapper">
-		<input type="hidden" name="productId"
-			value="e683b6a20f4a4dd088a72bcf84316baa"> <input
-			type="hidden" name="title" value="文化娱乐产业投资逻辑"> <input
-			type="hidden" name="img"
-			value="http://static-image.xfz.cn/1501670834_106.jpg-seriescourse.list">
-		<input type="hidden" name="desc" value="文娱大IP是如何投出来的？">
 		<nav class="video-nav">
 			<div class="container">
 				<div class="nav-title">
-					<a href="courses.html">在线课堂</a>
+					<a href="/courses/views/courses.html">在线课堂</a>
 				</div>
 				<ul>
-					<li><a href="/courses/views/courses.html">最新课程</a></li>
+					<li class="active"><a href="/courses/views/courses.html">最新课程</a></li>
 					<li><a href="/courses/views/essay.html">文书写作</a></li>
 					<li><a href="/courses/views/major.html">院校专业</a></li>
 					<li><a href="/courses/views/case.html">成功案例</a></li>
 					<li><a href="/courses/views/experience.html">留学体验</a></li>
-					<li class="active"><a href="/courses/views/series.html">系列课</a></li>
+					<li><a href="/courses/views/series.html">系列课</a></li>
 				</ul>
-				<div class="my-course"><a href="/view/mycourse.html">我的课堂</a></div>
+				<div class="my-course">我的课堂</div>
 			</div>
 		</nav>
 		<!-- mobile nav -->
 		<nav class="second-mobile-nav">
 			<ul>
-				<li><a href="/courses/views/courses.html">最新课程</a></li>
+				<li class="active"><a href="/courses/views/courses.html">最新课程</a></li>
 				<li><a href="/courses/views/essay.html">文书写作</a></li>
 				<li><a href="/courses/views/major.html">院校专业</a></li>
 				<li><a href="/courses/views/case.html">成功案例</a></li>
 				<li><a href="/courses/views/experience.html">留学体验</a></li>
-				<li class="active"><a href="/courses/views/series.html">系列课</a></li>
+				<li><a href="/courses/views/series.html">系列课</a></li>
 				<li class="my-course">我的课堂</li>
 			</ul>
 		</nav>
-		<div class=""></div>
-		<div class="page-video-series">
+		<div class="page-video">
 			<div class="detail-content">
-				<div class="info-left">
-					<!-- 系类课程banner部分 -->
-					<div class="series-banner">
-						<div class="series-banner-img">
-							<img src="" id="banner">
+				<div class="video">
+					<!-- 视频区 头部banner -->
+					<div class="banner">
+						<!-- banner信息 -->
+						<div class="banner-left">
+							<div class="video-title course_title"></div>
+							<div class="video-info">
+								<div class="wxApi">
+									<input type="hidden" name="course-photo" id="course-photo"
+										value="http://static-image.xfz.cn/1503558453_980.jpg">
+								</div>
+								<div class="share">
+									<i>分享至：</i> <a class="share_bg weixin"></a> <a
+										class="share_bg sina" target="_blank"></a>
+									<wb:share-button appkey="123673426" addition="simple"
+										type="icon"></wb:share-button>
+									<div class="panel-weixin">
+										<section class="weixin-section">
+											<p>
+												<img alt="UDIY" src="">
+											</p>
+										</section>
+										<h3>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</h3>
+									</div>
+								</div>
+							</div>
 						</div>
-						<div class="series-word" id="abstract"></div>
+						<!-- banner buy button -->
+						<div class="buy-link">
+
+
+							<div class="price">
+								<span>¥</span><span class="cost"></span>
+							</div>
+
+							<!-- button -->
+
+							<div class="buy-btn not_buy join-button watch-video my-btn">立即购买</div>
+
+
+						</div>
 					</div>
-					<div class="series-main">
-
-						<!-- 系列课程购买价格栏 -->
-						<div class="series-all-price">
-							<div class="series-course-price">
-								<span class="number-course">共
-									<span class="course sub_count"></span>
-									节课 - 
-									<span class="min sub_time_total"></span>
-								</span> 
-								<span class="price-course">组合价：
-									<span class="price cost"></span>
-									<span class="money">&nbsp;&nbsp;(省<span class="discount"></span>元)</span>
-                                </span>
+					<!-- 视频播放区 -->
+					<div class="video-detail watch-video" id="video-snap" style="display:block">
+						<!-- 无播放权限 -->
+						<div class="no-auth-player">
+							<div class="bg-photo">
+								<img id="course_snapshot" src="">
 							</div>
-
-							<button class="series-buy-btn buy-series">立即购买</button>
-
-						</div>
-
-
-
-						<!-- 系列课程讲师介绍 -->
-						<div class="series-introduct-teacher">
-							<p class="teacher">课程讲师</p>
-							<div class="intro">
-								<div class="photo">
-									<img id="teacher_img" src="" width="60" height="60" alt="">
-								</div>
-								<div class="info">
-									<p class="name" id="teacher"></p>
-									<p class="position" id="teacher_position"></p>
+							<div class="no-login-mask">
+								<div class="player-icon">
+									<img src="/courses/images/pc-icon-replay.png">
 								</div>
 							</div>
-							<p class="text" id="teacher_abstract"></p>
 						</div>
+					</div>
+					<video id="video_src" width="100%" style="display:none"></video>
+					
+				</div>
+				<!-- mobile 购买按钮状态 -->
+				<div class="mobile-buy-status">
+					<div class="title course_title"></div>
+					<div class="time">时长: <span id="time"></span>分钟</div>
 
+					<div class="buy-status no-buy"></div>
 
-						<div class="course-title">
-							<p>课程详情</p>
-						</div>
+					<!-- 所属系列课手机 -->
 
-						<div class="series-course-all">
-						</div>
-						<!-- 帮助中心 -->
-						<div class="series-help">
-							<div class="help-title">
-								<p>帮助中心</p>
+					<div class="series-recommend">
+						<span class="tips"></span>
+						<p class="info-title">所属系列课:<span class="parent_title"></span></p>
+						<div class="info">
+							<div class="price-and-len">
 							</div>
-							<div>
-								<ul>
-									<li id="help"></li>
-									<!-- <li>2. 课程暂不支持下载观看，均为在线观看视频。</li>
-									<li>3. 课程一经购买，不可转让、不可退款；仅限购买账号观看。</li>
-									<li>4. 如有问题请咨询客服饭桌君： 电话：18618172287 微信：fanzhuojun888</li> -->
-								</ul>
-							</div>
-						</div>
-						<!-- 小饭桌夜校栏目 -->
-						<div class="series-about">
-							<div class="series-about-title">
-								<p>关于小饭桌在线课堂</p>
-							</div>
-							<div>
-								<ul>
-									<li id="about">
-										
-									</li>
-								</ul>
+							<div class="detail">
+								<a class="parent_href" target="_blank">查看详情></a>
 							</div>
 						</div>
-						<!-- 课程推荐 -->
-						<div class="series-recommend-all">
-							<div class="series-height"></div>
-							<div class="series-title">
-								<span>课程推荐</span>
+					</div>
+
+
+				</div>
+				<!-- 课程详情介绍 -->
+				<div class="info-left">
+					<!-- 所属系列课pc -->
+
+					<div class="series-info">
+						<div class="sub-title">
+							<span>所属系列课</span>
+						</div>
+						<div class="main-content">
+							<div class="info-img-left">
+								<img id="parent_snapshot" >
 							</div>
-							<!-- 手机推荐课堂-->
-							<div class="course-recommend">
-								<div class="big" id="big">
-
-
+							<div class="info-detail-right">
+								<p class="content parent_title"></p>
+								<div class="price-and-len">
 								</div>
-								<div class="small" id="small">
-
-
+								<div class="detail">
+									<a class="parent_href" target="_blank">查看详情></a>
 								</div>
 							</div>
-
 						</div>
+					</div>
+
+
+					<div class="teacher-info">
+						<div class="teacher-title">课程讲师</div>
+						<div class="icon guide-img"></div>
+						<div class="guide-person">
+
+							<div class="photo">
+								<img id="teacher_image" src="">
+							</div>
+
+							<div class="person-info">
+								<span class="name" id="teacher"></span> <span class="position"
+									id="teacher_position"></span>
+							</div>
+						</div>
+						<div class="content" id="teacher_abstract"></div>
+					</div>
+
+					<div class="info">
+						<div class="sub-title">
+							<span>课程简介</span>
+						</div>
+						<div class="content">
+							<p id="description"></p>
+						</div>
+					</div>
+
+
+
+					<div class="info">
+						<div class="sub-title">
+							<span>课程大纲</span>
+						</div>
+						<div class="content">
+							<p id="outline"></p>
+						</div>
+					</div>
+
+
+
+
+
+					<div class="info">
+						<div class="sub-title">
+							<span>课程信息</span>
+						</div>
+						<div class="content">
+							<p id="info"></p>
+						</div>
+					</div>
+
+
+
+					<div class="info">
+						<div class="sub-title">
+							<span>适宜人群</span>
+						</div>
+						<div class="content">
+							<p id="crowds"></p>
+						</div>
+					</div>
+
+
+					<div class="info">
+						<div class="sub-title">
+							<span>帮助中心</span>
+						</div>
+						<div class="content">
+							<p id="help"></p>
+						</div>
+					</div>
+					<div class="info">
+						<div class="sub-title">
+							<span>关于小饭桌在线课堂</span>
+						</div>
+						<div class="content">
+							<p id="about">
+							</p>
+						</div>
+					</div>
+					<!-- mobile 课程推荐 -->
+					<div class="info mobile-course-recommend">
+						<div class="sub-title">
+							<span>课程推荐</span>
+						</div>
+						<!-- 手机推荐课堂-->
+						<div class="course-recommend">
+							<div class="big" id="big">
+
+							</div>
+							<div class="small" id="small">
+
+							</div>
+						</div>
+
 					</div>
 				</div>
-				<!-- 右侧栏 -->
+				<!-- pc 右侧课程推荐 -->
 				<div class="info-right">
 					<!-- pc推荐课堂 -->
 					<div class="recommend">
@@ -502,7 +604,6 @@
 						</div>
 						<div class="recommend-big" id="recommend-big">
 
-
 						</div>
 						<div class="recommend-small" id="recommend-small">
 
@@ -510,49 +611,42 @@
 					</div>
 
 				</div>
-
-				<!-- mobile 固定购买栏 -->
-				<div class="bottom-buy-link-mobile">
-                    <div class="price">
-                        
-                        <p class="money">组合价:<span class="fee cost"></span><span class="save-fee">&nbsp;&nbsp;(省<span class="discount"></span>元)</span></p>
-                        
-                        <p class="p-course"><span class="number-course">共<span class="course sub_count"></span>节课 - <span class="min sub_time_total"></span></span></p>
-                    </div>
-                    
-                        <div class="buy-link-btn buy-series">立即购买</div>
-                    
-                </div>
-				<!-- pc 购买栏 -->
+				<!-- pc 立即购买固定栏 -->
 				<div class="bottom-buy-link-wrap">
-                    <div class="bottom-buy-link" style="display: none;">
-                        
-                            <div class="buy-link-btn buy-series">立即购买</div>
-                        
-                        <div class="info">
-                            <span class="number-course">共<span class="course sub_count"></span>节课 - <span class="min sub_time_total"></span></span>
-                            <span class="price-course">组合价：<span class="price cost"></span><span class="money">&nbsp;&nbsp;(省<span class="discount"></span>元)</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-				<!-- pc 购买浮动栏 -->
-				<div class="bottom-buy-link-float" style="display: block;">
-                    
-                        <div class="buy-link-btn buy-series">立即购买</div>
-                    
-                    <div class="info">
-                        <span class="number-course">共<span class="course sub_count"></span>节课 - <span class="min sub_time_total"></span></span>
-                        <span class="price-course">组合价：<span class="price cost"></span><span class="money">&nbsp;&nbsp;(省<span class="discount"></span>元)</span>
-                        </span>
-                    </div>
-                </div>
+					<div class="bottom-buy-link">
 
+						<div class="buy-link-btn watch-video my-btn">立即购买</div>
+
+						<div class="info course_title"></div>
+
+						<div class="price">
+							<span>￥</span> <span class="cost"></span>
+						</div>
+
+					</div>
+				</div>
+				<!-- pc 立即购买浮动栏 -->
+				<div class="bottom-buy-link-float">
+
+					<div class="buy-link-btn watch-video my-btn">立即购买</div>
+
+					<div class="info course_title"></div>
+
+					<div class="price">
+						<span>￥</span> <span class="cost"></span>
+					</div>
+
+				</div>
 			</div>
 		</div>
 		<div class="mask">
 			<div class="bigImg"></div>
 		</div>
+	</div>
+	<!-- <div class="loading"></div> -->
+	<div class="mask">
+		<div class="bigImg"></div>
+	</div>
 	</div>
 
 	<footer class="footer-simple">
@@ -565,9 +659,9 @@
 					<a href="about.html" target="_blank"> </a> <a href="about.html">关于我们</a>
 					| <a href="report.html">社员风采</a>
 					<!-- | <a
-							href="http://www.xfz.cn/apply/media/?code=report&amp;channel=web"
-							target="_blank">寻求报道</a> | <a href="http://www.xfz.cn/xfzgifts"
-							target="_blank">创业礼包</a> -->
+						href="http://www.xfz.cn/apply/media/?code=report&amp;channel=web"
+						target="_blank">寻求报道</a> | <a href="http://www.xfz.cn/xfzgifts"
+						target="_blank">创业礼包</a> -->
 				</div>
 				<div class="attention">
 					关注我们： <a class="showWx"><span class="wx">DIY研习社</span></a> <a
@@ -576,10 +670,8 @@
 					<div class="wxQr"></div>
 				</div>
 				<div class="company-info">
-					<span class="address">
-						<!-- 地址：北京市朝阳区东三环北路38号院1号楼17层2001内1、16室 -->
-					</span> <span class="phonenum">
-						<!-- 联系方式：400-810-1090（工作日10点-18点) -->
+					<span class="address"> <!-- 地址：北京市朝阳区东三环北路38号院1号楼17层2001内1、16室 -->
+					</span> <span class="phonenum"> <!-- 联系方式：400-810-1090（工作日10点-18点) -->
 					</span>
 				</div>
 			</section>
@@ -588,11 +680,12 @@
 			<p>©2017 沪ICP备13040906号－5</p>
 		</div>
 	</footer>
+
 	<script src="/courses/js/main.js"></script>
 	<script type="text/javascript" src="/js/login2.js"></script>
 	<script src="/courses/js/courseSeriesDetail.min.js"></script>
 	<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-	<script type="text/javascript">
+	<script>
 	wx.config({
 		appId: 'wxf139053a88924f58',
 		timestamp: <%=result.get("timestamp")%>,
@@ -605,13 +698,15 @@
 			'chooseWXPay'
 		]
 	});
-	$('.name').on('click', function(event) {
-		event.stopPropagation();
-		$('#logout').toggle('fast');
-	});
-	$(document).on('click', function() {
-		$('#logout').hide(500);
-	});
+	
+		$('.name').on('click', function(event) {
+			event.stopPropagation();
+			$('#logout').toggle('fast');
+		});
+		$(document).on('click', function() {
+			$('#logout').hide(500);
+		});
+	
 		(function ($) {
 	        $.getUrlParam = function (name) {
 	            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -619,41 +714,71 @@
 	            if (r != null) return unescape(r[2]); return null;
 	        }
 	    })(jQuery);	
-
-		var id = <%=courseId%>;//$.getUrlParam('id');
-		$.post('/course/getSeriesDetailById', {id : id}, function(data) {
-			$('#banner').attr('src', '/cglx/files/imgs/' + data.banner);
-			$('#abstract').html(data.abstract);
-			$('.sub_count').html(data.sub_count);
-			$('.sub_time_total').html(data.sub_time_total + "分钟");
-			$('.cost').html('￥' + data.total);
-			$('.discount').html(data.discount);
-			$('#teacher_img').attr('src', '/cglx/files/imgs/' + data.teacher_image);
-			$('#teacher_position').html(data.teacher_position);
-			$('#teacher_abstract').html(data.teacher_abstract);
-			$('#help').html(data.help);
-			$('#about').html(data.about);
+	
+		//var id = $.getUrlParam('id');
+		var video_src;
+		var id = <%=courseId%>;
+		$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
+			$('.course_title').html(data.title);
+			$('.cost').html(data.cost);
+			$('#time').html(data.time);
+			$('#teacher_image').attr('href', '/cglx/files/imgs/' + data.final_image);
+			$('#teacher').html(data.final_tea);
+			$('#teacher_position').html(data.final_position);
+			$('#teacher_abstract').html(data.final_abstract);
+			$('#description').html(data.description);
+			$('#outline').html(data.outline);
+			$('#info').html(data.info);
+			$('#crowds').html(data.crowds);
+			$('#help').html(data.final_help);
+			$('#about').html(data.final_about);
+			$('.buy-status').html(data.pay_status == 1?'已购买':'未购买')
+			$('#course_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
 			if(data.pay_status == 1) {
-				$('.buy-series').html('已购买').css('background-color', '#ccc');
+				$('.my-btn').html('已购买').css('background-color', '#ccc');
+				$('#video-snap').css('display', 'none');
+				$('#video_src').css('display', 'block');
+				document.getElementById("video_src").src = data.video_src;
+				document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
+				//document.getElementById("video_src").controls = "controls";
+				var playtime = data.playtime;
+				var year = playtime.substring(0, 4);
+				var month = playtime.substring(5, 7);
+				var day = playtime.substring(8, 10);
+				var hour = playtime.substring(11, 13);
+				var minute = playtime.substring(14, 16);
+				var second = playtime.substring(17, 19);
+				
+				var courseDate = new Date(year, month-1, day, hour, minute, second).getTime() / 1000;
+				var currentDate = new Date().getTime() / 1000;
+				var courseLength = parseInt(data.time) * 60;
+				if(currentDate > courseDate) {
+					document.getElementById("video_src").controls = "controls";
+					document.getElementById("video_src").play();
+				} else {
+					alert('课程尚未开播，开播时间为：' + playtime);
+				}
 			}
 			
 		});
 		
-		$.post('/course/getSeriesSubCourseById', {id : id}, function(data) {
-			for(var index in data) {
-				$('.series-course-all').append('<div class="series-every-course"><a href="/courses/jsp?id='+data[index].id+'&view=detail" target="_blank">'
-						+ '<div class="series-every-pic"><img src="/cglx/files/imgs/'+data[index].snapshot+'" alt="">'
-						+ '</div><div class="series-every-introduct"><div class="every-title"><span class="course">【课时'+(parseInt(index)+1)+'】'
-						+ '</span>'+data[index].title+'</div><div class="every-price-pc"><span class="time">时长：&nbsp;&nbsp;'+data[index].time+'分钟</span>'
-						+ '<span class="money">单价:<span class="monpri">￥'+data[index].cost+'</span></span></div><div class="every-price-mobile">'
-						+ '单价: <span class="money">￥'+data[index].cost+'</span></div><div class="every-lead">'+data[index].abstract+'</div></div></a></div>');
-			}
+		$.post('/course/getParentCourseBrief', {id : id}, function(data) {
+			if(!checkJsonIsEmpty(data)) {
+				$('.parent_title').html(data.title);
+				$('.price-and-len').html('<p>组合价: <span>¥' + data.total + '</span>(省' + data.discount + '元)</p>'
+						+ '<p>共'+ data.sub_count + '节课 - ' + data.sub_time_total +'分钟</p>');
+				
+				$('.parent_href').attr('href', '/courses/jsp?id=' + data.id);
+				$('#parent_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
+			} else {
+				$('.series-info').css('display', 'none');
+				$('.series-recommend').css('display', 'none');
+			} 
 		});
 		
 		$.post('/course/getNavRecommendCourse', function(data) {
 			for(var index in data) {
 				if(data[index].is_series == 1) {
-					
 					$('#big').append('<div class="recommend-big"><a href="/courses/jsp?id='+data[index].id+'" target="_blank">' 
 							+ '<img src="/cglx/files/imgs/'+data[index].snapshot+'" alt=""><div class="detail"><span class="left">'
 							+ '共'+data[index].sub_count+'节课</span> <span class="right"><span class="spend-price">¥'+data[index].total+'</span>'
@@ -677,6 +802,43 @@
 				}
 			}
 		});
+		
+		function bindPayEvent(eleClass, arg) {
+			$('.' + eleClass).on('click', function() {
+				if(user_id == '') {
+					if(window.screen.width < 700) {
+						$('#login-btn-m').click();
+		 			} else {
+		 				$('#login-btn').click();
+		 			}
+				} else {
+					if(arg == '已购买') return;
+					if(isWeiXin()) {
+						weixinPay();
+					} else {
+						if(window.screen.width < 700) {
+							$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
+							$('.modal-mask.mobile').css('display', 'block');
+			 			} else {
+							$('#alipay_btn').attr('href', '/pay?course_id=' + id);
+			 				$('.modal-mask.pc').css('display', 'block');
+			 			}
+					}
+				}
+			});
+		}
+		
+		bindPayEvent('my-btn', $('.my-btn').html());
+		bindPayEvent('video-detail', null);
+		
+		$('.pay-fill-form-close').on('click', function() {
+			$('.modal-mask').css('display', 'none');
+		});
+		
+		$('.mobile-mycourse').on('click', function() {
+			window.location.href = '/view/mycourse.html';
+		});
+		
 		function isWeiXin(){ 
 			var ua = window.navigator.userAgent.toLowerCase(); 
 			if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
@@ -717,32 +879,6 @@
 	    		});
 			});
 		}
-		$('.buy-series').on('click', function() {
-			if(user_id == '') {
-				if(window.screen.width < 700) {
-					$('#login-btn-m').click();
-	 			} else {
-	 				$('#login-btn').click();
-	 			}
-			} else {
-				if($(this).html() == '已购买') return;
-				if(isWeiXin()) {
-					weixinPay();
-				} else {
-					if(window.screen.width < 700) {
-						$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
-						$('.modal-mask.mobile').css('display', 'block');
-		 			} else {
-						$('#alipay_btn').attr('href', '/pay?course_id=' + id);
-		 				$('.modal-mask.pc').css('display', 'block');
-		 			}
-				}
-			}
-		});
-		
-		$('.pay-fill-form-close').on('click', function() {
-			$('.modal-mask').css('display', 'none');
-		});
 	</script>
 
 </body>

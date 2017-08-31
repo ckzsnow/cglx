@@ -34,8 +34,13 @@ public class WeixinUserController {
 	@RequestMapping("/courses/jsp")
 	public String jspRedirect(HttpServletRequest request) {
 		String id = request.getParameter("id");
+		String view = request.getParameter("view");
 		request.getSession().setAttribute("course_id", id);
-		return "courses/views/seriesDetail";
+		if(view == null || view.isEmpty()) {
+			return "courses/views/seriesDetail";
+		} else {
+			return "courses/views/" + view;
+		}
 	}
 	
 	@RequestMapping("/weixinUserCoursePay")

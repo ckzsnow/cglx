@@ -196,13 +196,15 @@ public class CourseController {
 	@ResponseBody
 	public Map<String, Object> getSeriesDetailById(HttpServletRequest request) {
 		String id = request.getParameter("id");
+		String user_id = "";
 		long id_ = 0;
 		try {
 			id_ = Long.valueOf(id);
+			user_id = (String)request.getSession().getAttribute("user_id");
 		} catch (Exception ex) {
 			logger.error(ex.toString());
 		}
-		return courseDao.getSeriesDetailById(id_);
+		return courseDao.getSeriesDetailById(id_, user_id);
 	}
 	
 	@RequestMapping("/course/getSeriesSubCourseById")
@@ -236,13 +238,15 @@ public class CourseController {
 	@ResponseBody
 	public Map<String, Object> getSubcourseDetailById(HttpServletRequest request) {
 		String id = request.getParameter("id");
+		String user_id = "";
 		int id_ = 0;
 		try {
 			id_ = Integer.valueOf(id);
+			user_id = (String) request.getSession().getAttribute("user_id");
 		} catch (Exception ex) {
 			logger.error(ex.toString());
 		}
-		return courseDao.getSubcourseDetailById(id_);
+		return courseDao.getSubcourseDetailById(id_, user_id);
 	}
 	
 	@RequestMapping("/course/getParentCourseBrief")
@@ -256,7 +260,7 @@ public class CourseController {
 			logger.error(ex.toString());
 		}
 		long parent_id = (long)courseDao.getCourseById(id_).get("parent_id");
-		return courseDao.getSeriesDetailById(parent_id);
+		return courseDao.getSeriesDetailById(parent_id, "");
 	}
 	
 	private String getGernarateFileName(MultipartFile file) {

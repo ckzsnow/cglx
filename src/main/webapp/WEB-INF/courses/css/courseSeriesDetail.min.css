@@ -2929,12 +2929,12 @@
 	.modal-mask .close {
 		background: url(../images/close.png) no-repeat;
 		background-size: 100%;
-		text-indent: .5rem;
+		text-indent: 50px;
 		position: absolute;
-		width: .25rem;
-		height: .25rem;
+		width: 25px;
+		height: 25px;
 		right: 0;
-		top: -.35rem;
+		top: -35px;
 		cursor: pointer
 	}
 	.modal-mask .dialog {
@@ -2951,9 +2951,9 @@
 	}
 	.modal-mask .pay-fill-form-dialog {
 		box-sizing: border-box;
-		width: 300px;
-		margin-left: -350px;
-		margin-top: -206px;
+		width: 500px;
+		margin-left: -250px;
+		margin-top: -76px;
 		background: #fff;
 		color: #696969;
 		font-size: 14px;
