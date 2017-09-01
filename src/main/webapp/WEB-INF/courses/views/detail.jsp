@@ -376,7 +376,7 @@
 					<li><a href="/courses/views/experience.html">留学体验</a></li>
 					<li><a href="/courses/views/series.html">系列课</a></li>
 				</ul>
-				<div class="my-course">我的课堂</div>
+				<div class="my-course"><a href="/view/mycourse.html">我的课堂</a></div>
 			</div>
 		</nav>
 		<!-- mobile nav -->
@@ -388,7 +388,7 @@
 				<li><a href="/courses/views/case.html">成功案例</a></li>
 				<li><a href="/courses/views/experience.html">留学体验</a></li>
 				<li><a href="/courses/views/series.html">系列课</a></li>
-				<li class="my-course">我的课堂</li>
+				<li class="my-course"><a href="/view/mycoures.html">我的课堂</a></li>
 			</ul>
 		</nav>
 		<div class="page-video">
