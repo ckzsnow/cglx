@@ -190,8 +190,18 @@
 		<dependency>
           <groupId>com.alipay</groupId>
           <artifactId>sdk-java</artifactId>
-          <version>20170209153223</version>
+          <version>20151021120052</version>
     	</dependency>
+    	<dependency>  
+            <groupId>com.google.zxing</groupId>  
+            <artifactId>core</artifactId>  
+            <version>2.2</version>  
+        </dependency>  
+        <dependency>  
+            <groupId>com.google.zxing</groupId>  
+            <artifactId>javase</artifactId>  
+            <version>2.2</version>  
+        </dependency>  
 		
 	</dependencies>
 
