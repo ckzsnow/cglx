@@ -53,6 +53,15 @@ public class WeixinUserController {
 			return "courses/views/" + view;
 		}
 	}
+	
+	@RequestMapping("/view/subpagejsp")
+	public String subpagejsp(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		String tagId = request.getParameter("tagId");
+		request.getSession().setAttribute("subpage_id", id);
+		request.getSession().setAttribute("subpage_tagid", tagId);
+		return "view/subpage";
+	}
 
 	@RequestMapping("/weixinUserCoursePay")
 	@ResponseBody

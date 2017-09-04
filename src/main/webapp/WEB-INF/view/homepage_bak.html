@@ -527,7 +527,7 @@
 				success: function(data) {
 					if (!checkJsonIsEmpty(data)) {
 						for(var index in data) {
-							$("#recommendarticles").append("<li><a href='/view/subpage.html?id="+data[index].id+"&tagId="+data[index].tag_id+"' target='_blank'><div class='photo'><img src='/cglx/files/imgs/"+data[index].image+"' style='width:100%; height:100%'></div><div class='info'>"+data[index].title+"</div></a></li>");
+							$("#recommendarticles").append("<li><a href='/view/subpagejsp?id="+data[index].id+"&tagId="+data[index].tag_id+"' target='_blank'><div class='photo'><img src='/cglx/files/imgs/"+data[index].image+"' style='width:100%; height:100%'></div><div class='info'>"+data[index].title+"</div></a></li>");
 						}
 					}
 				},
@@ -541,7 +541,7 @@
 				success: function(data) {
 					if (!checkJsonIsEmpty(data)) {
 						for(var index in data) {
-							$("#articlelist").append("<li><a class='li-container' href='/view/subpage.html?id="+data[index].id+"&tagId="+data[index].tag_id+"' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/"+data[index].image+"'></div><div class='li-content'><div class='li-title'>"+data[index].title+"</div><div class='li-detail'>"+data[index].abstract+"</div><div class='li-other'> <span class='li-type'>"+data[index].name+"</span> <span class='li-time'>"+data[index].readable_date+"</span> <span class='li-author'><i class='li-author-name'>"+data[index].author+"</i> </span></div> </div></a></li>");
+							$("#articlelist").append("<li><a class='li-container' href='/view/subpagejsp?id="+data[index].id+"&tagId="+data[index].tag_id+"' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/"+data[index].image+"'></div><div class='li-content'><div class='li-title'>"+data[index].title+"</div><div class='li-detail'>"+data[index].abstract+"</div><div class='li-other'> <span class='li-type'>"+data[index].name+"</span> <span class='li-time'>"+data[index].readable_date+"</span> <span class='li-author'><i class='li-author-name'>"+data[index].author+"</i> </span></div> </div></a></li>");
 						}
 					}
 				},

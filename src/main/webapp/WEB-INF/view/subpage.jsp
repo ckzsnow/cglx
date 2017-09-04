@@ -1,5 +1,20 @@
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page
+	import="org.springframework.web.context.support.WebApplicationContextUtils"%>
+<%@ page import="org.springframework.web.context.WebApplicationContext"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.ddcb.utils.WeixinTools"%>
+<%
+	WebApplicationContext wac = WebApplicationContextUtils
+			.getRequiredWebApplicationContext(this.getServletContext());
+	String code = (String) session.getAttribute("url_code");
+	Map<String, String> result = new HashMap<>();
+	result = WeixinTools.getSign(
+			"http://www.udiyclub.com/view/subpage?code=" + code + "&state=123");
+	String subpageId = (String) session.getAttribute("subpage_id");
+	String subpageTagId = (String) session.getAttribute("subpage_tagid");
+%>
 <!DOCTYPE html>
-<!-- saved from url=(0032)http://www.xfz.cn/post/3292.html -->
 <html>
 
 	<head>
@@ -316,9 +331,7 @@
 								<a class="share_bg sina" target="_blank" href="javascript:callshare()" id="share_weibo" data=""></a>
 								<div class="panel-weixin panel-weixin-top" style="display: none;">
 									<section class="weixin-section">
-										<p>
-											<img src="images/qrcode">
-										</p>
+										<div id="weixin_qrcode" style="margin:10px;"></div>
 									</section>
 									<h3>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</h3>
 								</div>
@@ -445,7 +458,26 @@
 		</footer>
 		<script type="text/javascript" src="/js/main.js"></script>
 		<script type="text/javascript" src="/js/login.js"></script>
+		<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+		<script type="text/javascript" src="/js/qrcode.min.js"></script>
 		<script type="text/javascript">
+		var subpageId = <%=subpageId%>;
+		var subpageTagId = <%=subpageId%>;
+		var imgUrl = "http://www.udiyclub.com/images/logo.png";
+		var descContent = "DIY研习社－中国留学生互助交流平台，让留学不孤单";
+		var shareTitle = "DIY研习社";
+		wx.config({
+			appId: 'wxf139053a88924f58',
+			timestamp: <%=result.get("timestamp")%>,
+			nonceStr: '<%=result.get("nonceStr")%>',
+			signature: '<%=result.get("signature")%>',
+			jsApiList: [
+				'onMenuShareQQ',
+				'onMenuShareTimeline',
+				'onMenuShareAppMessage',
+				'chooseWXPay'
+			]
+		});
 			$('.name').on('click', function(event) {
 				event.stopPropagation();
 				$('#logout').toggle('fast');
@@ -461,8 +493,18 @@
 	                if (r != null) return unescape(r[2]); return null;
 	            }
 	        })(jQuery);
-			var exculdeId = $.getUrlParam('id');
-			var tagId = $.getUrlParam('tagId');
+			var exculdeId = subpageId;
+			var tagId = subpageTagId;
+			var weixin_share_url = "http://www.udiyclub.com/view/subpagejsp?id="+subpageId+"&"+"tagId="+subpageTagId;
+			var lineLink = weixin_share_url;
+			var qrcode = new QRCode(document.getElementById("weixin_qrcode"), {
+				text: weixin_share_url,
+				width: 70,
+				height: 70,
+				colorDark : "#000000",
+				colorLight : "#ffffff",
+				correctLevel : QRCode.CorrectLevel.H
+			});
 			$.ajax({
 				url: '/articles/getArticlesByTagExcludeId',
 				type: "POST",
@@ -489,6 +531,7 @@
 						$("#article_tag").html(data.name);
 						$("#article_author_").html(data.author);
 						$("#article-title").html(data.title);
+						
 						$("#article-intro").html(data.abstract);
 						$("#article-photo").html(data.snapshot);
 						$("#article_detail").html(data.contents);
@@ -500,8 +543,11 @@
 						}
 						$("#share_weibo").attr("url", window.location.href);
 						$("#share_weibo").attr("title", data.title);
-						$("#share_weibo").attr("image", "/cglx/files/imgs/"+data.snapshot);
+						$("#share_weibo").attr("image", "/cglx/files/imgs/"+data.image);
+						imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.image;
+						shareTitle = data.title;
 					}
+					execWeixinShare();
 				},
 				error: function(status, error) {
 				}
@@ -534,6 +580,62 @@
 				error: function(status, error) {
 				}
 			});
+			function execWeixinShare(){
+				wx.ready(function() {
+					setTimeout(function() {
+						wx.onMenuShareTimeline({
+							title : shareTitle, // 分享标题
+							link : lineLink, // 分享链接
+							imgUrl : imgUrl, // 分享图标
+							success : function() {
+								/* alert("报名成功！");
+								currentImageSelectEle.setAttribute("disabled", true);
+			    		    	currentImageSelectEle.innerHTML = "已经报名";
+			    		    	mui.ajax({
+			                		url: "/course/uploadUserShare",
+			                		type: "POST",
+			                		data: {courseId:currentImageSelectEle.getAttribute("course_id")},
+			                		success: function(data) {
+			                			
+			                		},
+			                		error: function(status, error) {
+			                			
+			                		}
+			                	}); */
+							},
+							cancel : function() {
+								//alert("您没有分享，报名失败！");
+							}
+						});
+						wx.onMenuShareAppMessage({
+							title : shareTitle, // 分享标题
+							desc : descContent, // 分享描述
+							link : lineLink, // 分享链接
+							imgUrl : imgUrl, // 分享图标
+							type : '', // 分享类型,music、video或link，不填默认为link
+							dataUrl : '', // 如果type是music或video，则要提供数据链接，默认为空
+							success : function() {
+								// 用户确认分享后执行的回调函数
+							},
+							cancel : function() {
+								// 用户取消分享后执行的回调函数
+							}
+						});
+						wx.onMenuShareQQ({
+							title : shareTitle, // 分享标题
+							desc : descContent, // 分享描述
+							link : lineLink, // 分享链接
+							imgUrl : imgUrl, // 分享图标
+							success : function() {
+								// 用户确认分享后执行的回调函数
+							},
+							cancel : function() {
+								// 用户取消分享后执行的回调函数
+							}
+						});
+					}, 500);
+				});
+			}
 		</script>
 	</body>
 
