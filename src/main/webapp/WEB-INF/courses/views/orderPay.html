@@ -17,7 +17,29 @@
 </head>
 <body device="pc">
 	<div class="login-mask"></div>
-	<div class="modal-mask"></div>
+	<div class="modal-mask" style="opacity: 1;">
+		<div class="wechat-pay-dialog dialog" style="opacity: 1;">
+   			<div class="wechat-pay-close close"></div>
+		    <div class="content">
+		        <div class="title">微信支付</div>
+		        <div class="order">
+		            <div class="order-info">
+		                <div class="info-title">订单信息：</div>
+		                <div class="info-detail"></div>
+		            </div>
+		            <div class="order-price">
+		                <div class="price-title">需支付：</div>
+		                <div class="price-detail"><span>¥</span><span class="num"></span></div>
+		            </div>
+		        </div>
+		        <div class="pay-qr">
+		            <img id="qrcode" src="" alt="微信支付二维码">
+		            	使用微信扫码支付
+		        </div>
+		        <div class="pay-success"><i></i>支付成功</div>
+		    </div>
+		</div>
+	</div>
 	<div class="wrapper" id="wrapper">
 		<div class="page-pay">
 			<div class="header">
@@ -30,31 +52,26 @@
 						<div class="content">
 
 							<div class="photo">
-								<img src="./支付页面_files/1503555752_342.png">
+								<img src="" id="snapshot">
 							</div>
 
 							<div class="right-wrapper">
 								<div class="name-price">
-									<div class="name">消费升级下的产品创新设计</div>
-									<div class="count">
-										<span class="remove">-</span> <span class="num">1</span> <span
-											class="add">+</span>
-									</div>
-
+									<div class="name" id="title"></div>
 									<div class="unit-price">
-										单价：¥<span class="num">159</span>
+										单价：¥<span class="num"></span>
 									</div>
 
 								</div>
-								<div class="desc">让产品和设计会说话，创业如何做出好产品？</div>
+								<div class="desc" id="abstract"></div>
 								<div class="price">
-									¥<span class="num">159</span>
+									¥<span class="num"></span>
 								</div>
 							</div>
 						</div>
 					</li>
 				</ul>
-				<div class="coupon">
+				<!-- <div class="coupon">
 					<div class="use">使用优惠码</div>
 					<div class="coupon-content">
 						<input type="text">
@@ -65,24 +82,20 @@
 						<div class="num">-0</div>
 					</div>
 				</div>
-				<div class="tips invoice">发票申请：完成订单后可在我的订单页面申请发票</div>
+				<div class="tips invoice">发票申请：完成订单后可在我的订单页面申请发票</div> -->
 				<div class="result">
-					需支付：<span>¥</span><span class="num">159</span>
+					需支付：<span>¥</span><span class="num"></span>
 				</div>
 				<div class="submit-button">
-					<div class="wechart-pay-button" style="">微信支付</div>
-					<div class="zhifubao-pay-button" style="display: none;">支付宝支付</div>
-					<div class="duigong-pay-button">转账支付</div>
+					<div id="weixinpay" class="wechart-pay-button" style="">微信支付</div>
+					<div id="alipay" class="duigong-pay-button" style="background:url(../images/zhifubao.png) 22px center no-repeat  #00a9f1; text-indent: 20px;">支付宝支付</div>
 				</div>
 				<div class="tips tips-count"></div>
 				<!-- <div class="tips">订单30分钟内有效，请尽快支付</div> -->
-				<div class="tips only-m">发票申请：完成订单后可在我的订单页面申请发票</div>
+				<!-- <div class="tips only-m">发票申请：完成订单后可在我的订单页面申请发票</div> -->
 			</div>
 		</div>
 	</div>
-
-
-
 
 	<footer class="footer-simple">
 			<div class="section">
@@ -116,9 +129,39 @@
 				<p>©2017 沪ICP备13040906号－5</p>
 			</div>
 		</footer>
-
-	<script src="/courses/js/orderPay.min.js"></script>
-
-
+	<script src="/courses/js/main.js"></script>
+	<script type="text/javascript" src="/js/login2.js"></script>
+	<script>
+		
+		(function ($) {
+		    $.getUrlParam = function (name) {
+		        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		        var r = window.location.search.substr(1).match(reg);
+		        if (r != null) return unescape(r[2]); return null;
+		    }
+		})(jQuery);	
+		
+		var id = $.getUrlParam('id');
+		$.post('/course/getCourseById', {id : id}, function(data) {
+			$('#title').html(data.title);
+			$('.info-detail').html(data.title);
+			$('#snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
+			$('.num').html(data.cost);
+		});
+		
+		$('#alipay').on('click', function() {
+			window.location.href = '/pay?course_id=' + id;
+		});
+		$('.close').on('click', function() {
+			$('.modal-mask').css('display', 'none');
+		});
+		$('#weixinpay').on('click', function() {
+			$.post('/weixinUserCoursePayAtPC', {course_id : id}, function(data) {
+				$('#qrcode').attr('src', data);
+				$('.modal-mask').css('display', 'block');
+			});
+		});
+	</script>
+	
 </body>
 </html>

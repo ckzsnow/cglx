@@ -50,7 +50,7 @@
     }
 
     body .wrapper {
-        min-height: 900px
+        min-height: 700px
     }
 
     body header {
@@ -598,7 +598,7 @@
         background: #fff;
         width: 435px;
         margin-left: -218px;
-        margin-top: -258px
+        margin-top: -228px
     }
 
     .modal-mask .wechat-pay-dialog .content {
@@ -846,7 +846,7 @@
         overflow: hidden;
         padding: 3px 0 20px 50px;
         border-bottom: 1px solid #ededed;
-        background-image: url(/courses/images/logo.png);
+        background-image: url(/images/about-logo.png);
         background-size: 30px;
         background-position: 10px 0;
         background-repeat: no-repeat
