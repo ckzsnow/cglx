@@ -98,7 +98,7 @@ public class AlipayService {
 	public String buildPayoffRequest() {
 
         // 服务器异步通知页面路径
-        String notify_url = "localhost:8080/cashbackPayFinished";
+        String notify_url = "http://www.udiyclub.com/cashbackPayFinished";
         // 需http://格式的完整路径，不能加?id=123这类自定义参数
 
         //付款账号

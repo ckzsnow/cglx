@@ -406,6 +406,12 @@
 												</div>
 											</div>
 											<div class="form-group">
+												<label for="inputEmail3" class="col-sm-2 control-label">适宜人群</label>
+												<div class="col-sm-10">
+													<textarea class="form-control detail" id="nonseries-crowds"></textarea>
+												</div>
+											</div>
+											<div class="form-group">
 												<label for="inputEmail3" class="col-sm-2 control-label">课程时长</label>
 												<div class="col-sm-10">
 													<input type="text" class="form-control detail" id="nonseries-time" placeholder="课程时长">
@@ -421,12 +427,6 @@
 												<label for="inputEmail3" class="col-sm-2 control-label">视频源</label>
 												<div class="col-sm-10">
 													<input type="text" class="form-control detail" id="nonseries-video_src" placeholder="视频源">
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="inputEmail3" class="col-sm-2 control-label">适宜人群</label>
-												<div class="col-sm-10">
-													<textarea class="form-control detail" id="nonseries-crowds"></textarea>
 												</div>
 											</div>
 											<div class="form-group">
@@ -514,10 +514,23 @@
 					fd.append('video_src', $('#series-video_src').val());
 					fd.append('snapshot', series_snapshot);
 					fd.append('time', $('#series-time').val());
-					fd.append('description', $('#series-description').val());
-					fd.append('outline', $('#series-outline').val());
-					fd.append('info', $('#series-info').val());
-					fd.append('crowds', $('#series-crowds').val());
+					
+					var description = $('#series-description').val();
+					description = description.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+					fd.append('description', description);
+					
+					var outline = $('#series-outline').val();
+					outline = outline.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+					fd.append('outline', outline);
+					
+					var info = $('#series-info').val();
+					info = info.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+					fd.append('info', info);
+					
+					var crowds = $('#series-crowds').val();
+					crowds = crowds.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+					fd.append('crowds', crowds);
+					
 					fd.append('cost', $('#series-cost').val());
 					fd.append('playtime', $('#series-playtime').val());
 					fd.append('is_recommend', $('#series-recommend').val());
@@ -572,14 +585,37 @@
 					fd.append('cost', $('#nonseries-cost').val());
 					fd.append('teacher', $('#nonseries-teacher').val());
 					fd.append('teacher_position', $('#nonseries-teacher_position').val());
-					fd.append('teacher_abstract', $('#nonseries-teacher_abstract').val());
+					
+					var teacher_abstract = $('#nonseries-teacher_abstract').val();
+					teacher_abstract = teacher_abstract.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+					fd.append('teacher_abstract', teacher_abstract);
+					
 					fd.append('teacher_image', nonseries_teacher_image);
-					fd.append('help', $('#nonseries-help').val());
-					fd.append('about', $('#nonseries-about').val());
-					fd.append('description', $('#nonseries-description').val());
-					fd.append('outline', $('#nonseries-outline').val());
-					fd.append('info', $('#nonseries-info').val());
-					fd.append('crowds', $('#nonseries-crowds').val());
+					
+					var help = $('#nonseries-help').val();
+					help = help.replace(/\n/g,"_@").replace(/\r/g, '_#');
+					fd.append('help', help);
+					
+					var description = $('#nonseries-description').val();
+					description = description.replace(/\n/g,"_@").replace(/\r/g, '_#');
+					fd.append('description', description);
+					
+					var outline = $('#nonseries-outline').val();
+					outline = outline.replace(/\n/g,"_@").replace(/\r/g, '_#');
+					fd.append('outline', outline);
+					
+					var info = $('#nonseries-info').val();
+					outline = outline.replace(/\n/g,"_@").replace(/\r/g, '_#');
+					fd.append('info', info);
+					
+					var crowds = $('#nonseries-crowds').val();
+					crowds = crowds.replace(/\n/g,"_@").replace(/\r/g, '_#');
+					fd.append('crowds', crowds);
+					
+					var about = $('#nonseries-about').val();
+					about = about.replace(/\n/g,"_@").replace(/\r/g, '_#');
+					fd.append('about', about);
+					
 					fd.append('is_recommend', $('#nonseries-recommend').val());
 					fd.append('is_nav_recommend', $('#nonseries-nav_recommend').val());
 					fd.append('video_src', $('#nonseries-video_src').val());
@@ -646,10 +682,23 @@
 						$('#series-title').val(data.title);
 						$('#series-video_src').val(data.video_src);
 						$('#series-time').val(data.time);
-						$('#series-description').val(data.description);
-						$('#series-outline').val(data.outline);
-						$('#series-info').val(data.info);
-						$('#series-crowds').val(data.crowds);
+						
+						var description = data.description;
+						description = description.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						$('#series-description').val(description);
+						
+						var outline = data.outline;
+						outline = outline.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						$('#series-outline').val(outline);
+						
+						var info = data.info;
+						info = info.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						$('#series-info').val(info);
+						
+						var crowds = data.crowds;
+						crowds = crowds.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						$('#series-crowds').val(crowds);
+						
 						$('#series-cost').val(data.cost);
 						$('#series-playtime').val(data.playtime);
 						$('#series-nav_recommend').val(data.is_nav_recommend);
@@ -664,16 +713,37 @@
 						$('#nonseries-title').val(data.title);
 						$('#nonseries-teacher').val(data.teacher);
 						$('#nonseries-teacher_position').val(data.teacher_position);
-						$('#nonseries-teacher_abstract').val(data.teacher_abstract);
+						
+						var teacher_abstract = data.teacher_abstract;
+						teacher_abstract = teacher_abstract.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						$('#nonseries-teacher_abstract').val(teacher_abstract);
+						
 						$('#nonseries-tag').val(data.tag);
 						$('#nonseries-nav_recommend').val(data.is_nav_recommend);
 						$('#nonseries-recommend').val(data.is_recommend);
-						$('#nonseries-help').val(data.help);
+						
+						var help = data.help;
+						help = help.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						$('#nonseries-help').val(help);
+						
 						$('#nonseries-about').val(data.about);
-						$('#nonseries-description').val(data.description);
-						$('#nonseries-outline').val(data.outline);
-						$('#nonseries-info').val(data.info);
-						$('#nonseries-crowds').val(data.crowds);
+						
+						var description = data.description;
+						description = description.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						$('#nonseries-description').val(description);
+						
+						var outline = data.outline;
+						outline = outline.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						$('#nonseries-outline').val(outline);
+						
+						var info = data.info;
+						info = info.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						$('#nonseries-info').val(info);
+						
+						var crowds = data.crowds;
+						crowds = crowds.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						$('#nonseries-crowds').val(crowds);
+						
 						$('#nonseries-time').val(data.time);
 						$('#nonseries-video_src').val(data.video_src);
 						$('#nonseries-cost').val(data.cost);

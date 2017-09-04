@@ -27,8 +27,8 @@ public class AlipayService2 {
 	public static String doPost(Double amount, String orderNo) throws ServletException, IOException{
 		AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();//创建API对应的request
 		alipayRequest.putOtherTextParam("", "");
-		alipayRequest.setReturnUrl("http://localhost:8080/alipayFinished");
-		alipayRequest.setNotifyUrl("http://localhost:8080/alipayFinished");//在公共参数中设置回跳和通知地址
+		alipayRequest.setReturnUrl("http://www.udiyclub.com/alipayFinished");
+		alipayRequest.setNotifyUrl("http://www.udiyclub.com/alipayFinished");//在公共参数中设置回跳和通知地址
 		alipayRequest.setBizContent("{" +
 		"    \"out_trade_no\":\"111111111\"," +
 		"    \"total_amount\":\"0.01\"," +

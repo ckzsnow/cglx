@@ -467,7 +467,7 @@
 							<div>
 								<ul>
 									<li id="about">
-										
+										DIY研习社在线课程是DIY研习社旗下的视频课程产品，旨在汇聚各大机构的优秀顾问和有成功经验的个人导师，为留学申请者提供实战的指导，帮大家更低成本、更高效率、更好体验的获取留学申请知识和方法。课程内容覆盖留学申请、出国语言、名企实习面试等，课程体验广受学生好评。
 									</li>
 								</ul>
 							</div>
@@ -623,16 +623,27 @@
 		var id = <%=courseId%>;//$.getUrlParam('id');
 		$.post('/course/getSeriesDetailById', {id : id}, function(data) {
 			$('#banner').attr('src', '/cglx/files/imgs/' + data.banner);
-			$('#abstract').html(data.abstract);
+			
+			var abstract_ = data.abstract;
+			abstract_ = abstract_.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+			$('#abstract').html(abstract_);
+			
 			$('.sub_count').html(data.sub_count);
 			$('.sub_time_total').html(data.sub_time_total + "分钟");
 			$('.cost').html('￥' + data.total);
 			$('.discount').html(data.discount);
 			$('#teacher_img').attr('src', '/cglx/files/imgs/' + data.teacher_image);
 			$('#teacher_position').html(data.teacher_position);
-			$('#teacher_abstract').html(data.teacher_abstract);
-			$('#help').html(data.help);
-			$('#about').html(data.about);
+			
+			var teacher_abstract = data.teacher_abstract;
+			teacher_abstract = teacher_abstract.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+			$('#teacher_abstract').html(teacher_abstract);
+			
+			var help = data.help;
+			help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+			$('#help').html(help);
+			
+			//$('#about').html(data.about);
 			if(data.pay_status == 1) {
 				$('.buy-series').html('已购买').css('background-color', '#ccc');
 			}

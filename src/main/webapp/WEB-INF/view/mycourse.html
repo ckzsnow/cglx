@@ -149,7 +149,7 @@
 			$.post('/course/getPaidCourse', function(data) {
 				if (!checkJsonIsEmpty(data)) {
 					for(var index in data) {
-						$("#course_list").append('<li class="video-info info normal"><a href="detail.html?id='+data[index].id+'&&pid='+data[index].parent_id+'" target="_blank">'
+						$("#course_list").append('<li class="video-info info normal"><a href="/courses/jsp?id='+data[index].id+'&view=detail" target="_blank">'
 								+ '<div class="info-tag">'+data[index].tag+'</div><div class="info-logo"><img class="lazyload" src="/cglx/files/imgs/'+data[index].snapshot+'"></div>'
 								+ '<div class="info-content"><div class="info-title">'+data[index].title+'</div><div class="info-author">'+data[index].final_tea + '/ ' + data[index].final_position +'</div>'
 								+ '<div class="info-price"><span>¥</span>'+data[index].cost+'</div></div><div class="info-main"><div class="video-inline">'

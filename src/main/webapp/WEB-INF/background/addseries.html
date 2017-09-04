@@ -331,13 +331,25 @@
 	if(id != null && id != '') {
 		$.post('/course/getCourseById', {id:id}, function(data) {
 			$('#title').val(data.title);
-			$('#abstract').val(data.abstract);
+			
+			var abstract_ = data.abstract;
+			abstract_ = abstract_.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+			$('#abstract').val(abstract_);
+			
 			$('#teacher').val(data.teacher);
 			$('#teacher_position').val(data.teacher_position);
-			$('#teacher_abstract').val(data.teacher_abstract);
+			
+			var teacher_abstract = data.teacher_abstract;
+			teacher_abstract = teacher_abstract.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+			$('#teacher_abstract').val(teacher_abstract);
+			
 			$('#nav_recommend').val(data.is_nav_recommend);
 			$("#recommend").val(data.is_recommend);
-			$('#help').val(data.help);
+			
+			var help = data.help;
+			help = help.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+			
+			$('#help').val(help);
 			$('#about').val(data.about);
 			$('#cost').val(data.cost);
 			
@@ -367,13 +379,25 @@
 		fd.append('title', $('#title').val());
 		fd.append('banner', banner);
 		fd.append('snapshot', snapshot);
-		fd.append('abstract', $('#abstract').val());
+		
+		var abstract_ = $('#abstract').val();
+		abstract_ = abstract_.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+		
+		fd.append('abstract', abstract_);
 		fd.append('cost', $('#cost').val());
 		fd.append('teacher', $('#teacher').val());
 		fd.append('teacher_position', $('#teacher_position').val());
+		
+		var teacher_abstract = $('#teacher_abstract').val();
+		teacher_abstract = teacher_abstract.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
 		fd.append('teacher_abstract', $('#teacher_abstract').val());
+		
 		fd.append('teacher_image', teacher_image);
-		fd.append('help', $('#help').val());
+		
+		var help = $('#help').val();
+		help = help.replace(/\n/g,"_@").replace(/\r/g, '_#');
+		fd.append('help', help);
+		
 		fd.append('about', $('#about').val());
 		fd.append('is_recommend', $('#recommend').val());
 		fd.append('is_nav_recommend', $('#nav_recommend').val());

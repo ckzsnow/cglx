@@ -37,18 +37,18 @@ public class CourseDaoImpl implements ICourseDao {
 			String sql = "select is_recommend, id, snapshot, course.cost as total, sum(course_2.time) as sub_time_total, "
 					+ "course_2.*, sum(course_2.cost) as sub_total, "
 					+ "ABS(course.cost-sum(course_2.cost)) as discount, "
-					+ "count(course.parent_id) as sub_count from course LEFT JOIN "
+					+ "count(course.parent_id) as sub_count, create_time from course LEFT JOIN "
 					+ "(select course.parent_id,course.cost, course.time from course) "
 					+ "as course_2 on course_2.parent_id=course.id where "
-					+ "course.is_series=1 and course.is_recommend=1 group by parent_id limit 0,1";
+					+ "course.is_series=1 and course.is_recommend=1 group by parent_id order by course.create_time desc limit 0,1";
 			retList1 = jdbcTemplate.queryForList(sql);
 			String sql2 = "select is_recommend, id, snapshot, course.cost as total, sum(course_2.time) as sub_time_total, "
 					+ "course_2.*, sum(course_2.cost) as sub_total, "
 					+ "ABS(course.cost-sum(course_2.cost)) as discount, "
-					+ "count(course.parent_id) as sub_count from course LEFT JOIN "
+					+ "count(course.parent_id) as sub_count, create_time from course LEFT JOIN "
 					+ "(select course.parent_id,course.cost, course.time from course) "
 					+ "as course_2 on course_2.parent_id=course.id where "
-					+ "course.is_series=1 and course.is_recommend=2 group by parent_id limit 0,2";
+					+ "course.is_series=1 and course.is_recommend=2 group by parent_id order by course.create_time desc limit 0,2";
 			retList2 = jdbcTemplate.queryForList(sql2);
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());

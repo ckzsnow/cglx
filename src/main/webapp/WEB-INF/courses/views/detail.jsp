@@ -571,10 +571,11 @@
 					</div>
 					<div class="info">
 						<div class="sub-title">
-							<span>关于小饭桌在线课堂</span>
+							<span>关于DIY研习社在线课程</span>
 						</div>
 						<div class="content">
 							<p id="about">
+							DIY研习社在线课程是DIY研习社旗下的视频课程产品，旨在汇聚各大机构的优秀顾问和有成功经验的个人导师，为留学申请者提供实战的指导，帮大家更低成本、更高效率、更好体验的获取留学申请知识和方法。课程内容覆盖留学申请、出国语言、名企实习面试等，课程体验广受学生好评。
 							</p>
 						</div>
 					</div>
@@ -722,16 +723,35 @@
 			$('.course_title').html(data.title);
 			$('.cost').html(data.cost);
 			$('#time').html(data.time);
-			$('#teacher_image').attr('href', '/cglx/files/imgs/' + data.final_image);
+			$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
 			$('#teacher').html(data.final_tea);
 			$('#teacher_position').html(data.final_position);
-			$('#teacher_abstract').html(data.final_abstract);
-			$('#description').html(data.description);
-			$('#outline').html(data.outline);
-			$('#info').html(data.info);
-			$('#crowds').html(data.crowds);
-			$('#help').html(data.final_help);
-			$('#about').html(data.final_about);
+			
+			var final_abstract = data.final_abstract;
+			final_abstract = final_abstract.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+			$('#teacher_abstract').html(final_abstract);
+			
+			var description = data.description;
+			description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+			$('#description').html(description);
+			
+			var outline = data.outline;
+			outline = outline.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+			$('#outline').html(outline);
+			
+			var info = data.info;
+			info = info.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+			$('#info').html(info);
+			
+			var crowds = data.crowds;
+			crowds = crowds.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+			$('#crowds').html(crowds);
+			
+			var help = data.final_help;
+			help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;')
+			$('#help').html(help);
+			
+			//$('#about').html(data.final_about);
 			$('.buy-status').html(data.pay_status == 1?'已购买':'未购买')
 			$('#course_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
 			if(data.pay_status == 1) {
