@@ -610,8 +610,14 @@
 
 						</div>
 					</div>
-
 				</div>
+				
+				<!-- 手机底部购买 -->
+				<div class="price-pay-box" style="height: .6rem;background: #fff;padding: 0 15px;line-height: .6rem;position: fixed;z-index: 100;width: 100%;bottom: 0;box-sizing: border-box;box-shadow: rgba(0,0,0,.1) 0 0 4px;border-top: 1px solid rgba(0,0,0,.1);">
+	                <div class="price" style="float: left;color: #ff4c7c;font-size: .2rem;"><span>¥</span><span class="cost"></span></div>
+	                <div class="join-button watch-video my-btn" style="font-size: .18rem; float: right;width: 1rem;height: .4rem;color: #fff;cursor: pointer;line-height: 40px;margin-top: .1rem;background: #f5a623;text-align: center;border-radius: 4px;">立即购买</div>
+				</div>
+				
 				<!-- pc 立即购买固定栏 -->
 				<div class="bottom-buy-link-wrap">
 					<div class="bottom-buy-link">
@@ -836,13 +842,14 @@
 					if(isWeiXin()) {
 						weixinPay();
 					} else {
-						if(window.screen.width < 700) {
+						/* if(window.screen.width < 700) {
 							$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
 							$('.modal-mask.mobile').css('display', 'block');
 			 			} else {
 							$('#alipay_btn').attr('href', '/pay?course_id=' + id);
 			 				$('.modal-mask.pc').css('display', 'block');
-			 			}
+			 			} */
+			 			window.location.href = '/courses/views/orderPay.html?id=' + id;
 					}
 				}
 			});

@@ -740,13 +740,14 @@
 				if(isWeiXin()) {
 					weixinPay();
 				} else {
-					if(window.screen.width < 700) {
+					/* if(window.screen.width < 700) {
 						$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
 						$('.modal-mask.mobile').css('display', 'block');
 		 			} else {
 						$('#alipay_btn').attr('href', '/pay?course_id=' + id);
 		 				$('.modal-mask.pc').css('display', 'block');
-		 			}
+		 			} */
+					window.location.href = '/courses/views/orderPay.html?id=' + id;
 				}
 			}
 		});
