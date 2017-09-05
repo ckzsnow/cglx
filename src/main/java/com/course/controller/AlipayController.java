@@ -50,7 +50,7 @@ public class AlipayController {
 			return "error";
 		} else {
 			AlipayService service = new AlipayService();
-			String rHtml = service.buildAlipayRequest(0.01, tradeNo);
+			String rHtml = service.buildAlipayRequest(cost, tradeNo);
 			return rHtml;
 		}
 	}
