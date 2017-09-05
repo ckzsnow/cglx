@@ -19,13 +19,13 @@ public class AlipayConfig {
 //↓↓↓↓↓↓↓↓↓↓请在这里配置您的基本信息↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 
 	// 合作身份者ID，签约账号，以2088开头由16位纯数字组成的字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
-	public static String partner = "2088212246427002";
+	public static String partner = "2088721688767789";
 	
 	// 收款支付宝账号，以2088开头由16位纯数字组成的字符串，一般情况下收款账号就是签约账号
-	public static String seller_email = "2720944966@qq.com";
+	public static String seller_email = "udiyclub@163.com";
 
 	// MD5密钥，安全检验码，由数字和字母组成的32位字符串，查看地址：https://b.alipay.com/order/pidAndKey.htm
-    public static String key = "ddf4jwkr2b9c9ul41cmde5x6lxmgll3p";
+    public static String key = "ebxgl3xe0asjy7iqqcbjcy2xq4myr33w";
 
 	// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
 	public static String notify_url = "http://www.udiyclub.com/payAsyFinished";
@@ -52,7 +52,7 @@ public class AlipayConfig {
 	// 调用的接口名，无需修改
 	public static String service = "create_direct_pay_by_user";
 
-	public static String account_name = "柴快长";
+	public static String account_name = "上海邦融网络科技有限责任公司";
 	
 //↑↑↑↑↑↑↑↑↑↑请在这里配置您的基本信息↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑
 	
