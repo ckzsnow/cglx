@@ -771,6 +771,35 @@
 				imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
 				shareTitle = data.title;
 				execWeixinShare();
+				
+				function bindPayEvent(eleClass, arg) {
+					$('.' + eleClass).on('click', function() {
+						if(user_id == '') {
+							if(window.screen.width < 700) {
+								$('#login-btn-m').click();
+				 			} else {
+				 				$('#login-btn').click();
+				 			}
+						} else {
+							if(arg == '已购买') return;
+							if(isWeiXin()) {
+								weixinPay();
+							} else {
+								/* if(window.screen.width < 700) {
+									$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
+									$('.modal-mask.mobile').css('display', 'block');
+					 			} else {
+									$('#alipay_btn').attr('href', '/pay?course_id=' + id);
+					 				$('.modal-mask.pc').css('display', 'block');
+					 			} */
+					 			window.location.href = '/courses/views/orderPay.html?id=' + id;
+							}
+						}
+					});
+				}
+				
+				bindPayEvent('my-btn', $('.my-btn').html());
+				bindPayEvent('video-detail', null);
 			}
 		});
 		
@@ -815,35 +844,6 @@
 				}
 			}
 		});
-		
-		function bindPayEvent(eleClass, arg) {
-			$('.' + eleClass).on('click', function() {
-				if(user_id == '') {
-					if(window.screen.width < 700) {
-						$('#login-btn-m').click();
-		 			} else {
-		 				$('#login-btn').click();
-		 			}
-				} else {
-					if(arg == '已购买') return;
-					if(isWeiXin()) {
-						weixinPay();
-					} else {
-						/* if(window.screen.width < 700) {
-							$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
-							$('.modal-mask.mobile').css('display', 'block');
-			 			} else {
-							$('#alipay_btn').attr('href', '/pay?course_id=' + id);
-			 				$('.modal-mask.pc').css('display', 'block');
-			 			} */
-			 			window.location.href = '/courses/views/orderPay.html?id=' + id;
-					}
-				}
-			});
-		}
-		
-		bindPayEvent('my-btn', $('.my-btn').html());
-		bindPayEvent('video-detail', null);
 		
 		$('.mobile-mycourse').on('click', function() {
 			window.location.href = '/view/mycourse.html';

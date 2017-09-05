@@ -627,6 +627,30 @@
 			shareTitle = data.title;
 			execWeixinShare();
 			
+			$('.buy-series').on('click', function() {
+				if(user_id == '') {
+					if(window.screen.width < 700) {
+						$('#login-btn-m').click();
+		 			} else {
+		 				$('#login-btn').click();
+		 			}
+				} else {
+					if($(this).html() == '已购买') return;
+					if(isWeiXin()) {
+						weixinPay();
+					} else {
+						/* if(window.screen.width < 700) {
+							$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
+							$('.modal-mask.mobile').css('display', 'block');
+			 			} else {
+							$('#alipay_btn').attr('href', '/pay?course_id=' + id);
+			 				$('.modal-mask.pc').css('display', 'block');
+			 			} */
+						window.location.href = '/courses/views/orderPay.html?id=' + id;
+					}
+				}
+			});
+			
 		});
 		
 		$.post('/course/getSeriesSubCourseById', {id : id}, function(data) {
@@ -707,29 +731,7 @@
 	    		});
 			});
 		}
-		$('.buy-series').on('click', function() {
-			if(user_id == '') {
-				if(window.screen.width < 700) {
-					$('#login-btn-m').click();
-	 			} else {
-	 				$('#login-btn').click();
-	 			}
-			} else {
-				if($(this).html() == '已购买') return;
-				if(isWeiXin()) {
-					weixinPay();
-				} else {
-					/* if(window.screen.width < 700) {
-						$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
-						$('.modal-mask.mobile').css('display', 'block');
-		 			} else {
-						$('#alipay_btn').attr('href', '/pay?course_id=' + id);
-		 				$('.modal-mask.pc').css('display', 'block');
-		 			} */
-					window.location.href = '/courses/views/orderPay.html?id=' + id;
-				}
-			}
-		});
+		
 		function execWeixinShare(){
 			wx.ready(function() {
 				setTimeout(function() {
