@@ -87,6 +87,7 @@ public class GetWxOrderno
 		 httpost.setEntity(new StringEntity(xmlParam, "UTF-8"));
 		 HttpResponse response = httpclient.execute(httpost);
 	     String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
+	     logger.debug("jsonStr weixin: {}", jsonStr);
 	    if(jsonStr.indexOf("FAIL")!=-1){
 	    	return code_url;
 	    }

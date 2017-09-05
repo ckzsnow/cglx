@@ -98,7 +98,8 @@ public class WeixinUserController {
 
 	@RequestMapping("/weixinUserCoursePayAtPC")
 	@ResponseBody
-	public String weixinUserCoursePayAtPC(HttpSession httpSession, HttpServletRequest request) {
+	public Map<String, String> weixinUserCoursePayAtPC(HttpSession httpSession, HttpServletRequest request) {
+		Map<String, String> retMap = new HashMap<>();
 		String userId = (String) httpSession.getAttribute("user_id");
 		String openId = (String) httpSession.getAttribute("openid");
 		String courseId = request.getParameter("course_id");
@@ -106,13 +107,14 @@ public class WeixinUserController {
 		String fee = (String) courseMap.get("cost");
 		logger.debug("weixinUserCoursePay course_id : {}", courseId);
 		if (userId == null || userId.isEmpty()) {
-			return "\"error_msg\":\"no user id\"";
+			retMap.put("error_msg", "no user id");
+			return retMap;
 		}
 		WeixinPayUtils.setNotifyurl("http://www.udiyclub.com/weixinUserCoursePayResult");
 		logger.debug("weixinUserCoursePay openid : {}", openId);
 		logger.debug("weixinUserCoursePay fee : {}", fee);
 		WxPayDto tpWxPay = new WxPayDto();
-		tpWxPay.setOpenId(openId);
+		tpWxPay.setOpenId("oSTV_t9z_fYa7AQVYO0y5-OMFavQ");
 		tpWxPay.setBody("UDIY研习社");
 		tpWxPay.setOrderId(WeixinPayUtils.getNonceStr());
 		tpWxPay.setSpbillCreateIp(request.getRemoteAddr());
@@ -120,12 +122,17 @@ public class WeixinUserController {
 		tpWxPay.setAttach(courseId);
 		String qrcode = WeixinPayUtils.getCodeurl(tpWxPay);
 		if (qrcode == null || qrcode.isEmpty()) {
-			return "\"error_msg\":\"微信服务器无法获取到支付支付二维码，请稍后重试！\"";
+			retMap.put("error_msg", "微信服务器无法获取到支付支付二维码，请稍后重试！");
+			return retMap;
 		}
 		if (courseDao.addUserCourse(userId, courseId, tpWxPay.getOrderId())) {
-			return generateQrcode(qrcode);
+			retMap.put("error_msg", "generateQrcode success");
+			retMap.put("qrcodePath", generateQrcode(qrcode));
+			retMap.put("orderId", tpWxPay.getOrderId());
+			return retMap;
 		} else {
-			return "\"error_msg\":\"写数据库错误，请稍后重试！\"";
+			retMap.put("error_msg", "写数据库错误，请稍后重试！");
+			return retMap;
 		}
 	}
 
@@ -210,7 +217,7 @@ public class WeixinUserController {
 		}
 		String f_name = UUID.randomUUID() + ".png";
 		try {
-			File f = new File("/data/cglx/files" + "qrcode", f_name);
+			File f = new File("/data/cglx/files/qrcode", f_name);
 			FileOutputStream fio = new FileOutputStream(f);
 			MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 			Map hints = new HashMap();
@@ -221,7 +228,7 @@ public class WeixinUserController {
 			BufferedImage image = toBufferedImage(bitMatrix);
 			// 输出二维码图片流
 			ImageIO.write(image, "png", fio);
-			return ("/data/cglx/files/qrcode/" + f_name);
+			return ("/cglx/files/qrcode/" + f_name);
 
 		} catch (Exception e) {
 			logger.error(e.toString());

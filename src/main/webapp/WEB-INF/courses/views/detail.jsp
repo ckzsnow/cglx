@@ -405,18 +405,15 @@
 										value="http://static-image.xfz.cn/1503558453_980.jpg">
 								</div>
 								<div class="share">
-									<i>分享至：</i> <a class="share_bg weixin"></a> <a
-										class="share_bg sina" target="_blank"></a>
-									<wb:share-button appkey="123673426" addition="simple"
-										type="icon"></wb:share-button>
-									<div class="panel-weixin">
-										<section class="weixin-section">
-											<p>
-												<img alt="UDIY" src="">
-											</p>
-										</section>
-										<h3>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</h3>
-									</div>
+									<i>分享至：</i> 
+									<a class="share_bg weixin weixin-top"></a> 
+									<a class="share_bg sina" target="_blank" href="javascript:callshare()" id="share_weibo" data=""></a>
+									<div class="panel-weixin panel-weixin-top" style="display: none;">
+									<section class="weixin-section">
+										<div id="weixin_qrcode" style="margin:10px;"></div>
+									</section>
+									<h3>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</h3>
+								</div>
 								</div>
 							</div>
 						</div>
@@ -613,7 +610,7 @@
 				</div>
 				
 				<!-- 手机底部购买 -->
-				<div class="price-pay-box" style="height: .6rem;background: #fff;padding: 0 15px;line-height: .6rem;position: fixed;z-index: 100;width: 100%;bottom: 0;box-sizing: border-box;box-shadow: rgba(0,0,0,.1) 0 0 4px;border-top: 1px solid rgba(0,0,0,.1);">
+				<div class="price-pay-box" style="height: .6rem;background: #fff;padding: 0 15px;line-height: .6rem;position: fixed;z-index: 100;width: 100%;bottom: -15px;box-sizing: border-box;box-shadow: rgba(0,0,0,.1) 0 0 4px;border-top: 1px solid rgba(0,0,0,.1);">
 	                <div class="price" style="float: left;color: #ff4c7c;font-size: .2rem;"><span>¥</span><span class="cost"></span></div>
 	                <div class="join-button watch-video my-btn" style="font-size: .18rem; float: right;width: 1rem;height: .4rem;color: #fff;cursor: pointer;line-height: 40px;margin-top: .1rem;background: #f5a623;text-align: center;border-radius: 4px;">立即购买</div>
 				</div>
@@ -688,9 +685,10 @@
 		</div>
 	</footer>
 
-	<script src="/courses/js/main.js"></script>
+	<script src="/js/main.js"></script>
 	<script type="text/javascript" src="/js/login2.js"></script>
 	<script src="/courses/js/courseSeriesDetail.min.js"></script>
+	<script type="text/javascript" src="/js/qrcode.min.js"></script>
 	<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script>
 	wx.config({
@@ -706,6 +704,10 @@
 		]
 	});
 	
+	var imgUrl = "http://www.udiyclub.com/images/logo.png";
+	var descContent = "DIY研习社－中国留学生互助交流平台，让留学不孤单";
+	var shareTitle = "DIY研习社";
+	
 		$('.name').on('click', function(event) {
 			event.stopPropagation();
 			$('#logout').toggle('fast');
@@ -713,7 +715,13 @@
 		$(document).on('click', function() {
 			$('#logout').hide(500);
 		});
-	
+		
+		function callshare(){
+			var shareTitle = $("#share_weibo").attr("title");
+			var shareImg = $("#share_weibo").attr("image");
+			var shareURL = $("#share_weibo").attr("url");
+			window.open("http://v.t.sina.com.cn/share/share.php?title="+encodeURIComponent(shareTitle)+"&url="+encodeURIComponent(shareURL)+"&pic="+encodeURIComponent(shareImg)+"&source=bookmark","_blank");
+		};
 		(function ($) {
 	        $.getUrlParam = function (name) {
 	            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -785,6 +793,9 @@
 					alert('课程尚未开播，开播时间为：' + playtime);
 				}
 			}
+			imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
+			shareTitle = data.title;
+			execWeixinShare();
 			
 		});
 		
@@ -904,6 +915,73 @@
 	    		        });
 	    			}
 	    		});
+			});
+		}
+		
+		var weixin_share_url = "http://www.udiyclub.com/courses/jsp?id=" + id + "&view=detail";
+		var qrcode = new QRCode(document.getElementById("weixin_qrcode"), {
+			text: weixin_share_url,
+			width: 70,
+			height: 70,
+			colorDark : "#000000",
+			colorLight : "#ffffff",
+			correctLevel : QRCode.CorrectLevel.H
+		});
+		
+		function execWeixinShare(){
+			wx.ready(function() {
+				setTimeout(function() {
+					wx.onMenuShareTimeline({
+						title : shareTitle, // 分享标题
+						link : lineLink, // 分享链接
+						imgUrl : imgUrl, // 分享图标
+						success : function() {
+							/* alert("报名成功！");
+							currentImageSelectEle.setAttribute("disabled", true);
+		    		    	currentImageSelectEle.innerHTML = "已经报名";
+		    		    	mui.ajax({
+		                		url: "/course/uploadUserShare",
+		                		type: "POST",
+		                		data: {courseId:currentImageSelectEle.getAttribute("course_id")},
+		                		success: function(data) {
+		                			
+		                		},
+		                		error: function(status, error) {
+		                			
+		                		}
+		                	}); */
+						},
+						cancel : function() {
+							//alert("您没有分享，报名失败！");
+						}
+					});
+					wx.onMenuShareAppMessage({
+						title : shareTitle, // 分享标题
+						desc : descContent, // 分享描述
+						link : lineLink, // 分享链接
+						imgUrl : imgUrl, // 分享图标
+						type : '', // 分享类型,music、video或link，不填默认为link
+						dataUrl : '', // 如果type是music或video，则要提供数据链接，默认为空
+						success : function() {
+							// 用户确认分享后执行的回调函数
+						},
+						cancel : function() {
+							// 用户取消分享后执行的回调函数
+						}
+					});
+					wx.onMenuShareQQ({
+						title : shareTitle, // 分享标题
+						desc : descContent, // 分享描述
+						link : lineLink, // 分享链接
+						imgUrl : imgUrl, // 分享图标
+						success : function() {
+							// 用户确认分享后执行的回调函数
+						},
+						cancel : function() {
+							// 用户取消分享后执行的回调函数
+						}
+					});
+				}, 500);
 			});
 		}
 	</script>
