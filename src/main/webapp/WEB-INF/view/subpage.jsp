@@ -77,9 +77,6 @@
 						<li class="course" data-id="course">
 							<a href="success.html">成功案例</a>
 						</li>
-						<li class="fa" data-id="fa">
-							<a href="report.html">社员风采</a>
-						</li>
 					</ul>
 
 					<ul class="expand-nav-list" id="mobile_not_login">
