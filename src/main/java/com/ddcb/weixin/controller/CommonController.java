@@ -70,6 +70,7 @@ public class CommonController {
 		logger.debug("getOpenIdRedirect");
 		String code = request.getParameter("code");
 		String id = request.getParameter("id");
+		String view = request.getParameter("view");
 		String openid = "";
 		if (code == null || code.isEmpty()) {
 			httpSession.setAttribute("openid", "");
@@ -79,7 +80,8 @@ public class CommonController {
 		}
 		logger.debug("finishGetOpenIdRedirect");
 		logger.debug("code :{}, openId :{}, id :{}", code, openid, id);
-		return "redirect:/courses/jsp?id="+id;
+		view = view.replaceAll("_", "/").replaceAll("ARGS", "?").replaceAll("AND", "&");
+		return "redirect:" + view;
 	}
 
 	@RequestMapping("/getUserOpenId")

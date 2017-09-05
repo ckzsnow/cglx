@@ -37,6 +37,7 @@ $("#login_submit").click(function(){
 					$(".pc-login").hide();
 					$(".login-false-wrapper").hide();
 					$(".login-success-wrapper").show();
+					window.location.reload();
 				}
 			} else {
 				$("#login_tip").html("");

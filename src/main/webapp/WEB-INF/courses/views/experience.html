@@ -404,7 +404,14 @@
 	<script type="text/javascript" src="/js/login.js"></script>
 	<script src="/courses/js/videoListMore.min.js"></script>
 	<script>
-	
+	function isWeiXin(){ 
+		var ua = window.navigator.userAgent.toLowerCase(); 
+		if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
+			return true; 
+		}else{ 
+			return false; 
+		} 
+	}
 	$('.name').on('click', function(event) {
 		event.stopPropagation();
 		$('#logout').toggle('fast');
@@ -415,7 +422,8 @@
 		$.post('/course/getCourseByTag', {'tag':'留学体验'}, function(data) {
 			if (!checkJsonIsEmpty(data)) {
 				for(var index in data) {
-					$('.video-content ').append('<li class="video-info info normal"><a href="/courses/jsp?id='+data[index].id+'&view=detail" target="_blank">'
+					var link = !isWeiXin() ? ('/courses/jsp?id='+data[index].id+'&view=detail') : ('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=_courses_jspARGSid='+data[index].id+'ANDview=detail&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect');
+					$('.video-content ').append('<li class="video-info info normal"><a href="'+link+'" target="_blank">'
 							+ '<div class="info-logo"><img src="/cglx/files/imgs/'+data[index].snapshot+'" alt="'+data[index].title+'"></div>'
 							+ '<div class="info-content"><div class="info-title">'+data[index].title+'</div><div class="info-author">'
 							+ data[index].final_tea + '/ ' + data[index].final_position + '</div><div class="info-price"><span>¥</span>'
