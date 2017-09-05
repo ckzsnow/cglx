@@ -355,4 +355,16 @@ public class CourseDaoImpl implements ICourseDao {
 		}
 		return resultMap;
 	}
+
+	@Override
+	public int getPayStatusByOrderIdAndCourseId(String courseId, String orderId) {
+		int result = 0;
+		String sql = "select pay_status from user_course where trade_no=? and course_id=?";
+		try{
+			result = jdbcTemplate.queryForObject(sql, new String[] {orderId, courseId}, Integer.class);
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return result;
+	}
 }
