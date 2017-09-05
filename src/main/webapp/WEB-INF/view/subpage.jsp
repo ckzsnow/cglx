@@ -465,7 +465,7 @@
 		var shareTitle = "DIY研习社";
 		wx.config({
 			appId: 'wxf139053a88924f58',
-			timestamp: <%=result.get("timestamp")%>,
+			timestamp: '<%=result.get("timestamp")%>',
 			nonceStr: '<%=result.get("nonceStr")%>',
 			signature: '<%=result.get("signature")%>',
 			jsApiList: [

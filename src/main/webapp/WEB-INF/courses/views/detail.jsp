@@ -707,69 +707,71 @@
 		var video_src;
 		var id = <%=courseId%>;
 		$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
-			$('.course_title').html(data.title);
-			$('.cost').html(data.cost);
-			$('#time').html(data.time);
-			$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
-			$('#teacher').html(data.final_tea);
-			$('#teacher_position').html(data.final_position);
+			if (!checkJsonIsEmpty(data)) {
 			
-			var final_abstract = data.final_abstract;
-			final_abstract = final_abstract.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-			$('#teacher_abstract').html(final_abstract);
-			
-			var description = data.description;
-			description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-			$('#description').html(description);
-			
-			var outline = data.outline;
-			outline = outline.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-			$('#outline').html(outline);
-			
-			var info = data.info;
-			info = info.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-			$('#info').html(info);
-			
-			var crowds = data.crowds;
-			crowds = crowds.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-			$('#crowds').html(crowds);
-			
-			var help = data.final_help;
-			help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;')
-			$('#help').html(help);
-			
-			//$('#about').html(data.final_about);
-			$('.buy-status').html(data.pay_status == 1?'已购买':'未购买')
-			$('#course_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
-			if(data.pay_status == 1) {
-				$('.my-btn').html('已购买').css('background-color', '#ccc');
-				$('#video-snap').css('display', 'none');
-				$('#video_src').css('display', 'block');
-				document.getElementById("video_src").src = data.video_src;
-				document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
-				//document.getElementById("video_src").controls = "controls";
-				var playtime = data.playtime;
-				var year = playtime.substring(0, 4);
-				var month = playtime.substring(5, 7);
-				var day = playtime.substring(8, 10);
-				var hour = playtime.substring(11, 13);
-				var minute = playtime.substring(14, 16);
-				var second = playtime.substring(17, 19);
+				$('.course_title').html(data.title);
+				$('.cost').html(data.cost);
+				$('#time').html(data.time);
+				$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
+				$('#teacher').html(data.final_tea);
+				$('#teacher_position').html(data.final_position);
 				
-				var courseDate = new Date(year, month-1, day, hour, minute, second).getTime() / 1000;
-				var currentDate = new Date().getTime() / 1000;
-				var courseLength = parseInt(data.time) * 60;
-				if(currentDate > courseDate) {
-					document.getElementById("video_src").controls = "controls";
-					document.getElementById("video_src").play();
-				} else {
-					alert('课程尚未开播，开播时间为：' + playtime);
+				var final_abstract = data.final_abstract;
+				final_abstract = final_abstract.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+				$('#teacher_abstract').html(final_abstract);
+				
+				var description = data.description;
+				description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+				$('#description').html(description);
+				
+				var outline = data.outline;
+				outline = outline.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+				$('#outline').html(outline);
+				
+				var info = data.info;
+				info = info.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+				$('#info').html(info);
+				
+				var crowds = data.crowds;
+				crowds = crowds.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+				$('#crowds').html(crowds);
+				
+				var help = data.final_help;
+				help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;')
+				$('#help').html(help);
+				
+				//$('#about').html(data.final_about);
+				$('.buy-status').html(data.pay_status == 1?'已购买':'未购买')
+				$('#course_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
+				if(data.pay_status == 1) {
+					$('.my-btn').html('已购买').css('background-color', '#ccc');
+					$('#video-snap').css('display', 'none');
+					$('#video_src').css('display', 'block');
+					document.getElementById("video_src").src = data.video_src;
+					document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
+					//document.getElementById("video_src").controls = "controls";
+					var playtime = data.playtime;
+					var year = playtime.substring(0, 4);
+					var month = playtime.substring(5, 7);
+					var day = playtime.substring(8, 10);
+					var hour = playtime.substring(11, 13);
+					var minute = playtime.substring(14, 16);
+					var second = playtime.substring(17, 19);
+					
+					var courseDate = new Date(year, month-1, day, hour, minute, second).getTime() / 1000;
+					var currentDate = new Date().getTime() / 1000;
+					var courseLength = parseInt(data.time) * 60;
+					if(currentDate > courseDate) {
+						document.getElementById("video_src").controls = "controls";
+						document.getElementById("video_src").play();
+					} else {
+						alert('课程尚未开播，开播时间为：' + playtime);
+					}
 				}
+				imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
+				shareTitle = data.title;
+				execWeixinShare();
 			}
-			imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
-			shareTitle = data.title;
-			execWeixinShare();
-			
 		});
 		
 		$.post('/course/getParentCourseBrief', {id : id}, function(data) {

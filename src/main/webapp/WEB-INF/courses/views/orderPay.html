@@ -167,10 +167,10 @@
 					$.post('/course/getPayStatusByOrderIdAndCourseId', {courseId : id, orderId : orderId}, function(data) {
 						if(data.pay_status == 1) {
 							clearInterval(interval);
+							window.location.href = "/view/mycourse.html";
 						}	
 					});
 				}, 2000);  
-				window.location.href = "/view/mycourse.html";
 			});
 		});
 	</script>
