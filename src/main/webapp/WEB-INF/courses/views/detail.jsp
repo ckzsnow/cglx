@@ -334,33 +334,6 @@
 			</div>
 		</div>
 	</div>
-	
-	<div class="modal-mask pc" style="opacity: 1; display: none;">
-		<div class="pay-fill-form-dialog dialog" style="opacity: 1;">
-		    <div class="pay-fill-form-close close"></div>
-		    <div class="content">
-		        <div class="title">请选择支付方式：</div>
-		        <div style="text-align:center">
-		        	<a href="#" id="alipay_btn"><img src="/courses/images/alipay.jpg" width="100px" height="70px" style="margin-right:100px"></a>
-		        	<a href="#" id="wechat_btn"><img src="/courses/images/WeChat.jpg" width="65px" height="60px"></a>
-		        </div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal-mask mobile" style="opacity: 1; display: none;">
-		<div class="pay-fill-form-dialog dialog" style="opacity: 1;">
-		    <div class="pay-fill-form-close close"></div>
-		    <div class="content">
-		        <div class="title">请选择支付方式：</div>
-		        <div style="text-align:center">
-		        	<a href="#" id="alipay_btn_mobile"><img src="/courses/images/alipay.jpg" width="100px" height="70px" style="margin-right:100px"></a>
-		        	<a href="#" id="wechat_btn_mobile"><img src="/courses/images/WeChat.jpg" width="65px" height="60px"></a>
-		        </div>
-			</div>
-		</div>
-	</div>
-
 
 	<div class="wrapper" id="wrapper">
 		<nav class="video-nav">
