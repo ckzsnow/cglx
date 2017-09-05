@@ -158,18 +158,19 @@
 		
 		var orderId;
 		
-		function clock() {
-			$.post('/course/getPayStatusByOrderIdAndCourseId', {}, function() {
-				
-			});
-		}
-		
 		$('#weixinpay').on('click', function() {
 			$.post('/weixinUserCoursePayAtPC', {course_id : id}, function(data) {
 				$('#qrcode').attr('src', data.qrcodePath);
 				orderId = data.orderId;
 				$('.modal-mask').css('display', 'block');
-				setInterval("synchronous()", 500);  
+				var interval = setInterval(function clock() {
+					$.post('/course/getPayStatusByOrderIdAndCourseId', {courseId : id, orderId : orderId}, function(data) {
+						if(data.pay_status == 1) {
+							clearInterval(interval);
+							window.location.href = "/view/mycourse.html";
+						}	
+					});
+				}, 2000);  
 			});
 		});
 	</script>

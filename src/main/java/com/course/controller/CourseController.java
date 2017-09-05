@@ -263,6 +263,17 @@ public class CourseController {
 		return courseDao.getSeriesDetailById(parent_id, "");
 	}
 	
+	@RequestMapping("/course/getPayStatusByOrderIdAndCourseId")
+	@ResponseBody
+	public Map<String, Object> getPayStatusByOrderIdAndCourseId(HttpServletRequest request) {
+		Map<String, Object> retMap = new HashMap<>();
+		String courseId = request.getParameter("courseId");
+		String orderId = request.getParameter("orderId");
+		int pay_status = courseDao.getPayStatusByOrderIdAndCourseId(courseId, orderId);
+		retMap.put("pay_status", pay_status);
+		return retMap;
+	}
+	
 	private String getGernarateFileName(MultipartFile file) {
 		String extendName = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf(".") + 1);
 		return UUID.randomUUID().toString() + (extendName == null ? ".unknown" : "." + extendName);

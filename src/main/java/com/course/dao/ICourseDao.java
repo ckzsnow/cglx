@@ -41,4 +41,6 @@ public interface ICourseDao {
 
 	Map<String, Object> getSubcourseDetailById(int id, String user_id);
 
+	int getPayStatusByOrderIdAndCourseId(String courseId, String orderId);
+
 }
