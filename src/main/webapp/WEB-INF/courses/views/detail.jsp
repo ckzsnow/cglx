@@ -842,10 +842,6 @@
 		bindPayEvent('my-btn', $('.my-btn').html());
 		bindPayEvent('video-detail', null);
 		
-		$('.pay-fill-form-close').on('click', function() {
-			$('.modal-mask').css('display', 'none');
-		});
-		
 		$('.mobile-mycourse').on('click', function() {
 			window.location.href = '/view/mycourse.html';
 		});
