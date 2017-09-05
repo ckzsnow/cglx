@@ -318,33 +318,6 @@
 			</div>
 		</div>
 	</div>
-	
-
-	<div class="modal-mask pc" style="opacity: 1; display: none;">
-		<div class="pay-fill-form-dialog dialog" style="opacity: 1;">
-		    <div class="pay-fill-form-close close"></div>
-		    <div class="content">
-		        <div class="title">请选择支付方式：</div>
-		        <div style="text-align:center">
-		        	<a href="#" id="alipay_btn"><img src="/courses/images/alipay.jpg" width="100px" height="70px" style="margin-right:100px"></a>
-		        	<a href="#" id="wechat_btn"><img src="/courses/images/WeChat.jpg" width="65px" height="60px"></a>
-		        </div>
-			</div>
-		</div>
-	</div>
-
-	<div class="modal-mask mobile" style="opacity: 1; display: none;">
-		<div class="pay-fill-form-dialog dialog" style="opacity: 1;">
-		    <div class="pay-fill-form-close close"></div>
-		    <div class="content">
-		        <div class="title">请选择支付方式：</div>
-		        <div style="text-align:center">
-		        	<a href="#" id="alipay_btn_mobile"><img src="/courses/images/alipay.jpg" width="100px" height="70px" style="margin-right:100px"></a>
-		        	<a href="#" id="wechat_btn_mobile"><img src="/courses/images/WeChat.jpg" width="65px" height="60px"></a>
-		        </div>
-			</div>
-		</div>
-	</div>
 
 	<div class="wap-wrapper" id="wap-wrapper">
 		<div class="tips">很抱歉，因微信支付限制，只能从微信内或者电脑端购买</div>
@@ -605,6 +578,9 @@
 			'chooseWXPay'
 		]
 	});
+	var imgUrl = "http://www.udiyclub.com/images/logo.png";
+	var descContent = "DIY研习社－中国留学生互助交流平台，让留学不孤单";
+	var shareTitle = "DIY研习社";
 	$('.name').on('click', function(event) {
 		event.stopPropagation();
 		$('#logout').toggle('fast');
@@ -647,6 +623,9 @@
 			if(data.pay_status == 1) {
 				$('.buy-series').html('已购买').css('background-color', '#ccc');
 			}
+			imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.banner;
+			shareTitle = data.title;
+			execWeixinShare();
 			
 		});
 		
@@ -751,10 +730,62 @@
 				}
 			}
 		});
-		
-		$('.pay-fill-form-close').on('click', function() {
-			$('.modal-mask').css('display', 'none');
-		});
+		function execWeixinShare(){
+			wx.ready(function() {
+				setTimeout(function() {
+					wx.onMenuShareTimeline({
+						title : shareTitle, // 分享标题
+						link : lineLink, // 分享链接
+						imgUrl : imgUrl, // 分享图标
+						success : function() {
+							/* alert("报名成功！");
+							currentImageSelectEle.setAttribute("disabled", true);
+		    		    	currentImageSelectEle.innerHTML = "已经报名";
+		    		    	mui.ajax({
+		                		url: "/course/uploadUserShare",
+		                		type: "POST",
+		                		data: {courseId:currentImageSelectEle.getAttribute("course_id")},
+		                		success: function(data) {
+		                			
+		                		},
+		                		error: function(status, error) {
+		                			
+		                		}
+		                	}); */
+						},
+						cancel : function() {
+							//alert("您没有分享，报名失败！");
+						}
+					});
+					wx.onMenuShareAppMessage({
+						title : shareTitle, // 分享标题
+						desc : descContent, // 分享描述
+						link : lineLink, // 分享链接
+						imgUrl : imgUrl, // 分享图标
+						type : '', // 分享类型,music、video或link，不填默认为link
+						dataUrl : '', // 如果type是music或video，则要提供数据链接，默认为空
+						success : function() {
+							// 用户确认分享后执行的回调函数
+						},
+						cancel : function() {
+							// 用户取消分享后执行的回调函数
+						}
+					});
+					wx.onMenuShareQQ({
+						title : shareTitle, // 分享标题
+						desc : descContent, // 分享描述
+						link : lineLink, // 分享链接
+						imgUrl : imgUrl, // 分享图标
+						success : function() {
+							// 用户确认分享后执行的回调函数
+						},
+						cancel : function() {
+							// 用户取消分享后执行的回调函数
+						}
+					});
+				}, 500);
+			});
+		}
 	</script>
 
 </body>
