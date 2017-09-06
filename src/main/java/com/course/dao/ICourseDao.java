@@ -43,4 +43,6 @@ public interface ICourseDao {
 
 	int getPayStatusByOrderIdAndCourseId(String courseId, String orderId);
 
+	boolean addFreeCourse(String user_id, String course_id);
+
 }
