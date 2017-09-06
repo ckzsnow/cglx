@@ -160,7 +160,7 @@ public class CourseDaoImpl implements ICourseDao {
 
 	@Override
 	public boolean deleteCourseById(Long course_id) {
-		String sql = "delete course where id=" + course_id + " or parent_id=" + course_id;
+		String sql = "delete from course where id=" + course_id + " or parent_id=" + course_id;
 		logger.debug("deleteCourse sql : {}", sql);
 		try {
 			int affectedRows = jdbcTemplate.update(sql);

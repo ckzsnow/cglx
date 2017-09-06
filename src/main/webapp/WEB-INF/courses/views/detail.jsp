@@ -51,7 +51,7 @@
 		<div class="transparent-mask"></div>
 		<div class="contain">
 			<div class="logo">
-				<a href="homepage.html"></a>
+				<a href="/view/homepage.html"></a>
 			</div>
 			<nav class="PC-nav">
 				<ul>
@@ -877,11 +877,14 @@
 	    		            signType: jsonData.signType,
 	    		            paySign: jsonData.paySign,
 	    		            success: function (res) {
+	    		            	/* window.location.href = '/view/mycourse.html'; */
+	    		            	window.location.reload();
 	    		            	if(res.errMsg != null && res.errMsg == "chooseWXPay:ok") {
 	                				ele.innerHTML = "点击进入";
 	                				ele.removeEventListener('tap', handler);
 	                				ele.addEventListener('tap', enterClass);
 	    		            		alert("支付成功!");
+	    		            		window.location.reload();
 	    		            	} else {
 	    		            		alert("支付失败！");
 	    		            	}																            

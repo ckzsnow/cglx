@@ -34,7 +34,7 @@
 		<div class="transparent-mask"></div>
 		<div class="contain">
 			<div class="logo">
-				<a href="homepage.html"></a>
+				<a href="/view/homepage.html"></a>
 			</div>
 			<nav class="PC-nav">
 				<ul>
@@ -336,7 +336,7 @@
 		<nav class="video-nav">
 			<div class="container">
 				<div class="nav-title">
-					<a href="courses.html">在线课堂</a>
+					<a href="/courses/views/courses.html">在线课堂</a>
 				</div>
 				<ul>
 					<li><a href="/courses/views/courses.html">最新课程</a></li>
@@ -710,6 +710,7 @@
 	    		            signType: jsonData.signType,
 	    		            paySign: jsonData.paySign,
 	    		            success: function (res) {
+	    		            	window.location.reload();
 	    		            	if(res.errMsg != null && res.errMsg == "chooseWXPay:ok") {
 	                				ele.innerHTML = "点击进入";
 	                				ele.removeEventListener('tap', handler);

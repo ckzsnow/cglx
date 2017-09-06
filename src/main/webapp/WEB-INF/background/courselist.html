@@ -248,7 +248,7 @@
 					var msg = "确定删除系列课或者课程吗？";
 					if(confirm(msg)==true) {
 						var id = $(this).attr('id');
-						$.post('/cases/deleteCourse', {id:id}, function(data) {
+						$.post('/course/deleteCourseById', {id:id}, function(data) {
 							alert(data.msg);
 							window.location.reload();
 						});

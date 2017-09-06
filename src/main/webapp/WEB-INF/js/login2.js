@@ -222,6 +222,7 @@ $("#mobile_login_submit").click(function(){
 					$("#mobile_login_tip").html(data.error_msg);
 				} else {
 					if(data.user_type == "1") window.location.href="/background/bannerlist.html";
+					user_id = data.user_id;
 					$('.mobile-login').css('display', 'none');
 					$('.transparent-mask').css('display', 'none');
 					$("#mobile_not_login").hide();
