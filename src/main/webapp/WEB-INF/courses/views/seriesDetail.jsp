@@ -367,7 +367,7 @@
 					<!-- 系类课程banner部分 -->
 					<div class="series-banner">
 						<div class="series-banner-img">
-							<img src="" id="banner">
+							<img src="" id="banner" style="height:230px">
 						</div>
 						<div class="series-word" id="abstract"></div>
 					</div>
