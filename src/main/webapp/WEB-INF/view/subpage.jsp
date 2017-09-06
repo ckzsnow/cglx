@@ -444,13 +444,13 @@
 						<div class="wxQr"></div>
 					</div>
 					<div class="company-info">
-						<span class="address"><!-- 地址：北京市朝阳区东三环北路38号院1号楼17层2001内1、16室 --></span> <span
-							class="phonenum"><!-- 联系方式：400-810-1090（工作日10点-18点) --></span>
+						<!-- <span class="address"></span> --> 
+						<span class="phonenum">客服电话：021-60277506（工作日10点－18点）</span>
 					</div>
 				</section>
 			</div>
 			<div class="bottom">
-				<p>©2017 沪ICP备15002235号-6</p>
+				<p>©2017  上海邦融网络科技有限责任公司  沪ICP备15002235号-6</p>
 			</div>
 		</footer>
 		<script type="text/javascript" src="/js/main.js"></script>
