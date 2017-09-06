@@ -89,6 +89,17 @@ public class CourseController {
 		return retMap;
 	}
 	
+	@RequestMapping("/course/updateCourseByCourseId")
+	@ResponseBody
+	public Map<String, String> updateCourseByCourseId(HttpServletRequest request) {
+		Map<String, String> retMap = new HashMap<>();
+		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
+		courseDao.updateCourseByCourseId(paramsMap);
+		retMap.put("msg", "添加成功！");
+		retMap.put("error", "0");
+		return retMap;
+	}
+	
 	@RequestMapping("/course/addSubCourse")
 	@ResponseBody
 	public Map<String, String> addSubCourse(HttpServletRequest request, DefaultMultipartHttpServletRequest multipartRequest) {
@@ -114,9 +125,71 @@ public class CourseController {
 		return retMap;
 	}
 	
+	@RequestMapping("/course/updateSubCourse")
+	@ResponseBody
+	public Map<String, String> updateSubCourse(HttpServletRequest request, DefaultMultipartHttpServletRequest multipartRequest) {
+		Map<String, String> retMap = new HashMap<>();
+		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
+		
+		String realPath = "/data/cglx/files/imgs";
+		String fileName = "";
+		if(multipartRequest != null) {
+			MultipartFile file = multipartRequest.getFile("snapshot");
+			fileName = getGernarateFileName(file);
+			try {
+				FileUtils.copyInputStreamToFile(file.getInputStream(), new File(realPath, fileName));
+			} catch(Exception e) {
+				logger.error("Failed in saving file, exception : {}", e.toString());
+			}
+			paramsMap.put("snapshot", new String[] {fileName});
+		}
+		
+		courseDao.addCourse(paramsMap);
+		retMap.put("msg", "添加成功！");
+		retMap.put("error", "0");
+		return retMap;
+	}
+	
 	@RequestMapping("/course/addCourse")
 	@ResponseBody
 	public Map<String, String> addCourse(HttpServletRequest request, DefaultMultipartHttpServletRequest multipartRequest) {
+		Map<String, String> retMap = new HashMap<>();
+		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
+		
+		String realPath = "/data/cglx/files/imgs";
+		String fileName = "";
+		int index = 0;
+		if(multipartRequest != null) {
+			Iterator<String> ite = multipartRequest.getFileNames();
+			while(ite.hasNext()) {
+				MultipartFile file = multipartRequest.getFile(ite.next());
+				fileName = getGernarateFileName(file);
+				try {
+					FileUtils.copyInputStreamToFile(file.getInputStream(), new File(realPath, fileName));
+				} catch(Exception e) {
+					logger.error("Failed in saving file, exception : {}", e.toString());
+				}
+				switch(index) {
+				case 0:
+					paramsMap.put("snapshot", new String[] {fileName});
+					break;
+				case 1:
+					paramsMap.put("teacher_image", new String[] {fileName});
+					break;
+				}
+				index ++;
+			}
+		}
+		
+		courseDao.addCourse(paramsMap);
+		retMap.put("msg", "添加成功！");
+		retMap.put("error", "0");
+		return retMap;
+	}
+	
+	@RequestMapping("/course/updateCourse")
+	@ResponseBody
+	public Map<String, String> updateCourse(HttpServletRequest request, DefaultMultipartHttpServletRequest multipartRequest) {
 		Map<String, String> retMap = new HashMap<>();
 		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
 		

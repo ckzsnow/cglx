@@ -70,8 +70,7 @@
 				<ul class="nav-list">
 					<li class="news" data-id="news"><a href="/view/homepage.html">留学专栏</a>
 					</li>
-					<li class="course active" data-id="course"><a
-						href="/view/success.html">成功案例</a></li>
+					<li class="fa active" data-id="fa"><a href="/courses/views/courses.html">在线课程</a></li>
 				</ul>
 				<ul class="expand-nav-list" id="mobile_not_login">
 					<li class="user-info"><a href="javascript:void(0)"
@@ -417,7 +416,7 @@
 							</div>
 						</div>
 					</div>
-					<video id="video_src" width="100%" style="display:none"></video>
+					<video id="video_src" width="100%" height="85%" style="display:none;"></video>
 					
 				</div>
 				<!-- mobile 购买按钮状态 -->
@@ -440,7 +439,6 @@
 							</div>
 						</div>
 					</div>
-
 
 				</div>
 				<!-- 课程详情介绍 -->
@@ -465,7 +463,6 @@
 							</div>
 						</div>
 					</div>
-
 
 					<div class="teacher-info">
 						<div class="teacher-title">课程讲师</div>
@@ -493,8 +490,6 @@
 						</div>
 					</div>
 
-
-
 					<div class="info">
 						<div class="sub-title">
 							<span>课程大纲</span>
@@ -503,10 +498,6 @@
 							<p id="outline"></p>
 						</div>
 					</div>
-
-
-
-
 
 					<div class="info">
 						<div class="sub-title">
@@ -517,8 +508,6 @@
 						</div>
 					</div>
 
-
-
 					<div class="info">
 						<div class="sub-title">
 							<span>适宜人群</span>
@@ -527,7 +516,6 @@
 							<p id="crowds"></p>
 						</div>
 					</div>
-
 
 					<div class="info">
 						<div class="sub-title">

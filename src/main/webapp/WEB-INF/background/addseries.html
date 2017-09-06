@@ -376,6 +376,7 @@
 		var snapshot = $('#snapshot')[0].files[0];
 		var teacher_image = $('#teacher_image')[0].files[0];
 		
+		fd.append('course_id', id);
 		fd.append('title', $('#title').val());
 		fd.append('banner', banner);
 		fd.append('snapshot', snapshot);
@@ -431,7 +432,7 @@
 			$('#text_tips').html("0%");
 			alert("提交信息失败！");
 		}, false);
-		xhr.open('post', "/course/addSeries");
+		xhr.open('post', id == null? "/course/addSeries" : "/course/updateCourseByCourseId");
 		xhr.send(fd);
 	});
 	

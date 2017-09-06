@@ -46,4 +46,6 @@ public interface ICourseDao {
 	List<Map<String, Object>> getReminderCourse();
 	boolean addFreeCourse(String user_id, String course_id);
 
+	boolean updateCourseByCourseId(Map<String, String[]> paramsMap);
+
 }

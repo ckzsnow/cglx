@@ -54,8 +54,7 @@
 				<ul class="nav-list">
 					<li class="news" data-id="news"><a href="/view/homepage.html">留学专栏</a>
 					</li>
-					<li class="course active" data-id="course"><a
-						href="/view/success.html">成功案例</a></li>
+					<li class="fa active" data-id="fa"><a href="/courses/views/courses.html">在线课程</a></li>
 				</ul>
 				<ul class="expand-nav-list" id="mobile_not_login">
 					<li class="user-info"><a href="javascript:void(0)"
@@ -64,9 +63,9 @@
 					<li class="search"><a href="/courses/views/courses.html">在线课程</a></li>
 				</ul>
 				<ul class="expand-nav-list" id="mobile_login" style="display: none;">
-					<li class="activity"><a href="personalInfo.html"
+					<li class="activity"><a href="/view/personalInfo.html"
 						class="myorder-btn">个人信息</a></li>
-					<li class="search"><a href="estimate.html">背景评估</a></li>
+					<li class="search"><a href="/view/estimate.html">背景评估</a></li>
 					<li class="search"><a href="javascript:userlogout();">退出</a></li>
 				</ul>
 			</nav>

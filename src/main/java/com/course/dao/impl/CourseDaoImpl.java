@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -144,6 +145,34 @@ public class CourseDaoImpl implements ICourseDao {
 			logger.error("addCourse error, exception : {}", e.toString());
 		}
 		return courseId;
+	}
+	
+	@Override
+	public boolean updateCourseByCourseId(Map<String, String[]> paramsMap) {
+		StringBuilder sb = new StringBuilder();
+		List<Object> args = new ArrayList<>();
+		sb.append("update course set ");
+		Long course_id = Long.valueOf(paramsMap.remove("course_id")[0]);
+		for(Map.Entry<String, String[]> entry : paramsMap.entrySet()) {
+			if(entry.getKey().equals("banner") || entry.getKey().equals("snapshot") || entry.getKey().equals("teacher_image")) {
+				continue;
+			}
+			sb.append(" ");
+			sb.append(entry.getKey());
+			sb.append("=?,");
+			args.add(entry.getValue()[0]);
+		}
+		sb = sb.deleteCharAt(sb.length() - 1);
+		sb.append(" where id=?");
+		args.add(course_id);
+		String sql = sb.toString();
+		int num = 0;
+		try{
+			num = jdbcTemplate.update(sql, args.toArray());
+		}catch(Exception e){
+			logger.error("exception : {}", e.toString());
+		}
+		return num > 0;
 	}
 
 	@Override

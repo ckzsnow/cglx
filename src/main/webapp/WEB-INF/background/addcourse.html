@@ -491,7 +491,17 @@
 					$('#seriesName').append('<option value="'+data[index].id+'">'+data[index].title+'<option>');
 				}
 			});
-		
+			
+			(function ($) {
+		        $.getUrlParam = function (name) {
+		            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+		            var r = window.location.search.substr(1).match(reg);
+		            if (r != null) return unescape(r[2]); return null;
+		        }
+		    })(jQuery);	
+
+			var id = $.getUrlParam('id');
+			
 			$('#series').on('change', function() {
 				$('#series-div').css('display', $(this).val()=='1' ? 'block' : 'none');
 				$('#nonseries-div').css('display', $(this).val()=='1' ? 'none' : 'block');
@@ -506,6 +516,8 @@
 					
 					var fd = new FormData();
 					var series_snapshot = $('#series-snapshot')[0].files[0];
+					
+					fd.append('course_id', id);
 					
 					fd.append('parent_id', $('#seriesName').val());
 					fd.append('is_series', 0);
@@ -566,7 +578,7 @@
 						$('#text_tips').html("0%");
 						alert("提交信息失败！");
 					}, false);
-					xhr.open('post', "/course/addSubCourse");
+					xhr.open('post', id == null? "/course/addSubCourse" : "/course/updateCourseByCourseId");
 					xhr.send(fd);
 					
 					
@@ -576,6 +588,7 @@
 					var nonseries_snapshot = $('#nonseries-snapshot')[0].files[0];
 					var nonseries_teacher_image = $('#nonseries-teacher_image')[0].files[0];
 					
+					fd.append('course_id', id);
 					fd.append('parent_id', 0);
 					fd.append('tag', $('#nonseries-tag').val());
 					fd.append('is_series', 0);
@@ -651,22 +664,12 @@
 						$('#text_tips').html("0%");
 						alert("提交信息失败！");
 					}, false);
-					xhr.open('post', "/course/addCourse");
+					xhr.open('post', id == null? "/course/addCourse" : "/course/updateCourseByCourseId");
 					xhr.send(fd);
 					
 				}
 			});
 			
-			
-			(function ($) {
-		        $.getUrlParam = function (name) {
-		            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-		            var r = window.location.search.substr(1).match(reg);
-		            if (r != null) return unescape(r[2]); return null;
-		        }
-		    })(jQuery);	
-
-			var id = $.getUrlParam('id');
 			if(id != null && id != '') {
 				$.post('/course/getCourseById', {id:id}, function(data) {
 					
