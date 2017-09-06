@@ -741,21 +741,31 @@
 					document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
 					//document.getElementById("video_src").controls = "controls";
 					var playtime = data.playtime;
-					var year = playtime.substring(0, 4);
-					var month = playtime.substring(5, 7);
-					var day = playtime.substring(8, 10);
-					var hour = playtime.substring(11, 13);
-					var minute = playtime.substring(14, 16);
-					var second = playtime.substring(17, 19);
-					
-					var courseDate = new Date(year, month-1, day, hour, minute, second).getTime() / 1000;
+					var str =playtime;
+					str = str.replace(/-/g,"/");
+					var courseDate = new Date(str).getTime() / 1000;
 					var currentDate = new Date().getTime() / 1000;
 					var courseLength = parseInt(data.time) * 60;
-					if(currentDate > courseDate) {
+					if(currentDate > courseDate && currentDate-courseDate>courseLength) {
 						document.getElementById("video_src").controls = "controls";
+						document.getElementById("video_src").play();
+					} else if(currentDate > courseDate && currentDate-courseDate<courseLength) {
+						document.getElementById("video_src").currentTime = currentDate-courseDate;
 						document.getElementById("video_src").play();
 					} else {
 						alert('课程尚未开播，开播时间为：' + playtime);
+						var interval = window.setInterval(function(){
+							currentDate = new Date().getTime() / 1000;
+							if(currentDate > courseDate && currentDate-courseDate>courseLength) {
+								document.getElementById("video_src").controls = "controls";
+								document.getElementById("video_src").play();
+								clearInterval(interval); 
+							} else if(currentDate > courseDate && currentDate-courseDate<courseLength) {
+								document.getElementById("video_src").currentTime = currentDate-courseDate;
+								document.getElementById("video_src").play();
+								clearInterval(interval); 
+							} 
+						},5000);
 					}
 				}
 				imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
