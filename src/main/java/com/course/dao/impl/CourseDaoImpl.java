@@ -298,6 +298,18 @@ public class CourseDaoImpl implements ICourseDao {
 		}
 		return result;
 	}
+	
+	@Override
+	public List<Map<String, Object>> getReminderCourse() {
+		List<Map<String, Object>> result = null;
+		String sql = "select * from user_course right join course on (user_course.course_id=course.id or user_course.course_id=course.parent_id) and course.is_series=0 and abs(TO_SECONDS(NOW()) - TO_SECONDS(course.playtime))<3*60 where user_course.pay_status=1 ";
+		try{
+			result = jdbcTemplate.queryForList(sql);
+		} catch(Exception e) {
+			logger.error("getReminderCourse error : {}", e.toString());
+		}
+		return result;
+	}
 
 	@Override
 	public boolean addUserCourse(String user_id, String course_id, String tradeNo) {

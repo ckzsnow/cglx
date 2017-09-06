@@ -43,4 +43,6 @@ public interface ICourseDao {
 
 	int getPayStatusByOrderIdAndCourseId(String courseId, String orderId);
 
+	List<Map<String, Object>> getReminderCourse();
+
 }
