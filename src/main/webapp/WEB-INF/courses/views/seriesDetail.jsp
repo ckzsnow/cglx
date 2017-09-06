@@ -367,7 +367,7 @@
 					<!-- 系类课程banner部分 -->
 					<div class="series-banner">
 						<div class="series-banner-img">
-							<img src="" id="banner" style="height:230px">
+							<img src="" id="banner">
 						</div>
 						<div class="series-word" id="abstract"></div>
 					</div>
@@ -432,7 +432,7 @@
 						<!-- 小饭桌夜校栏目 -->
 						<div class="series-about">
 							<div class="series-about-title">
-								<p>关于小饭桌在线课堂</p>
+								<p>关于DIY研习社在线课堂</p>
 							</div>
 							<div>
 								<ul>
@@ -530,8 +530,7 @@
 			<section class="link-section">
 				<div class="foot-logo"></div>
 				<div class="links">
-					<a href="about.html" target="_blank"></a><a
-						href="about.html">关于我们</a> |<a href="report.html">社员风采</a>
+					<a href="/view/about.html">关于我们</a> |<a href="/courses/views/courses.html">在线课程</a>
 				</div>
 				<div class="attention">
 					关注我们：<a class="showWx"><span class="wx">DIY研习社</span></a><a

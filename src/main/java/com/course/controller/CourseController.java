@@ -333,7 +333,9 @@ public class CourseController {
 			logger.error(ex.toString());
 		}
 		long parent_id = (long)courseDao.getCourseById(id_).get("parent_id");
-		return courseDao.getSeriesDetailById(parent_id, "");
+		Map<String, Object> retMap = courseDao.getSeriesDetailById(parent_id, "");
+		retMap.put("parent_id", parent_id);
+		return retMap;
 	}
 	
 	@RequestMapping("/course/getPayStatusByOrderIdAndCourseId")
