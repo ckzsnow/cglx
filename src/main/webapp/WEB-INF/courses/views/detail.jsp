@@ -696,9 +696,10 @@
 		//var id = $.getUrlParam('id');
 		var video_src;
 		var id = <%=courseId%>;
+		var cost;
 		$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
 			if (!checkJsonIsEmpty(data)) {
-			
+				cost = data.cost;
 				$('.course_title').html(data.title);
 				$('.cost').html(data.cost);
 				$('#time').html(data.time);
@@ -782,17 +783,21 @@
 				 			}
 						} else {
 							if(arg == '已购买') return;
-							if(isWeiXin()) {
-								weixinPay();
+							if(cost == 0) {
+								$.post('/course/addFreeCourse', {course_id : id}, function(data) {
+									if(data.error_code == 0) {
+										window.location.href = '/view/mycourse.html';
+									} else {
+										alert(data.error_msg);
+										return;
+									}
+								});
 							} else {
-								/* if(window.screen.width < 700) {
-									$('#alipay_btn_mobile').attr('href', '/pay?course_id=' + id);
-									$('.modal-mask.mobile').css('display', 'block');
-					 			} else {
-									$('#alipay_btn').attr('href', '/pay?course_id=' + id);
-					 				$('.modal-mask.pc').css('display', 'block');
-					 			} */
-					 			window.location.href = '/courses/views/orderPay.html?id=' + id;
+								if(isWeiXin()) {
+									weixinPay();
+								} else {
+						 			window.location.href = '/courses/views/orderPay.html?id=' + id;
+								}
 							}
 						}
 					});

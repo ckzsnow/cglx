@@ -44,5 +44,6 @@ public interface ICourseDao {
 	int getPayStatusByOrderIdAndCourseId(String courseId, String orderId);
 
 	List<Map<String, Object>> getReminderCourse();
+	boolean addFreeCourse(String user_id, String course_id);
 
 }

@@ -274,6 +274,29 @@ public class CourseController {
 		return retMap;
 	}
 	
+	@RequestMapping("/course/addFreeCourse")
+	@ResponseBody
+	public Map<String, Object> addFreeCourse(HttpServletRequest request) {
+		Map<String, Object> retMap = new HashMap<>();
+		String user_id = "";
+		String course_id = "";
+		try {
+			user_id = (String) request.getSession().getAttribute("user_id");
+			course_id = request.getParameter("course_id");
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		if(courseDao.addFreeCourse(user_id, course_id)) {
+			retMap.put("error_code", "0");
+			retMap.put("error_msg", "");
+			return retMap;
+		} else {
+			retMap.put("error_code", "-1");
+			retMap.put("error_msg", "购买失败，请稍后重试！");
+			return retMap;
+		} 
+	}
+	
 	private String getGernarateFileName(MultipartFile file) {
 		String extendName = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf(".") + 1);
 		return UUID.randomUUID().toString() + (extendName == null ? ".unknown" : "." + extendName);

@@ -379,4 +379,16 @@ public class CourseDaoImpl implements ICourseDao {
 		}
 		return result;
 	}
+
+	@Override
+	public boolean addFreeCourse(String user_id, String course_id) {
+		String sql = "insert into user_course (user_id, pay_status, course_id, create_time) values (?, 1, ?, ?)";
+		int affectedRows = 0;
+		try {
+			affectedRows = jdbcTemplate.update(sql, user_id, course_id, new Timestamp(System.currentTimeMillis()));
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return affectedRows != 0;
+	}
 }
