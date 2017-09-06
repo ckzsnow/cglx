@@ -54,14 +54,14 @@
 						<li class="news" data-id="news">
 							<a href="homepage.html">留学专栏</a>
 						</li>
+						<li class="ventureservice" data-id="ventureservice">
+							<a href="/courses/views/courses.html">在线课程</a>
+						</li>
 						<li class="activity" data-id="activity">
 							<a href="success.html">成功案例</a>
 						</li>
 						<li class="gift" data-id="gift">
 							<a href="about.html">关于我们</a>
-						</li>
-						<li class="ventureservice" data-id="ventureservice">
-							<a href="report.html">社员风采</a>
 						</li>
 						<li class="search" data-id="search">
 							<a href="search.html">搜索</a>
@@ -87,7 +87,7 @@
 							<a href="success.html">成功案例</a>
 						</li>
 						<li class="search">
-							<a href="report.html">社员风采</a>
+							<a href="/courses/views/courses.html">在线课程</a>
 						</li>
 					</ul>
 					
@@ -432,10 +432,7 @@
 						<a
 							href="about.html"
 							target="_blank"> </a> <a href="about.html">关于我们</a>
-						| <a href="report.html">社员风采</a> <!-- | <a
-							href="http://www.xfz.cn/apply/media/?code=report&amp;channel=web"
-							target="_blank">寻求报道</a> | <a href="http://www.xfz.cn/xfzgifts"
-							target="_blank">创业礼包</a> -->
+						| <a href="report.html">社员风采</a> 
 					</div>
 					<div class="attention">
 						关注我们： <a class="showWx"><span class="wx">DIY研习社</span></a> <a

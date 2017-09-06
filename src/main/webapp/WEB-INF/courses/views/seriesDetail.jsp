@@ -45,8 +45,6 @@
 						href="success.html">成功案例</a></li>
 					<li class="gift" data-id="gift"><a href="/view/about.html">关于我们</a>
 					</li>
-					<li class="ventureservice" data-id="ventureservice"><a
-						href="/view/report.html">社员风采</a></li>
 					<li class="search" data-id="search"><a href="/view/search.html">搜索</a>
 					</li>
 				</ul>
@@ -63,7 +61,7 @@
 					<li class="user-info"><a href="javascript:void(0)"
 						id="login-btn-m">登录</a></li>
 					<li class="activity"><a href="success.html">成功案例</a></li>
-					<li class="search"><a href="report.html">社员风采</a></li>
+					<li class="search"><a href="/courses/views/courses.html">在线课程</a></li>
 				</ul>
 				<ul class="expand-nav-list" id="mobile_login" style="display: none;">
 					<li class="activity"><a href="personalInfo.html"
