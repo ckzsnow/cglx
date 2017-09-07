@@ -618,8 +618,7 @@
 			<section class="link-section">
 				<div class="foot-logo"></div>
 				<div class="links">
-					<a href="about.html" target="_blank"></a><a
-						href="about.html">关于我们</a> |<a href="report.html">社员风采</a>
+					<a href="/view/about.html">关于我们</a> |<a href="/courses/views/courses.html">在线课程</a>
 				</div>
 				<div class="attention">
 					关注我们：<a class="showWx"><span class="wx">DIY研习社</span></a><a
@@ -911,7 +910,7 @@
 				$('.price-and-len').html('<p>组合价: <span>¥' + data.total + '</span>(省' + data.discount + '元)</p>'
 						+ '<p>共'+ data.sub_count + '节课 - ' + data.sub_time_total +'分钟</p>');
 				
-				$('.parent_href').attr('href', '/courses/jsp?id=' + data.id);
+				$('.parent_href').attr('href', '/courses/jsp?id=' + data.parent_id);
 				$('#parent_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
 			} else {
 				$('.series-info').css('display', 'none');

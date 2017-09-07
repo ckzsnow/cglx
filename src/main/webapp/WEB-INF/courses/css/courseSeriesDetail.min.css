@@ -1199,7 +1199,8 @@
 		overflow: hidden
 	}
 	.page-video-series .info-left .series-banner .series-banner-img img {
-		width: 100%
+		width: 100%;
+		height:230px
 	}
 	.page-video-series .info-left .series-banner .series-word {
 		white-space: pre-wrap;
@@ -2502,7 +2503,8 @@
 		overflow: hidden
 	}
 	.page-video-series .info-left .series-banner .series-banner-img img {
-		width: 100%
+		width: 100%;
+		height: 1.08rem
 	}
 	.page-video-series .info-left .series-banner .series-word {
 		white-space: pre-wrap;
