@@ -112,8 +112,7 @@
 					<!-- sidebar menu: : style can be found in sidebar.less -->
 					<ul class="sidebar-menu">
 					<li class="header">DIY研习社</li>
-					<li><a href="bannerlist.html"> <i
-							class="fa fa-dashboard"></i><span>横幅列表</span>
+					<li><a href="bannerlist.html"> <i class="fa fa-dashboard"></i><span>横幅列表</span>
 					</a></li>
 					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
 							<span>文章</span> <span class="pull-right-container"> <i
@@ -123,7 +122,7 @@
 						<ul class="treeview-menu">
 							<li><a href="articallist.html"><i class="fa fa-circle-o"></i>文章列表</a>
 							</li>
-							<li class="active"><a href="addartical.html"><i
+							<li><a href="addartical.html"><i
 									class="fa fa-circle-o"></i>添加文章</a></li>
 						</ul></li>
 					<li><a href="appreport.html"> <i class="fa fa-dashboard"></i><span>申请分享列表</span>
@@ -132,18 +131,19 @@
 					</a></li>
 					<li><a href="evalist.html"> <i class="fa fa-dashboard"></i><span>申请表列表</span>
 					</a></li>
-					<li class="treeview active"><a href="#"> <i class="fa fa-joomla"></i>
-							<span>成功案例</span> <span class="pull-right-container"> <i
+					<li class="treeview"><a href="#"> <i
+							class="fa fa-joomla"></i> <span>成功案例</span> <span
+							class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li class="active"><a href="caselist.html"><i class="fa fa-circle-o"></i>成功案例列表</a>
+							<li><a href="caselist.html"><i class="fa fa-circle-o"></i>成功案例列表</a>
 							</li>
 							<li><a href="addcase.html"><i
 									class="fa fa-circle-o"></i>添加成功案例</a></li>
 						</ul></li>
-						<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
 							<span>社员风采</span> <span class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
@@ -151,11 +151,10 @@
 						<ul class="treeview-menu">
 							<li><a href="medialist.html"><i class="fa fa-circle-o"></i>社员风采列表</a>
 							</li>
-							<li class="active"><a href="addmedia.html"><i
+							<li><a href="addmedia.html"><i
 									class="fa fa-circle-o"></i>添加社员风采</a></li>
 						</ul></li>
-						
-						<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
 							<span>在线课程</span> <span class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
@@ -168,7 +167,7 @@
 							<li><a href="addcourse.html"><i
 									class="fa fa-circle-o"></i>添加课程</a></li>
 						</ul></li>
-						<li><a href="paidlist.html"> <i class="fa fa-dashboard"></i><span>用户购买列表</span>
+						<li class="active"><a href="paidlist.html"> <i class="fa fa-dashboard"></i><span>用户购买列表</span>
 					</a></li>
 				</ul>
 				</section>
@@ -184,7 +183,7 @@
 							<div class="box box-primary" style=" margin: 10px auto;">
 								<div class="box-header with-border">
 									<i class="fa fa-table"></i>
-									<h3 class="box-title">案例列表</h3>
+									<h3 class="box-title">用户购买列表</h3>
 								</div>
 								<!-- /.box-header -->
 								<div class="box-body no-padding">
@@ -192,14 +191,11 @@
 										<tbody id="tbody">
 											<tr>
 												<th>ID</th>
-												<th>专业分类</th>
-												<th>国家分类</th>
-												<th>标题</th>
-												<th>子标题</th>
-												<th>是否推荐</th>
-												<th>是否导航推荐</th>
+												<th style="width:10%">用户</th>
+												<th style="width:20%">交易号</th>
+												<th>支付状态</th>
+												<th>课程ID</th>
 												<th>创建时间</th>
-												<th>编辑</th>
 											</tr>
 										</tbody>
 									</table>
@@ -233,30 +229,19 @@
 		<!-- AdminLTE App -->
 		<script src="/js/app.min.js"></script>
 		<script>
-			$.post('/cases/getCaseListByTag', {page:1, length:1000}, function(data) {
+		
+			$.post('/course/getPaidList', function(data) {
 				for(var index in data) {
 					$('#tbody').append('<tr>'
 							+ '<td>'+data[index].id+'</td>'
-							+ '<td>'+data[index].tag_category_name+'</td>'
-							+ '<td>'+data[index].tag_country_name+'</td>'
-							+ '<td>'+data[index].title+'</td>'
-							+ '<td>'+data[index].sub_title+'</td>'
-							+ '<td>'+(data[index].is_recommend==0?"非推荐":(data[index].is_recommend==1?"主推荐":"次推荐"))+'</td>'
-							+ '<td>'+(data[index].is_nav_recommend==1?"侧导航推荐":"非侧导航推荐")+'</td>'
+							+ '<td>'+data[index].user_id+'</td>'
+							+ '<td>'+data[index].trade_no+'</td>'
+							+ '<td>'+(data[index].pay_status==0?'<span style="color:red">未支付</span>':'<span style="color:green">已支付</span>')+'</td>'
+							+ '<td>'+data[index].course_id+'</td>'
 							+ '<td>'+data[index].readable_date+'</td>'
-							+ '<td><a id="'+data[index].id+'" class="delete" style="margin-right: 10px;color:red">删除</a><a href="addcase.html?id='+data[index].id+'">编辑</a></td>'
 							+ '</tr>');
 				}
-				$('.delete').on('click', function() {
-					var id = $(this).attr('id');
-					if(confirm("您确定要删除当前选定的数据吗？")) {
-						$.post('/cases/deleteCase', {id:id}, function(data) {
-							alert(data.msg);
-							window.location.reload();
-						});
-					}
-				});
-			});
+			});	
 			
 			$('#logout').on('click', function() {
 				window.location.href = '/user/userLogout?view=homepage';

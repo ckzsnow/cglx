@@ -388,7 +388,8 @@ public class CourseDaoImpl implements ICourseDao {
 				+ "from course LEFT JOIN (select id as id1, help as help_, about as about_, teacher as tea, teacher_position as tea_position, "
 				+ "teacher_abstract as tea_abstract, teacher_image as tea_image from course) as " 
 				+ "course_2 on course.parent_id=course_2.id1 where course.id=?) as final_data "
-				+ "LEFT JOIN user_course on user_course.user_id=? and (user_course.course_id=final_data.id or final_data.parent_id=user_course.course_id) and user_course.pay_status=1";
+				+ "LEFT JOIN user_course on user_course.user_id=? and (user_course.course_id=final_data.id "
+				+ "or final_data.parent_id=user_course.course_id) and user_course.pay_status=1 limit 0,1";
 		try {
 			resultMap = jdbcTemplate.queryForMap(sql, id, user_id);
 		} catch(Exception e) {
@@ -419,5 +420,17 @@ public class CourseDaoImpl implements ICourseDao {
 			logger.error(e.toString());
 		}
 		return affectedRows != 0;
+	}
+
+	@Override
+	public List<Map<String, Object>> getPaidList() {
+		String sql = "select *, DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') as readable_date from user_course";
+		List<Map<String, Object>> retMap = null;;
+		try {
+			retMap = jdbcTemplate.queryForList(sql);
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return retMap;
 	}
 }

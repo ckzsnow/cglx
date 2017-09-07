@@ -48,4 +48,6 @@ public interface ICourseDao {
 
 	boolean updateCourseByCourseId(Map<String, String[]> paramsMap);
 
+	List<Map<String, Object>> getPaidList();
+
 }
