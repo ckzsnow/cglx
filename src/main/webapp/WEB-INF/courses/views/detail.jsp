@@ -43,6 +43,7 @@
 	video::-webkit-media-controls-panel {
 	    width: calc(100% + 30px); /* Adjust as needed */
 	}
+	
 </style>
 
 </head>
@@ -416,7 +417,8 @@
 							</div>
 						</div>
 					</div>
-					<video id="video_src" width="100%" height="85%" style="display:none;"></video>
+					<video id="video_src" controls webkit-playsinline="true" playsinline="true" width="100%" height="85%" style="display:none;">
+					</video>
 					
 				</div>
 				<!-- mobile 购买按钮状态 -->
@@ -658,6 +660,7 @@
 	var imgUrl = "http://www.udiyclub.com/images/logo.png";
 	var descContent = "DIY研习社－中国留学生互助交流平台，让留学不孤单";
 	var shareTitle = "DIY研习社";
+	var lineLink = "http://www.udiyclub.com";
 	
 		$('.name').on('click', function(event) {
 			event.stopPropagation();
@@ -685,117 +688,223 @@
 		var video_src;
 		var id = <%=courseId%>;
 		var cost;
-		$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
-			if (!checkJsonIsEmpty(data)) {
-				cost = data.cost;
-				$('.course_title').html(data.title);
-				$('.cost').html(data.cost);
-				$('#time').html(data.time);
-				$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
-				$('#teacher').html(data.final_tea);
-				$('#teacher_position').html(data.final_position);
-				
-				var final_abstract = data.final_abstract;
-				final_abstract = final_abstract.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-				$('#teacher_abstract').html(final_abstract);
-				
-				var description = data.description;
-				description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-				$('#description').html(description);
-				
-				var outline = data.outline;
-				outline = outline.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-				$('#outline').html(outline);
-				
-				var info = data.info;
-				info = info.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-				$('#info').html(info);
-				
-				var crowds = data.crowds;
-				crowds = crowds.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-				$('#crowds').html(crowds);
-				
-				var help = data.final_help;
-				help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;')
-				$('#help').html(help);
-				
-				//$('#about').html(data.final_about);
-				$('.buy-status').html(data.pay_status == 1?'已购买':'未购买')
-				$('#course_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
-				if(data.pay_status == 1) {
-					$('.my-btn').html('已购买').css('background-color', '#ccc');
-					$('#video-snap').css('display', 'none');
-					$('#video_src').css('display', 'block');
-					document.getElementById("video_src").src = data.video_src;
-					document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
-					//document.getElementById("video_src").controls = "controls";
-					var playtime = data.playtime;
-					var str =playtime;
-					str = str.replace(/-/g,"/");
-					var courseDate = new Date(str).getTime() / 1000;
-					var currentDate = new Date().getTime() / 1000;
-					var courseLength = parseInt(data.time) * 60;
-					if(currentDate > courseDate && currentDate-courseDate>courseLength) {
-						document.getElementById("video_src").controls = "controls";
-						document.getElementById("video_src").play();
-					} else if(currentDate > courseDate && currentDate-courseDate<courseLength) {
-						document.getElementById("video_src").currentTime = currentDate-courseDate;
-						document.getElementById("video_src").play();
-					} else {
-						alert('课程尚未开播，开播时间为：' + playtime);
-						var interval = window.setInterval(function(){
-							currentDate = new Date().getTime() / 1000;
-							if(currentDate > courseDate && currentDate-courseDate>courseLength) {
-								document.getElementById("video_src").controls = "controls";
-								document.getElementById("video_src").play();
-								clearInterval(interval); 
-							} else if(currentDate > courseDate && currentDate-courseDate<courseLength) {
-								document.getElementById("video_src").currentTime = currentDate-courseDate;
-								document.getElementById("video_src").play();
-								clearInterval(interval); 
-							} 
-						},5000);
-					}
-				}
-				imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
-				shareTitle = data.title;
-				execWeixinShare();
-				
-				function bindPayEvent(eleClass, arg) {
-					$('.' + eleClass).on('click', function() {
-						if(user_id == '') {
-							if(window.screen.width < 700) {
-								$('#login-btn-m').click();
-				 			} else {
-				 				$('#login-btn').click();
-				 			}
+		var playVideoEvent = 1;
+		var seekingVideoEvent = 0;
+		var courseDate = 0;
+		var currentDate = 0;
+		var courseLength = 0;
+		document.addEventListener("WeixinJSBridgeReady", function () {
+			$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
+				if (!checkJsonIsEmpty(data)) {
+					cost = data.cost;
+					$('.course_title').html(data.title);
+					$('.cost').html(data.cost);
+					$('#time').html(data.time);
+					$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
+					$('#teacher').html(data.final_tea);
+					$('#teacher_position').html(data.final_position);
+					
+					var final_abstract = data.final_abstract;
+					final_abstract = final_abstract.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#teacher_abstract').html(final_abstract);
+					
+					var description = data.description;
+					description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#description').html(description);
+					
+					var outline = data.outline;
+					outline = outline.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#outline').html(outline);
+					
+					var info = data.info;
+					info = info.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#info').html(info);
+					
+					var crowds = data.crowds;
+					crowds = crowds.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#crowds').html(crowds);
+					
+					var help = data.final_help;
+					help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;')
+					$('#help').html(help);
+					
+					//$('#about').html(data.final_about);
+					$('.buy-status').html(data.pay_status == 1?'已购买':'未购买')
+					$('#course_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
+					if(data.pay_status == 1) {
+						$('.my-btn').html('已购买').css('background-color', '#ccc');
+						$('#video-snap').css('display', 'none');
+						$('#video_src').css('display', 'block');
+						document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
+						var playtime = data.playtime;
+						var str =playtime;
+						str = str.replace(/-/g,"/");
+						courseDate = new Date(str).getTime() / 1000;
+						currentDate = new Date().getTime() / 1000;
+						courseLength = parseInt(data.time) * 60;
+						if(currentDate < courseDate) {
+							alert('课程尚未开播，开播时间为：' + playtime);
+							var interval = window.setInterval(function(){
+								currentDate = new Date().getTime() / 1000;
+								if(currentDate >= courseDate) {
+									document.getElementById("video_src").src = data.video_src;
+									clearInterval(interval);
+								} 
+							},3000);
 						} else {
-							if(arg == '已购买') return;
-							if(cost == 0) {
-								$.post('/course/addFreeCourse', {course_id : id}, function(data) {
-									if(data.error_code == 0) {
-										window.location.href = '/view/mycourse.html';
-									} else {
-										alert(data.error_msg);
-										return;
-									}
-								});
-							} else {
-								if(isWeiXin()) {
-									weixinPay();
-								} else {
-						 			window.location.href = '/courses/views/orderPay.html?id=' + id;
+							document.getElementById("video_src").src = data.video_src;
+						}
+						document.getElementById("video_src").addEventListener('timeupdate', function(){
+							if(document.getElementById("video_src").currentTime != 0 && playVideoEvent == 1) {
+								playVideoEvent = 2;
+								document.getElementById("video_src").pause();
+								courseDate = new Date(str).getTime() / 1000;
+								if(currentDate - courseDate < courseLength) {
+									document.getElementById("video_src").currentTime = currentDate - courseDate;
+								}
+								document.getElementById("video_src").play();
+							}
+						});
+						var slideTime = true;
+						document.getElementById("video_src").addEventListener('seeking', function(){
+							if(playVideoEvent == 2 && seekingVideoEvent == 0) {
+								seekingVideoEvent = 1;
+								return;
+							}
+							if(!slideTime) {
+								seekingVideoEvent = 1;
+								slideTime = true;
+								return;
+							}
+							if(seekingVideoEvent == 2) {
+								seekingVideoEvent = 0;
+								courseDate = new Date(str).getTime() / 1000;
+								if(currentDate - courseDate < courseLength) {
+									slideTime = false;
+									document.getElementById("video_src").currentTime = currentDate - courseDate;
 								}
 							}
-						}
-					});
+							seekingVideoEvent++;
+						});
+						
+					}
+					imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
+					shareTitle = data.title;
+					execWeixinShare();
 				}
-				
-				bindPayEvent('my-btn', $('.my-btn').html());
-				bindPayEvent('video-detail', null);
-			}
+			});
 		});
+		if(!isWeiXin()) {
+			$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
+				if (!checkJsonIsEmpty(data)) {
+					cost = data.cost;
+					$('.course_title').html(data.title);
+					$('.cost').html(data.cost);
+					$('#time').html(data.time);
+					$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
+					$('#teacher').html(data.final_tea);
+					$('#teacher_position').html(data.final_position);
+					
+					var final_abstract = data.final_abstract;
+					final_abstract = final_abstract.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#teacher_abstract').html(final_abstract);
+					
+					var description = data.description;
+					description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#description').html(description);
+					
+					var outline = data.outline;
+					outline = outline.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#outline').html(outline);
+					
+					var info = data.info;
+					info = info.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#info').html(info);
+					
+					var crowds = data.crowds;
+					crowds = crowds.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#crowds').html(crowds);
+					
+					var help = data.final_help;
+					help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;')
+					$('#help').html(help);
+					
+					//$('#about').html(data.final_about);
+					$('.buy-status').html(data.pay_status == 1?'已购买':'未购买')
+					$('#course_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
+					if(data.pay_status == 1) {
+						$('.my-btn').html('已购买').css('background-color', '#ccc');
+						$('#video-snap').css('display', 'none');
+						$('#video_src').css('display', 'block');
+						document.getElementById("video_src").src = data.video_src;
+						document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
+						//document.getElementById("video_src").controls = "controls";
+						var playtime = data.playtime;
+						var str =playtime;
+						str = str.replace(/-/g,"/");
+						var courseDate = new Date(str).getTime() / 1000;
+						var currentDate = new Date().getTime() / 1000;
+						var courseLength = parseInt(data.time) * 60;
+						if(currentDate > courseDate && currentDate-courseDate>courseLength) {
+							document.getElementById("video_src").controls = "controls";
+							document.getElementById("video_src").play();
+						} else if(currentDate > courseDate && currentDate-courseDate<courseLength) {
+							document.getElementById("video_src").currentTime = currentDate-courseDate;
+							document.getElementById("video_src").play();
+						} else {
+							alert('课程尚未开播，开播时间为：' + playtime);
+							var interval = window.setInterval(function(){
+								currentDate = new Date().getTime() / 1000;
+								if(currentDate > courseDate && currentDate-courseDate>courseLength) {
+									document.getElementById("video_src").controls = "controls";
+									document.getElementById("video_src").play();
+									clearInterval(interval); 
+								} else if(currentDate > courseDate && currentDate-courseDate<courseLength) {
+									document.getElementById("video_src").currentTime = currentDate-courseDate;
+									document.getElementById("video_src").play();
+									clearInterval(interval); 
+								} 
+							},5000);
+						}
+					}
+					imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
+					shareTitle = data.title;
+					execWeixinShare();
+				}
+			});
+		}
+		function bindPayEvent(eleClass, arg) {
+			$('.' + eleClass).on('click', function() {
+				if(user_id == '') {
+					if(window.screen.width < 700) {
+						$('#login-btn-m').click();
+		 			} else {
+		 				$('#login-btn').click();
+		 			}
+				} else {
+					if(arg == '已购买') return;
+					if(cost == 0) {
+						$.post('/course/addFreeCourse', {course_id : id}, function(data) {
+							if(data.error_code == 0) {
+								window.location.href = '/view/mycourse.html';
+							} else {
+								alert(data.error_msg);
+								return;
+							}
+						});
+					} else {
+						if(isWeiXin()) {
+							weixinPay();
+						} else {
+				 			window.location.href = '/courses/views/orderPay.html?id=' + id;
+						}
+					}
+				}
+			});
+		}
 		
+		bindPayEvent('my-btn', $('.my-btn').html());
+		bindPayEvent('video-detail', null);
 		$.post('/course/getParentCourseBrief', {id : id}, function(data) {
 			if(!checkJsonIsEmpty(data)) {
 				$('.parent_title').html(data.title);

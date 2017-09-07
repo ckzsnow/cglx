@@ -227,6 +227,7 @@ $("#mobile_login_submit").click(function(){
 					$('.transparent-mask').css('display', 'none');
 					$("#mobile_not_login").hide();
 					$("#mobile_login").show();
+					window.location.reload();
 				}
 			} else {
 				$("#mobile_login_tip").html("");

@@ -389,6 +389,7 @@ public class CourseDaoImpl implements ICourseDao {
 				+ "teacher_abstract as tea_abstract, teacher_image as tea_image from course) as " 
 				+ "course_2 on course.parent_id=course_2.id1 where course.id=?) as final_data "
 				+ "LEFT JOIN user_course on user_course.user_id=? and (user_course.course_id=final_data.id or final_data.parent_id=user_course.course_id) and user_course.pay_status=1";
+		logger.debug("getSubcourseDetailById sql : {}", sql);
 		try {
 			resultMap = jdbcTemplate.queryForMap(sql, id, user_id);
 		} catch(Exception e) {

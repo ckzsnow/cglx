@@ -569,6 +569,7 @@
 	var imgUrl = "http://www.udiyclub.com/images/logo.png";
 	var descContent = "DIY研习社－中国留学生互助交流平台，让留学不孤单";
 	var shareTitle = "DIY研习社";
+	var lineLink = "http://www.udiyclub.com";
 	$('.name').on('click', function(event) {
 		event.stopPropagation();
 		$('#logout').toggle('fast');
