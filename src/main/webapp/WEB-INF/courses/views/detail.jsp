@@ -417,7 +417,7 @@
 							</div>
 						</div>
 					</div>
-					<video id="video_src" controls webkit-playsinline="true" playsinline="true" width="100%" height="85%" style="display:none;">
+					<video id="video_src" webkit-playsinline="true" playsinline="true" width="100%" height="85%" style="display:none;">
 					</video>
 					
 				</div>
