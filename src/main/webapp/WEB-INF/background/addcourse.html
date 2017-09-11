@@ -517,7 +517,10 @@
 				if($('#series').val() == '1') {
 					
 					var fd = new FormData();
+					
 					var series_snapshot = $('#series-snapshot')[0].files[0];
+					var identifier = new Array(0, series_snapshot==undefined ? 0:1, 0);
+					fd.append('identifier', identifier);
 					
 					fd.append('course_id', id);
 					
@@ -589,6 +592,9 @@
 					var fd = new FormData();
 					var nonseries_snapshot = $('#nonseries-snapshot')[0].files[0];
 					var nonseries_teacher_image = $('#nonseries-teacher_image')[0].files[0];
+					
+					var identifier = new Array(0, nonseries_snapshot==undefined ? 0:1, nonseries_teacher_image==undefined ? 0:1);
+					fd.append('identifier', identifier);
 					
 					fd.append('course_id', id);
 					fd.append('parent_id', 0);

@@ -374,9 +374,13 @@
 		$("#progress_tip").show();
 		var index = 0;
 		var fd = new FormData();
+		
 		var banner = $('#banner')[0].files[0];
 		var snapshot = $('#snapshot')[0].files[0];
 		var teacher_image = $('#teacher_image')[0].files[0];
+		
+		var identifier = new Array(banner==undefined ? 0:1, snapshot==undefined ? 0:1, teacher_image==undefined ? 0:1);
+		fd.append('identifier', identifier);
 		
 		fd.append('course_id', id);
 		fd.append('title', $('#title').val());
