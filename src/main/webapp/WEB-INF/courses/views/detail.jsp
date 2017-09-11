@@ -747,6 +747,8 @@
 								currentDate = new Date().getTime() / 1000;
 								if(currentDate >= courseDate) {
 									document.getElementById("video_src").src = data.video_src;
+									document.getElementById("video_src").controls = "controls";
+									document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
 									clearInterval(interval);
 								} 
 							},3000);
