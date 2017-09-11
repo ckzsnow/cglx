@@ -325,6 +325,7 @@ public class CourseController {
 	@RequestMapping("/course/getParentCourseBrief")
 	@ResponseBody
 	public Map<String, Object> getParentCourseBrief(HttpServletRequest request) {
+		Map<String, Object> retMap = new HashMap<>();
 		String id = request.getParameter("id");
 		long id_ = 0;
 		try {
@@ -333,9 +334,13 @@ public class CourseController {
 			logger.error(ex.toString());
 		}
 		long parent_id = (long)courseDao.getCourseById(id_).get("parent_id");
-		Map<String, Object> retMap = courseDao.getSeriesDetailById(parent_id, "");
-		retMap.put("parent_id", parent_id);
-		return retMap;
+		if(courseDao.getSeriesDetailById(parent_id, "") == null) {
+			return retMap;
+		} else {
+			retMap = courseDao.getSeriesDetailById(parent_id, "");
+			retMap.put("parent_id", parent_id);
+			return retMap;
+		}
 	}
 	
 	@RequestMapping("/course/getPayStatusByOrderIdAndCourseId")
@@ -370,6 +375,12 @@ public class CourseController {
 			retMap.put("error_msg", "购买失败，请稍后重试！");
 			return retMap;
 		} 
+	}
+	
+	@RequestMapping("/course/getPaidList")
+	@ResponseBody
+	public List<Map<String, Object>> getPaidList() {
+		return courseDao.getPaidList();
 	}
 	
 	private String getGernarateFileName(MultipartFile file) {
