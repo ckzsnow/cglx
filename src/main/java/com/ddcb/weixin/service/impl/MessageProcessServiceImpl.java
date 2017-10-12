@@ -3,7 +3,9 @@ package com.ddcb.weixin.service.impl;
 import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.ddcb.utils.ImageOutputMessage;
+import com.ddcb.utils.Image;
 import com.ddcb.utils.InputMessage;
 import com.ddcb.utils.OutputMessage;
 import com.ddcb.utils.TextOutputMessage;
@@ -58,6 +62,64 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 				logger.debug("消息创建时间：" + inputMsg.getCreateTime());
 				logger.debug("消息内容：" + inputMsg.getContent());
 				logger.debug("消息Id：" + inputMsg.getMsgId());
+				logger.debug("当前收到的消息内容" + inputMsg.getContent());
+				if(inputMsg.getContent().indexOf("入群") != -1){
+					logger.debug("当前收到的消息内容" + inputMsg.getContent());
+					XStream xstream = new XStream(new XppDriver() {
+						@Override
+						public HierarchicalStreamWriter createWriter(Writer out) {
+							return new PrettyPrintWriter(out) {
+								@Override
+								protected void writeText(QuickWriter writer,
+										String text) {
+									if (!text.startsWith("<![CDATA[")) {
+										text = "<![CDATA[" + text + "]]>";
+									}
+									writer.write(text);
+								}
+							};
+						}
+					});
+					ImageOutputMessage imageOutputMessage = new ImageOutputMessage();
+					Image image = new Image();
+					image.setMediaId("PMCPFwuiCp2HPAfNSNNt9eJz-gyBI5v2JrU9lieA-Aw");
+					imageOutputMessage.setImage(image);
+					try {
+						setOutputMsgInfo(imageOutputMessage, inputMsg);
+					} catch (Exception e) {
+						logger.debug(e.toString());
+					}
+					xstream.alias("xml", imageOutputMessage.getClass());
+					result = new String(xstream.toXML(imageOutputMessage).getBytes());
+					logger.debug("xml result : {}", result);
+				} else {
+					XStream xstream = new XStream(new XppDriver() {
+						@Override
+						public HierarchicalStreamWriter createWriter(Writer out) {
+							return new PrettyPrintWriter(out) {
+								@Override
+								protected void writeText(QuickWriter writer,
+										String text) {
+									if (!text.startsWith("<![CDATA[")) {
+										text = "<![CDATA[" + text + "]]>";
+									}
+									writer.write(text);
+								}
+							};
+						}
+					});
+					TextOutputMessage outputMsg = new TextOutputMessage();
+					//outputMsg.setContent("客官，等您很久了～这里既分享各类线下讲座的内容，也允许优质机构和个人在线开办讲座，让用户足不出户参与讲座，并和导师互动。快点击“点豆大讲堂”来看看我们吧～");
+					outputMsg.setContent("亲爱的小伙伴，千山万水你还是来了。无论你身在何方，在做着什么，你找到组织啦。\r\n我们是一个有爱有干货的留学生互助共享平台。DIY研习社，让留学不孤单。\r\n后台回复关键词“入群”，即可加入DIY研习社最新创建的社群。如果无法入群，加群理事V信号senyuyan0904即可入群。");
+					try {
+						setOutputMsgInfo(outputMsg, inputMsg);
+					} catch (Exception e) {
+						logger.debug(e.toString());
+					}
+					xstream.alias("xml", outputMsg.getClass());
+					result = new String(xstream.toXML(outputMsg).getBytes());
+					logger.debug("xml result : {}", result);
+				}
 			}  else if (msgType.equals(WeixinMsgType.Event.toString())) {
 				logger.info("inputMsg.getEvent() : {}", inputMsg
 						.getEvent().trim());
@@ -79,7 +141,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					});
 					TextOutputMessage outputMsg = new TextOutputMessage();
 					//outputMsg.setContent("客官，等您很久了～这里既分享各类线下讲座的内容，也允许优质机构和个人在线开办讲座，让用户足不出户参与讲座，并和导师互动。快点击“点豆大讲堂”来看看我们吧～");
-					outputMsg.setContent("欢迎关注［点豆大讲堂］，这里每天和您分享互联网圈的精彩演讲。点击“大讲堂”，看过往演讲集锦；点击“直播讲座”，看当下最热项目的分享。");
+					outputMsg.setContent("亲爱的小伙伴，千山万水你还是来了。\r\n欢迎关注UDIY研习社！我们是一个有爱有干货的留学生互助共享平台。\r\n点击下方免费领取微课~\r\n<a href='http://www.udiyclub.com/courses/jsp?id=2&view=detail'>95后博士教你如何制霸北美CS专业</a>\r\n<a href='http://www.udiyclub.com/courses/jsp?id=23&view=detail'>全方位雅思口语短期内大提分</a>\r\n更多有趣实用的留学内容，点击菜单查看哦~");
 					try {
 						setOutputMsgInfo(outputMsg, inputMsg);
 					} catch (Exception e) {
