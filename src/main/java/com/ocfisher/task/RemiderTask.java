@@ -28,7 +28,8 @@ public class RemiderTask {
 	@Autowired
 	private ICourseDao courseDao;
 	
-	@Scheduled(cron="* 0/3 * * * ? ")
+	/*@Scheduled(cron="* 0/3 * * * ? ")*/
+	@Scheduled(fixedDelay = 180000)
     public void taskCycle(){  
         logger.debug("Execute reminder task.");
         List<Map<String, Object>> retList = courseDao.getReminderCourse();
