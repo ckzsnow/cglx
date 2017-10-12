@@ -42,7 +42,7 @@
 					</li>
 					<li class="active"><a href="/courses/views/courses.html">在线课程</a></li>
 					<li class="activity" data-id="activity"><a
-						href="success.html">成功案例</a></li>
+						href="/view/success.html">成功案例</a></li>
 					<li class="gift" data-id="gift"><a href="/view/about.html">关于我们</a>
 					</li>
 					<li class="search" data-id="search"><a href="/view/search.html">搜索</a>
@@ -59,7 +59,7 @@
 				<ul class="expand-nav-list" id="mobile_not_login">
 					<li class="user-info"><a href="javascript:void(0)"
 						id="login-btn-m">登录</a></li>
-					<li class="activity"><a href="success.html">成功案例</a></li>
+					<li class="activity"><a href="/view/success.html">成功案例</a></li>
 					<li class="search"><a href="/courses/views/courses.html">在线课程</a></li>
 				</ul>
 				<ul class="expand-nav-list" id="mobile_login" style="display: none;">
@@ -72,8 +72,8 @@
 			<div class="login-container">
 				<div class="logout" id="logout"
 					style="display: none; height: 140px;">
-					<i class="triangle"></i> <a href="personalInfo.html"
-						class="myorder-btn">个人信息</a> <a href="estimate.html">背景评估</a> <a
+					<i class="triangle"></i> <a href="/view/personalInfo.html"
+						class="myorder-btn">个人信息</a> <a href="/view/estimate.html">背景评估</a> <a
 						href="javascript:userlogout();">退出</a>
 				</div>
 				<div class="login-false-wrapper">

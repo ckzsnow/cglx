@@ -89,8 +89,8 @@
 			<div class="login-container">
 				<div class="logout" id="logout"
 					style="display: none; height: 140px;">
-					<i class="triangle"></i> <a href="personalInfo.html"
-						class="myorder-btn">个人信息</a> <a href="estimate.html">背景评估</a> <a
+					<i class="triangle"></i> <a href="/view/personalInfo.html"
+						class="myorder-btn">个人信息</a> <a href="/view/estimate.html">背景评估</a> <a
 						href="javascript:userlogout();">退出</a>
 				</div>
 				<div class="login-false-wrapper">
