@@ -225,7 +225,7 @@ public class APIController {
 		/*String forId = request.getParameter("forId");
 		String tag = request.getParameter("tag");*/
 		String url = request.getParameter("url");
-		String title = request.getParameter("title");
+		/*String title = request.getParameter("title");*/
 		if (multipartRequest != null) {
 			Iterator<String> iterator = multipartRequest.getFileNames();
 			while (iterator.hasNext()) {
@@ -236,7 +236,7 @@ public class APIController {
 					BannerModel bm = new BannerModel();
 					bm.setCreate_time(new Timestamp(System.currentTimeMillis()));
 					bm.setFileName(fileName);
-					bm.setTitle(title);
+					//bm.setTitle(title);
 					bm.setUrl(url);
 					cglxDao.addBanner(bm);
 				} catch (IOException e) {
