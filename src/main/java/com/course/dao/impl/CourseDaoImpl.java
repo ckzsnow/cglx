@@ -154,9 +154,7 @@ public class CourseDaoImpl implements ICourseDao {
 		sb.append("update course set ");
 		Long course_id = Long.valueOf(paramsMap.remove("course_id")[0]);
 		for(Map.Entry<String, String[]> entry : paramsMap.entrySet()) {
-			if(entry.getKey().equals("banner") || entry.getKey().equals("snapshot") || entry.getKey().equals("teacher_image")) {
-				continue;
-			}
+			
 			sb.append(" ");
 			sb.append(entry.getKey());
 			sb.append("=?,");

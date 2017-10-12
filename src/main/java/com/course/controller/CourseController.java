@@ -1,6 +1,8 @@
 package com.course.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -91,9 +93,39 @@ public class CourseController {
 	
 	@RequestMapping("/course/updateCourseByCourseId")
 	@ResponseBody
-	public Map<String, String> updateCourseByCourseId(HttpServletRequest request) {
+	public Map<String, String> updateCourseByCourseId(HttpServletRequest request, DefaultMultipartHttpServletRequest multipartRequest) {
 		Map<String, String> retMap = new HashMap<>();
 		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
+		List<String> identifiers =  Arrays.asList(paramsMap.get("identifier")[0].split(","));
+		paramsMap.remove("identifier");
+		List<String> images = Arrays.asList("banner", "snapshot", "teacher_image");;
+		String realPath = "/data/cglx/files/imgs";
+		String fileName = "";
+		
+		int count = 0;
+		if(multipartRequest != null) {
+			Iterator<String> ite = multipartRequest.getFileNames();
+			while(ite.hasNext()) {
+				MultipartFile file = multipartRequest.getFile(ite.next());
+				fileName = getGernarateFileName(file);
+				try {
+					FileUtils.copyInputStreamToFile(file.getInputStream(), new File(realPath, fileName));
+				} catch (IOException e) {
+					logger.error("Failed in saving file, exception : {}", e.toString());
+				}
+				for(int index=count; index<identifiers.size(); index++) {
+					if(identifiers.get(index).equals("0")){
+						paramsMap.remove(images.get(index));
+						continue;
+					}
+					else {
+						paramsMap.put(images.get(index), new String[] {fileName});
+						count = index+1;
+						break;
+					}
+				}
+			}
+		}
 		courseDao.updateCourseByCourseId(paramsMap);
 		retMap.put("msg", "添加成功！");
 		retMap.put("error", "0");

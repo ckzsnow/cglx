@@ -366,9 +366,8 @@
                 <section class="link-section">
                     <div class="foot-logo"></div>
                     <div class="links">
-                        <a href="about.html">关于我们</a>
-                        |<a href="report.html">社员风采</a>
-                    </div>
+					<a href="/view/about.html">关于我们</a> |<a href="/courses/views/courses.html">在线课程</a>
+				</div>
                     <div class="attention">
                         	关注我们：
                         <a class="showWx">
@@ -406,7 +405,7 @@
                 success: function(data) {
                     if (!checkJsonIsEmpty(data)) {
                         for (var index in data) {
-                            $("#newest_article_list").append("<li><a class='li-container' href='/view/subpage.html?id=" + data[index].id + "&tagId=" + data[index].tag_id + "' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/" + data[index].image + "'></div><div class='li-content'><div class='li-title'>" + data[index].title + "</div><div class='li-detail'>" + data[index].abstract + "</div><div class='li-other'><span class='li-type'>" + data[index].name + "</span><span class='li-time'>" + data[index].readable_date + "</span><span class='li-author'><i class='li-author-name'>" + data[index].author + "</i></span></div></div></a></li>");
+                            $("#newest_article_list").append("<li><a class='li-container' href='/view/subpagejsp?id=" + data[index].id + "&tagId=" + data[index].tag_id + "' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/" + data[index].image + "'></div><div class='li-content'><div class='li-title'>" + data[index].title + "</div><div class='li-detail'>" + data[index].abstract + "</div><div class='li-other'><span class='li-type'>" + data[index].name + "</span><span class='li-time'>" + data[index].readable_date + "</span><span class='li-author'><i class='li-author-name'>" + data[index].author + "</i></span></div></div></a></li>");
                         }
                     }
                 },
@@ -427,7 +426,7 @@
                             for (var index in data) {
                                 count++;
                                 if (data[index].data_type == "article") {
-                                    $("#search_list").append("<li><a class='li-container' href='/view/subpage.html?id=" + data[index].id + "&tagId=" + data[index].tag_id + "' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/" + data[index].image + "'></div><div class='li-content'><div class='li-title'>" + data[index].title + "</div><div class='li-detail'>" + data[index].abstract + "</div><div class='li-other'><span class='li-type'>" + data[index].name + "</span><span class='li-time'>" + data[index].readable_date + "</span><span class='li-author'><i class='li-author-name'>" + data[index].author + "</i></span></div></div></a></li>");
+                                    $("#search_list").append("<li><a class='li-container' href='/view/subpagejsp?id=" + data[index].id + "&tagId=" + data[index].tag_id + "' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/" + data[index].image + "'></div><div class='li-content'><div class='li-title'>" + data[index].title + "</div><div class='li-detail'>" + data[index].abstract + "</div><div class='li-other'><span class='li-type'>" + data[index].name + "</span><span class='li-time'>" + data[index].readable_date + "</span><span class='li-author'><i class='li-author-name'>" + data[index].author + "</i></span></div></div></a></li>");
                                 } else {
                                     $("#search_list").append("<li><a class='li-container' href='/view/subpage_media.html?id=" + data[index].id + "' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/" + data[index].image + "'></div><div class='li-content'><div class='li-title'>" + data[index].title + "</div><div class='li-detail'>" + data[index].abstract + "</div><div class='li-other'><span class='li-type'>" + data[index].name + "</span><span class='li-time'>" + data[index].publish_time + "</span></div></div></a></li>");
                                 }
