@@ -708,7 +708,7 @@
 					$('#teacher_abstract').html(final_abstract);
 					
 					var description = data.description;
-					description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					//description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
 					$('#description').html(description);
 					
 					var outline = data.outline;
@@ -800,7 +800,20 @@
 				if (!checkJsonIsEmpty(data)) {
 					cost = data.cost;
 					$('.course_title').html(data.title);
-					$('.cost').html(data.cost);
+					
+					var discount = data.discount / 10;
+					var deadline = data.deadline;
+					var cost = data.cost;
+					var deadlineDate = new Date(deadline).getTime() / 1000;
+					var currentDate = new Date().getTime() / 1000;
+					if(deadlineDate>currentDate) {
+						$('.cost').html('限时折扣价 ' + discount*cost + ' (原价) ' + cost);
+					} else {
+						$('.cost').html(data.cost);
+					}
+					
+					
+					
 					$('#time').html(data.time);
 					$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
 					$('#teacher').html(data.final_tea);
@@ -811,7 +824,7 @@
 					$('#teacher_abstract').html(final_abstract);
 					
 					var description = data.description;
-					description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					//description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
 					$('#description').html(description);
 					
 					var outline = data.outline;

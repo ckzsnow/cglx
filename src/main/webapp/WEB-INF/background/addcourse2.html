@@ -20,7 +20,6 @@
 		<!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
 		<link rel="stylesheet" href="/css/_all-skins.min.css">
-		<link rel="stylesheet" href="/css/bootstrap3-wysihtml5.min.css">
 		<!-- jQuery 2.2.3 -->
 		<script src="/js/jquery.min.js"></script>
 	</head>
@@ -250,41 +249,12 @@
 													<input type="file" id="series-snapshot"> <img id="series-snapshot_" />
 												</div>
 											</div>
-											
-											
-											
-											<div class="form-group">
-												<label for="inputEmail3" class="col-sm-2 control-label">上传插图</label>
-												<div class="col-sm-10">
-													<input id="series-files" type="file" class="form-control detail" multiple />
-												</div>
-											</div>
-											<div class="form-group">
-							                  	<label for="inputEmail3" class="col-sm-2 control-label"></label>
-							                  	<div class="col-sm-10">
-													<button type="button" style="float:left" class="btn btn-success uploadFiles">上传</button>
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="inputEmail3" class="col-sm-2 control-label">插图展示</label>
-												<div class="col-sm-10" id="series-images">
-													
-												</div>
-											</div>
 											<div class="form-group">
 												<label for="inputEmail3" class="col-sm-2 control-label">课程简介</label>
-												<div class="col-sm-10" id="images">
-										            <div class="box-body pad">
-										              <form>
-										                <textarea id="series-description" class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-										              </form>
-										            </div>
-												</div>	
+												<div class="col-sm-10">
+													<textarea class="form-control detail" id="series-description" style="height:100px"></textarea>
+												</div>
 											</div>
-											
-											
-											
-											
 											<div class="form-group">
 												<label for="inputEmail3" class="col-sm-2 control-label">课程大纲</label>
 												<div class="col-sm-10">
@@ -431,46 +401,12 @@
 													<textarea class="form-control detail" id="nonseries-about"></textarea>
 												</div>
 											</div>
-											
-
-
-
-											<div class="form-group">
-												<label for="inputEmail3" class="col-sm-2 control-label">上传插图</label>
-												<div class="col-sm-10">
-													<input id="nonseries-files" type="file" class="form-control detail" multiple />
-												</div>
-											</div>
-											<div class="form-group">
-							                  	<label for="inputEmail3" class="col-sm-2 control-label"></label>
-							                  	<div class="col-sm-10">
-													<button type="button" style="float:left" class="btn btn-success uploadFiles">上传</button>
-												</div>
-											</div>
-											<div class="form-group">
-												<label for="inputEmail3" class="col-sm-2 control-label">插图展示</label>
-												<div class="col-sm-10" id="nonseries-images">
-													
-												</div>
-											</div>
 											<div class="form-group">
 												<label for="inputEmail3" class="col-sm-2 control-label">课程简介</label>
-												<div class="col-sm-10" id="images">
-										            <div class="box-body pad">
-										              <form>
-										                <textarea id="nonseries-description" class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-										              </form>
-										            </div>
-												</div>	
+												<div class="col-sm-10">
+													<textarea class="form-control detail" id="nonseries-description"></textarea>
+												</div>
 											</div>
-
-
-
-
-
-
-
-
 											<div class="form-group">
 												<label for="inputEmail3" class="col-sm-2 control-label">课程大纲</label>
 												<div class="col-sm-10">
@@ -575,12 +511,7 @@
 		<script src="/js/jquery.slimscroll.min.js"></script>
 		<!-- AdminLTE App -->
 		<script src="/js/app.min.js"></script>
-		<script src="/js/bootstrap3-wysihtml5.all.min.js"></script>
 		<script>
-			/* $(function () {
-			    $(".textarea").wysihtml5();
-			}); */
-			
 			$.post('/course/getSeriesCourseName', function(data) {
 				for(var index in data) {
 					$('#seriesName').append('<option value="'+data[index].id+'">'+data[index].title+'<option>');
@@ -626,7 +557,7 @@
 					fd.append('time', $('#series-time').val());
 					
 					var description = $('#series-description').val();
-					//description = description.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+					description = description.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
 					fd.append('description', description);
 					
 					var outline = $('#series-outline').val();
@@ -713,7 +644,7 @@
 					fd.append('help', help);
 					
 					var description = $('#nonseries-description').val();
-					//description = description.replace(/\n/g,"_@").replace(/\r/g, '_#'); 
+					description = description.replace(/\n/g,"_@").replace(/\r/g, '_#');
 					fd.append('description', description);
 					
 					var outline = $('#nonseries-outline').val();
@@ -779,7 +710,7 @@
 			
 			if(id != null && id != '') {
 				$.post('/course/getCourseById', {id:id}, function(data) {
-					$(".textarea").wysihtml5();
+					
 					var prefix = data.parent_id==0?"nonseries-":"series-";
 					
 					$('#series-div').css('display', data.parent_id==0 ? 'none' : 'block');
@@ -794,7 +725,7 @@
 						$('#series-time').val(data.time);
 						
 						var description = data.description;
-						//description = description.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						description = description.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
 						$('#series-description').val(description);
 						
 						var outline = data.outline;
@@ -842,7 +773,7 @@
 						$('#nonseries-about').val(data.about);
 						
 						var description = data.description;
-						//description = description.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
+						description = description.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
 						$('#nonseries-description').val(description);
 						
 						var outline = data.outline;
@@ -923,29 +854,6 @@
 				var s = time.getSeconds();
 				return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
 			}   
-			
-			$('.uploadFiles').on('click', function() {
-				//var length = $('#files')[0].files.length;
-				var input = $(this).parent().parent().prev().find('input')[0];
-				var length = input.files.length;
-				var formData = new FormData();
-				for(var index=0; index<length; index++) {
-					formData.append('file'+index, input.files[index]);
-				}
-				var images = $(this).parent().parent().next().find('div');
-				var xhr = new XMLHttpRequest();
-				xhr.addEventListener("load", function(evt) {
-					var res = JSON.parse(evt.target.responseText);
-					var data = res.fileNames;
-					for(var index in data) {
-						images.append('<div style="text-align:left"><img src="/cglx/files/imgs/'+data[index]+'" id="article_img" style="width:100px;"/><p>http://www.udiyclub.com/cglx/files/imgs/'+data[index]+'</p></div>');
-					}
-					
-				}, false);
-				xhr.open('post', "/uploadFiles");
-				xhr.send(formData);
-			});
-			
 		</script>		
 		
 	</body>

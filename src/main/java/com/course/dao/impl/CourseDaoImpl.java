@@ -111,7 +111,7 @@ public class CourseDaoImpl implements ICourseDao {
 					String sql = "insert into course (parent_id, tag, is_series, title, banner, snapshot, abstract, "
 							+ "cost, teacher, teacher_position, teacher_abstract, teacher_image, help, about, description, "
 							+ "outline, info, crowds,  is_recommend, is_nav_recommend, video_src, playtime, create_time, time) "
-							+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+							+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 					PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					ps.setInt(1, Integer.valueOf(paramsMap.get("parent_id")==null?"0":paramsMap.get("parent_id")[0]));
 					ps.setString(2, paramsMap.get("tag")==null?"系列课":paramsMap.get("tag")[0]);
@@ -137,6 +137,8 @@ public class CourseDaoImpl implements ICourseDao {
 					ps.setString(22, paramsMap.get("playtime")==null?"":paramsMap.get("playtime")[0]);
 					ps.setTimestamp(23, new Timestamp(System.currentTimeMillis()));
 					ps.setString(24, paramsMap.get("time")==null?"":paramsMap.get("time")[0]);
+					ps.setString(25, paramsMap.get("discount")==null?"":paramsMap.get("discount")[0]);
+					ps.setString(26, paramsMap.get("deadline")==null?"":paramsMap.get("deadline")[0]);
 					return ps;
 				}
 			}, keyHolder);

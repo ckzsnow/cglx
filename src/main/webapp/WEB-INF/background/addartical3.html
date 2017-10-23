@@ -26,7 +26,7 @@
 <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
 <link rel="stylesheet" href="/css/_all-skins.min.css">
-
+<link rel="stylesheet" href="/css/bootstrap3-wysihtml5.min.css">
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -191,75 +191,40 @@
 							<div class="form-horizontal">
 								<div class="box-body">
 									<div id="base_info">
+										
+										
 										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">标题</label>
+											<label for="inputEmail3" class="col-sm-2 control-label">上传插图</label>
 											<div class="col-sm-10">
-												<input type="text" class="form-control detail" id="title"
-													placeholder="标题">
+												<input id="files" type="file" class="form-control detail" multiple />
 											</div>
 										</div>
 										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">摘要</label>
-											<div class="col-sm-10">
-												<textarea class="form-control detail" id="abstract"
-													placeholder="摘要"></textarea>
+						                  	<label for="inputEmail3" class="col-sm-2 control-label"></label>
+						                  	<div class="col-sm-10">
+												<button id="uploadFiles" type="button" style="float:left" class="btn btn-success">上传</button>
 											</div>
 										</div>
 										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">类别</label>
-											<div class="col-sm-10">
-												<select id="tag_select" class="form-control">
-												</select>
+											<label for="inputEmail3" class="col-sm-2 control-label">插图展示</label>
+											<div class="col-sm-10" id="images">
+												
 											</div>
 										</div>
+										
 										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">封面图片</label>
-											<div class="col-sm-10">
-												<input type="file" id="inputFile"> <img
-													id="article_img" style="width: 200px;" />
+											<label for="inputEmail3" class="col-sm-2 control-label">插图展示</label>
+											<div class="col-sm-10" id="images">
+									            <div class="box-body pad">
+									              <form>
+									                <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+									              </form>
+									            </div>
 											</div>
 										</div>
-										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">作者</label>
-											<div class="col-sm-10">
-												<input type="text" class="form-control detail" id="author"
-													placeholder="作者">
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">是否推荐</label>
-											<div class="col-sm-10">
-												<select id="recommend" class="form-control">
-													<option rec_id="0" text="非推荐">非推荐</option>
-													<option rec_id="1" text="推荐">推荐</option>
-												</select>
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">视频源</label>
-											<div class="col-sm-10">
-												<input type="text" class="form-control detail"
-													id="video_src" value="http://">
-											</div>
-										</div>
-									</div>
-									<div id="para_s">
-										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">文章详情</label>
-											<div class="col-sm-10">
-												<button onclick="preContent();" type="button"
-													class="btn btn-success">预览</button>
-												<button onclick="insertImg();" type="button"
-													class="btn btn-success">插入图片</button>
-											</div>
-										</div>
-										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">编辑文章</label>
-											<div class="col-sm-10">
-												<textarea style="width: 100%; min-height: 300px;"
-													id="article_content"></textarea>
-											</div>
-										</div>
+											
+											
+										
 									</div>
 									<div id="progress_tip" class="progress"
 										style="display: none; margin-top: 10px;">
@@ -291,27 +256,7 @@
 			</section>
 			<!-- /.content -->
 		</div>
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="myModalLabel">文章预览</h4>
-					</div>
-					<div class="modal-body"
-						style="max-height: 400px; overflow: scroll; overflow-x: hidden;">
-						<div id="pre_content" class="para"></div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					</div>
-				</div>
-				<!-- /.modal-content -->
-			</div>
-			<!-- /.modal -->
-		</div>
+		
 		<!-- /.content-wrapper -->
 		<footer class="main-footer">
 			<div class="pull-right hidden-xs">
@@ -330,384 +275,36 @@
 	<script src="/js/jquery.slimscroll.min.js"></script>
 	<!-- AdminLTE App -->
 	<script src="/js/app.min.js"></script>
-	<!-- <script>
-			(function ($) {
-	            $.getUrlParam = function (name) {
-	                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-	                var r = window.location.search.substr(1).match(reg);
-	                if (r != null) return unescape(r[2]); return null;
-	            }
-	        })(jQuery);
-			function Trim(str,is_global){
-            	var result;
-            	result = str.replace(/(^\s+)|(\s+$)/g,"");
-            	if(is_global.toLowerCase()=="g"){
-                	result = result.replace(/\s/g,"");
-             	}
-            	return result;
+	<script src="/js/bootstrap3-wysihtml5.all.min.js"></script>
+	<script type="text/javascript">
+		$('#uploadFiles').on('click', function() {
+			var length = $('#files')[0].files.length;
+			var formData = new FormData();
+			for(var index=0; index<length; index++) {
+				formData.append('file'+index, $('#files')[0].files[index]);
 			}
-			(function($, undefined) {
-		        $.fn.getCursorPosition = function() {
-		            var el = $(this).get(0);
-		            var pos = 0;
-		            if ('selectionStart' in el) {
-		                pos = el.selectionStart;
-		            } else if ('selection' in document) {
-		                el.focus();
-		                var Sel = document.selection.createRange();
-		                var SelLength = document.selection.createRange().text.length;
-		                Sel.moveStart('character', -el.value.length);
-		                pos = Sel.text.length - SelLength;
-		            }
-		            return pos;
-		        }
-		    })(jQuery);
+			var xhr = new XMLHttpRequest();
+			xhr.addEventListener("load", function(evt) {
+				var res = JSON.parse(evt.target.responseText);
+				var data = res.fileNames;
+				for(var index in data) {
+					$('#images').append('<div><img src="/cglx/files/imgs/'+data[index]+'" id="article_img" style="width:100px;"/><p>http://www.udiyclub.com/cglx/files/imgs/'+data[index]+'</p></div>');
+				}
+				
+			}, false);
+			xhr.open('post', "/uploadFiles");
+			xhr.send(formData);
+		});
 		
-			var insertImgIndex = 0;
-			
-			var imgPreData = {};
-			var filesFormData = {};
-			
-			function uuid() {
-			    var s = [];
-			    var hexDigits = "0123456789abcdef";
-			    for (var i = 0; i < 36; i++) {
-			        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-			    }
-			    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
-			    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
-			    s[8] = s[13] = s[18] = s[23] = "-";
-			 
-			    var uuid = s.join("");
-			    return uuid;
-			}
-			
-			function generateContent() {
-				var htmlStr = "";
-				var content = $("#article_content").val();
-				var beginPos = 0;
-				var endPos = content.indexOf("\n");
-				while(endPos != -1) {
-					var line = content.substring(beginPos, endPos);
-					line = Trim(line, "g");
-					var titlePos = line.indexOf("标题-");
-					if(titlePos != -1) {
-						htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
-					} else {
-						var curLinePos = 0;
-						var imgBeginPos = line.indexOf("###IMG");
-						var imgEndPos = 0;
-						while(imgBeginPos != -1) {
-							imgEndPos = line.indexOf("IMG###", imgBeginPos);
-							htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-							var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-							var file = $("#" + imgDataId).val();
-							if(file == null || file == undefined) {
-								htmlStr += "<p><img src='/cglx/files/imgs/"+imgPreData["insertImgIndex_" + insertImgIndex]+"'></p>";
-							} else {
-								var FileExt=file.replace(/.+\./,"");
-								var fileName = uuid() + "." + FileExt;
-								htmlStr += "<p><img src='/cglx/files/imgs/"+fileName+"'></p>";
-								filesFormData[fileName] = $("#" + imgDataId)[0].files[0];
-							}
-							imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-							curLinePos = imgEndPos+6;
-						}
-						if(line.length-1 > imgEndPos) {
-							if(imgEndPos == 0) {
-								htmlStr += "<p>" + line + "</p>";
-							} else {
-								htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
-							}
-						}
-					}
-					beginPos = endPos + 1;
-					endPos = content.indexOf("\n", beginPos);
-				}
-				if(content.length-1 > endPos) {
-					var line = content.substring(beginPos);
-					line = Trim(line, "g");
-					var titlePos = line.indexOf("标题-");
-					if(titlePos != -1) {
-						htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
-					} else {
-						var curLinePos = 0;
-						var imgBeginPos = line.indexOf("###IMG");
-						var imgEndPos = 0;
-						while(imgBeginPos != -1) {
-							imgEndPos = line.indexOf("IMG###", imgBeginPos);
-							htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-							var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-							var file = $("#" + imgDataId).val();
-							if(file == null || file == undefined) {
-								htmlStr += "<p><img src='/cglx/files/imgs/"+imgPreData["insertImgIndex_" + insertImgIndex]+"'></p>";
-							} else {
-								var FileExt=file.replace(/.+\./,"");
-								var fileName = uuid() + "." + FileExt;
-								htmlStr += "<p><img src='/cglx/files/imgs/"+fileName+"'></p>";
-								filesFormData[fileName] = $("#" + imgDataId)[0].files[0];
-							}
-							imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-							curLinePos = imgEndPos+6;
-						}
-						if(line.length-1 > imgEndPos) {
-							if(imgEndPos == 0) {
-								htmlStr += "<p>" + line + "</p>";
-							} else {
-								htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
-							}
-						}
-					}
-				}
-				return htmlStr;
-			}
-			
-			$("#submit_btn").click(function(){
-				var content = generateContent();
-				$('.btn-primary').attr('disabled', "");
-				$("#progress_tip").show();
-				var fd = new FormData();
-				var fileObj = $('#inputFile')[0].files[0];
-				fd.append('article_id', $.getUrlParam('id'));
-				fd.append('title', $('#title').val());
-				fd.append('abstract', $('#abstract').val());
-				fd.append('tag_id', $("#tag_select option:selected").attr("tag_id"));
-				fd.append('author', $('#author').val());
-				fd.append('recommend', $("#recommend option:selected").attr("rec_id"));
-				fd.append('video_src', $('#video_src').val());
-				fd.append('contents', content);
-				if(fileObj != undefined ) {
-					fd.append('files_0', fileObj);
-					fd.append('flag', "1");
-				} else {
-					fd.append('flag', "0");
-				}
-				var fileNameList = "";
-				var fileIndex = 1;
-				for(var key in filesFormData) {
-					fd.append('files_' + fileIndex, filesFormData[key]);
-					fileIndex++;
-					fileNameList += key + ";";
-				}
-				fd.append('fileNameList', fileNameList);
-				var xhr = new XMLHttpRequest();
-				xhr.upload.addEventListener("progress", function(evt) {
-					if (evt.lengthComputable) {
-						var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-						var percent = percentComplete + "%";
-						$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", percent);
-						$('#text_tips').html(percent);
-					}
-				}, false);
-				xhr.addEventListener("load", function(evt) {
-					$("#progress_tip").hide();
-					$('#submit_btn').removeAttr('disabled');
-					$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
-					$('#text_tips').html("0%");
-					var res = JSON.parse(evt.target.responseText);
-					if (res.error == '0') {
-						alert("提交信息成功");
-						window.location.reload();
-					} else {
-						alert("提交信息失败！");
-					}
-				}, false);
-				xhr.addEventListener("error", function(evt) {
-					$("#progress_tip").hide();
-					$('#submit_btn').removeAttr('disabled');
-					$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
-					$('#text_tips').html("0%");
-					alert("提交信息失败！");
-				}, false);
-				xhr.open('post', "/articles/addArticle");
-				xhr.send(fd);
-				filesFormData = {};
-			});
-			
-			function getPreContent() {
-				var htmlStr = "";
-				var content = $("#article_content").val();
-				var beginPos = 0;
-				var endPos = content.indexOf("\n");
-				while(endPos != -1) {
-					var line = content.substring(beginPos, endPos);
-					line = Trim(line, "g");
-					var titlePos = line.indexOf("标题-");
-					if(titlePos != -1) {
-						htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
-					} else {
-						var curLinePos = 0;
-						var imgBeginPos = line.indexOf("###IMG");
-						var imgEndPos = 0;
-						while(imgBeginPos != -1) {
-							imgEndPos = line.indexOf("IMG###", imgBeginPos);
-							htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-							var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-							htmlStr += "<p><img src='"+imgPreData[imgDataId]+"' style='width:100%'></p>";
-							imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-							curLinePos = imgEndPos+6;
-						}
-						if(line.length-1 > imgEndPos) {
-							if(imgEndPos == 0) {
-								htmlStr += "<p>" + line + "</p>";
-							} else {
-								htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
-							}
-						}
-					}
-					beginPos = endPos + 1;
-					endPos = content.indexOf("\n", beginPos);
-				}
-				if(content.length-1 > endPos) {
-					var line = content.substring(beginPos);
-					line = Trim(line, "g");
-					var titlePos = line.indexOf("标题-");
-					if(titlePos != -1) {
-						htmlStr += "<h3>"+Trim(line, "g").substring(titlePos+3)+"</h3>";
-					} else {
-						var curLinePos = 0;
-						var imgBeginPos = line.indexOf("###IMG");
-						var imgEndPos = 0;
-						while(imgBeginPos != -1) {
-							imgEndPos = line.indexOf("IMG###", imgBeginPos);
-							htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-							var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-							htmlStr += "<p><img src='"+imgPreData[imgDataId]+"' style='width:100%'></p>";
-							imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-							curLinePos = imgEndPos+6;
-						}
-						if(line.length-1 > imgEndPos) {
-							if(imgEndPos == 0) {
-								htmlStr += "<p>" + line + "</p>";
-							} else {
-								htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
-							}
-						}
-					}
-				}
-				console.log(htmlStr);
-				return htmlStr;
-			}
-			
-			function preContent() {
-		    	$("#pre_content").html("");
-		    	$('#myModal').modal('show')
-		    	var tmp = getPreContent();
-		    	$("#pre_content").append(tmp);
-		    }
-			
-			function getFileUrl(sourceId) { 
-		    	var url; 
-		    	if (navigator.userAgent.indexOf("MSIE")>=1) { // IE 
-		    		url = document.getElementById(sourceId).value; 
-		    	} else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox 
-		    		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
-		    	} else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome 
-		    		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
-		    	} 
-		    	return url; 
-		    } 
-			
-			function selectedImg(imgId) {
-				var url = getFileUrl(imgId);
-				imgPreData[imgId] = url;
-				var pos = $("#article_content").getCursorPosition();
-				var curContent = $("#article_content").val();
-				$("#article_content").val(
-					 curContent.substring(0,pos)
-					 + "###IMG"
-					 + "insertImgIndex_" + insertImgIndex
-					 + "IMG###"
-					 + curContent.substring(pos));
-			}
-			
-			function insertImg() {
-				insertImgIndex++;
-				$("#content_img").append("<input type='file' onchange='selectedImg(this.id);' id='insertImgIndex_"+insertImgIndex+"'>");
-				$("#" + "insertImgIndex_"+insertImgIndex).click();
-			}
-			
-			$('#logout').on('click', function() {
-				window.location.href = '/user/userLogout?view=homepage';
-			});
-			String.prototype.startWith=function(str){     
-				var reg=new RegExp("^"+str);     
-				return reg.test(this);        
-			}
-			function analyseContent(content) {
-				var displayContent = "";
-				if(content == null || content == "undefined" ||
-						content == "") {
-					return;
-				}
-				var curPos = 0; 
-				while(curPos < content.length - 1) {
-					if(content.startWith("<p><img src='")) {
-						curPos += 13;
-						var imgEndPos = content.indexOf("'></p>", curPos);
-						imgPreData["insertImgIndex_" + insertImgIndex] = content.substring(curPos, imgEndPos);
-						displayContent += "###IMGinsertImgIndex_" + insertImgIndex + "IMG###" + "\n";
-						insertImgIndex++;
-						curPos = imgEndPos + 6;
-						content = content.substring(curPos);
-					} else if(content.startWith("<p>")) {
-						curPos += 3;
-						var pEndPos = content.indexOf("</p>", curPos);
-						displayContent += content.substring(curPos, pEndPos) + "\n";
-						curPos = pEndPos + 4;
-						content = content.substring(curPos);
-					} else if(content.startWith("<h3>")) {
-						curPos += 4;
-						var hEndPos = content.indexOf("</h3>", curPos);
-						displayContent += "标题-" + content.substring(curPos, hEndPos) + "\n";
-						curPos = hEndPos + 5;
-						content = content.substring(curPos);
-					}
-					curPos = 0;
-				}
-				$("#article_content").val(displayContent);
-			}
-			var articleId = $.getUrlParam('id');
-			$.ajax({
-				url: '/tag/getAllTag',
-				type: "POST",
-				data: {},
-				success: function(data) {
-					for(var index in data) {
-						$("#tag_select").append("<option tag_id='"+data[index].id+"' text='"+data[index].name+"'>"+data[index].name+"</option>");
-					}
-					if(articleId != null && articleId != ""){
-						$.ajax({
-							url: '/articles/getArticleDetail',
-							type: "POST",
-							data: {id:articleId},
-							success: function(data) {
-								$("#title").val(data.title);
-								$("#abstract").val(data.abstract);
-								if(data.snapshot != null && data.snapshot != "" && data.snapshot != undefined) {
-									$("#article_img").attr("style", "float:left;");
-									$("#article_img").attr("width", "200px;");
-									$("#article_img").attr("src", "/cglx/files/imgs/"+data.snapshot);
-								}
-								$("#tag_select").find("option[text='"+data.name+"']").attr("selected",true);
-								$("#author").val(data.author);
-								$("#video_src").val(data.video_src);
-								$("#recommend option[text='"+(data.recommend == "0"?"非推荐":"推荐")+"']").attr("selected",true);
-								analyseContent(data.contents);
-							}
-						});
-					}
-				},
-				error: function() {
-				}
-			});
-			$("#inputFile").on("change", function(){
-				var url = getFileUrl("inputFile");
-				$("#article_img")[0].src = url;
-			});
-	</script> -->
-	<script>
-	function Trim(a,b){var c;return c=a.replace(/(^\s+)|(\s+$)/g,""),"g"==b.toLowerCase()&&(c=c.replace(/\s/g,"")),c}function uuid(){var c,d,a=[],b="0123456789abcdef";for(c=0;36>c;c++)a[c]=b.substr(Math.floor(16*Math.random()),1);return a[14]="4",a[19]=b.substr(8|3&a[19],1),a[8]=a[13]=a[18]=a[23]="-",d=a.join("")}function generateContent(){for(var e,f,g,h,i,j,k,l,m,a="",b=$("#article_content").val(),c=0,d=b.indexOf("\n");-1!=d;){if(e=b.substring(c,d),e=Trim(e,"g"),f=e.indexOf("标题-"),-1!=f)a+="<h3>"+Trim(e,"g").substring(f+3)+"</h3>";else{for(g=0,h=e.indexOf("###IMG"),i=0;-1!=h;)i=e.indexOf("IMG###",h),a+="<p>"+e.substring(g,h)+"</p>",j=e.substring(h+6,i),k=$("#"+j).val(),null==k||void 0==k?a+="<p><img src='/cglx/files/imgs/"+imgPreData["insertImgIndex_"+insertImgIndex]+"'></p>":(l=k.replace(/.+\./,""),m=uuid()+"."+l,a+="<p><img src='/cglx/files/imgs/"+m+"'></p>",filesFormData[m]=$("#"+j)[0].files[0]),h=e.indexOf("###IMG",i+6),g=i+6;e.length-1>i&&(a+=0==i?"<p>"+e+"</p>":"<p>"+e.substring(i+6)+"</p>")}c=d+1,d=b.indexOf("\n",c)}if(b.length-1>d)if(e=b.substring(c),e=Trim(e,"g"),f=e.indexOf("标题-"),-1!=f)a+="<h3>"+Trim(e,"g").substring(f+3)+"</h3>";else{for(g=0,h=e.indexOf("###IMG"),i=0;-1!=h;)i=e.indexOf("IMG###",h),a+="<p>"+e.substring(g,h)+"</p>",j=e.substring(h+6,i),k=$("#"+j).val(),null==k||void 0==k?a+="<p><img src='/cglx/files/imgs/"+imgPreData["insertImgIndex_"+insertImgIndex]+"'></p>":(l=k.replace(/.+\./,""),m=uuid()+"."+l,a+="<p><img src='/cglx/files/imgs/"+m+"'></p>",filesFormData[m]=$("#"+j)[0].files[0]),h=e.indexOf("###IMG",i+6),g=i+6;e.length-1>i&&(a+=0==i?"<p>"+e+"</p>":"<p>"+e.substring(i+6)+"</p>")}return a}function getPreContent(){for(var e,f,g,h,i,j,a="",b=$("#article_content").val(),c=0,d=b.indexOf("\n");-1!=d;){if(e=b.substring(c,d),e=Trim(e,"g"),f=e.indexOf("标题-"),-1!=f)a+="<h3>"+Trim(e,"g").substring(f+3)+"</h3>";else{for(g=0,h=e.indexOf("###IMG"),i=0;-1!=h;)i=e.indexOf("IMG###",h),a+="<p>"+e.substring(g,h)+"</p>",j=e.substring(h+6,i),a+="<p><img src='"+imgPreData[j]+"' style='width:100%'></p>",h=e.indexOf("###IMG",i+6),g=i+6;e.length-1>i&&(a+=0==i?"<p>"+e+"</p>":"<p>"+e.substring(i+6)+"</p>")}c=d+1,d=b.indexOf("\n",c)}if(b.length-1>d)if(e=b.substring(c),e=Trim(e,"g"),f=e.indexOf("标题-"),-1!=f)a+="<h3>"+Trim(e,"g").substring(f+3)+"</h3>";else{for(g=0,h=e.indexOf("###IMG"),i=0;-1!=h;)i=e.indexOf("IMG###",h),a+="<p>"+e.substring(g,h)+"</p>",j=e.substring(h+6,i),a+="<p><img src='"+imgPreData[j]+"' style='width:100%'></p>",h=e.indexOf("###IMG",i+6),g=i+6;e.length-1>i&&(a+=0==i?"<p>"+e+"</p>":"<p>"+e.substring(i+6)+"</p>")}return console.log(a),a}function preContent(){$("#pre_content").html(""),$("#myModal").modal("show");var a=getPreContent();$("#pre_content").append(a)}function getFileUrl(a){var b;return navigator.userAgent.indexOf("MSIE")>=1?b=document.getElementById(a).value:navigator.userAgent.indexOf("Firefox")>0?b=window.URL.createObjectURL(document.getElementById(a).files.item(0)):navigator.userAgent.indexOf("Chrome")>0&&(b=window.URL.createObjectURL(document.getElementById(a).files.item(0))),b}function selectedImg(a){var c,d,b=getFileUrl(a);imgPreData[a]=b,c=$("#article_content").getCursorPosition(),d=$("#article_content").val(),$("#article_content").val(d.substring(0,c)+"###IMG"+"insertImgIndex_"+insertImgIndex+"IMG###"+d.substring(c))}function insertImg(){insertImgIndex++,$("#content_img").append("<input type='file' onchange='selectedImg(this.id);' id='insertImgIndex_"+insertImgIndex+"'>"),$("#insertImgIndex_"+insertImgIndex).click()}function analyseContent(a){var c,d,e,f,b="";if(null!=a&&"undefined"!=a&&""!=a){for(c=0;c<a.length-1;)a.startWith("<p><img src='")?(c+=13,d=a.indexOf("'></p>",c),imgPreData["insertImgIndex_"+insertImgIndex]=a.substring(c,d),b+="###IMGinsertImgIndex_"+insertImgIndex+"IMG###"+"\n",insertImgIndex++,c=d+6,a=a.substring(c)):a.startWith("<p>")?(c+=3,e=a.indexOf("</p>",c),b+=a.substring(c,e)+"\n",c=e+4,a=a.substring(c)):a.startWith("<h3>")&&(c+=4,f=a.indexOf("</h3>",c),b+="标题-"+a.substring(c,f)+"\n",c=f+5,a=a.substring(c)),c=0;$("#article_content").val(b)}}var insertImgIndex,imgPreData,filesFormData,articleId;!function(a){a.getUrlParam=function(a){var b=new RegExp("(^|&)"+a+"=([^&]*)(&|$)"),c=window.location.search.substr(1).match(b);return null!=c?unescape(c[2]):null}}(jQuery),function(a){a.fn.getCursorPosition=function(){var d,e,b=a(this).get(0),c=0;return"selectionStart"in b?c=b.selectionStart:"selection"in document&&(b.focus(),d=document.selection.createRange(),e=document.selection.createRange().text.length,d.moveStart("character",-b.value.length),c=d.text.length-e),c}}(jQuery),insertImgIndex=0,imgPreData={},filesFormData={},$("#submit_btn").click(function(){var b,c,d,e,f,g,a=generateContent();$(".btn-primary").attr("disabled",""),$("#progress_tip").show(),b=new FormData,c=$("#inputFile")[0].files[0],b.append("article_id",$.getUrlParam("id")),b.append("title",$("#title").val()),b.append("abstract",$("#abstract").val()),b.append("tag_id",$("#tag_select option:selected").attr("tag_id")),b.append("author",$("#author").val()),b.append("recommend",$("#recommend option:selected").attr("rec_id")),b.append("video_src",$("#video_src").val()),b.append("contents",a),void 0!=c?(b.append("files_0",c),b.append("flag","1")):b.append("flag","0"),d="",e=1;for(f in filesFormData)b.append("files_"+e,filesFormData[f]),e++,d+=f+";";b.append("fileNameList",d),g=new XMLHttpRequest,g.upload.addEventListener("progress",function(a){var b,c;a.lengthComputable&&(b=Math.round(100*a.loaded/a.total),c=b+"%",$(".progress-bar.progress-bar-primary.progress-bar-striped").css("width",c),$("#text_tips").html(c))},!1),g.addEventListener("load",function(a){$("#progress_tip").hide(),$("#submit_btn").removeAttr("disabled"),$(".progress-bar.progress-bar-primary.progress-bar-striped").css("width","0%"),$("#text_tips").html("0%");var b=JSON.parse(a.target.responseText);"0"==b.error?(alert("提交信息成功"),window.location.reload()):alert("提交信息失败！")},!1),g.addEventListener("error",function(){$("#progress_tip").hide(),$("#submit_btn").removeAttr("disabled"),$(".progress-bar.progress-bar-primary.progress-bar-striped").css("width","0%"),$("#text_tips").html("0%"),alert("提交信息失败！")},!1),g.open("post","/articles/addArticle"),g.send(b),filesFormData={}}),$("#logout").on("click",function(){window.location.href="/user/userLogout?view=homepage"}),String.prototype.startWith=function(a){var b=new RegExp("^"+a);return b.test(this)},articleId=$.getUrlParam("id"),$.ajax({url:"/tag/getAllTag",type:"POST",data:{},success:function(a){for(var b in a)$("#tag_select").append("<option tag_id='"+a[b].id+"' text='"+a[b].name+"'>"+a[b].name+"</option>");null!=articleId&&""!=articleId&&$.ajax({url:"/articles/getArticleDetail",type:"POST",data:{id:articleId},success:function(a){$("#title").val(a.title),$("#abstract").val(a.abstract),null!=a.snapshot&&""!=a.snapshot&&void 0!=a.snapshot&&($("#article_img").attr("style","float:left;"),$("#article_img").attr("width","200px;"),$("#article_img").attr("src","/cglx/files/imgs/"+a.snapshot)),$("#tag_select").find("option[text='"+a.name+"']").attr("selected",!0),$("#author").val(a.author),$("#video_src").val(a.video_src),$("#recommend option[text='"+("0"==a.recommend?"非推荐":"推荐")+"']").attr("selected",!0),analyseContent(a.contents)}})},error:function(){}}),$("#inputFile").on("change",function(){var a=getFileUrl("inputFile");$("#article_img")[0].src=a});
+		
+		$(function () {
+		    $(".textarea").wysihtml5();
+		});
+		
+		$('#submit_btn').on('click',function() {
+			console.log($('.textarea').val());
+			alert($('.textarea').val());
+		});
 	</script>
 </body>
 

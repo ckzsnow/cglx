@@ -1350,4 +1350,27 @@ public class APIController {
 		return cglxDao.getAllTag();
 	}
 	
+	@RequestMapping("/uploadFiles")
+	@ResponseBody
+	public Map<String, Object> uploadFiles(DefaultMultipartHttpServletRequest multipartRequest) {
+		Map<String, Object> retMap = new HashMap<>();
+		String realPath = "/data/cglx/files/imgs";
+		List<String> fileNames = new ArrayList<>();
+		if (multipartRequest != null) {
+			Iterator<String> iterator = multipartRequest.getFileNames();
+			while (iterator.hasNext()) {
+				MultipartFile multifile = multipartRequest.getFile((String) iterator.next());
+				String fileName = getGernarateFileName(multifile);
+				try {
+					FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, fileName));
+					fileNames.add(fileName);
+				} catch (IOException e) {
+					logger.error("Failed in saving file, exception : {}", e.toString());
+				}
+			}
+		}
+		retMap.put("fileNames", fileNames);
+		return retMap;
+	}
+	
 }
