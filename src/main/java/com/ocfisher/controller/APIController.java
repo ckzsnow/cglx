@@ -544,11 +544,11 @@ public class APIController {
 	@ResponseBody
 	public Map<String, String> weixinForgetPwd(HttpSession httpSession, HttpServletRequest request) {
 		Map<String, String> retMap = new HashMap<>();
-		String user_id = request.getParameter("user_id");
+		String phone = request.getParameter("user_id");
 		String user_pwd = request.getParameter("user_pwd");
 		String check_code = request.getParameter("check_code");
 		String sessionCheckCode = (String) httpSession.getAttribute("check_code");
-		if (user_id == null || user_pwd == null || check_code == null) {
+		if (phone == null || user_pwd == null || check_code == null) {
 			retMap.put("error", "1");
 			retMap.put("msg", "输入信息不能为空，请检查！");
 			return retMap;
@@ -558,13 +558,13 @@ public class APIController {
 			retMap.put("msg", "验证码不正确，请检查！");
 			return retMap;
 		}
-		Map<String, Object> userMap = cglxDao.getUserByUserId(user_id);
+		Map<String, Object> userMap = cglxDao.getUserByPhone(phone);
 		if (userMap == null || userMap.isEmpty()) {
 			retMap.put("error", "1");
 			retMap.put("msg", "该号码还没有注册，请先注册！");
 			return retMap;
 		} else {
-			if (cglxDao.updateUserPwdByUserId(user_id, UserPwdMD5Encrypt.getPasswordByMD5Encrypt(user_pwd))) {
+			if (cglxDao.updateUserPwdByUserPhone(phone, UserPwdMD5Encrypt.getPasswordByMD5Encrypt(user_pwd))) {
 				retMap.put("error", "0");
 				retMap.put("msg", "更改成功！");
 				return retMap;
@@ -618,7 +618,7 @@ public class APIController {
 		if (user_id == null || user_id.isEmpty()) {
 			return null;
 		} else {
-			Map<String, Object> retMap = cglxDao.getUserByUserId(user_id);
+			Map<String, Object> retMap = cglxDao.getUserById(user_id);
 			if (retMap != null)
 				retMap.remove("password");
 			return retMap;
@@ -645,10 +645,10 @@ public class APIController {
 	public Map<String, Object> deleteUserInfo(HttpSession httpSession, HttpServletRequest request) {
 		String user_id = (String) httpSession.getAttribute("user_id");
 		String isAdmin = (String) httpSession.getAttribute("is_admin");
-		String phone = request.getParameter("phone");
+		String id = request.getParameter("id");
 		if (user_id != null && !user_id.isEmpty() && isAdmin != null && !isAdmin.isEmpty() &&
-				phone != null && !phone.isEmpty()) {
-			cglxDao.deleteUserById(phone);
+				id != null && !id.isEmpty()) {
+			cglxDao.deleteUserById(id);
 		}
 		return null;
 	}
@@ -657,11 +657,11 @@ public class APIController {
 	@ResponseBody
 	public Map<String, String> userRegister(HttpSession httpSession, HttpServletRequest request) {
 		Map<String, String> retMap = new HashMap<>();
-		String user_id = request.getParameter("user_id");
+		String phone = request.getParameter("user_id");
 		String user_pwd = request.getParameter("user_pwd");
 		String check_code = request.getParameter("check_code");
 		String sessionCheckCode = (String) httpSession.getAttribute("check_code");
-		if (user_id == null || user_pwd == null || check_code == null) {
+		if (phone == null || user_pwd == null || check_code == null) {
 			retMap.put("error", "1");
 			retMap.put("msg", "输入信息不能为空，请检查！");
 			return retMap;
@@ -671,14 +671,14 @@ public class APIController {
 			retMap.put("msg", "验证码不正确，请检查！");
 			return retMap;
 		}
-		Map<String, Object> userMap = cglxDao.getUserByUserId(user_id);
-		if (userMap != null && ((String) userMap.get("user_id")).equals(user_id)) {
+		Map<String, Object> userMap = cglxDao.getUserByPhone(phone);
+		if (userMap != null && ((String) userMap.get("phone")).equals(phone)) {
 			retMap.put("error", "1");
 			retMap.put("msg", "该手机号码已注册，请直接登陆！");
 			return retMap;
 		}
 		String encryptPwd = UserPwdMD5Encrypt.getPasswordByMD5Encrypt(user_pwd);
-		if (cglxDao.addUser(user_id, encryptPwd)) {
+		if (cglxDao.addUser(phone, encryptPwd)) {
 			retMap.put("error", "0");
 			retMap.put("msg", "注册成功，请登录！");
 		} else {
@@ -692,21 +692,21 @@ public class APIController {
 	@ResponseBody
 	public Map<String, String> userLogin(HttpSession httpSession, HttpServletRequest request) {
 		Map<String, String> retMap = new HashMap<>();
-		String user_id = request.getParameter("user_id");
+		String phone = request.getParameter("user_id");
 		String user_pwd = request.getParameter("user_pwd");
-		if (user_id == null || user_pwd == null || user_id.isEmpty() || user_pwd.isEmpty()) {
+		if (phone == null || user_pwd == null || phone.isEmpty() || user_pwd.isEmpty()) {
 			retMap.put("error", "1");
 			retMap.put("error_msg", "账号或密码为空，请检查！");
 			return retMap;
 		}
-		Map<String, Object> userMap = cglxDao.getUserByUserId(user_id);
+		Map<String, Object> userMap = cglxDao.getUserByPhone(phone);
 		if (userMap != null) {
 			if (UserPwdMD5Encrypt.getPasswordByMD5Encrypt(user_pwd).equals((String) userMap.get("password"))) {
 				retMap.put("error", "0");
 				retMap.put("error_msg", "");
-				retMap.put("user_id", user_id);
+				retMap.put("user_id", String.valueOf(userMap.get("phone")));
 				retMap.put("user_type", "");
-				httpSession.setAttribute("user_id", user_id);
+				httpSession.setAttribute("user_id", String.valueOf(userMap.get("id")));
 				if(("1").equals(String.valueOf(userMap.get("user_type")))) {
 					httpSession.setAttribute("is_admin", "true");
 					retMap.put("user_type", "1");
@@ -728,14 +728,14 @@ public class APIController {
 	@ResponseBody
 	public Map<String, String> userRegisterDetailInfo(HttpSession httpSession, HttpServletRequest request) {
 		Map<String, String> retMap = new HashMap<>();
-		String user_id = (String) request.getSession().getAttribute("user_id");
+		String id = (String) request.getSession().getAttribute("user_id");
 		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
-		if (user_id == null || user_id.isEmpty()) {
+		if (id == null || id.isEmpty()) {
 			retMap.put("error_code", "1");
 			retMap.put("error_msg", "当前会话已超时，请重新进入！");
 			return retMap;
 		}
-		paramsMap.put("user_id", new String[] { user_id });
+		paramsMap.put("id", new String[] { id });
 		if (cglxDao.addUserDetailInfo(paramsMap)) {
 			retMap.put("error_code", "0");
 			retMap.put("error_msg", "提交个人信息成功！");

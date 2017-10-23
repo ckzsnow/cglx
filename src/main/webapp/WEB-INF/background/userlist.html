@@ -247,15 +247,15 @@
 							+ '<td>'+data[index].name+'</td>'
 							+ '<td>'+data[index].school+'</td>'
 							+ '<td>'+data[index].major+'</td>'
-							+ '<td>'+data[index].user_id+'</td>'
-							+ '<td><button type="button" class="btn btn-danger" id="'+data[index].user_id+'">删除</button></td>'
+							+ '<td>'+data[index].phone+'</td>'
+							+ '<td><button type="button" class="btn btn-danger" id="'+data[index].id+'">删除</button></td>'
 							+ '</tr>');
 				}
 				
 				$('.btn-danger').on('click', function() {
 					if(confirm('确定要删除此信息吗？')) {
 						var id = $(this).attr('id');
-						$.post('/user/deleteUserInfo', {phone : id}, function(data) {
+						$.post('/user/deleteUserInfo', {id : id}, function(data) {
 							window.location.reload();
 						});
 					}

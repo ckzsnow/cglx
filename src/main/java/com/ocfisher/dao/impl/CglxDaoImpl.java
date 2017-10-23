@@ -400,11 +400,35 @@ public class CglxDaoImpl implements ICglxDao {
 	}
 
 	@Override
-	public Map<String, Object> getUserByUserId(String id) {
+	public Map<String, Object> getUserById(String id) {
 		Map<String, Object> retMap = null;
 		try {
 			String sql = "select * from user where id=?";
-			retMap = jdbcTemplate.queryForMap(sql, new Object[]{id,id});
+			retMap = jdbcTemplate.queryForMap(sql, new Object[]{id});
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return retMap;
+	}
+	
+	@Override
+	public Map<String, Object> getUserByPhone(String phone) {
+		Map<String, Object> retMap = null;
+		try {
+			String sql = "select * from user where phone=?";
+			retMap = jdbcTemplate.queryForMap(sql, new Object[]{phone});
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return retMap;
+	}
+	
+	@Override
+	public Map<String, Object> getUserByOpenId(String openId) {
+		Map<String, Object> retMap = null;
+		try {
+			String sql = "select * from user where open_id=?";
+			retMap = jdbcTemplate.queryForMap(sql, new Object[]{openId});
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
 		}
@@ -412,8 +436,8 @@ public class CglxDaoImpl implements ICglxDao {
 	}
 
 	@Override
-	public boolean updateUserPwdByUserId(String phone, String pwd) {
-		String sql = "update user set password=? where user_id=?";
+	public boolean updateUserPwdByUserPhone(String phone, String pwd) {
+		String sql = "update user set password=? where phone=?";
 		int affectedRows = 0;
 		try {
 			affectedRows = jdbcTemplate.update(sql, pwd, phone);
@@ -426,7 +450,7 @@ public class CglxDaoImpl implements ICglxDao {
 	@Override
 	public boolean addUser(String phone, String pwd) {
 		try{
-			String sql= "insert into user(user_id, password, create_time) values (?,?,?)";
+			String sql= "insert into user(phone, password, create_time) values (?,?,?)";
 			int num = jdbcTemplate.update(sql, 
 					phone, pwd, new Timestamp(System.currentTimeMillis()));
 			return num > 0;
@@ -449,7 +473,7 @@ public class CglxDaoImpl implements ICglxDao {
 			args.add(entry.getValue()[0]);
 		}
 		sb = sb.deleteCharAt(sb.length() - 1);
-		sb.append(" where user_id=?");
+		sb.append(" where id=?");
 		args.add(userId);
 		String sql = sb.toString();
 		int num = 0;
@@ -465,7 +489,7 @@ public class CglxDaoImpl implements ICglxDao {
 	public List<Map<String, Object>> getAllUser(int beginIndex, int length) {
 		List<Map<String, Object>> retList = null;
 		try {
-			String sql = "select id,user_id,name,school,major,grade,language,apply_major,user_type,create_time from user order by create_time desc limit ?, ?";
+			String sql = "select id,phone,name,school,major,grade,language,apply_major,user_type,create_time from user order by create_time desc limit ?, ?";
 			retList = jdbcTemplate.queryForList(sql, new Object[]{beginIndex, length});
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
@@ -901,10 +925,10 @@ public class CglxDaoImpl implements ICglxDao {
 	}
 
 	@Override
-	public boolean deleteUserById(String phone) {
+	public boolean deleteUserById(String id) {
 		try{
-			String sql = "delete from user where user_id = ?";
-			int num = jdbcTemplate.update(sql, phone);
+			String sql = "delete from user where id = ?";
+			int num = jdbcTemplate.update(sql, id);
 			return num > 0;
 		}catch(Exception e){
 			logger.error("exception : {}", e.toString());
