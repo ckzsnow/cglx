@@ -400,11 +400,11 @@ public class CglxDaoImpl implements ICglxDao {
 	}
 
 	@Override
-	public Map<String, Object> getUserByUserId(String phone) {
+	public Map<String, Object> getUserByUserId(String id) {
 		Map<String, Object> retMap = null;
 		try {
-			String sql = "select * from user where user_id=?";
-			retMap = jdbcTemplate.queryForMap(sql, new Object[]{phone});
+			String sql = "select * from user where id=?";
+			retMap = jdbcTemplate.queryForMap(sql, new Object[]{id,id});
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
 		}
@@ -1006,5 +1006,23 @@ public class CglxDaoImpl implements ICglxDao {
 			logger.error("exception : {}", e.toString());
 		}
 		return retList;
+	}
+
+	@Override
+	public boolean addUserByOpenid(String openid) {
+		int num = 0;
+		try{
+			String sqlSelect = "select * from user where open_id=?";
+			String sqlInsert = "insert into user(open_id, create_time) values (?,?)";
+			List<Map<String,Object>> list = jdbcTemplate.queryForList(sqlSelect, openid);
+			if(list.isEmpty()){
+				num = jdbcTemplate.update(sqlInsert, 
+						openid, new Timestamp(System.currentTimeMillis()));
+			}
+			return num > 0;
+		}catch(Exception e){
+			logger.error("exception : {}", e.toString());
+		}
+		return false;
 	}
 }

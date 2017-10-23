@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ddcb.utils.ImageOutputMessage;
@@ -20,7 +21,9 @@ import com.ddcb.utils.InputMessage;
 import com.ddcb.utils.OutputMessage;
 import com.ddcb.utils.TextOutputMessage;
 import com.ddcb.utils.WeixinMsgType;
+import com.ddcb.weixin.service.ICourseInviteCardService;
 import com.ddcb.weixin.service.IMessageProcessService;
+import com.ocfisher.dao.ICglxDao;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -33,6 +36,12 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(MessageProcessServiceImpl.class);
+	
+	@Autowired
+	private ICglxDao cglxDao;
+	
+	@Autowired
+	private ICourseInviteCardService courseInviteCardService;
 	
 	@Override
 	public String processWeixinMessage(HttpServletRequest request) {
@@ -124,6 +133,25 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 				logger.info("inputMsg.getEvent() : {}", inputMsg
 						.getEvent().trim());
 				if (("subscribe").equals(inputMsg.getEvent().trim())) {
+					String qrcodeArgs = inputMsg.getEventKey().trim();
+					logger.debug("subscribe, args :{}", qrcodeArgs);
+					if(qrcodeArgs != null && qrcodeArgs.startsWith("qrscene_")){
+						qrcodeArgs = qrcodeArgs.substring(8);
+						int pos = qrcodeArgs.indexOf("###");
+						if(pos != -1) {
+							final String courseId = qrcodeArgs.substring(0, pos);
+							final String srcOpenId = qrcodeArgs.substring(pos + 3); 
+							logger.debug("courseId : {}, srcOpenId : {}", courseId, srcOpenId);
+							new Thread(new Runnable() {
+								@Override
+								public void run() {
+									courseInviteCardService.pushCourseInviteNotify(srcOpenId, inputMsg.getFromUserName(), courseId);
+								}
+							}).start();
+						}else {
+							logger.debug("not found ###");
+						}
+					}
 					XStream xstream = new XStream(new XppDriver() {
 						@Override
 						public HierarchicalStreamWriter createWriter(Writer out) {
@@ -142,6 +170,45 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					TextOutputMessage outputMsg = new TextOutputMessage();
 					//outputMsg.setContent("客官，等您很久了～这里既分享各类线下讲座的内容，也允许优质机构和个人在线开办讲座，让用户足不出户参与讲座，并和导师互动。快点击“点豆大讲堂”来看看我们吧～");
 					outputMsg.setContent("亲爱的小伙伴，千山万水你还是来了。\r\n欢迎关注UDIY研习社！我们是一个有爱有干货的留学生互助共享平台。\r\n点击下方免费领取微课~\r\n<a href='http://www.udiyclub.com/courses/jsp?id=2&view=detail'>95后博士教你如何制霸北美CS专业</a>\r\n<a href='http://www.udiyclub.com/courses/jsp?id=23&view=detail'>全方位雅思口语短期内大提分</a>\r\n更多有趣实用的留学内容，点击菜单查看哦~");
+					try {
+						setOutputMsgInfo(outputMsg, inputMsg);
+					} catch (Exception e) {
+						logger.debug(e.toString());
+					}
+					xstream.alias("xml", outputMsg.getClass());
+					result = new String(xstream.toXML(outputMsg).getBytes());
+					logger.debug("xml result : {}", result);
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							cglxDao.addUserByOpenid(inputMsg.getFromUserName());
+						}
+					}).start();
+					new Thread(new Runnable() {
+						@Override
+						public void run() {
+							courseInviteCardService.pushCourseInviteCard(inputMsg.getFromUserName());
+						}
+					}).start();
+				} else if(("SCAN").equals(inputMsg.getEvent().trim())){
+					logger.debug("SCAN, args :{}", inputMsg.getEventKey().trim());
+					XStream xstream = new XStream(new XppDriver() {
+						@Override
+						public HierarchicalStreamWriter createWriter(Writer out) {
+							return new PrettyPrintWriter(out) {
+								@Override
+								protected void writeText(QuickWriter writer,
+										String text) {
+									if (!text.startsWith("<![CDATA[")) {
+										text = "<![CDATA[" + text + "]]>";
+									}
+									writer.write(text);
+								}
+							};
+						}
+					});
+					TextOutputMessage outputMsg = new TextOutputMessage();
+					outputMsg.setContent("亲爱的小伙伴，活动您已经支持过了，不能重复支持呦。");
 					try {
 						setOutputMsgInfo(outputMsg, inputMsg);
 					} catch (Exception e) {

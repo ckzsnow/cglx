@@ -54,11 +54,13 @@ public interface ICglxDao {
 	public List<Map<String, Object>> getAllArticle();
 	
 	//user
-	public Map<String, Object> getUserByUserId(String phone);
+	public Map<String, Object> getUserByUserId(String id);
 	
 	public boolean updateUserPwdByUserId(String phone, String pwd);
 	
 	public boolean addUser(String phone, String pwd);
+	
+	public boolean addUserByOpenid(String openid);
 	
 	public boolean deleteUserById(String phone);
 	
