@@ -50,4 +50,6 @@ public interface ICourseDao {
 
 	List<Map<String, Object>> getPaidList();
 
+	List<Map<String, Object>> getPaidUserListByCourseId(String course_id);
+
 }

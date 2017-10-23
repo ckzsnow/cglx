@@ -190,12 +190,10 @@
 									<table class="table table-striped">
 										<tbody id="tbody">
 											<tr>
-												<th>ID</th>
-												<th style="width:10%">用户</th>
-												<th style="width:20%">交易号</th>
-												<th>支付状态</th>
-												<th>课程ID</th>
-												<th>创建时间</th>
+												<th>课程名称</th>
+												<th>付费人次</th>
+												<th>总收入</th>
+												<th>查看详情</th>
 											</tr>
 										</tbody>
 									</table>
@@ -211,6 +209,46 @@
 				<!-- /.content -->
 			</div>
 			<!-- /.content-wrapper -->
+			
+			<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">编辑回复</h4>
+					</div>
+					<div class="modal-body">
+						<div class="form-horizontal" style="text-align: center">
+							<div class="box-body" style="text-align: center">
+								<div class="box-body no-padding">
+									<table class="table table-striped">
+										<tbody id="userList">
+											<tr>
+												<th>购买人ID</th>
+												<th>具体付费金额</th>
+												<th>付费种类</th>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<input type="text" class="form-control detail"
+									style="display: none" id="idrecord">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+						</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+			
 			<footer class="main-footer">
 				<div class="pull-right hidden-xs">
 					<b>Version</b> 1.0.0
@@ -233,14 +271,25 @@
 			$.post('/course/getPaidList', function(data) {
 				for(var index in data) {
 					$('#tbody').append('<tr>'
-							+ '<td>'+data[index].id+'</td>'
-							+ '<td>'+data[index].user_id+'</td>'
-							+ '<td>'+data[index].trade_no+'</td>'
-							+ '<td>'+(data[index].pay_status==0?'<span style="color:red">未支付</span>':'<span style="color:green">已支付</span>')+'</td>'
-							+ '<td>'+data[index].course_id+'</td>'
-							+ '<td>'+data[index].readable_date+'</td>'
+							+ '<td>'+data[index].title+'</td>'
+							+ '<td>'+data[index].paid_num+'</td>'
+							+ '<td>'+data[index].sum+'</td>'
+							+ '<td><button type="button" class="btn btn-success" id="'+data[index].course_id+'" flag="'+data[index].user_list+'" data-toggle="modal" data-target="#myModal">点击查看</button></td>'
 							+ '</tr>');
 				}
+				
+				$('.btn-success').on('click', function() {
+					var course_id = $(this).attr('id');
+					$.post('/course/getPaidUserListByCourseId', {course_id : course_id}, function(data){
+						for(var index in data) {
+							$('#userList').append('<tr>'
+									+ '<td>'+data[index].user_id+'</td>'
+									+ '<td>'+data[index].paid+'</td>'
+									+ '<td>'+(data[index].paid==data[index].cost?'全价':'限时折扣')+'</td>'
+									+ '</tr>');
+						}
+					});
+				});
 			});	
 			
 			$('#logout').on('click', function() {

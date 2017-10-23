@@ -415,6 +415,13 @@ public class CourseController {
 		return courseDao.getPaidList();
 	}
 	
+	@RequestMapping("/course/getPaidUserListByCourseId")
+	@ResponseBody
+	public List<Map<String, Object>> getPaidUserListByCourseId(HttpServletRequest request) {
+		String course_id = request.getParameter("course_id");
+		return courseDao.getPaidUserListByCourseId(course_id);
+	}
+	
 	private String getGernarateFileName(MultipartFile file) {
 		String extendName = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf(".") + 1);
 		return UUID.randomUUID().toString() + (extendName == null ? ".unknown" : "." + extendName);

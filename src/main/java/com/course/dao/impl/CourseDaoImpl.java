@@ -425,8 +425,27 @@ public class CourseDaoImpl implements ICourseDao {
 
 	@Override
 	public List<Map<String, Object>> getPaidList() {
-		String sql = "select *, DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s') as readable_date from user_course";
-		List<Map<String, Object>> retMap = null;;
+		String sql = "select course_id, COUNT(course_id) as paid_num, GROUP_CONCAT(user_id) as user_list, "
+				+ "SUM(cost) as sum, title from (select * from (select user_id, "
+				+ "course_id, pay_status from user_course) as uc left join "
+				+ "(select * from (select id, title, cost from course) as "
+				+ "c) as cb on uc.course_id=cb.id where uc.pay_status=1) "
+				+ "as detail group by detail.course_id";
+		List<Map<String, Object>> retMap = null;
+		try {
+			retMap = jdbcTemplate.queryForList(sql);
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return retMap;
+	}
+
+	@Override
+	public List<Map<String, Object>> getPaidUserListByCourseId(String course_id) {
+		String sql = "select * from (select course_id,user_id,paid from user_course) "
+				+ "as ucb left join (select id,cost from course) as cb on ucb.course_id=cb.id "
+				+ "where ucb.course_id=" + course_id;
+		List<Map<String, Object>> retMap = null;
 		try {
 			retMap = jdbcTemplate.queryForList(sql);
 		} catch(Exception e) {
