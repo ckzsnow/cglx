@@ -73,6 +73,7 @@
 	<mvc:resources mapping="/fonts/**" location="/WEB-INF/fonts/" cache-period="0" />
 	<mvc:resources mapping="/cglx/files/imgs/**" location="file:/data/cglx/files/imgs/" cache-period="0"/>
 	<mvc:resources mapping="/cglx/files/qrcode/**" location="file:/data/cglx/files/qrcode/" cache-period="0"/>
+	<mvc:resources mapping="/cglx/files/course_invite_card/**" location="file:/data/cglx/course_invite_card/" cache-period="0"/>
 	<mvc:resources mapping="/courses/**" location="/WEB-INF/courses/" cache-period="0" />
 	
 	<mvc:resources mapping="/**" location="/WEB-INF/" cache-period="0" />

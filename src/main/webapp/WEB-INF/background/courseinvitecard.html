@@ -166,8 +166,6 @@
 							</li>
 							<li><a href="addcourse.html"><i
 									class="fa fa-circle-o"></i>添加课程</a></li>
-							<li><a href="courseinvitecard.html"><i
-									class="fa fa-circle-o"></i>课程邀请卡设置</a></li>
 						</ul></li>
 						<li><a href="paidlist.html"> <i class="fa fa-dashboard"></i><span>用户购买列表</span>
 					</a></li>
@@ -179,13 +177,13 @@
 			<!-- Content Wrapper. Contains page content -->
 			<div class="content-wrapper">
 				<!-- Main content -->
-				<section class="content">
+				<section class="content" style='min-height:150px;'>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="box box-primary" style=" margin: 10px auto;">
 								<div class="box-header with-border">
 									<i class="fa fa-table"></i>
-									<h3 class="box-title">课程列表</h3>
+									<h3 class="box-title">邀请卡课程列表</h3>
 								</div>
 								<!-- /.box-header -->
 								<div class="box-body no-padding">
@@ -193,16 +191,71 @@
 										<tbody id="tbody">
 											<tr>
 												<th>ID</th>
-												<th style="width:10%">所属系列ID</th>
 												<th style="width:20%">标题</th>
-												<th>价格</th>
-												<th>是否推荐</th>
-												<th>是否导航推荐</th>
+												<th>是否为系列课</th>
 												<th>创建时间</th>
-												<th>编辑</th>
+												<th>邀请卡模板图</th>
+												<th>需要邀请的人数</th>
+												<th>操作</th>
 											</tr>
 										</tbody>
 									</table>
+								</div>
+								<!-- /.box-body -->
+							</div>
+							<!-- /.box -->
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</section>
+				<section class="content">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="box box-primary" style=" margin: 10px auto;">
+								<div class="box-header with-border">
+									<i class="fa fa-table"></i>
+									<h3 class="box-title">添加邀请卡课程</h3>
+								</div>
+								<!-- /.box-header -->
+								<div class="form-horizontal" style="text-align:center">
+									<div class="box-body" style="text-align:center">										
+										<!-- series -->
+										<div id="series-div">
+											<div class="form-group">
+												<label for="inputEmail3" class="col-sm-2 control-label">选择课程</label>
+												<div class="col-sm-10">
+													<select id="seriesName" class="form-control">
+													</select>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="inputEmail3" class="col-sm-2 control-label">需要邀请的人数</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control detail" id="personcount" placeholder="需要邀请的人数">
+												</div>
+											</div>
+											
+											<div class="form-group">
+												<label for="inputEmail3" class="col-sm-2 control-label">邀请卡模板图</label>
+												<div class="col-sm-10">
+													<input type="file" id="templateImg">
+												</div>
+											</div>
+										
+										<div id="progress_tip" class="progress" style="display:none;margin-top:10px;">
+											<div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+												<span class="sr-only" id="text_tips" style="position:relative;">0%</span>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label"></label>
+											<div class="col-sm-10">
+												<button id="submit_btn" class="btn btn-default">提交</button>
+											</div>
+										</div>
+									</div>
+									<!-- /.box-body -->
 								</div>
 								<!-- /.box-body -->
 							</div>
@@ -233,65 +286,105 @@
 		<!-- AdminLTE App -->
 		<script src="/js/app.min.js"></script>
 		<script>
-		
-			$.post('/course/getCourseBriefBak', function(data) {
+			$.post('/course/getInviteCardCourse', function(data) {
 				for(var index in data) {
-					$('#tbody').append('<tr>'
-							+ '<td>'+data[index].id+'</td>'
-							+ '<td>'+data[index].parent_id+'</td>'
-							+ '<td>'+data[index].title+'</td>'
-							+ '<td>'+data[index].cost+'</td>'
-							+ '<td>'+(data[index].is_recommend==0?"非推荐":(data[index].is_recommend==1?"主推荐":"次推荐"))+'</td>'
-							+ '<td>'+(data[index].is_nav_recommend==1?"侧导航推荐":"非侧导航推荐")+'</td>'
-							+ '<td>'+data[index].readable_date+'</td>'
-							+ '<td><a id="'+data[index].id+'" class="delete" style="margin-right: 10px;color:red">删除</a><a href="'+ (data[index].is_series==1?'addseries.html':'addcourse.html') + '?id='+data[index].id+'">编辑</a></td>'
-							+ '</tr>');
+					var str = '<tr>'
+						+ '<td>'+data[index].id+'</td>'
+						+ '<td>'+data[index].title+'</td>'
+						+ '<td>'+(data[index].is_series==0?"非系列课":"系列课")+'</td>'
+						+ '<td>'+data[index].readable_date+'</td>'
+						+ '<td><a href="/cglx/files/course_invite_card/'+data[index].template_name+'" target="_blank">点击查看</a></td>'
+						+ '<td>'+data[index].need_invite_person_count+'</td>'
+						+ '<td><a id="'+data[index].id+'" class="delete" style="margin-right: 10px;color:red">删除</a></td>'
+						+ '</tr>';
+					$('#tbody').append(str);
 				}
-				
+				$.post('/course/getCourseBriefBak', function(data) {
+					for(var index in data) {
+						$('#seriesName').append('<option value="'+data[index].id+'" parent_id="'+data[index].parent_id+'">'+data[index].title+'('+(data[index].parent_id == "0"?"非系列课":"系列课")+')<option>');
+					}
+				});	
 				$('.delete').on('click', function() {
-					var msg = "确定删除系列课或者课程吗？";
+					var msg = "确定删除该邀请卡活动么？";
 					if(confirm(msg)==true) {
 						var id = $(this).attr('id');
-						$.post('/course/deleteCourseById', {id:id}, function(data) {
+						$.post('/course/deleteCourseInviteCardById', {id:id}, function(data) {
 							alert(data.msg);
 							window.location.reload();
 						});
 					}
 				});
-			});	
-		
-		
-		
-		
-		
-		
-		
-		
-			/* $.post('/cases/getCaseListByTag', {page:1, length:1000}, function(data) {
-				for(var index in data) {
-					$('#tbody').append('<tr>'
-							+ '<td>'+data[index].id+'</td>'
-							+ '<td>'+data[index].tag_category_name+'</td>'
-							+ '<td>'+data[index].tag_country_name+'</td>'
-							+ '<td>'+data[index].title+'</td>'
-							+ '<td>'+data[index].sub_title+'</td>'
-							+ '<td>'+(data[index].is_recommend==0?"非推荐":(data[index].is_recommend==1?"主推荐":"次推荐"))+'</td>'
-							+ '<td>'+(data[index].is_nav_recommend==1?"侧导航推荐":"非侧导航推荐")+'</td>'
-							+ '<td>'+data[index].readable_date+'</td>'
-							+ '<td><a id="'+data[index].id+'" class="delete" style="margin-right: 10px;color:red">删除</a><a href="addcase.html?id='+data[index].id+'">编辑</a></td>'
-							+ '</tr>');
-				}
-				$('.delete').on('click', function() {
-					var id = $(this).attr('id');
-					$.post('/cases/deleteCase', {id:id}, function(data) {
-						alert(data.msg);
-						window.location.reload();
-					});
-				});
-			}); */
-			
+			});			
 			$('#logout').on('click', function() {
 				window.location.href = '/user/userLogout?view=homepage';
+			});
+			function isNumber(num) { 
+			　　　　var Letters = "1234567890"; 
+			　　　　var i; 
+			　　　　var c; 
+			　　　　for( i = 0; i < num.length; i ++ )   {
+			　　　　　　c = num.charAt( i ); 
+			　　　　　　if (Letters.indexOf( c ) ==-1)   {
+					alert("邀请人数必须为数字，请检查！");
+			　　　　　　　　return false; 
+			　　　   　　} 
+			　　　　} 
+			　　　　return true; 
+			　　} 
+			$('#submit_btn').on('click', function() {
+				if($('#personcount').val() == ""){
+					alert("请输入需要邀请的人数！");
+					return;
+				}
+				if(!isNumber($('#personcount').val().trim())){
+					return;
+				}
+				if($('#templateImg').val() == ""){
+					alert("请选择邀请卡模板图！");
+					return;
+				}
+				$('.btn-primary').attr('disabled', "");
+				$("#progress_tip").show();
+				var course_id = $('#seriesName option:selected').attr('value');
+				var parent_id = $('#seriesName option:selected').attr('parent_id');
+				var person_count = $('#personcount').val().trim();
+				var isSeries = parent_id == "0"?0:1;
+				var fd = new FormData();
+				fd.append('course_id', course_id);
+				fd.append('person_count', person_count);
+				fd.append('isSeries', isSeries);
+				fd.append('templateImg', $('#templateImg')[0].files[0]);
+				var xhr = new XMLHttpRequest();
+				xhr.upload.addEventListener("progress", function(evt) {
+					if (evt.lengthComputable) {
+						var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+						var percent = percentComplete + "%";
+						$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", percent);
+						$('#text_tips').html(percent);
+					}
+				}, false);
+				xhr.addEventListener("load", function(evt) {
+					$("#progress_tip").hide();
+					$('#submit_btn').removeAttr('disabled');
+					$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
+					$('#text_tips').html("0%");
+					var res = JSON.parse(evt.target.responseText);
+					if (res.error == '0') {
+						alert("提交信息成功");
+						window.location.reload();
+					} else {
+						alert("提交信息失败！");
+					}
+				}, false);
+				xhr.addEventListener("error", function(evt) {
+					$("#progress_tip").hide();
+					$('#submit_btn').removeAttr('disabled');
+					$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
+					$('#text_tips').html("0%");
+					alert("提交信息失败！");
+				}, false);
+				xhr.open('post', "/course/addCourseInviteCard");
+				xhr.send(fd);
 			});
 		</script>
 	</body>

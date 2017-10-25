@@ -44,6 +44,12 @@ public class CourseController {
 		return courseDao.getCourseBriefBak();
 	}
 	
+	@RequestMapping("/course/getInviteCardCourse")
+	@ResponseBody
+	public List<Map<String, Object>> getInviteCardCourse() {
+		return courseDao.getInviteCardCourse();
+	}
+	
 	@RequestMapping("/course/getCourseByTag")
 	@ResponseBody
 	public List<Map<String, Object>> getCourseByTag(HttpServletRequest request) {

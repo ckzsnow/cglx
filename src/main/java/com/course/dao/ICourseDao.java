@@ -16,6 +16,8 @@ public interface ICourseDao {
 	long addCourse(Map<String, String[]> paramsMap);
 
 	List<Map<String, Object>> getCourseBriefBak();
+	
+	List<Map<String, Object>> getInviteCardCourse();
 
 	boolean deleteCourseById(Long course_id);
 
@@ -34,7 +36,9 @@ public interface ICourseDao {
 	List<Map<String, Object>> getPaidCourse(String user_id);
 
 	boolean addUserCourse(String user_id, String course_id, String tradeNo);
-
+	
+	boolean addUserCourseAndPayStatus(String user_id, String course_id, String tradeNo);
+	
 	Map<String, Object> getCourseByTradeNo(String trade_no);
 
 	boolean updateUserCourseByTradeNo(String trade_no, int status);

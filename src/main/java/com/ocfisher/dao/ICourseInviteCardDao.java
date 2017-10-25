@@ -7,12 +7,22 @@ public interface ICourseInviteCardDao {
 		
 	public List<Map<String, Object>> getAllCourse();
 	
-	public boolean addCourseCard(long courseId, String templateName);
+	public Map<String, Object> getCourseById(long courseId);
+	
+	public boolean addCourseActivityExpireRecord(String openId, long courseId);
+	
+	public int getCourseActivityExpireRecordByOpenIdAndCourseId(String openId, long courseId);
+	
+	public boolean addCourseCard(long courseId, int isSeries, String templateName, int needInvitePersonCount);
+	
+	public boolean delCourseCard(long courseId);
 	
 	public boolean addCourseInviteRecord(String srcOpenId, String friendOpenId, long courseId);
 	
 	public Map<String, Object> getCourseInviteRecord(String srcOpenId, String friendOpenId, long courseId);
 	
 	public int getCourseInviteSupportTotal(String srcOpenId, long courseId);
-
+	
+	
+	public Map<String, Object> getUserAndUserCourseByUserOpenId(String openId, long courseId);
 }

@@ -31,7 +31,7 @@ public class CommonController {
 
 	@RequestMapping("/weixinRequest")
 	@ResponseBody
-	public String processWeixinRequest(HttpServletRequest request) {
+	public String processWeixinRequest(HttpServletRequest request,HttpSession httpSession) {
 		String signature = request.getParameter("signature");
 		String echostr = request.getParameter("echostr");
 		String timestamp = request.getParameter("timestamp");
@@ -45,7 +45,7 @@ public class CommonController {
 			ret = tokenCheckService.tokenCheck(signature, echostr, timestamp,
 					nonce);
 		} else {
-			ret = messageProcessService.processWeixinMessage(request);
+			ret = messageProcessService.processWeixinMessage(request,httpSession);
 		}
 		logger.debug("finish a weixin request");
 		return ret;
@@ -70,18 +70,24 @@ public class CommonController {
 		logger.debug("getOpenIdRedirect");
 		String code = request.getParameter("code");
 		String id = request.getParameter("id");
-		String view = request.getParameter("view");
+		String course_id = request.getParameter("course_id");
+		String is_series = request.getParameter("is_series");
+		logger.debug("getOpenIdRedirect, id:{},courseId:{},isSeries:{}",id,course_id,is_series);
 		String openid = "";
 		if (code == null || code.isEmpty()) {
 			httpSession.setAttribute("openid", "");
 		} else {
 			openid = WeixinTools.getOpenId(code);
 			httpSession.setAttribute("openid", openid);
+			httpSession.setAttribute("user_id", id);
 		}
 		logger.debug("finishGetOpenIdRedirect");
 		logger.debug("code :{}, openId :{}, id :{}", code, openid, id);
-		view = view.replaceAll("_", "/").replaceAll("ARGS", "?").replaceAll("AND", "&");
-		return "redirect:" + view;
+		if(("1").equals(is_series)){
+			return "redirect:courses/jsp?id="+course_id;
+		} else {
+			return "redirect:courses/jsp?id="+course_id+"&view=detail";
+		}		
 	}
 
 	@RequestMapping("/getUserOpenId")

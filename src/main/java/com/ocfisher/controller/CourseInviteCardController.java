@@ -1,27 +1,14 @@
 package com.ocfisher.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.FileUtils;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequest;
 
-import com.ocfisher.common.UserPwdMD5Encrypt;
-import com.ocfisher.dao.ICglxDao;
-import com.ocfisher.model.BannerModel;
-import com.ocfisher.model.StoryItem;
-import com.ocfisher.model.StoryItemDetail;
+import com.ocfisher.dao.ICourseInviteCardDao;
 
 @Controller
 public class CourseInviteCardController {
@@ -43,7 +26,61 @@ public class CourseInviteCardController {
 	private static final Logger logger = LoggerFactory.getLogger(CourseInviteCardController.class);
 
 	@Autowired
-	private ICglxDao cglxDao;
+	private ICourseInviteCardDao courseInviteCardDao;
 
+	@RequestMapping("/course/deleteCourseInviteCardById")
+	@ResponseBody
+	public Map<String, String> deleteCourseInviteCardById(HttpServletRequest request) {
+		Map<String, String> retMap = new HashMap<>();
+		retMap.put("msg", "删除失败！");
+		retMap.put("error", "1");
+		String id = request.getParameter("id");
+		long courseId_ = 0;
+		try {
+			courseId_ = Long.valueOf(id);
+		} catch(Exception ex){
+			logger.error(ex.toString());
+		}
+		if(courseInviteCardDao.delCourseCard(courseId_)){
+			retMap.put("msg", "删除成功！");
+			retMap.put("error", "0");
+			logger.debug("deleteCourseInviteCardById success!");
+		} else {
+			logger.debug("deleteCourseInviteCardById fail!");
+		}
+		return retMap;
+	}
 	
+	@RequestMapping("/course/addCourseInviteCard")
+	@ResponseBody
+	public Map<String, String> addCourseInviteCard(HttpServletRequest request, DefaultMultipartHttpServletRequest multipartRequest) {
+		Map<String, String> retMap = new HashMap<>();
+		retMap.put("msg", "添加失败！");
+		retMap.put("error", "1");
+		String course_id = request.getParameter("course_id");
+		String person_count = request.getParameter("person_count");
+		String isSeries = request.getParameter("isSeries");
+		String realPath = "/data/cglx/course_invite_card";
+		String fileName = "";
+		if(multipartRequest != null) {
+			Iterator<String> ite = multipartRequest.getFileNames();
+			if(ite.hasNext()){
+				MultipartFile file = multipartRequest.getFile(ite.next());
+				fileName = UUID.randomUUID().toString() + ".jpg";
+				try {
+					FileUtils.copyInputStreamToFile(file.getInputStream(), new File(realPath, fileName));
+					long courseId = Long.valueOf(course_id);
+					int isSeries_ = Integer.valueOf(isSeries);
+					int needInvitePersonCount = Integer.valueOf(person_count);
+					if(courseInviteCardDao.addCourseCard(courseId, isSeries_, fileName, needInvitePersonCount)){
+						retMap.put("msg", "添加成功！");
+						retMap.put("error", "0");
+					}
+				} catch(Exception e) {
+					logger.error("Failed in saving file, exception : {}", e.toString());
+				}
+			}
+		}
+		return retMap;
+	}
 }

@@ -186,6 +186,18 @@ public class CourseDaoImpl implements ICourseDao {
 		}
 		return result;
 	}
+	
+	@Override
+	public List<Map<String, Object>> getInviteCardCourse() {
+		List<Map<String, Object>> result = null;
+		String sql = "select c.id, c.parent_id, c.title, c.is_series, DATE_FORMAT(c.create_time, '%Y-%m-%d') as readable_date, cic.template_name, cic.need_invite_person_count from course as c INNER JOIN course_invite_card as cic on cic.course_id=c.id";
+		try {
+			result = jdbcTemplate.queryForList(sql);
+		} catch(Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return result;
+	}
 
 	@Override
 	public boolean deleteCourseById(Long course_id) {
@@ -346,6 +358,18 @@ public class CourseDaoImpl implements ICourseDao {
 		int affectedRows = 0;
 		try {
 			affectedRows = jdbcTemplate.update(sql, user_id, course_id, tradeNo, new Timestamp(System.currentTimeMillis()));
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return affectedRows != 0;
+	}
+	
+	@Override
+	public boolean addUserCourseAndPayStatus(String user_id, String course_id, String tradeNo) {
+		String sql = "replace into user_course (user_id, course_id, pay_status, trade_no, create_time) values (?,?,?,?,?)";
+		int affectedRows = 0;
+		try {
+			affectedRows = jdbcTemplate.update(sql, user_id, course_id, 1, tradeNo, new Timestamp(System.currentTimeMillis()));
 		} catch(Exception e) {
 			logger.error(e.toString());
 		}

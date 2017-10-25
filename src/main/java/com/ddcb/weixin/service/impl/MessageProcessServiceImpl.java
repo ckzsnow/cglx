@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 	private ICourseInviteCardService courseInviteCardService;
 	
 	@Override
-	public String processWeixinMessage(HttpServletRequest request) {
+	public String processWeixinMessage(HttpServletRequest request,HttpSession httpSession) {
 		String result = "";
 		logger.debug("begin to process weixin message.");
 		try {
@@ -140,14 +141,19 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 						int pos = qrcodeArgs.indexOf("###");
 						if(pos != -1) {
 							final String courseId = qrcodeArgs.substring(0, pos);
-							final String srcOpenId = qrcodeArgs.substring(pos + 3); 
-							logger.debug("courseId : {}, srcOpenId : {}", courseId, srcOpenId);
-							new Thread(new Runnable() {
-								@Override
-								public void run() {
-									courseInviteCardService.pushCourseInviteNotify(srcOpenId, inputMsg.getFromUserName(), courseId);
-								}
-							}).start();
+							qrcodeArgs = qrcodeArgs.substring(pos+3);
+							pos = qrcodeArgs.indexOf("###");
+							if(pos != -1){
+								final String isSeries = qrcodeArgs.substring(0, pos);
+								final String srcOpenId = qrcodeArgs.substring(pos + 3); 
+								logger.debug("courseId : {}, isSeries:{}, srcOpenId : {}", courseId, isSeries, srcOpenId);
+								new Thread(new Runnable() {
+									@Override
+									public void run() {
+										courseInviteCardService.pushCourseInviteNotify(srcOpenId, inputMsg.getFromUserName(), courseId, isSeries, httpSession);
+									}
+								}).start();
+							}
 						}else {
 							logger.debug("not found ###");
 						}
@@ -208,7 +214,26 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 						}
 					});
 					TextOutputMessage outputMsg = new TextOutputMessage();
+					String qrcodeArgs = inputMsg.getEventKey().trim();
 					outputMsg.setContent("亲爱的小伙伴，活动您已经支持过了，不能重复支持呦。");
+					if(qrcodeArgs != null){
+						logger.debug("SCANqrcodeArgs : {}",qrcodeArgs);
+						int pos = qrcodeArgs.indexOf("###");
+						if(pos != -1) {
+							String courseId = qrcodeArgs.substring(0, pos);
+							qrcodeArgs = qrcodeArgs.substring(pos+3);
+							logger.debug("SCANqrcodeArgs : {}",qrcodeArgs);
+							pos = qrcodeArgs.indexOf("###");
+							String isSeries = qrcodeArgs.substring(0, pos);
+							String srcOpenId = qrcodeArgs.substring(pos + 3);
+							logger.debug("SCANqrcodeArgs, srcOpenId: {}, currentOpenId:{}",srcOpenId,inputMsg.getFromUserName());
+							if(inputMsg.getFromUserName().equals(srcOpenId)){
+								outputMsg.setContent("亲爱的小伙伴，您不能支持您自己呦，赶紧邀请您的好友来支持吧~");
+							}
+						}else {
+							logger.debug("not found ###");
+						}
+					}
 					try {
 						setOutputMsgInfo(outputMsg, inputMsg);
 					} catch (Exception e) {
