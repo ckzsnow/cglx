@@ -2,6 +2,7 @@ package com.course.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.course.dao.ICourseDao;
+import com.ddcb.utils.RealCostUtil;
 import com.ocfisher.alipay.AlipayNotify;
 import com.ocfisher.alipay.AlipayService;
 
@@ -36,14 +38,14 @@ public class AlipayController {
 		String user_id = (String)request.getSession().getAttribute("user_id");
 		String course_id = request.getParameter("course_id");
 		Map<String, Object> courseMap = courseDao.getCourseById(Long.valueOf(course_id));
-		Double cost = Double.valueOf((String)courseMap.get("cost"));
+		int cost = RealCostUtil.getRealCost(courseMap.get("cost"), courseMap.get("starttime"), courseMap.get("deadline"), courseMap.get("rebate"));
 		String tradeNo = UUID.randomUUID().toString();
 		if(!courseDao.addUserCourse(user_id, course_id, tradeNo)) {
 			//TODO
 			return "error";
 		} else {
 			AlipayService service = new AlipayService();
-			String rHtml = service.buildAlipayRequest(cost, tradeNo);
+			String rHtml = service.buildAlipayRequest(Double.valueOf(cost), tradeNo);
 			return rHtml;
 		}
 	}

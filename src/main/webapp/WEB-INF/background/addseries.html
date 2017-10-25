@@ -265,6 +265,24 @@
 										</div>
 									</div>
 									<div class="form-group">
+										<label for="inputEmail3" class="col-sm-2 control-label">折扣</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control detail" id="rebate" placeholder="折扣">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputEmail3" class="col-sm-2 control-label">折扣开始时间</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control detail" id="starttime" placeholder="折扣截止时间">
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="inputEmail3" class="col-sm-2 control-label">折扣截止时间</label>
+										<div class="col-sm-10">
+											<input type="text" class="form-control detail" id="deadline" placeholder="折扣截止时间">
+										</div>
+									</div>
+									<div class="form-group">
 										<label for="inputEmail3" class="col-sm-2 control-label">价格</label>
 										<div class="col-sm-10">
 											<input type="text" class="form-control detail" id="cost"
@@ -353,6 +371,9 @@
 			
 			$('#help').val(help);
 			$('#about').val(data.about);
+			$('#rebate').val(data.rebate);
+			$('#starttime').val(format(data.starttime));
+			$('#deadline').val(format(data.deadline));
 			$('#cost').val(data.cost);
 			
 			$("#banner_").attr("style", "float:left;");
@@ -408,6 +429,9 @@
 		fd.append('about', $('#about').val());
 		fd.append('is_recommend', $('#recommend').val());
 		fd.append('is_nav_recommend', $('#nav_recommend').val());
+		fd.append('rebate', $('#rebate').val());
+		fd.append('starttime', $('#starttime').val());
+		fd.append('deadline', $('#deadline').val());
 		
 		var xhr = new XMLHttpRequest();
 		xhr.upload.addEventListener("progress", function(evt) {
@@ -472,6 +496,19 @@
 	$('#logout').on('click', function() {
 		window.location.href = '/user/userLogout?view=homepage';
 	});
+	function add0(m){return m<10?'0'+m:m }
+	function format(shijianchuo)
+	{
+		//shijianchuo是整数，否则要parseInt转换
+		var time = new Date(shijianchuo);
+		var y = time.getFullYear();
+		var m = time.getMonth()+1;
+		var d = time.getDate();
+		var h = time.getHours();
+		var mm = time.getMinutes();
+		var s = time.getSeconds();
+		return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+	}  
 	</script>
 </body>
 

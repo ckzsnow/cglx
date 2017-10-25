@@ -110,8 +110,8 @@ public class CourseDaoImpl implements ICourseDao {
 				public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
 					String sql = "insert into course (parent_id, tag, is_series, title, banner, snapshot, abstract, "
 							+ "cost, teacher, teacher_position, teacher_abstract, teacher_image, help, about, description, "
-							+ "outline, info, crowds,  is_recommend, is_nav_recommend, video_src, playtime, create_time, time) "
-							+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+							+ "outline, info, crowds,  is_recommend, is_nav_recommend, video_src, playtime, create_time, time, rebate, starttime, deadline) "
+							+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 					PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 					ps.setInt(1, Integer.valueOf(paramsMap.get("parent_id")==null?"0":paramsMap.get("parent_id")[0]));
 					ps.setString(2, paramsMap.get("tag")==null?"系列课":paramsMap.get("tag")[0]);
@@ -137,8 +137,9 @@ public class CourseDaoImpl implements ICourseDao {
 					ps.setString(22, paramsMap.get("playtime")==null?"":paramsMap.get("playtime")[0]);
 					ps.setTimestamp(23, new Timestamp(System.currentTimeMillis()));
 					ps.setString(24, paramsMap.get("time")==null?"":paramsMap.get("time")[0]);
-					ps.setString(25, paramsMap.get("discount")==null?"":paramsMap.get("discount")[0]);
-					ps.setString(26, paramsMap.get("deadline")==null?"":paramsMap.get("deadline")[0]);
+					ps.setString(25, paramsMap.get("rebate")==null?"":paramsMap.get("rebate")[0]);
+					ps.setTimestamp(26, paramsMap.get("starttime")[0].equals("")?new Timestamp(System.currentTimeMillis()):Timestamp.valueOf(paramsMap.get("starttime")[0]));
+					ps.setTimestamp(27, paramsMap.get("deadline")[0].equals("")?new Timestamp(System.currentTimeMillis()):Timestamp.valueOf(paramsMap.get("deadline")[0]));
 					return ps;
 				}
 			}, keyHolder);
@@ -442,9 +443,10 @@ public class CourseDaoImpl implements ICourseDao {
 
 	@Override
 	public List<Map<String, Object>> getPaidUserListByCourseId(String course_id) {
-		String sql = "select * from (select course_id,user_id,paid from user_course) "
-				+ "as ucb left join (select id,cost from course) as cb on ucb.course_id=cb.id "
-				+ "where ucb.course_id=" + course_id;
+		String sql = "select * from (select course_id,user_id,paid,pay_status from user_course) "
+				 + "as ucb left join (select id,cost from course) as cb on ucb.course_id=cb.id "
+				 + "left join (select id as uuid, open_id, phone from user) as u on ucb.user_id=u.uuid "
+				 + "where ucb.pay_status=1 and ucb.course_id=" + course_id;
 		List<Map<String, Object>> retMap = null;
 		try {
 			retMap = jdbcTemplate.queryForList(sql);
