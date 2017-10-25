@@ -225,12 +225,14 @@
 							<div class="box-body" style="text-align: center">
 								<div class="box-body no-padding">
 									<table class="table table-striped">
-										<tbody id="userList">
+										<thead>
 											<tr>
-												<th>购买人ID</th>
-												<th>具体付费金额</th>
-												<th>付费种类</th>
+												<th style="text-align:center">购买人ID</th>
+												<th style="text-align:center">具体付费金额</th>
+												<th style="text-align:center">付费种类</th>
 											</tr>
+										</thead>
+										<tbody id="userList">
 										</tbody>
 									</table>
 								</div>
@@ -279,11 +281,12 @@
 				}
 				
 				$('.btn-success').on('click', function() {
+					$('#userList tr').remove();
 					var course_id = $(this).attr('id');
 					$.post('/course/getPaidUserListByCourseId', {course_id : course_id}, function(data){
 						for(var index in data) {
 							$('#userList').append('<tr>'
-									+ '<td>'+data[index].user_id+'</td>'
+									+ '<td>'+(data[index].phone!=''&&data[index].phone!=null?data[index].phone:data[index].open_id)+'</td>'
 									+ '<td>'+data[index].paid+'</td>'
 									+ '<td>'+(data[index].paid==data[index].cost?'全价':'限时折扣')+'</td>'
 									+ '</tr>');

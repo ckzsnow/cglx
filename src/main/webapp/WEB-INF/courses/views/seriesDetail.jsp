@@ -595,10 +595,25 @@
 			abstract_ = abstract_.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
 			$('#abstract').html(abstract_);
 			
+			var total = data.total;
+			var rebate = data.rebate / 10;
+			var starttime = data.starttime;
+			var deadline = data.deadline;
+			var starttimeDate = new Date(starttime).getTime() / 1000;
+			var deadlineDate = new Date(deadline).getTime() / 1000;
+			var currentDate = new Date().getTime() / 1000;
+			if(starttime!=null && deadline!=null) {
+				if(deadlineDate>currentDate && currentDate>starttimeDate) {
+					$('.cost').html('￥' + rebate*total + '(限时)');
+					$('.discount').html(parseInt(data.discount) + parseInt(total) -rebate*total);
+				}
+			} else {
+				$('.cost').html('￥' + data.total);
+				$('.discount').html(data.discount);
+			}
+			
 			$('.sub_count').html(data.sub_count);
 			$('.sub_time_total').html(data.sub_time_total + "分钟");
-			$('.cost').html('￥' + data.total);
-			$('.discount').html(data.discount);
 			$('#teacher_img').attr('src', '/cglx/files/imgs/' + data.teacher_image);
 			$('#teacher_position').html(data.teacher_position);
 			

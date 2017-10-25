@@ -801,19 +801,20 @@
 					cost = data.cost;
 					$('.course_title').html(data.title);
 					
-					var discount = data.discount / 10;
+					var rebate = data.rebate / 10;
+					var starttime = data.starttime;
 					var deadline = data.deadline;
 					var cost = data.cost;
+					var starttimeDate = new Date(starttime).getTime() / 1000;
 					var deadlineDate = new Date(deadline).getTime() / 1000;
 					var currentDate = new Date().getTime() / 1000;
-					if(deadlineDate>currentDate) {
-						$('.cost').html('限时折扣价 ' + discount*cost + ' (原价) ' + cost);
+					if(starttime!=null && deadline!=null) {
+						if(deadlineDate>currentDate && currentDate>starttimeDate) {
+							$('.cost').html(rebate*cost);
+						}
 					} else {
 						$('.cost').html(data.cost);
 					}
-					
-					
-					
 					$('#time').html(data.time);
 					$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
 					$('#teacher').html(data.final_tea);

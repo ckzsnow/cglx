@@ -312,7 +312,13 @@
 											<div class="form-group">
 												<label for="inputEmail3" class="col-sm-2 control-label">折扣</label>
 												<div class="col-sm-10">
-													<input type="text" class="form-control detail" id="series-discount" placeholder="折扣">
+													<input type="text" class="form-control detail" id="series-rebate" placeholder="折扣">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="inputEmail3" class="col-sm-2 control-label">折扣开始时间</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control detail" id="series-starttime" placeholder="折扣截止时间">
 												</div>
 											</div>
 											<div class="form-group">
@@ -516,7 +522,13 @@
 											<div class="form-group">
 												<label for="inputEmail3" class="col-sm-2 control-label">折扣</label>
 												<div class="col-sm-10">
-													<input type="text" class="form-control detail" id="nonseries-discount" placeholder="折扣">
+													<input type="text" class="form-control detail" id="nonseries-rebate" placeholder="折扣">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="inputEmail3" class="col-sm-2 control-label">折扣开始时间</label>
+												<div class="col-sm-10">
+													<input type="text" class="form-control detail" id="nonseries-starttime" placeholder="折扣截止时间">
 												</div>
 											</div>
 											<div class="form-group">
@@ -646,7 +658,8 @@
 					fd.append('is_recommend', $('#series-recommend').val());
 					fd.append('is_nav_recommend', $('#series-nav_recommend').val());
 					fd.append('abstract', $('#series-abstract').val());
-					fd.append('discount', $('#series-discount').val());
+					fd.append('rebate', $('#series-rebate').val());
+					fd.append('starttime', $('#series-starttime').val());
 					fd.append('deadline', $('#series-dealine').val());
 					
 					var xhr = new XMLHttpRequest();
@@ -737,7 +750,8 @@
 					fd.append('video_src', $('#nonseries-video_src').val());
 					fd.append('playtime', $('#nonseries-playtime').val());
 					fd.append('abstract', $('#nonseries-abstract').val());
-					fd.append('discount', $('#nonseries-discount').val());
+					fd.append('rebate', $('#nonseries-rebate').val());
+					fd.append('starttime', $('#nonseries-starttime').val());
 					fd.append('deadline', $('#nonseries-deadline').val());
 					
 					console.log(fd);
@@ -814,7 +828,8 @@
 						$('#series-nav_recommend').val(data.is_nav_recommend);
 						$('#series-recommend').val(data.is_recommend);
 						$('#series-abstract').val(data.abstract);
-						$('#series-discount').val(data.discount);
+						$('#series-rebate').val(data.rebate);
+						$('#series-starttime').val(format(data.starttime));
 						$('#series-deadline').val(format(data.deadline));
 						
 						
@@ -862,7 +877,8 @@
 						$('#nonseries-cost').val(data.cost);
 						$('#nonseries-playtime').val(data.playtime);
 						$('#nonseries-abstract').val(data.abstract);
-						$('#nonseries-discount').val(data.discount);
+						$('#nonseries-rebate').val(data.rebate);
+						$('#nonseries-starttime').val(format(data.starttime));
 						$('#nonseries-deadline').val(format(data.deadline));
 						
 						$("#nonseries-snapshot_").attr("style", "float:left;");
@@ -877,6 +893,8 @@
 					
 					
 				});
+			} else {
+				$(".textarea").wysihtml5();
 			}
 			
 			function getFileUrl(sourceId) { 

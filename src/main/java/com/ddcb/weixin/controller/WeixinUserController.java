@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.StringReader;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.xml.sax.InputSource;
 
 import com.course.dao.ICourseDao;
+import com.ddcb.utils.RealCostUtil;
 import com.ddcb.utils.WeixinPayUtils;
 import com.ddcb.utils.WxPayDto;
 import com.ddcb.utils.WxPayResult;
@@ -104,7 +106,7 @@ public class WeixinUserController {
 		String openId = (String) httpSession.getAttribute("openid");
 		String courseId = request.getParameter("course_id");
 		Map<String, Object> courseMap = courseDao.getCourseById(Long.valueOf(courseId));
-		String fee = (String) courseMap.get("cost");
+		int fee = RealCostUtil.getRealCost(courseMap.get("cost"), courseMap.get("starttime"), courseMap.get("deadline"), courseMap.get("rebate"));
 		logger.debug("weixinUserCoursePay course_id : {}", courseId);
 		if (userId == null || userId.isEmpty()) {
 			retMap.put("error_msg", "no user id");
@@ -118,7 +120,7 @@ public class WeixinUserController {
 		tpWxPay.setBody("UDIY研习社");
 		tpWxPay.setOrderId(WeixinPayUtils.getNonceStr());
 		tpWxPay.setSpbillCreateIp(request.getRemoteAddr());
-		tpWxPay.setTotalFee(fee);
+		tpWxPay.setTotalFee(String.valueOf(fee));
 		tpWxPay.setAttach(courseId);
 		String qrcode = WeixinPayUtils.getCodeurl(tpWxPay);
 		if (qrcode == null || qrcode.isEmpty()) {
