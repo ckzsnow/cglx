@@ -1,5 +1,8 @@
 package com.ddcb.weixin.controller;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,9 +16,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ddcb.utils.WebAppCache;
+import com.ddcb.utils.WebAppConfig;
+import com.ddcb.utils.WeixinCache;
 import com.ddcb.utils.WeixinTools;
 import com.ddcb.weixin.service.IMessageProcessService;
 import com.ddcb.weixin.service.ITokenCheckService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ocfisher.dao.ICglxDao;
 
 @Controller
 public class CommonController {
@@ -28,6 +36,9 @@ public class CommonController {
 	
 	@Autowired
 	private IMessageProcessService messageProcessService;
+	
+	@Autowired
+	private ICglxDao cglxDao;
 
 	@RequestMapping("/weixinRequest")
 	@ResponseBody
@@ -107,4 +118,81 @@ public class CommonController {
 		logger.debug("resultMap :{}", result.toString());
 		return result;
 	}
+	
+	@RequestMapping("/getQrcodeUrl")
+	@ResponseBody
+	public String getQrcodeUrl(HttpServletRequest request) {
+		String redirect = request.getParameter("redirect");
+		redirect = redirect.replace("/", "SPRI")
+				.replace("?", "QUES")
+				.replace("=", "EQUA");
+		logger.debug("redirect : {}", redirect);
+		String url = WebAppCache.generateQrcodeUrl("uri="+redirect);
+		logger.debug("qrcode url :{}", url);
+		return url;
+	}
+	
+	@RequestMapping("/wxLoginSuccess")
+	public String wxLoginSuccess(HttpServletRequest request) {
+		String unionid = "";
+		String nickname = "";
+		String headimgurl = "";
+		String openid = "";
+		
+		logger.debug("wxLoginSuccess");
+		String code = request.getParameter("code");
+		HttpSession httpSession = request.getSession();
+		logger.debug("wxLoginSuccess, code:{}", code);
+		Map<Object, Object> userInfoMap = new HashMap<>();
+		String id = "";
+		if (code == null || code.isEmpty()) {
+			httpSession.setAttribute("unionid", "");
+			httpSession.setAttribute("openid", "");
+		} else {
+			userInfoMap = WebAppCache.getUserInfoMap(code);
+			logger.debug("wxLoginSuccess userInfoMap : {}", userInfoMap.toString());
+			
+			if (userInfoMap.containsKey("unionid"))
+				unionid = (String) userInfoMap.get("unionid");
+			if (userInfoMap.containsKey("nickname"))
+				unionid = (String) userInfoMap.get("nickname");
+			if (userInfoMap.containsKey("headimgurl"))
+				unionid = (String) userInfoMap.get("headimgurl");
+			if (userInfoMap.containsKey("openid"))
+				unionid = (String) userInfoMap.get("openid");
+			
+			logger.debug("wxLoginSuccess uninid : {}", unionid);
+			logger.debug("wxLoginSuccess nickname : {}", nickname);
+			logger.debug("wxLoginSuccess headimgurl : {}", headimgurl);
+			logger.debug("wxLoginSuccess openid : {}", openid);
+			
+			if(unionid != null && !unionid.isEmpty()
+					&& nickname != null && !nickname.isEmpty()
+					&& headimgurl != null && !headimgurl.isEmpty()
+					&& openid != null && !openid.isEmpty()) {
+				
+				try{
+					cglxDao.addUserByOpenid(unionid, nickname, headimgurl);
+					Map<String, Object> userMap = cglxDao.getUserByOpenId(unionid);
+					id = String.valueOf(userMap.get("id"));
+					if(id != null && !id.isEmpty()) {
+						httpSession.setAttribute("user_id", id);
+					}
+					httpSession.setAttribute("openid", openid);
+					httpSession.setAttribute("unionid", openid);
+				} catch(Exception e) {
+					logger.error(e.toString());
+				}
+			}
+		}
+		logger.debug("finishGetOpenIdRedirect");
+		logger.debug("code :{}, openId :{}, id :{}", code, openid, id);
+		String redirect = request.getParameter("uri");
+		redirect = redirect.replace("SPRI", "/")
+				.replace("QUES", "?")
+				.replace("EQUA", "=");
+		logger.debug("redirect : {}", redirect);
+		return "redirect:" + redirect;
+	}
+	
 }

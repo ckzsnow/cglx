@@ -1,11 +1,15 @@
 package com.ddcb.weixin.service.impl;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 import java.lang.reflect.Field;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -21,9 +25,11 @@ import com.ddcb.utils.Image;
 import com.ddcb.utils.InputMessage;
 import com.ddcb.utils.OutputMessage;
 import com.ddcb.utils.TextOutputMessage;
+import com.ddcb.utils.WeixinCache;
 import com.ddcb.utils.WeixinMsgType;
 import com.ddcb.weixin.service.ICourseInviteCardService;
 import com.ddcb.weixin.service.IMessageProcessService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ocfisher.dao.ICglxDao;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
@@ -184,10 +190,19 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					xstream.alias("xml", outputMsg.getClass());
 					result = new String(xstream.toXML(outputMsg).getBytes());
 					logger.debug("xml result : {}", result);
+					final String userOpenId = inputMsg.getFromUserName();
 					new Thread(new Runnable() {
 						@Override
 						public void run() {
-							cglxDao.addUserByOpenid(inputMsg.getFromUserName());
+							try{
+								ObjectMapper om = new ObjectMapper();
+								Map<String,Object> retMap = om.readValue(getUserInfoByOpenId(userOpenId), Map.class);
+								String nickname = (String)retMap.get("nickname");
+								String headImgUrl = (String)retMap.get("headimgurl");
+								cglxDao.addUserByOpenid(inputMsg.getFromUserName(), nickname,headImgUrl);
+							} catch(Exception ex){
+								logger.error(ex.toString());
+							}
 						}
 					}).start();
 					new Thread(new Runnable() {
@@ -269,6 +284,29 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 		CreateTime.set(oms, new Date().getTime());
 		ToUserName.set(oms, msg.getFromUserName());
 		FromUserName.set(oms, msg.getToUserName());
+	}
+	
+	private static String getUserInfoByOpenId(String openId){
+		String ret = "";
+		URL url;
+		try {
+			url = new URL("https://api.weixin.qq.com/cgi-bin/user/info?access_token="+WeixinCache.getAccessToken()+"&openid="+openId+"&lang=zh_CN");
+			HttpURLConnection http = (HttpURLConnection) url.openConnection();
+			http.setRequestMethod("GET");
+			http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			http.setDoOutput(true);
+			http.setDoInput(true);
+			http.connect();
+			InputStream is = http.getInputStream();
+			int size = is.available();
+			byte[] jsonBytes = new byte[size];
+			is.read(jsonBytes);
+			ret = new String(jsonBytes, "UTF-8");
+			logger.debug("push result : {}", ret);
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return ret;	
 	}
 
 }

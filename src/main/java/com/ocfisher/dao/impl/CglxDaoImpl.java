@@ -1033,15 +1033,15 @@ public class CglxDaoImpl implements ICglxDao {
 	}
 
 	@Override
-	public boolean addUserByOpenid(String openid) {
+	public boolean addUserByOpenid(String openid, String nickname, String headimage) {
 		int num = 0;
 		try{
 			String sqlSelect = "select * from user where open_id=?";
-			String sqlInsert = "insert into user(open_id, create_time) values (?,?)";
+			String sqlInsert = "insert into user(open_id, name, headimage, create_time) values (?, ?, ?, ?)";
 			List<Map<String,Object>> list = jdbcTemplate.queryForList(sqlSelect, openid);
 			if(list.isEmpty()){
 				num = jdbcTemplate.update(sqlInsert, 
-						openid, new Timestamp(System.currentTimeMillis()));
+						openid, nickname, headimage, new Timestamp(System.currentTimeMillis()));
 			}
 			return num > 0;
 		}catch(Exception e){
