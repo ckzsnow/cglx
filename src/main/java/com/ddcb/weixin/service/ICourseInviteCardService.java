@@ -6,6 +6,6 @@ public interface ICourseInviteCardService {
 
 	 public void pushCourseInviteCard(String openid);
 	 
-	 public void pushCourseInviteNotify(String srcOpenId, String friendOpenid, String courseId, String isSeries, HttpSession httpSession);
+	 public void pushCourseInviteNotify(String srcOpenId, String friendOpenid, String courseId, String isSeries);
 	
 }

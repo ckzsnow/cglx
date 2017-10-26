@@ -18,6 +18,16 @@
                 border-top: 1px solid #ddd;
             }
         </style>
+        <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?5be0eb674b2390f73d8ef4abb25cb281";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+        
     </head>
     <body device="pc">
         <header class="header">
@@ -497,15 +507,6 @@
         <script type="text/javascript" src="/js/login.js"></script>
         <script type="text/javascript">
             		$('.name').on('click', function(event) {			event.stopPropagation();			$('#logout').toggle('fast');		});		$(document).on('click', function() {			$('#logout').hide(500);		});		(function ($) {            $.getUrlParam = function (name) {                var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");                var r = window.location.search.substr(1).match(reg);                if (r != null) return unescape(r[2]); return null;            }        })(jQuery);		var id = $.getUrlParam('id');		$.ajax({			url: '/cases/getCaseDetail',			type: "POST",			data: {id:id},			success: function(data) {				if (!checkJsonIsEmpty(data)) {					$("#pc_title").html(data.title);					$("#pc_name").html(data.background_name);					$("#pc_college").html(data.background_college);					$("#pc_major").html(data.background_major);					$("#pc_apply_college").html(data.background_apply_college);					$("#pc_apply_major").html(data.background_apply_major);					$("#pc_enroll_time").html(data.background_enroll_time);					$("#pc_enter_time").html(data.background_enter_time);					$("#pc_info").html(data.background_info);					$("#m_title").html(data.title);					$("#m_name").html(data.background_name);					$("#m_college").html(data.background_college);					$("#m_major").html(data.background_major);					$("#m_apply_college").html(data.background_apply_college);					$("#m_apply_major").html(data.background_apply_major);					$("#m_enroll_time").html(data.background_enroll_time);					$("#m_enter_time").html(data.background_enter_time);					$("#m_info").html(data.background_info);															var train_target = data.train_target;					train_target = train_target.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');					$("#train_target_detail").html(train_target);										$("#enroll_info_img")[0].src = "/cglx/files/imgs/"+data.image;					$("#major_chi").html(data.major_eng);					$("#major_chi").attr('href', data.major_chi);															$.ajax({						url: '/cases/getRelatedCase',						type: "POST",						data: {page:1,length:3,category_tag:data.background_apply_major},						success: function(data) {							if (!checkJsonIsEmpty(data)) {								for(var index in data) {									if(data[index].id==id) continue;									$("#recommend_list").append("<li><a class='li-container' href='/view/item.html?id="+data[index].id+"' target='_blank'><div class='li-img'><img src='/cglx/files/imgs/"+data[index].image+"' style='width:100%;'></div><div class='li-content'><div class='li-title'>"+data[index].title+"</div><div class='li-detail'>"+data[index].sub_title+"</div><div class='li-other'><span class='li-type'>"+data[index].sub_title+"</span><span class='li-time'>"+data[index].readable_date+"</span></div></div></a></li>");								}							}						},						error: function(status, error) {						}					});				}			},			error: function(status, error) {			}		});		$.ajax({			url: '/cases/getNavRecommend',			type: "POST",			data: {},			success: function(data) {				if (!checkJsonIsEmpty(data)) {					$("#nav_recommend_title").html(data[0].title);					$("#nav_recommend_image").attr("src", "/cglx/files/imgs/" + data[0].image);					$("#nav_recommend_href").attr("href", "item.html?id="+data[0].id); 									if(data.length >= 2) {					$("#nav_recommend_title2").html(data[1].title);					$("#nav_recommend_image2").attr("src", "/cglx/files/imgs/" + data[1].image);					$("#nav_recommend_href2").attr("href", "item.html?id="+data[1].id); 				} else {					$('#recommond2').css('display', 'none');				}			}			},			error: function(status, error) {			}		});		
-        </script>
-        <script>
-            var _hmt = _hmt || [];
-            (function() {
-                var hm = document.createElement("script");
-                hm.src = "https://hm.baidu.com/hm.js?6f4f4c09f7b9fd21edde541f4b099c3e";
-                var s = document.getElementsByTagName("script")[0];
-                s.parentNode.insertBefore(hm, s);
-            })();
         </script>
     </body>
 </html>

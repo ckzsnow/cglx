@@ -68,19 +68,24 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 
 	@Override
 	public void pushCourseInviteCard(String openid) {
-		List<Map<String, Object>> courseList = courseInviteCardDao.getAllCourse();
-		logger.debug("invite card course list : {}", courseList.toString());
-		logger.debug("openid : {}", openid);
-		for(Map<String, Object> courseMap : courseList) {
-			Long courseId = (Long)courseMap.get("course_id");
-			Integer isSeries = (Integer)courseMap.get("is_series");
-			String templateName = (String)courseMap.get("template_name");
-			String args = courseId + "###" + isSeries + "###" + openid;
-			String json = "{\"expire_seconds\": 2592000, \"action_name\": \"QR_STR_SCENE\", \"action_info\""+
-					": {\"scene\": {\"scene_str\": \""+args+"\"}}}";
-			String action = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="
-					+ WeixinCache.getAccessToken();
-			try {
+		try{
+			List<Map<String, Object>> courseList = courseInviteCardDao.getAllCourse();
+			logger.debug("invite card course list : {}", courseList.toString());
+			logger.debug("openid : {}", openid);
+			ObjectMapper om = new ObjectMapper();
+			Map<String,Object> retMap = om.readValue(getUserInfoByOpenId(openid), Map.class);
+			String nickname = (String)retMap.get("nickname");
+			String headImgUrl = (String)retMap.get("headimgurl");
+			String unionid = (String)retMap.get("unionid");
+			for(Map<String, Object> courseMap : courseList) {
+				Long courseId = (Long)courseMap.get("course_id");
+				Integer isSeries = (Integer)courseMap.get("is_series");
+				String templateName = (String)courseMap.get("template_name");
+				String args = courseId + "###" + isSeries + "###" + openid;
+				String json = "{\"expire_seconds\": 2592000, \"action_name\": \"QR_STR_SCENE\", \"action_info\""+
+						": {\"scene\": {\"scene_str\": \""+args+"\"}}}";
+				String action = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="
+						+ WeixinCache.getAccessToken();
 				String ret = connectWeiXinInterface(action, json);
 				JSONObject jsonObject = JSONObject.fromObject(ret);
 				if (jsonObject.has("url")) {
@@ -88,20 +93,16 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 					String url = jsonObject.getString("url");
 					logger.debug("qrcode url : {}", url);
 					generateQRCode(url, openid, templateName);
-					ObjectMapper om = new ObjectMapper();
-					Map<String,Object> retMap = om.readValue(getUserInfoByOpenId(openid), Map.class);
-					String nickname = (String)retMap.get("nickname");
-					String headImgUrl = (String)retMap.get("headimgurl");
-					logger.debug("pushCourseInviteCard, nickname:{},headImgUrl:{}",nickname,headImgUrl);
+					logger.debug("pushCourseInviteCard, nickname:{},headImgUrl:{},unionid:{}",nickname,headImgUrl,unionid);
 					BufferedImage headImage = ImageIO.read(new URL(headImgUrl));
 					generateHeadImageCode(headImage, nickname, openid);
 					pushImageToUser(openid);
 				} else {
 					System.out.println(jsonObject.toString());
 				}
-			} catch (Exception e) {
-				logger.error("weixin push failed, exception : {}", e.toString());
 			}
+		}catch(Exception ex){
+			logger.error(ex.toString());
 		}
 	}
 	
@@ -155,7 +156,7 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 		return ret;
 	}
 	
-	public static void generateQRCode(String content, String openId, String templateName) {
+	public static void generateQRCode(String content, String unionId, String templateName) {
 		BufferedImage templateImage = null;
         try {
         	templateImage = ImageIO.read(new File("/data/cglx/course_invite_card/"+templateName));
@@ -171,7 +172,7 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
                 	templateImage.setRGB(36+i, 976+j, bitMatrix.get(i, j)? BLACK : WHITE);  
                 }  
             }
-            File imgFile = new File("/data/cglx/course_invite_card/"+openId+".jpg");  
+            File imgFile = new File("/data/cglx/course_invite_card/"+unionId+".jpg");  
             if(!imgFile.exists())  
                 imgFile.createNewFile();
             ImageIO.write(templateImage, "jpg", imgFile); 
@@ -306,25 +307,27 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 			logger.debug(e.toString());
 		}
 	}
-	
-	public static void main(String[] args) throws IOException{
-		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();  
-		System.out.println(Arrays.toString(env.getAvailableFontFamilyNames()));
-	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public void pushCourseInviteNotify(String srcOpenId, String friendOpenId, String courseId, String isSeries, HttpSession httpSession) {
+	public void pushCourseInviteNotify(String srcOpenId, String friendOpenId, String courseId, String isSeries) {
 		long courseId_ = 0;
 		try {
 			courseId_ = Long.valueOf(courseId);
+			ObjectMapper om = new ObjectMapper();
+			Map<String,Object> retMap = om.readValue(getUserInfoByOpenId(friendOpenId), Map.class);
+			String friendName = (String)retMap.get("nickname");
+			String friendUnionId = (String)retMap.get("unionid");
+			retMap = om.readValue(getUserInfoByOpenId(srcOpenId), Map.class);
+			String srcUnionId = (String)retMap.get("unionid");
 			Map<String, Object> inviteCardCourseMap = courseInviteCardDao.getCourseById(courseId_);
 			if(inviteCardCourseMap == null){				
-				int expireCount = courseInviteCardDao.getCourseActivityExpireRecordByOpenIdAndCourseId(srcOpenId, courseId_);
+				int expireCount = courseInviteCardDao.getCourseActivityExpireRecordByOpenIdAndCourseId(srcUnionId, courseId_);
 				if(expireCount > 0) {
 					logger.debug("has push expire message!");
 					return;
 				} else {
-					courseInviteCardDao.addCourseActivityExpireRecord(srcOpenId, courseId_);
+					courseInviteCardDao.addCourseActivityExpireRecord(srcUnionId, courseId_);
 				}
 				Map<String,Object> courseInfoMap = null;
 				if(("1").equals(isSeries)){
@@ -343,7 +346,7 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 				}
 				return;
 			}
-			Map<String, Object> map = courseInviteCardDao.getCourseInviteRecord(srcOpenId, friendOpenId, courseId_);
+			Map<String, Object> map = courseInviteCardDao.getCourseInviteRecord(srcUnionId, friendUnionId, courseId_);
 			if(map != null) {
 				String json = "{\"touser\": \"" + friendOpenId + "\",\"msgtype\": \"text\", \"text\": {\"content\": \"亲爱的小伙伴，活动您已经支持过了，不能重复支持呦~\"}}";
 				String action = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token="
@@ -354,9 +357,9 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 					logger.error("weixin push failed, exception : {}", e.toString());
 				}
 			} else {
-				if(courseInviteCardDao.addCourseInviteRecord(srcOpenId, friendOpenId, courseId_)){
+				if(courseInviteCardDao.addCourseInviteRecord(srcUnionId, friendUnionId, courseId_)){
 					logger.debug("courseInviteCardDao, add success");
-					int currentSupportTotal = courseInviteCardDao.getCourseInviteSupportTotal(srcOpenId, courseId_);
+					int currentSupportTotal = courseInviteCardDao.getCourseInviteSupportTotal(srcUnionId, courseId_);
 					logger.debug("courseInviteCardDao, currentSupportTotal={}", currentSupportTotal);
 					Map<String, Object> courseMap = courseInviteCardDao.getCourseById(courseId_);
 					if(courseMap == null){
@@ -377,15 +380,12 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 					}
 					String coursePrice = (String)courseInfoMap.get("cost");
 					String courseTitle = (String)courseInfoMap.get("title");
-					ObjectMapper om = new ObjectMapper();
-					Map<String,Object> retMap = om.readValue(getUserInfoByOpenId(friendOpenId), Map.class);
-					String friendName = (String)retMap.get("nickname");
 					Date currentTime = new Date();
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					String dateString = formatter.format(currentTime);
 					if(currentSupportTotal >= needInvitePersonCount) {
 						//需要添加用户已经购买课程，同时如果已经添加，那么不应该再次推送消息给用户
-						Map<String, Object> uMap = courseInviteCardDao.getUserAndUserCourseByUserOpenId(srcOpenId, courseId_);
+						Map<String, Object> uMap = courseInviteCardDao.getUserAndUserCourseByUserOpenId(srcUnionId, courseId_);
 						if(uMap != null && !uMap.isEmpty() && ((String)uMap.get("user_course_id"))!=null){
 							logger.debug("pushCourseInviteNotify, has pushed!");
 							logger.debug("pushCourseInviteNotify getUserCourseCountByUserOpenId : {}", uMap.toString());
@@ -448,5 +448,9 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 		} catch (Exception ex) {
 			logger.error(ex.toString());
 		}
+	}
+	
+	public static void main(String[] args) throws IOException{
+		
 	}
 }
