@@ -155,11 +155,11 @@ public class CommonController {
 			if (userInfoMap.containsKey("unionid"))
 				unionid = (String) userInfoMap.get("unionid");
 			if (userInfoMap.containsKey("nickname"))
-				unionid = (String) userInfoMap.get("nickname");
+				nickname = (String) userInfoMap.get("nickname");
 			if (userInfoMap.containsKey("headimgurl"))
-				unionid = (String) userInfoMap.get("headimgurl");
+				headimgurl = (String) userInfoMap.get("headimgurl");
 			if (userInfoMap.containsKey("openid"))
-				unionid = (String) userInfoMap.get("openid");
+				openid = (String) userInfoMap.get("openid");
 			
 			logger.debug("wxLoginSuccess uninid : {}", unionid);
 			logger.debug("wxLoginSuccess nickname : {}", nickname);

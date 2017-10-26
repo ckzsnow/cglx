@@ -98,7 +98,7 @@
 				</div>
 				<div class="login-success-wrapper" style="display: none;">
 					<div class="photo">
-						<img src="/images/topic_photo.png">
+						<img id="headimgurl">
 					</div>
 					<div class="name" id="user_id"></div>
 				</div>

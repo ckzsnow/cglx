@@ -6,8 +6,9 @@ $.ajax({
 	data: {},
 	success: function(data) {
 		if (!checkJsonIsEmpty(data)) {
-			$("#user_id").html(data.phone);
+			$("#user_id").html((data.name!=null&&data.name!='')?data.name:(data.openid!=null?data.openid:data.phone));
 			user_id = data.id;
+			$('#headimgurl').attr('src', data.headimage==null?'/images/topic_photo.png':data.headimage);
 			$(".login-false-wrapper").hide();
 			$(".login-success-wrapper").show();
 			$("#mobile_not_login").hide();
