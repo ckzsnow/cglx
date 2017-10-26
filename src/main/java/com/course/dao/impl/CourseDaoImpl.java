@@ -35,22 +35,42 @@ public class CourseDaoImpl implements ICourseDao {
 		List<Map<String, Object>> retList1 = null;
 		List<Map<String, Object>> retList2 = null;
 		try {
-			String sql = "select is_recommend, id, snapshot, course.cost as total, sum(course_2.time) as sub_time_total, "
+			/*String sql = "select is_recommend, id, snapshot, course.cost as total, sum(course_2.time) as sub_time_total, "
 					+ "course_2.*, sum(course_2.cost) as sub_total, "
 					+ "ABS(course.cost-sum(course_2.cost)) as discount, "
 					+ "count(course.parent_id) as sub_count, create_time from course LEFT JOIN "
 					+ "(select course.parent_id,course.cost, course.time from course) "
 					+ "as course_2 on course_2.parent_id=course.id where "
-					+ "course.is_series=1 and course.is_recommend=1 group by parent_id order by course.create_time desc limit 0,1";
+					+ "course.is_series=1 and course.is_recommend=1 group by parent_id order by course.create_time desc limit 0,1";*/
+			String sql = "select *, sum(course_2.time) AS sub_time_total, course_2.*, sum(course_2.cost) AS sub_total, "
+					+ "convert(ABS(course_tmp.total - sum(course_2.cost)),decimal(10,2)) AS discount, "
+					+ "count(course_2.parent_id) AS sub_count from (SELECT is_recommend, id, snapshot, is_series, "
+					+ "CASE WHEN unix_timestamp(now()) BETWEEN unix_timestamp(starttime) AND unix_timestamp(deadline) THEN course.cost * rebate / 10 "
+					+ "ELSE course.cost END AS total, create_time from course) as course_tmp "
+					+ "LEFT JOIN (SELECT course.parent_id, course.cost, course.time FROM course) AS course_2 ON course_2.parent_id = course_tmp.id "
+					+ "WHERE course_tmp.is_series = 1 AND course_tmp.is_recommend = 1 GROUP BY "
+					+ "parent_id ORDER BY course_tmp.create_time DESC LIMIT 0, 1";
 			retList1 = jdbcTemplate.queryForList(sql);
-			String sql2 = "select is_recommend, id, snapshot, course.cost as total, sum(course_2.time) as sub_time_total, "
+			logger.debug("getRecommendCourse is_recommend=1 query result : {}", retList1.toString());
+			
+			/*String sql2 = "select is_recommend, id, snapshot, course.cost as total, sum(course_2.time) as sub_time_total, "
 					+ "course_2.*, sum(course_2.cost) as sub_total, "
 					+ "ABS(course.cost-sum(course_2.cost)) as discount, "
 					+ "count(course.parent_id) as sub_count, create_time from course LEFT JOIN "
 					+ "(select course.parent_id,course.cost, course.time from course) "
 					+ "as course_2 on course_2.parent_id=course.id where "
-					+ "course.is_series=1 and course.is_recommend=2 group by parent_id order by course.create_time desc limit 0,2";
+					+ "course.is_series=1 and course.is_recommend=2 group by parent_id order by course.create_time desc limit 0,2";*/
+			String sql2 = "select *, sum(course_2.time) AS sub_time_total, course_2.*, sum(course_2.cost) AS sub_total, "
+					+ "convert(ABS(course_tmp.total - sum(course_2.cost)),decimal(10,2)) AS discount, "
+					+ "count(course_2.parent_id) AS sub_count from (SELECT is_recommend, id, snapshot, is_series, "
+					+ "CASE WHEN unix_timestamp(now()) BETWEEN unix_timestamp(starttime) AND unix_timestamp(deadline) THEN course.cost * rebate / 10 "
+					+ "ELSE course.cost END AS total, create_time from course) as course_tmp "
+					+ "LEFT JOIN (SELECT course.parent_id, course.cost, course.time FROM course) AS course_2 ON course_2.parent_id = course_tmp.id "
+					+ "WHERE course_tmp.is_series = 1 AND course_tmp.is_recommend = 2 GROUP BY "
+					+ "parent_id ORDER BY course_tmp.create_time DESC LIMIT 0, 2;";
 			retList2 = jdbcTemplate.queryForList(sql2);
+			logger.debug("getRecommendCourse is_recommend=2 query result : {}", retList2.toString());
+			
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
 		}
@@ -72,12 +92,12 @@ public class CourseDaoImpl implements ICourseDao {
 	@Override
 	public List<Map<String, Object>> getCourseByTag(String tag) {
 		List<Map<String, Object>> result = null;
-		String sql = "select final_data.id, final_data.parent_id, final_data.cost, "
-				+ "final_data.title, final_data.final_tea, final_data.final_position, "
-				+ "final_data.snapshot from (select *,IFNULL(course_2.tea,course.teacher) "
-				+ "as final_tea, IFNULL(course_2.tea_position, course.teacher_position) as final_position "
-				+ "from course LEFT JOIN (select id as id1, teacher as tea, teacher_position as tea_position from course) as "
-				+ "course_2 on course.parent_id=course_2.id1 where course.tag='"+tag+"') as final_data";
+		String sql = "select final_data.id, final_data.parent_id, final_data.cost_, "
+				+ " final_data.title, final_data.final_tea, final_data.final_position, " 
+				+ " final_data.snapshot from (select *,CASE WHEN unix_timestamp(now()) BETWEEN unix_timestamp(starttime) AND unix_timestamp(deadline) THEN cost * rebate/10 ELSE cost END AS cost_,IFNULL(course_2.tea,course.teacher) " 
+				+ " as final_tea, IFNULL(course_2.tea_position, course.teacher_position) as final_position "
+				+ " from course LEFT JOIN (select id as id1, teacher as tea, teacher_position as tea_position from course) as " 
+				+ " course_2 on course.parent_id=course_2.id1 where course.tag='"+tag+"') as final_data ";
 		logger.debug("getCourseByTag sql : {}", sql);
 		try {
 			result = jdbcTemplate.queryForList(sql);
@@ -245,12 +265,12 @@ public class CourseDaoImpl implements ICourseDao {
 	@Override
 	public List<Map<String, Object>> getAllSubCourseBrief() {
 		List<Map<String, Object>> result = null;
-		String sql = "select final_data.id, final_data.parent_id, final_data.cost, final_data.tag, final_data.time, "
-				+ "final_data.title, final_data.final_tea, final_data.final_position, "
-				+ "final_data.snapshot from (select *,IFNULL(course_2.tea,course.teacher) "
-				+ "as final_tea, IFNULL(course_2.tea_position, course.teacher_position) as final_position "
-				+ "from course LEFT JOIN (select id as id1, teacher as tea, teacher_position as tea_position from course) as "
-				+ "course_2 on course.parent_id=course_2.id1 where course.is_series!=1) as final_data";
+		String sql = "select final_data.id, final_data.parent_id, final_data.cost_, final_data.tag, final_data.time, "
+				+ " final_data.title, final_data.final_tea, final_data.final_position, " 
+				+ " final_data.snapshot from (select *,CASE WHEN unix_timestamp(now()) BETWEEN unix_timestamp(starttime) AND unix_timestamp(deadline) THEN cost * rebate/10 ELSE cost END AS cost_,IFNULL(course_2.tea,course.teacher) " 
+				+ " as final_tea, IFNULL(course_2.tea_position, course.teacher_position) as final_position "
+				+ " from course LEFT JOIN (select id as id1, teacher as tea, teacher_position as tea_position from course) as " 
+				+ " course_2 on course.parent_id=course_2.id1 where course.is_series!=1) as final_data ";
 		try {
 			result = jdbcTemplate.queryForList(sql);
 		} catch(Exception e) {

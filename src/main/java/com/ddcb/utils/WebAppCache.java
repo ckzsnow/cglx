@@ -38,13 +38,14 @@ public class WebAppCache {
 	}
 	
 	public static Map<Object, Object> getUserInfoMap(String code) {
+		logger.debug("getUserInfoMap code : {}", code);
 		String access_token = "";
 		String openid = "";
 		Map<Object, Object> accessTokenMap = getAccessTokenMap(code);
 		if (accessTokenMap.containsKey("access_token"))
 			access_token = (String) accessTokenMap.get("access_token");
 		if (accessTokenMap.containsKey("openid"))
-			access_token = (String) accessTokenMap.get("openid");
+			openid = (String) accessTokenMap.get("openid");
 		String url = userInfoUrl.replace("ACCESS_TOKEN", access_token)
 				.replace("OPENID", openid);
 		logger.debug("getUserInfoMap getUnionidUrl : {}", url);
