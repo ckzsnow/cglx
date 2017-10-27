@@ -848,7 +848,7 @@ var _hmt = _hmt || [];
 					$('#crowds').html(crowds);
 					
 					var help = data.final_help;
-					help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;')
+					help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
 					$('#help').html(help);
 					
 					//$('#about').html(data.final_about);

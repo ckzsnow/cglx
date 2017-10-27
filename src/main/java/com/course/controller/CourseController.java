@@ -156,7 +156,7 @@ public class CourseController {
 			}
 			paramsMap.put("snapshot", new String[] {fileName});
 		}
-		
+		logger.debug("addSubCourse paramsMap : {}", paramsMap.toString());
 		courseDao.addCourse(paramsMap);
 		retMap.put("msg", "添加成功！");
 		retMap.put("error", "0");
