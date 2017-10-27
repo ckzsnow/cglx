@@ -1,8 +1,5 @@
 package com.ddcb.weixin.controller;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,12 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ddcb.utils.WebAppCache;
-import com.ddcb.utils.WebAppConfig;
-import com.ddcb.utils.WeixinCache;
 import com.ddcb.utils.WeixinTools;
 import com.ddcb.weixin.service.IMessageProcessService;
 import com.ddcb.weixin.service.ITokenCheckService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ocfisher.dao.ICglxDao;
 
 @Controller
@@ -80,20 +74,47 @@ public class CommonController {
 			HttpServletRequest request) {
 		logger.debug("getOpenIdRedirect");
 		String code = request.getParameter("code");
-		String id = request.getParameter("id");
-		String course_id = request.getParameter("course_id");
-		String is_series = request.getParameter("is_series");
-		logger.debug("getOpenIdRedirect, id:{},courseId:{},isSeries:{}",id,course_id,is_series);
-		String openid = "";
+		String view = request.getParameter("view");
+		logger.debug("getOpenIdRedirect, code:{}",code);
 		if (code == null || code.isEmpty()) {
 			httpSession.setAttribute("openid", "");
 		} else {
-			openid = WeixinTools.getOpenId(code);
-			httpSession.setAttribute("openid", openid);
+			Map<Object, Object> retMap = WeixinTools.getUnionId(code);
+			String nickname = (String)retMap.get("nickname");
+			String headImgUrl = (String)retMap.get("headimgurl");
+			String unionid = (String)retMap.get("unionid");
+			logger.debug("getOpenIdRedirect, nickname:{},headImgUrl:{},unionid:{}",nickname,headImgUrl,unionid);
+			long pId = cglxDao.addUserByOpenid(unionid, nickname,headImgUrl);
+			logger.debug("getOpenIdRedirect, pId:{}",pId);
+			httpSession.setAttribute("user_id", pId);
+			httpSession.setAttribute("openid", unionid);
+		}
+		logger.debug("finishGetOpenIdRedirect");
+		view = view.replaceAll("_", "/").replaceAll("ARGS", "?").replaceAll("ARG","&");
+		logger.debug("getOpenIdRedirect, view:{}",view);
+		return "redirect:" + view;
+	}
+	
+	@RequestMapping("/getUnionIdRedirectForCourseInviteCard")
+	public String getUnionIdRedirectForCourseInviteCard(HttpSession httpSession,
+			HttpServletRequest request) {
+		logger.debug("getOpenIdRedirect");
+		String code = request.getParameter("code");
+		String id = request.getParameter("id");
+		String course_id = request.getParameter("course_id");
+		String is_series = request.getParameter("is_series");
+		String unionid = "";
+		logger.debug("getOpenIdRedirect, id:{},courseId:{},isSeries:{}",id,course_id,is_series);
+		if (code == null || code.isEmpty()) {
+			httpSession.setAttribute("openid", "");
+		} else {
+			Map<Object, Object> retMap = WeixinTools.getUnionId(code);
+			unionid = (String)retMap.get("unionid");
+			httpSession.setAttribute("openid", unionid);
 			httpSession.setAttribute("user_id", id);
 		}
 		logger.debug("finishGetOpenIdRedirect");
-		logger.debug("code :{}, openId :{}, id :{}", code, openid, id);
+		logger.debug("code :{}, openId :{}, id :{}", code, unionid, id);
 		if(("1").equals(is_series)){
 			return "redirect:courses/jsp?id="+course_id;
 		} else {

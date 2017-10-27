@@ -465,7 +465,7 @@ public class CglxDaoImpl implements ICglxDao {
 		StringBuilder sb = new StringBuilder();
 		List<Object> args = new ArrayList<>();
 		sb.append("update user set ");
-		String userId = userDetailInfoMap.remove("user_id")[0];
+		String userId = userDetailInfoMap.remove("id")[0];
 		for(Map.Entry<String, String[]> entry : userDetailInfoMap.entrySet()) {
 			sb.append(" ");
 			sb.append(entry.getKey());
@@ -1033,20 +1033,33 @@ public class CglxDaoImpl implements ICglxDao {
 	}
 
 	@Override
-	public boolean addUserByOpenid(String openid, String nickname, String headimage) {
-		int num = 0;
+	public long addUserByOpenid(String openid, String nickname, String headimage) {
+		long ret = -1;
 		try{
+			KeyHolder keyHolder = new GeneratedKeyHolder();
 			String sqlSelect = "select * from user where open_id=?";
 			String sqlInsert = "insert into user(open_id, name, headimage, create_time) values (?, ?, ?, ?)";
-			List<Map<String,Object>> list = jdbcTemplate.queryForList(sqlSelect, openid);
-			if(list.isEmpty()){
-				num = jdbcTemplate.update(sqlInsert, 
-						openid, nickname, headimage, new Timestamp(System.currentTimeMillis()));
+			Map<String, Object> queryMap = jdbcTemplate.queryForMap(sqlSelect, new Object[]{openid});
+			if(queryMap == null || queryMap.isEmpty()){
+				jdbcTemplate.update(new PreparedStatementCreator() {
+					public PreparedStatement createPreparedStatement(
+							Connection connection) throws SQLException {
+						PreparedStatement ps = connection.prepareStatement(sqlInsert,
+								Statement.RETURN_GENERATED_KEYS);
+						ps.setString(1, openid);
+						ps.setString(2, nickname);
+						ps.setString(3, headimage);
+						ps.setTimestamp(4,new Timestamp(System.currentTimeMillis()));
+						return ps;
+					}
+				}, keyHolder);
+				ret = keyHolder.getKey().longValue();
+			} else {
+				ret = (long)queryMap.get("id");
 			}
-			return num > 0;
 		}catch(Exception e){
 			logger.error("exception : {}", e.toString());
 		}
-		return false;
+		return ret;
 	}
 }

@@ -64,7 +64,7 @@ public interface ICglxDao {
 	
 	public boolean addUser(String phone, String pwd);
 	
-	public boolean addUserByOpenid(String openid, String nickname, String headimage);
+	public long addUserByOpenid(String openid, String nickname, String headimage);
 	
 	public boolean deleteUserById(String id);
 	

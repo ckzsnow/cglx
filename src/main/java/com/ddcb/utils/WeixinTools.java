@@ -119,17 +119,15 @@ public class WeixinTools {
 		return ret;
 	}
  
-	public static String getOpenId(String code) {
-		String openId = "";
+	public static Map<Object, Object> getUnionId(String code) {
 		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
 		url = url.replace("APPID", WeixinConstEnum.COMPANY_APP_ID.toString())
 				.replace("SECRET", WeixinConstEnum.COMPANY_APP_SECRET.toString())
 				.replace("CODE", code);
 		logger.info("GetOpenId URL : {}", url);
 		Map<Object, Object> map = httpGet(url);
-		if (map.containsKey("openid"))
-			openId = (String) map.get("openid");
-		return openId;
+		logger.debug("GetOpenId Map:{}", map.toString());
+		return map;
 	}
 	
 	public static void main(String[] args) {
