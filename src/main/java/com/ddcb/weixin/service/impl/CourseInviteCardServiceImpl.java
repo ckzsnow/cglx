@@ -3,7 +3,6 @@ package com.ddcb.weixin.service.impl;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -15,20 +14,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,10 +36,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
-import com.ocfisher.dao.ICglxDao;
 import com.ocfisher.dao.ICourseInviteCardDao;
 
 import net.sf.json.JSONObject;
@@ -66,6 +57,7 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 	@Autowired
 	private ICourseDao courseDao;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void pushCourseInviteCard(String openid) {
 		try{
@@ -392,7 +384,7 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 						} else if(uMap != null && !uMap.isEmpty() && uMap.get("user_course_id")==null){
 							logger.debug("pushCourseInviteNotify getUserCourseCountByUserOpenId : {}", uMap.toString());
 							if(courseDao.addUserCourseAndPayStatus(String.valueOf(uMap.get("user_id")), courseId, "invite_card")){
-								String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fid%3D"+String.valueOf(uMap.get("user_id"))+"%26course_id%3D"+courseId+"%26is_series%3D"+isSeries+"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+								String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetUnionIdRedirectForCourseInviteCard%3Fid%3D"+String.valueOf(uMap.get("user_id"))+"%26course_id%3D"+courseId+"%26is_series%3D"+isSeries+"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
 								String json = "{"+""
 										+ "\"touser\": \"" + srcOpenId + "\","
 										+ "\"template_id\": \"Zf7etJwv9pv2RSTo95WuMIcLMNMQRNCrTFMChsx79Is\","
