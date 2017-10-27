@@ -703,7 +703,7 @@ var _hmt = _hmt || [];
 				if (!checkJsonIsEmpty(data)) {
 					cost = data.cost;
 					$('.course_title').html(data.title);
-					$('.cost').html(data.cost);
+					$('.cost').html(data.fee);
 					$('#time').html(data.time);
 					$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
 					$('#teacher').html(data.final_tea);
@@ -959,7 +959,7 @@ var _hmt = _hmt || [];
 					$('#small').append('<div class="recommend-every-course"><a href="'+link+'" target="_blank">'
 							+ '<div class="recommend-every-pic"><img src="/cglx/files/imgs/'+data[index].snapshot+'" alt=""></div>'
 							+ '<div class="recommend-every-introduct"><div class="every-title">'+data[index].title+'</div>'
-							+ '<div class="every-price-mobile"><span class="money">￥'+data[index].cost+'</span></div></div></a></div>');
+							+ '<div class="every-price-mobile"><span class="money">￥'+data[index].cost_+'</span></div></div></a></div>');
 					
 					$('#recommend-small').append('<div class="every-course"><a href="'+link+'"><div class="info-left-recommond">'
 							+ '<div class="video-title">'+data[index].title+'</div><div class="video-teacher">'+data[index].final_tea+'/'+data[index].final_position+'</div>'
