@@ -1,5 +1,12 @@
 var user_id = '';
-
+function isWeiXin(){ 
+	var ua = window.navigator.userAgent.toLowerCase(); 
+	if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
+		return true; 
+	}else{ 
+		return false; 
+	} 
+}
 $.ajax({
 	url: '/user/getUserInfo',
 	type: "POST",
@@ -13,6 +20,14 @@ $.ajax({
 			$(".login-success-wrapper").show();
 			$("#mobile_not_login").hide();
 			$("#mobile_login").show();
+		} else if(isWeiXin()){
+			var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=###########&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+			var searchStr = window.location.search;
+			var pathname = window.location.pathname;
+			var view= pathname.replace(new RegExp("/","gm"),"_");
+			var args = searchStr.replace("?","ARGS").replace(new RegExp("&","gm"),"ARG");
+			console.log(view+args);
+			window.location.href = url.replace("###########",view+args);
 		}
 	}
 });
