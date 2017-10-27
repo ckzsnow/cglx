@@ -3,14 +3,19 @@
 
 <head>
 <meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-		<meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1.0">
-		<meta name="keywords" content="留学、美国留学、英国留学、澳洲留学、加拿大留学、韩国留学、日本留学、法国留学、德国留学、欧洲留学、新西兰留学、香港留学、新加坡留学、留学申请、留学文书、个人陈述、留学简历、留学推荐信、DIY留学、留学中介">
-		<meta name="description" content="DIY研习社是国内首家留学互助共享平台，致力于为所有留学申请者提供资源共享、交际交流的渠道和机会，社员和内容覆盖留学申请所有主流国家。">
-		<title>DIY研习社－中国留学生互助交流平台，让留学不孤单</title>
-		<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<meta name="viewport"
+	content="user-scalable=no,width=device-width,initial-scale=1.0">
+<meta name="keywords"
+	content="留学、美国留学、英国留学、澳洲留学、加拿大留学、韩国留学、日本留学、法国留学、德国留学、欧洲留学、新西兰留学、香港留学、新加坡留学、留学申请、留学文书、个人陈述、留学简历、留学推荐信、DIY留学、留学中介">
+<meta name="description"
+	content="DIY研习社是国内首家留学互助共享平台，致力于为所有留学申请者提供资源共享、交际交流的渠道和机会，社员和内容覆盖留学申请所有主流国家。">
+<title>DIY研习社－中国留学生互助交流平台，让留学不孤单</title>
+<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
 <!-- Bootstrap 3.3.6 -->
 <link rel="stylesheet" href="/css/bootstrap.min.css">
 <!-- Font Awesome -->
@@ -165,21 +170,22 @@
 							<li class="active"><a href="addmedia.html"><i
 									class="fa fa-circle-o"></i>添加社员风采</a></li>
 						</ul></li>
-						
-						<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+
+					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
 							<span>在线课程</span> <span class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 						<ul class="treeview-menu">
 							<li><a href="courselist.html"><i class="fa fa-circle-o"></i>课程列表</a>
-								</li>
+							</li>
 							<li><a href="addseries.html"><i class="fa fa-circle-o"></i>添加系列课程</a>
 							</li>
-							<li><a href="addcourse.html"><i
-									class="fa fa-circle-o"></i>添加课程</a></li>
+							<li><a href="addcourse.html"><i class="fa fa-circle-o"></i>添加课程</a></li>
+							<li><a href="courseinvitecard.html"><i
+									class="fa fa-circle-o"></i>课程邀请卡设置</a></li>
 						</ul></li>
-						<li><a href="paidlist.html"> <i class="fa fa-dashboard"></i><span>用户购买列表</span>
+					<li><a href="paidlist.html"> <i class="fa fa-dashboard"></i><span>用户购买列表</span>
 					</a></li>
 				</ul>
 			</section>
@@ -205,7 +211,7 @@
 											<label for="inputEmail3" class="col-sm-2 control-label">图片</label>
 											<div class="col-sm-10">
 												<input type="file" id="inputFile"> <img
-													id="article_img" style="width:300px;"/>
+													id="article_img" style="width: 300px;" />
 											</div>
 										</div>
 										<div class="form-group">
@@ -246,14 +252,17 @@
 										<div class="form-group">
 											<label for="inputEmail3" class="col-sm-2 control-label">文章详情</label>
 											<div class="col-sm-10">
-												<button onclick="preContent();" type="button" class="btn btn-success">预览</button>
-												<button onclick="insertImg();" type="button" class="btn btn-success">插入图片</button>
+												<button onclick="preContent();" type="button"
+													class="btn btn-success">预览</button>
+												<button onclick="insertImg();" type="button"
+													class="btn btn-success">插入图片</button>
 											</div>
 										</div>
 										<div class="form-group">
-							               	<label for="inputEmail3" class="col-sm-2 control-label">编辑文章</label>
-							               	<div class="col-sm-10">
-												<textarea style="width:100%;min-height:300px;" id="article_content"></textarea>
+											<label for="inputEmail3" class="col-sm-2 control-label">编辑文章</label>
+											<div class="col-sm-10">
+												<textarea style="width: 100%; min-height: 300px;"
+													id="article_content"></textarea>
 											</div>
 										</div>
 									</div>
@@ -273,8 +282,7 @@
 											<button id="submit_btn" class="btn btn-default">提交</button>
 										</div>
 									</div>
-									<div style="display: none;" id="content_img">
-										</div>
+									<div style="display: none;" id="content_img"></div>
 								</div>
 								<!-- /.box-body -->
 							</div>
@@ -328,258 +336,306 @@
 	<!-- AdminLTE App -->
 	<script src="/js/app.min.js"></script>
 	<script>
-	(function ($) {
-        $.getUrlParam = function (name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if (r != null) return unescape(r[2]); return null;
-        }
-    })(jQuery);
-	function Trim(str,is_global){
-    	var result;
-    	result = str.replace(/(^\s+)|(\s+$)/g,"");
-    	if(is_global.toLowerCase()=="g"){
-        	result = result.replace(/\s/g,"");
-     	}
-    	return result;
-	}
-	(function($, undefined) {
-        $.fn.getCursorPosition = function() {
-            var el = $(this).get(0);
-            var pos = 0;
-            if ('selectionStart' in el) {
-                pos = el.selectionStart;
-            } else if ('selection' in document) {
-                el.focus();
-                var Sel = document.selection.createRange();
-                var SelLength = document.selection.createRange().text.length;
-                Sel.moveStart('character', -el.value.length);
-                pos = Sel.text.length - SelLength;
-            }
-            return pos;
-        }
-    })(jQuery);
+		(function($) {
+			$.getUrlParam = function(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null)
+					return unescape(r[2]);
+				return null;
+			}
+		})(jQuery);
+		function Trim(str, is_global) {
+			var result;
+			result = str.replace(/(^\s+)|(\s+$)/g, "");
+			if (is_global.toLowerCase() == "g") {
+				result = result.replace(/\s/g, "");
+			}
+			return result;
+		}
+		(function($, undefined) {
+			$.fn.getCursorPosition = function() {
+				var el = $(this).get(0);
+				var pos = 0;
+				if ('selectionStart' in el) {
+					pos = el.selectionStart;
+				} else if ('selection' in document) {
+					el.focus();
+					var Sel = document.selection.createRange();
+					var SelLength = document.selection.createRange().text.length;
+					Sel.moveStart('character', -el.value.length);
+					pos = Sel.text.length - SelLength;
+				}
+				return pos;
+			}
+		})(jQuery);
 
-	var insertImgIndex = 0;
-	
-	var imgPreData = {};
-	var filesFormData = {};
-	
-	function uuid() {
-	    var s = [];
-	    var hexDigits = "0123456789abcdef";
-	    for (var i = 0; i < 36; i++) {
-	        s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
-	    }
-	    s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
-	    s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
-	    s[8] = s[13] = s[18] = s[23] = "-";
-	 
-	    var uuid = s.join("");
-	    return uuid;
-	}
-	function generateContent() {
-		var htmlStr = "";
-		var content = $("#article_content").val();
-		var beginPos = 0;
-		var endPos = content.indexOf("\n");
-		while(endPos != -1) {
-			var line = content.substring(beginPos, endPos);
-			/* line = Trim(line, "g"); */
-			var titlePos = line.indexOf("标题-");
-			if(titlePos != -1) {
-				htmlStr += "<h3>"+line.substring(titlePos+3)+"</h3>";
-			} else {
-				var curLinePos = 0;
-				var imgBeginPos = line.indexOf("###IMG");
-				var imgEndPos = 0;
-				while(imgBeginPos != -1) {
-					imgEndPos = line.indexOf("IMG###", imgBeginPos);
-					htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-					var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-					var file = $("#" + imgDataId).val();
-					if(file == null || file == undefined) {
-						htmlStr += "<p><img src='/cglx/files/imgs/"+imgPreData["insertImgIndex_" + insertImgIndex]+"'></p>";
-					} else {
-						var FileExt=file.replace(/.+\./,"");
-						var fileName = uuid() + "." + FileExt;
-						htmlStr += "<p><img src='/cglx/files/imgs/"+fileName+"'></p>";
-						filesFormData[fileName] = $("#" + imgDataId)[0].files[0];
-					}
-					imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-					curLinePos = imgEndPos+6;
-				}
-				if(line.length-1 > imgEndPos) {
-					if(imgEndPos == 0) {
-						htmlStr += "<p>" + line + "</p>";
-					} else {
-						htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
-					}
-				}
+		var insertImgIndex = 0;
+
+		var imgPreData = {};
+		var filesFormData = {};
+
+		function uuid() {
+			var s = [];
+			var hexDigits = "0123456789abcdef";
+			for (var i = 0; i < 36; i++) {
+				s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
 			}
-			beginPos = endPos + 1;
-			endPos = content.indexOf("\n", beginPos);
+			s[14] = "4"; // bits 12-15 of the time_hi_and_version field to 0010
+			s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1); // bits 6-7 of the clock_seq_hi_and_reserved to 01
+			s[8] = s[13] = s[18] = s[23] = "-";
+
+			var uuid = s.join("");
+			return uuid;
 		}
-		if(content.length-1 > endPos) {
-			var line = content.substring(beginPos);
-			/* line = Trim(line, "g"); */
-			var titlePos = line.indexOf("标题-");
-			if(titlePos != -1) {
-				htmlStr += "<h3>"+line.substring(titlePos+3)+"</h3>";
-			} else {
-				var curLinePos = 0;
-				var imgBeginPos = line.indexOf("###IMG");
-				var imgEndPos = 0;
-				while(imgBeginPos != -1) {
-					imgEndPos = line.indexOf("IMG###", imgBeginPos);
-					htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-					var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-					var file = $("#" + imgDataId).val();
-					if(file == null || file == undefined) {
-						htmlStr += "<p><img src='/cglx/files/imgs/"+imgPreData["insertImgIndex_" + insertImgIndex]+"'></p>";
-					} else {
-						var FileExt=file.replace(/.+\./,"");
-						var fileName = uuid() + "." + FileExt;
-						htmlStr += "<p><img src='/cglx/files/imgs/"+fileName+"'></p>";
-						filesFormData[fileName] = $("#" + imgDataId)[0].files[0];
-					}
-					imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-					curLinePos = imgEndPos+6;
-				}
-				if(line.length-1 > imgEndPos) {
-					if(imgEndPos == 0) {
-						htmlStr += "<p>" + line + "</p>";
-					} else {
-						htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
-					}
-				}
-			}
-		}
-		return htmlStr;
-	}
-	
-		$('#submit_btn').on('click', function() {
-			var content = generateContent();
-			$('.btn-primary').attr('disabled', "");
-			$("#progress_tip").show();
-			var id = $.getUrlParam('id');
-			var fd = new FormData();
-			var fileObj = $('#inputFile')[0].files[0];
-			fd.append('id', id);
-			fd.append('video_src', $('#video_src').val());
-			fd.append('title', $('#title').val());
-			fd.append('sub_title', $('#sub_title').val());
-			fd.append('name', $('#name').val());
-			fd.append('publish_time', $('#publish_time').val());
-			fd.append('contents', content);
-			if(fileObj != undefined ) {
-				fd.append('files_0', fileObj);
-				fd.append('flag', "1");
-			} else {
-				fd.append('flag', "0");
-			}
-			var fileNameList = "";
-			var fileIndex = 1;
-			for(var key in filesFormData) {
-				fd.append('files_' + fileIndex, filesFormData[key]);
-				fileIndex++;
-				fileNameList += key + ";";
-			}
-			fd.append('fileNameList', fileNameList);
-			var xhr = new XMLHttpRequest();
-			xhr.upload.addEventListener("progress", function(evt) {
-				if (evt.lengthComputable) {
-					var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-					var percent = percentComplete + "%";
-					$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", percent);
-					$('#text_tips').html(percent);
-				}
-			}, false);
-			xhr.addEventListener("load", function(evt) {
-				$("#progress_tip").hide();
-				$('#submit_btn').removeAttr('disabled');
-				$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
-				$('#text_tips').html("0%");
-				var res = JSON.parse(evt.target.responseText);
-				if (res.error == '0') {
-					alert("提交信息成功");
-					window.location.reload();
-				} else {
-					alert("提交信息失败！");
-				}
-			}, false);
-			xhr.addEventListener("error", function(evt) {
-				$("#progress_tip").hide();
-				$('#submit_btn').removeAttr('disabled');
-				$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
-				$('#text_tips').html("0%");
-				alert("提交信息失败！");
-			}, false);
-			if(id==null || id == '') {
-				xhr.open('post', "/medias/addMedia");
-			} else {
-				xhr.open('post', "/medias/updateMedia");
-			}
-			xhr.send(fd);
-		});
-	
-		function getPreContent() {
+		function generateContent() {
 			var htmlStr = "";
 			var content = $("#article_content").val();
 			var beginPos = 0;
 			var endPos = content.indexOf("\n");
-			while(endPos != -1) {
+			while (endPos != -1) {
 				var line = content.substring(beginPos, endPos);
 				/* line = Trim(line, "g"); */
 				var titlePos = line.indexOf("标题-");
-				if(titlePos != -1) {
-					htmlStr += "<h3>"+line.substring(titlePos+3)+"</h3>";
+				if (titlePos != -1) {
+					htmlStr += "<h3>" + line.substring(titlePos + 3) + "</h3>";
 				} else {
 					var curLinePos = 0;
 					var imgBeginPos = line.indexOf("###IMG");
 					var imgEndPos = 0;
-					while(imgBeginPos != -1) {
+					while (imgBeginPos != -1) {
 						imgEndPos = line.indexOf("IMG###", imgBeginPos);
-						htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-						var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-						htmlStr += "<p><img src='"+imgPreData[imgDataId]+"' style='width:100%'></p>";
-						imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-						curLinePos = imgEndPos+6;
+						htmlStr += "<p>"
+								+ line.substring(curLinePos, imgBeginPos)
+								+ "</p>";
+						var imgDataId = line.substring(imgBeginPos + 6,
+								imgEndPos);
+						var file = $("#" + imgDataId).val();
+						if (file == null || file == undefined) {
+							htmlStr += "<p><img src='/cglx/files/imgs/"+imgPreData["insertImgIndex_" + insertImgIndex]+"'></p>";
+						} else {
+							var FileExt = file.replace(/.+\./, "");
+							var fileName = uuid() + "." + FileExt;
+							htmlStr += "<p><img src='/cglx/files/imgs/"+fileName+"'></p>";
+							filesFormData[fileName] = $("#" + imgDataId)[0].files[0];
+						}
+						imgBeginPos = line.indexOf("###IMG", imgEndPos + 6);
+						curLinePos = imgEndPos + 6;
 					}
-					if(line.length-1 > imgEndPos) {
-						if(imgEndPos == 0) {
+					if (line.length - 1 > imgEndPos) {
+						if (imgEndPos == 0) {
 							htmlStr += "<p>" + line + "</p>";
 						} else {
-							htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
+							htmlStr += "<p>" + line.substring(imgEndPos + 6)
+									+ "</p>";
 						}
 					}
 				}
 				beginPos = endPos + 1;
 				endPos = content.indexOf("\n", beginPos);
 			}
-			if(content.length-1 > endPos) {
+			if (content.length - 1 > endPos) {
 				var line = content.substring(beginPos);
 				/* line = Trim(line, "g"); */
 				var titlePos = line.indexOf("标题-");
-				if(titlePos != -1) {
-					htmlStr += "<h3>"+line.substring(titlePos+3)+"</h3>";
+				if (titlePos != -1) {
+					htmlStr += "<h3>" + line.substring(titlePos + 3) + "</h3>";
 				} else {
 					var curLinePos = 0;
 					var imgBeginPos = line.indexOf("###IMG");
 					var imgEndPos = 0;
-					while(imgBeginPos != -1) {
+					while (imgBeginPos != -1) {
 						imgEndPos = line.indexOf("IMG###", imgBeginPos);
-						htmlStr += "<p>" + line.substring(curLinePos, imgBeginPos) + "</p>";
-						var imgDataId = line.substring(imgBeginPos+6, imgEndPos);
-						htmlStr += "<p><img src='"+imgPreData[imgDataId]+"' style='width:100%'></p>";
-						imgBeginPos = line.indexOf("###IMG", imgEndPos+6);
-						curLinePos = imgEndPos+6;
+						htmlStr += "<p>"
+								+ line.substring(curLinePos, imgBeginPos)
+								+ "</p>";
+						var imgDataId = line.substring(imgBeginPos + 6,
+								imgEndPos);
+						var file = $("#" + imgDataId).val();
+						if (file == null || file == undefined) {
+							htmlStr += "<p><img src='/cglx/files/imgs/"+imgPreData["insertImgIndex_" + insertImgIndex]+"'></p>";
+						} else {
+							var FileExt = file.replace(/.+\./, "");
+							var fileName = uuid() + "." + FileExt;
+							htmlStr += "<p><img src='/cglx/files/imgs/"+fileName+"'></p>";
+							filesFormData[fileName] = $("#" + imgDataId)[0].files[0];
+						}
+						imgBeginPos = line.indexOf("###IMG", imgEndPos + 6);
+						curLinePos = imgEndPos + 6;
 					}
-					if(line.length-1 > imgEndPos) {
-						if(imgEndPos == 0) {
+					if (line.length - 1 > imgEndPos) {
+						if (imgEndPos == 0) {
 							htmlStr += "<p>" + line + "</p>";
 						} else {
-							htmlStr += "<p>" + line.substring(imgEndPos + 6) + "</p>";
+							htmlStr += "<p>" + line.substring(imgEndPos + 6)
+									+ "</p>";
+						}
+					}
+				}
+			}
+			return htmlStr;
+		}
+
+		$('#submit_btn')
+				.on(
+						'click',
+						function() {
+							var content = generateContent();
+							$('.btn-primary').attr('disabled', "");
+							$("#progress_tip").show();
+							var id = $.getUrlParam('id');
+							var fd = new FormData();
+							var fileObj = $('#inputFile')[0].files[0];
+							fd.append('id', id);
+							fd.append('video_src', $('#video_src').val());
+							fd.append('title', $('#title').val());
+							fd.append('sub_title', $('#sub_title').val());
+							fd.append('name', $('#name').val());
+							fd.append('publish_time', $('#publish_time').val());
+							fd.append('contents', content);
+							if (fileObj != undefined) {
+								fd.append('files_0', fileObj);
+								fd.append('flag', "1");
+							} else {
+								fd.append('flag', "0");
+							}
+							var fileNameList = "";
+							var fileIndex = 1;
+							for ( var key in filesFormData) {
+								fd.append('files_' + fileIndex,
+										filesFormData[key]);
+								fileIndex++;
+								fileNameList += key + ";";
+							}
+							fd.append('fileNameList', fileNameList);
+							var xhr = new XMLHttpRequest();
+							xhr.upload
+									.addEventListener(
+											"progress",
+											function(evt) {
+												if (evt.lengthComputable) {
+													var percentComplete = Math
+															.round(evt.loaded
+																	* 100
+																	/ evt.total);
+													var percent = percentComplete
+															+ "%";
+													$(
+															'.progress-bar.progress-bar-primary.progress-bar-striped')
+															.css("width",
+																	percent);
+													$('#text_tips').html(
+															percent);
+												}
+											}, false);
+							xhr
+									.addEventListener(
+											"load",
+											function(evt) {
+												$("#progress_tip").hide();
+												$('#submit_btn').removeAttr(
+														'disabled');
+												$(
+														'.progress-bar.progress-bar-primary.progress-bar-striped')
+														.css("width", "0%");
+												$('#text_tips').html("0%");
+												var res = JSON
+														.parse(evt.target.responseText);
+												if (res.error == '0') {
+													alert("提交信息成功");
+													window.location.reload();
+												} else {
+													alert("提交信息失败！");
+												}
+											}, false);
+							xhr
+									.addEventListener(
+											"error",
+											function(evt) {
+												$("#progress_tip").hide();
+												$('#submit_btn').removeAttr(
+														'disabled');
+												$(
+														'.progress-bar.progress-bar-primary.progress-bar-striped')
+														.css("width", "0%");
+												$('#text_tips').html("0%");
+												alert("提交信息失败！");
+											}, false);
+							if (id == null || id == '') {
+								xhr.open('post', "/medias/addMedia");
+							} else {
+								xhr.open('post', "/medias/updateMedia");
+							}
+							xhr.send(fd);
+						});
+
+		function getPreContent() {
+			var htmlStr = "";
+			var content = $("#article_content").val();
+			var beginPos = 0;
+			var endPos = content.indexOf("\n");
+			while (endPos != -1) {
+				var line = content.substring(beginPos, endPos);
+				/* line = Trim(line, "g"); */
+				var titlePos = line.indexOf("标题-");
+				if (titlePos != -1) {
+					htmlStr += "<h3>" + line.substring(titlePos + 3) + "</h3>";
+				} else {
+					var curLinePos = 0;
+					var imgBeginPos = line.indexOf("###IMG");
+					var imgEndPos = 0;
+					while (imgBeginPos != -1) {
+						imgEndPos = line.indexOf("IMG###", imgBeginPos);
+						htmlStr += "<p>"
+								+ line.substring(curLinePos, imgBeginPos)
+								+ "</p>";
+						var imgDataId = line.substring(imgBeginPos + 6,
+								imgEndPos);
+						htmlStr += "<p><img src='" + imgPreData[imgDataId]
+								+ "' style='width:100%'></p>";
+						imgBeginPos = line.indexOf("###IMG", imgEndPos + 6);
+						curLinePos = imgEndPos + 6;
+					}
+					if (line.length - 1 > imgEndPos) {
+						if (imgEndPos == 0) {
+							htmlStr += "<p>" + line + "</p>";
+						} else {
+							htmlStr += "<p>" + line.substring(imgEndPos + 6)
+									+ "</p>";
+						}
+					}
+				}
+				beginPos = endPos + 1;
+				endPos = content.indexOf("\n", beginPos);
+			}
+			if (content.length - 1 > endPos) {
+				var line = content.substring(beginPos);
+				/* line = Trim(line, "g"); */
+				var titlePos = line.indexOf("标题-");
+				if (titlePos != -1) {
+					htmlStr += "<h3>" + line.substring(titlePos + 3) + "</h3>";
+				} else {
+					var curLinePos = 0;
+					var imgBeginPos = line.indexOf("###IMG");
+					var imgEndPos = 0;
+					while (imgBeginPos != -1) {
+						imgEndPos = line.indexOf("IMG###", imgBeginPos);
+						htmlStr += "<p>"
+								+ line.substring(curLinePos, imgBeginPos)
+								+ "</p>";
+						var imgDataId = line.substring(imgBeginPos + 6,
+								imgEndPos);
+						htmlStr += "<p><img src='" + imgPreData[imgDataId]
+								+ "' style='width:100%'></p>";
+						imgBeginPos = line.indexOf("###IMG", imgEndPos + 6);
+						curLinePos = imgEndPos + 6;
+					}
+					if (line.length - 1 > imgEndPos) {
+						if (imgEndPos == 0) {
+							htmlStr += "<p>" + line + "</p>";
+						} else {
+							htmlStr += "<p>" + line.substring(imgEndPos + 6)
+									+ "</p>";
 						}
 					}
 				}
@@ -587,74 +643,78 @@
 			console.log(htmlStr);
 			return htmlStr;
 		}
-		
+
 		function preContent() {
-	    	$("#pre_content").html("");
-	    	$('#myModal').modal('show')
-	    	var tmp = getPreContent();
-	    	$("#pre_content").append(tmp);
-	    }
-		
-		function getFileUrl(sourceId) { 
-	    	var url; 
-	    	if (navigator.userAgent.indexOf("MSIE")>=1) { // IE 
-	    		url = document.getElementById(sourceId).value; 
-	    	} else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox 
-	    		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
-	    	} else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome 
-	    		url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
-	    	} 
-	    	return url; 
-	    } 
-		
+			$("#pre_content").html("");
+			$('#myModal').modal('show')
+			var tmp = getPreContent();
+			$("#pre_content").append(tmp);
+		}
+
+		function getFileUrl(sourceId) {
+			var url;
+			if (navigator.userAgent.indexOf("MSIE") >= 1) { // IE 
+				url = document.getElementById(sourceId).value;
+			} else if (navigator.userAgent.indexOf("Firefox") > 0) { // Firefox 
+				url = window.URL.createObjectURL(document
+						.getElementById(sourceId).files.item(0));
+			} else if (navigator.userAgent.indexOf("Chrome") > 0) { // Chrome 
+				url = window.URL.createObjectURL(document
+						.getElementById(sourceId).files.item(0));
+			}
+			return url;
+		}
+
 		function selectedImg(imgId) {
 			var url = getFileUrl(imgId);
 			imgPreData[imgId] = url;
 			var pos = $("#article_content").getCursorPosition();
 			var curContent = $("#article_content").val();
 			$("#article_content").val(
-				 curContent.substring(0,pos)
-				 + "###IMG"
-				 + "insertImgIndex_" + insertImgIndex
-				 + "IMG###"
-				 + curContent.substring(pos));
+					curContent.substring(0, pos) + "###IMG" + "insertImgIndex_"
+							+ insertImgIndex + "IMG###"
+							+ curContent.substring(pos));
 		}
-		
+
 		function insertImg() {
 			insertImgIndex++;
-			$("#content_img").append("<input type='file' onchange='selectedImg(this.id);' id='insertImgIndex_"+insertImgIndex+"'>");
-			$("#" + "insertImgIndex_"+insertImgIndex).click();
+			$("#content_img").append(
+					"<input type='file' onchange='selectedImg(this.id);' id='insertImgIndex_"
+							+ insertImgIndex + "'>");
+			$("#" + "insertImgIndex_" + insertImgIndex).click();
 		}
-		String.prototype.startWith=function(str){     
-			var reg=new RegExp("^"+str);     
-			return reg.test(this);        
+		String.prototype.startWith = function(str) {
+			var reg = new RegExp("^" + str);
+			return reg.test(this);
 		}
 		function analyseContent(content) {
 			var displayContent = "";
-			if(content == null || content == "undefined" ||
-					content == "") {
+			if (content == null || content == "undefined" || content == "") {
 				return;
 			}
-			var curPos = 0; 
-			while(curPos < content.length - 1) {
-				if(content.startWith("<p><img src='")) {
+			var curPos = 0;
+			while (curPos < content.length - 1) {
+				if (content.startWith("<p><img src='")) {
 					curPos += 13;
 					var imgEndPos = content.indexOf("'></p>", curPos);
-					imgPreData["insertImgIndex_" + insertImgIndex] = content.substring(curPos, imgEndPos);
-					displayContent += "###IMGinsertImgIndex_" + insertImgIndex + "IMG###" + "\n";
+					imgPreData["insertImgIndex_" + insertImgIndex] = content
+							.substring(curPos, imgEndPos);
+					displayContent += "###IMGinsertImgIndex_" + insertImgIndex
+							+ "IMG###" + "\n";
 					insertImgIndex++;
 					curPos = imgEndPos + 6;
 					content = content.substring(curPos);
-				} else if(content.startWith("<p>")) {
+				} else if (content.startWith("<p>")) {
 					curPos += 3;
 					var pEndPos = content.indexOf("</p>", curPos);
 					displayContent += content.substring(curPos, pEndPos) + "\n";
 					curPos = pEndPos + 4;
 					content = content.substring(curPos);
-				} else if(content.startWith("<h3>")) {
+				} else if (content.startWith("<h3>")) {
 					curPos += 4;
 					var hEndPos = content.indexOf("</h3>", curPos);
-					displayContent += "标题-" + content.substring(curPos, hEndPos) + "\n";
+					displayContent += "标题-"
+							+ content.substring(curPos, hEndPos) + "\n";
 					curPos = hEndPos + 5;
 					content = content.substring(curPos);
 				}
@@ -662,33 +722,35 @@
 			}
 			$("#article_content").val(displayContent);
 		}
-			//
-			var media_id = $.getUrlParam('id');
-			if(media_id != null && media_id != "") {
-				$.post('/medias/getMediaById', {id:media_id}, function(data) {
-					if(data.image != null && data.image != "" && data.image != undefined) {
-						$("#article_img").attr("style", "float:left;");
-						$("#article_img").attr("width", "300px;");
-						$("#article_img").attr("src", "/cglx/files/imgs/"+data.image);
-					}
-					$('#video_src').val(data.video_src);
-					$('#title').val(data.title);
-					$('#sub_title').val(data.sub_title);
-					$('#name').val(data.name);
-					$('#publish_time').val(data.publish_time);
-					analyseContent(data.contents);
-				});
-			}
-			
-			
-			
-			$("#inputFile").on("change", function(){
-				var url = getFileUrl("inputFile");
-				$("#article_img")[0].src = url;
+		//
+		var media_id = $.getUrlParam('id');
+		if (media_id != null && media_id != "") {
+			$.post('/medias/getMediaById', {
+				id : media_id
+			}, function(data) {
+				if (data.image != null && data.image != ""
+						&& data.image != undefined) {
+					$("#article_img").attr("style", "float:left;");
+					$("#article_img").attr("width", "300px;");
+					$("#article_img").attr("src",
+							"/cglx/files/imgs/" + data.image);
+				}
+				$('#video_src').val(data.video_src);
+				$('#title').val(data.title);
+				$('#sub_title').val(data.sub_title);
+				$('#name').val(data.name);
+				$('#publish_time').val(data.publish_time);
+				analyseContent(data.contents);
 			});
-			$('#logout').on('click', function() {
-				window.location.href = '/user/userLogout?view=homepage';
-			});
+		}
+
+		$("#inputFile").on("change", function() {
+			var url = getFileUrl("inputFile");
+			$("#article_img")[0].src = url;
+		});
+		$('#logout').on('click', function() {
+			window.location.href = '/user/userLogout?view=homepage';
+		});
 	</script>
 </body>
 

@@ -182,21 +182,22 @@
 							<li class="active"><a href="addmedia.html"><i
 									class="fa fa-circle-o"></i>添加社员风采</a></li>
 						</ul></li>
-						
-						<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+
+					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
 							<span>在线课程</span> <span class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 						<ul class="treeview-menu">
 							<li><a href="courselist.html"><i class="fa fa-circle-o"></i>课程列表</a>
-								</li>
+							</li>
 							<li><a href="addseries.html"><i class="fa fa-circle-o"></i>添加系列课程</a>
 							</li>
-							<li><a href="addcourse.html"><i
-									class="fa fa-circle-o"></i>添加课程</a></li>
+							<li><a href="addcourse.html"><i class="fa fa-circle-o"></i>添加课程</a></li>
+							<li><a href="courseinvitecard.html"><i
+									class="fa fa-circle-o"></i>课程邀请卡设置</a></li>
 						</ul></li>
-						<li><a href="paidlist.html"> <i class="fa fa-dashboard"></i><span>用户购买列表</span>
+					<li><a href="paidlist.html"> <i class="fa fa-dashboard"></i><span>用户购买列表</span>
 					</a></li>
 				</ul>
 			</section>
@@ -277,7 +278,7 @@
 										<div class="form-group">
 											<label class="col-sm-2 control-label">成绩</label>
 											<div class="col-sm-4">
-												<input class="form-control" id="score" type="text" readonly/>
+												<input class="form-control" id="score" type="text" readonly />
 											</div>
 											<label class="col-sm-2 control-label">语言</label>
 											<div class="col-sm-4">
@@ -287,7 +288,7 @@
 										<div class="form-group">
 											<label class="col-sm-2 control-label">大学年级</label>
 											<div class="col-sm-4">
-												<input class="form-control" id="grade" type="text" readonly/>
+												<input class="form-control" id="grade" type="text" readonly />
 											</div>
 											<label class="col-sm-2 control-label">目标国家</label>
 											<div class="col-sm-4">
@@ -297,7 +298,8 @@
 										<div class="form-group">
 											<label class="col-sm-2 control-label">目标学校</label>
 											<div class="col-sm-4">
-												<input class="form-control" id="target_school" type="text" readonly/>
+												<input class="form-control" id="target_school" type="text"
+													readonly />
 											</div>
 											<label class="col-sm-2 control-label">目标专业</label>
 											<div class="col-sm-4">
@@ -309,14 +311,15 @@
 										<div class="form-group">
 											<label for="inputEmail3" class="col-sm-2 control-label">经历</label>
 											<div class="col-sm-10">
-												<textarea class="form-control detail" id="experience" style="height:80px"
-													readonly></textarea>
+												<textarea class="form-control detail" id="experience"
+													style="height: 80px" readonly></textarea>
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="inputEmail3" class="col-sm-2 control-label">评估结果</label>
 											<div class="col-sm-10">
-												<textarea class="form-control detail" id="audit_result" style="height:120px"></textarea>
+												<textarea class="form-control detail" id="audit_result"
+													style="height: 120px"></textarea>
 											</div>
 										</div>
 									</fieldset>
@@ -358,7 +361,8 @@
 	<script src="/js/app.min.js"></script>
 	<script>
 		var form = {};
-		$.post(
+		$
+				.post(
 						'/eval/getAllEval',
 						function(data) {
 							form = data;

@@ -258,7 +258,7 @@ public class CourseDaoImpl implements ICourseDao {
 		
 		String sql = "SELECT *, sum(course_2.time) AS sub_time_total, sum(course_2.cost) AS sub_total, "
 				+ "CONVERT ( ABS( course_tmp.total - sum(course_2.cost) ), DECIMAL (10, 2) ) AS discount, "
-				+ "count(course_tmp.tmp_pi) AS sub_count FROM ( SELECT id, SNAPSHOT, is_series, parent_id AS "
+				+ "count(course_tmp.tmp_pi) AS sub_count FROM ( SELECT id, snapshot, is_series, parent_id AS "
 				+ "tmp_pi, CASE WHEN unix_timestamp(now()) BETWEEN unix_timestamp(starttime) AND "
 				+ "unix_timestamp(deadline) THEN course.cost * rebate / 10 ELSE course.cost "
 				+ "END AS total FROM course ) AS course_tmp LEFT JOIN ( SELECT course.parent_id, "

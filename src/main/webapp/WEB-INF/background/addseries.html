@@ -125,17 +125,15 @@
 					</a></li>
 					<li><a href="evalist.html"> <i class="fa fa-dashboard"></i><span>申请表列表</span>
 					</a></li>
-					<li class="treeview"><a href="#"> <i
-							class="fa fa-joomla"></i> <span>成功案例</span> <span
-							class="pull-right-container"> <i
+					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+							<span>成功案例</span> <span class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 						<ul class="treeview-menu">
 							<li><a href="caselist.html"><i class="fa fa-circle-o"></i>成功案例列表</a>
 							</li>
-							<li><a href="addcase.html"><i
-									class="fa fa-circle-o"></i>添加成功案例</a></li>
+							<li><a href="addcase.html"><i class="fa fa-circle-o"></i>添加成功案例</a></li>
 						</ul></li>
 					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
 							<span>社员风采</span> <span class="pull-right-container"> <i
@@ -148,20 +146,22 @@
 							<li class="active"><a href="addmedia.html"><i
 									class="fa fa-circle-o"></i>添加社员风采</a></li>
 						</ul></li>
-					<li class="treeview active"><a href="#"> <i class="fa fa-joomla"></i>
-							<span>在线课程</span> <span class="pull-right-container"> <i
+					<li class="treeview active"><a href="#"> <i
+							class="fa fa-joomla"></i> <span>在线课程</span> <span
+							class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 						<ul class="treeview-menu">
 							<li><a href="courselist.html"><i class="fa fa-circle-o"></i>课程列表</a>
-								</li>
-							<li class="active"><a href="addseries.html"><i class="fa fa-circle-o"></i>添加系列课程</a>
 							</li>
-							<li><a href="addcourse.html"><i
-									class="fa fa-circle-o"></i>添加课程</a></li>
+							<li class="active"><a href="addseries.html"><i
+									class="fa fa-circle-o"></i>添加系列课程</a></li>
+							<li><a href="addcourse.html"><i class="fa fa-circle-o"></i>添加课程</a></li>
+							<li><a href="courseinvitecard.html"><i
+									class="fa fa-circle-o"></i>课程邀请卡设置</a></li>
 						</ul></li>
-						<li><a href="paidlist.html"> <i class="fa fa-dashboard"></i><span>用户购买列表</span>
+					<li><a href="paidlist.html"> <i class="fa fa-dashboard"></i><span>用户购买列表</span>
 					</a></li>
 				</ul>
 			</section>
@@ -198,7 +198,8 @@
 									<div class="form-group series_abstract">
 										<label for="inputEmail3" class="col-sm-2 control-label">系列简介</label>
 										<div class="col-sm-10">
-											<textarea class="form-control detail" id="abstract" style="height:100px"></textarea>
+											<textarea class="form-control detail" id="abstract"
+												style="height: 100px"></textarea>
 										</div>
 									</div>
 									<div class="form-group">
@@ -230,7 +231,8 @@
 									<div class="form-group">
 										<label for="inputEmail3" class="col-sm-2 control-label">主讲人头像</label>
 										<div class="col-sm-10">
-											<input type="file" id="teacher_image"> <img id="teacher_image_" />
+											<input type="file" id="teacher_image"> <img
+												id="teacher_image_" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -255,31 +257,36 @@
 									<div class="form-group">
 										<label for="inputEmail3" class="col-sm-2 control-label">帮助中心</label>
 										<div class="col-sm-10">
-											<textarea class="form-control detail" id="help" style="height:100px"></textarea>
+											<textarea class="form-control detail" id="help"
+												style="height: 100px"></textarea>
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="inputEmail3" class="col-sm-2 control-label">关于课程</label>
 										<div class="col-sm-10">
-											<textarea class="form-control detail" id="about" style="height:100px"></textarea>
+											<textarea class="form-control detail" id="about"
+												style="height: 100px"></textarea>
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="inputEmail3" class="col-sm-2 control-label">折扣</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control detail" id="rebate" placeholder="折扣">
+											<input type="text" class="form-control detail" id="rebate"
+												placeholder="折扣">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="inputEmail3" class="col-sm-2 control-label">折扣开始时间</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control detail" id="starttime" placeholder="折扣截止时间">
+											<input type="text" class="form-control detail" id="starttime"
+												placeholder="折扣截止时间">
 										</div>
 									</div>
 									<div class="form-group">
 										<label for="inputEmail3" class="col-sm-2 control-label">折扣截止时间</label>
 										<div class="col-sm-10">
-											<input type="text" class="form-control detail" id="deadline" placeholder="折扣截止时间">
+											<input type="text" class="form-control detail" id="deadline"
+												placeholder="折扣截止时间">
 										</div>
 									</div>
 									<div class="form-group">
@@ -338,177 +345,222 @@
 	<!-- AdminLTE App -->
 	<script src="/js/app.min.js"></script>
 	<script type="text/javascript">
-	
-	(function ($) {
-        $.getUrlParam = function (name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if (r != null) return unescape(r[2]); return null;
-        }
-    })(jQuery);	
+		(function($) {
+			$.getUrlParam = function(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if (r != null)
+					return unescape(r[2]);
+				return null;
+			}
+		})(jQuery);
 
-	var id = $.getUrlParam('id');
-	if(id != null && id != '') {
-		$.post('/course/getCourseById', {id:id}, function(data) {
-			$('#title').val(data.title);
-			
-			var abstract_ = data.abstract;
-			abstract_ = abstract_.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
-			$('#abstract').val(abstract_);
-			
-			$('#teacher').val(data.teacher);
-			$('#teacher_position').val(data.teacher_position);
-			
-			var teacher_abstract = data.teacher_abstract;
-			teacher_abstract = teacher_abstract.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
-			$('#teacher_abstract').val(teacher_abstract);
-			
-			$('#nav_recommend').val(data.is_nav_recommend);
-			$("#recommend").val(data.is_recommend);
-			
-			var help = data.help;
-			help = help.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
-			
-			$('#help').val(help);
-			$('#about').val(data.about);
-			$('#rebate').val(data.rebate);
-			$('#starttime').val(format(data.starttime));
-			$('#deadline').val(format(data.deadline));
-			$('#cost').val(data.cost);
-			
-			$("#banner_").attr("style", "float:left;");
-			$("#banner_").attr("width", "200px;");
-			$("#banner_").attr("src", "/cglx/files/imgs/"+data.banner);
-			
-			$("#snapshot_").attr("style", "float:left;");
-			$("#snapshot_").attr("width", "200px;");
-			$("#snapshot_").attr("src", "/cglx/files/imgs/"+data.snapshot);
-			
-			$("#teacher_image_").attr("style", "float:left;");
-			$("#teacher_image_").attr("width", "200px;");
-			$("#teacher_image_").attr("src", "/cglx/files/imgs/"+data.teacher_image);
+		var id = $.getUrlParam('id');
+		if (id != null && id != '') {
+			$.post('/course/getCourseById', {
+				id : id
+			}, function(data) {
+				$('#title').val(data.title);
+
+				var abstract_ = data.abstract;
+				abstract_ = abstract_.replace(/_@/g, "\n").replace(/_#/g, "\r")
+						.replace(/_$/g, " ");
+				$('#abstract').val(abstract_);
+
+				$('#teacher').val(data.teacher);
+				$('#teacher_position').val(data.teacher_position);
+
+				var teacher_abstract = data.teacher_abstract;
+				teacher_abstract = teacher_abstract.replace(/_@/g, "\n")
+						.replace(/_#/g, "\r").replace(/_$/g, " ");
+				$('#teacher_abstract').val(teacher_abstract);
+
+				$('#nav_recommend').val(data.is_nav_recommend);
+				$("#recommend").val(data.is_recommend);
+
+				var help = data.help;
+				help = help.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(
+						/_$/g, " ");
+
+				$('#help').val(help);
+				$('#about').val(data.about);
+				$('#rebate').val(data.rebate);
+				$('#starttime').val(format(data.starttime));
+				$('#deadline').val(format(data.deadline));
+				$('#cost').val(data.cost);
+
+				$("#banner_").attr("style", "float:left;");
+				$("#banner_").attr("width", "200px;");
+				$("#banner_").attr("src", "/cglx/files/imgs/" + data.banner);
+
+				$("#snapshot_").attr("style", "float:left;");
+				$("#snapshot_").attr("width", "200px;");
+				$("#snapshot_")
+						.attr("src", "/cglx/files/imgs/" + data.snapshot);
+
+				$("#teacher_image_").attr("style", "float:left;");
+				$("#teacher_image_").attr("width", "200px;");
+				$("#teacher_image_").attr("src",
+						"/cglx/files/imgs/" + data.teacher_image);
+			});
+		}
+
+		$('#submit_btn')
+				.on(
+						'click',
+						function() {
+							$('.btn-primary').attr('disabled', "");
+							$("#progress_tip").show();
+							var index = 0;
+							var fd = new FormData();
+
+							var banner = $('#banner')[0].files[0];
+							var snapshot = $('#snapshot')[0].files[0];
+							var teacher_image = $('#teacher_image')[0].files[0];
+
+							var identifier = new Array(banner == undefined ? 0
+									: 1, snapshot == undefined ? 0 : 1,
+									teacher_image == undefined ? 0 : 1);
+							fd.append('identifier', identifier);
+
+							fd.append('course_id', id);
+							fd.append('title', $('#title').val());
+							fd.append('banner', banner);
+							fd.append('snapshot', snapshot);
+
+							var abstract_ = $('#abstract').val();
+							abstract_ = abstract_.replace(/\n/g, "_@").replace(/\r/g,'_#');
+
+							fd.append('abstract', abstract_);
+							fd.append('cost', $('#cost').val());
+							fd.append('teacher', $('#teacher').val());
+							fd.append('teacher_position',
+									$('#teacher_position').val());
+
+							var teacher_abstract = $('#teacher_abstract').val();
+							teacher_abstract = teacher_abstract.replace(/\n/g, "_@").replace(/\r/g,'_#');
+							fd.append('teacher_abstract',
+									$('#teacher_abstract').val());
+
+							fd.append('teacher_image', teacher_image);
+
+							var help = $('#help').val();
+							help = help.replace(/\n/g, "_@").replace(/\r/g,'_#');
+							fd.append('help', help);
+
+							fd.append('about', $('#about').val());
+							fd.append('is_recommend', $('#recommend').val());
+							fd.append('is_nav_recommend', $('#nav_recommend')
+									.val());
+							fd.append('rebate', $('#rebate').val());
+							fd.append('starttime', $('#starttime').val());
+							fd.append('deadline', $('#deadline').val());
+
+							var xhr = new XMLHttpRequest();
+							xhr.upload
+									.addEventListener(
+											"progress",
+											function(evt) {
+												if (evt.lengthComputable) {
+													var percentComplete = Math
+															.round(evt.loaded
+																	* 100
+																	/ evt.total);
+													var percent = percentComplete
+															+ "%";
+													$(
+															'.progress-bar.progress-bar-primary.progress-bar-striped')
+															.css("width",
+																	percent);
+													$('#text_tips').html(
+															percent);
+												}
+											}, false);
+							xhr
+									.addEventListener(
+											"load",
+											function(evt) {
+												$("#progress_tip").hide();
+												$('#submit_btn').removeAttr(
+														'disabled');
+												$(
+														'.progress-bar.progress-bar-primary.progress-bar-striped')
+														.css("width", "0%");
+												$('#text_tips').html("0%");
+												var res = JSON
+														.parse(evt.target.responseText);
+												if (res.error == '0') {
+													alert("提交信息成功");
+													window.location.reload();
+												} else {
+													alert("提交信息失败！");
+												}
+											}, false);
+							xhr
+									.addEventListener(
+											"error",
+											function(evt) {
+												$("#progress_tip").hide();
+												$('#submit_btn').removeAttr(
+														'disabled');
+												$(
+														'.progress-bar.progress-bar-primary.progress-bar-striped')
+														.css("width", "0%");
+												$('#text_tips').html("0%");
+												alert("提交信息失败！");
+											}, false);
+							xhr.open('post', id == null ? "/course/addSeries"
+									: "/course/updateCourseByCourseId");
+							xhr.send(fd);
+						});
+
+		function getFileUrl(sourceId) {
+			var url;
+			if (navigator.userAgent.indexOf("MSIE") >= 1) { // IE 
+				url = document.getElementById(sourceId).value;
+			} else if (navigator.userAgent.indexOf("Firefox") > 0) { // Firefox 
+				url = window.URL.createObjectURL(document
+						.getElementById(sourceId).files.item(0));
+			} else if (navigator.userAgent.indexOf("Chrome") > 0) { // Chrome 
+				url = window.URL.createObjectURL(document
+						.getElementById(sourceId).files.item(0));
+			}
+			return url;
+		}
+
+		$("#banner").on("change", function() {
+			var url = getFileUrl("banner");
+			$("#banner_")[0].src = url;
 		});
-	}
-	
-	$('#submit_btn').on('click', function() {
-		$('.btn-primary').attr('disabled', "");
-		$("#progress_tip").show();
-		var index = 0;
-		var fd = new FormData();
-		
-		var banner = $('#banner')[0].files[0];
-		var snapshot = $('#snapshot')[0].files[0];
-		var teacher_image = $('#teacher_image')[0].files[0];
-		
-		var identifier = new Array(banner==undefined ? 0:1, snapshot==undefined ? 0:1, teacher_image==undefined ? 0:1);
-		fd.append('identifier', identifier);
-		
-		fd.append('course_id', id);
-		fd.append('title', $('#title').val());
-		fd.append('banner', banner);
-		fd.append('snapshot', snapshot);
-		
-		var abstract_ = $('#abstract').val();
-		abstract_ = abstract_.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
-		
-		fd.append('abstract', abstract_);
-		fd.append('cost', $('#cost').val());
-		fd.append('teacher', $('#teacher').val());
-		fd.append('teacher_position', $('#teacher_position').val());
-		
-		var teacher_abstract = $('#teacher_abstract').val();
-		teacher_abstract = teacher_abstract.replace(/_@/g, "\n").replace(/_#/g, "\r").replace(/_$/g," ");
-		fd.append('teacher_abstract', $('#teacher_abstract').val());
-		
-		fd.append('teacher_image', teacher_image);
-		
-		var help = $('#help').val();
-		help = help.replace(/\n/g,"_@").replace(/\r/g, '_#');
-		fd.append('help', help);
-		
-		fd.append('about', $('#about').val());
-		fd.append('is_recommend', $('#recommend').val());
-		fd.append('is_nav_recommend', $('#nav_recommend').val());
-		fd.append('rebate', $('#rebate').val());
-		fd.append('starttime', $('#starttime').val());
-		fd.append('deadline', $('#deadline').val());
-		
-		var xhr = new XMLHttpRequest();
-		xhr.upload.addEventListener("progress", function(evt) {
-			if (evt.lengthComputable) {
-				var percentComplete = Math.round(evt.loaded * 100 / evt.total);
-				var percent = percentComplete + "%";
-				$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", percent);
-				$('#text_tips').html(percent);
-			}
-		}, false);
-		xhr.addEventListener("load", function(evt) {
-			$("#progress_tip").hide();
-			$('#submit_btn').removeAttr('disabled');
-			$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
-			$('#text_tips').html("0%");
-			var res = JSON.parse(evt.target.responseText);
-			if (res.error == '0') {
-				alert("提交信息成功");
-				window.location.reload();
-			} else {
-				alert("提交信息失败！");
-			}
-		}, false);
-		xhr.addEventListener("error", function(evt) {
-			$("#progress_tip").hide();
-			$('#submit_btn').removeAttr('disabled');
-			$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
-			$('#text_tips').html("0%");
-			alert("提交信息失败！");
-		}, false);
-		xhr.open('post', id == null? "/course/addSeries" : "/course/updateCourseByCourseId");
-		xhr.send(fd);
-	});
-	
-	function getFileUrl(sourceId) { 
-    	var url; 
-    	if (navigator.userAgent.indexOf("MSIE")>=1) { // IE 
-    	url = document.getElementById(sourceId).value; 
-    	} else if(navigator.userAgent.indexOf("Firefox")>0) { // Firefox 
-    	url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
-    	} else if(navigator.userAgent.indexOf("Chrome")>0) { // Chrome 
-    	url = window.URL.createObjectURL(document.getElementById(sourceId).files.item(0)); 
-    	} 
-    	return url; 
-    }
-	
-	$("#banner").on("change", function(){
-		var url = getFileUrl("banner");
-		$("#banner_")[0].src = url;
-	});
-	
-	$("#snapshot").on("change", function(){
-		var url = getFileUrl("snapshot");
-		$("#snapshot_")[0].src = url;
-	});
-	
-	$("#teacher_image").on("change", function(){
-		var url = getFileUrl("teacher_image");
-		$("#teacher_image_")[0].src = url;
-	});
-	
-	$('#logout').on('click', function() {
-		window.location.href = '/user/userLogout?view=homepage';
-	});
-	function add0(m){return m<10?'0'+m:m }
-	function format(shijianchuo)
-	{
-		//shijianchuo是整数，否则要parseInt转换
-		var time = new Date(shijianchuo);
-		var y = time.getFullYear();
-		var m = time.getMonth()+1;
-		var d = time.getDate();
-		var h = time.getHours();
-		var mm = time.getMinutes();
-		var s = time.getSeconds();
-		return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
-	}  
+
+		$("#snapshot").on("change", function() {
+			var url = getFileUrl("snapshot");
+			$("#snapshot_")[0].src = url;
+		});
+
+		$("#teacher_image").on("change", function() {
+			var url = getFileUrl("teacher_image");
+			$("#teacher_image_")[0].src = url;
+		});
+
+		$('#logout').on('click', function() {
+			window.location.href = '/user/userLogout?view=homepage';
+		});
+		function add0(m) {
+			return m < 10 ? '0' + m : m
+		}
+		function format(shijianchuo) {
+			//shijianchuo是整数，否则要parseInt转换
+			var time = new Date(shijianchuo);
+			var y = time.getFullYear();
+			var m = time.getMonth() + 1;
+			var d = time.getDate();
+			var h = time.getHours();
+			var mm = time.getMinutes();
+			var s = time.getSeconds();
+			return y + '-' + add0(m) + '-' + add0(d) + ' ' + add0(h) + ':'
+					+ add0(mm) + ':' + add0(s);
+		}
 	</script>
 </body>
 
