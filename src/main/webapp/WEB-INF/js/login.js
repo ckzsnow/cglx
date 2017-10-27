@@ -366,3 +366,20 @@ $("#mobile_forget_get_code").click(function() {
         }
     })
 });
+
+$('.weixinLogin').on('click', function() {
+	var url = window.location.href;
+	url = url.substring(url.indexOf('//')+2);
+	var redirect = url.substring(url.indexOf('/'));
+	$.post('/getQrcodeUrl', {redirect : redirect}, function(data) {
+		window.location.href = data;
+	});
+});
+
+$('.weixinLogin').mouseover(function() {
+	$('.loginLogo').attr('src', '/images/login2.png');
+});
+$('.weixinLogin').mouseout(function() {
+	$('.loginLogo').attr('src', '/images/login1.png');
+});
+
