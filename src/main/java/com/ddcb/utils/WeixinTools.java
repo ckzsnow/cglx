@@ -129,7 +129,9 @@ public class WeixinTools {
 				.replace("CODE", code);
 		logger.info("GetOpenId URL : {}", url);
 		Map<Object, Object> map = httpGet(url);
+		logger.debug("GetOpenId code return info:{}", map.toString());
 		String openId = (String)map.get("openid");
+		logger.debug("GetOpenId openId : {}", openId);
 		ObjectMapper om = new ObjectMapper();
 		Map<String, Object> retMap = new HashMap<>();
 		try {

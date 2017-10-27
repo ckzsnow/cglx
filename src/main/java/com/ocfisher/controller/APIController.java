@@ -615,12 +615,13 @@ public class APIController {
 	public Map<String, Object> getUserInfo(HttpSession httpSession, HttpServletRequest request) {
 		String user_id = String.valueOf(httpSession.getAttribute("user_id"));
 		logger.debug("getUserInfo user_id:{}",user_id);
-		if (user_id == null || user_id.isEmpty()) {
+		if (user_id == null || ("null").equals(user_id) || user_id.isEmpty()) {
 			return null;
 		} else {
 			Map<String, Object> retMap = cglxDao.getUserById(user_id);
 			if (retMap != null)
 				retMap.remove("password");
+			logger.debug("getUserInfo user map:{}",retMap.toString());
 			return retMap;
 		}
 	}
