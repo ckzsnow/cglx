@@ -19,6 +19,8 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class WeixinTools {
@@ -119,15 +121,51 @@ public class WeixinTools {
 		return ret;
 	}
  
-	public static Map<Object, Object> getUnionId(String code) {
+	@SuppressWarnings("unchecked")
+	public static Map<String, Object> getUserWeixinInfo(String code) {
 		String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
 		url = url.replace("APPID", WeixinConstEnum.COMPANY_APP_ID.toString())
 				.replace("SECRET", WeixinConstEnum.COMPANY_APP_SECRET.toString())
 				.replace("CODE", code);
 		logger.info("GetOpenId URL : {}", url);
 		Map<Object, Object> map = httpGet(url);
-		logger.debug("GetOpenId Map:{}", map.toString());
-		return map;
+		String openId = (String)map.get("openid");
+		ObjectMapper om = new ObjectMapper();
+		Map<String, Object> retMap = new HashMap<>();
+		try {
+			retMap = om.readValue(getUserInfoByOpenId(openId), Map.class);
+		} catch (JsonParseException e) {
+			logger.error(e.toString());
+		} catch (JsonMappingException e) {
+			logger.error(e.toString());
+		} catch (IOException e) {
+			logger.error(e.toString());
+		}
+		logger.debug("GetOpenId Map:{}", retMap.toString());
+		return retMap;
+	}
+	
+	private static String getUserInfoByOpenId(String openId){
+		String ret = "";
+		URL url;
+		try {
+			url = new URL("https://api.weixin.qq.com/cgi-bin/user/info?access_token="+WeixinCache.getAccessToken()+"&openid="+openId+"&lang=zh_CN");
+			HttpURLConnection http = (HttpURLConnection) url.openConnection();
+			http.setRequestMethod("GET");
+			http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			http.setDoOutput(true);
+			http.setDoInput(true);
+			http.connect();
+			InputStream is = http.getInputStream();
+			int size = is.available();
+			byte[] jsonBytes = new byte[size];
+			is.read(jsonBytes);
+			ret = new String(jsonBytes, "UTF-8");
+			logger.debug("push result : {}", ret);
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return ret;	
 	}
 	
 	public static void main(String[] args) {

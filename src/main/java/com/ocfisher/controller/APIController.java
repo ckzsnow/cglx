@@ -613,7 +613,7 @@ public class APIController {
 	@RequestMapping("/user/getUserInfo")
 	@ResponseBody
 	public Map<String, Object> getUserInfo(HttpSession httpSession, HttpServletRequest request) {
-		String user_id = (String) httpSession.getAttribute("user_id");
+		String user_id = String.valueOf(httpSession.getAttribute("user_id"));
 		logger.debug("getUserInfo user_id:{}",user_id);
 		if (user_id == null || user_id.isEmpty()) {
 			return null;
@@ -728,7 +728,7 @@ public class APIController {
 	@ResponseBody
 	public Map<String, String> userRegisterDetailInfo(HttpSession httpSession, HttpServletRequest request) {
 		Map<String, String> retMap = new HashMap<>();
-		String id = (String) request.getSession().getAttribute("user_id");
+		String id = String.valueOf(request.getSession().getAttribute("user_id"));
 		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
 		if (id == null || id.isEmpty()) {
 			retMap.put("error_code", "1");

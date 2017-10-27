@@ -76,10 +76,11 @@ public class CommonController {
 		String code = request.getParameter("code");
 		String view = request.getParameter("view");
 		logger.debug("getOpenIdRedirect, code:{}",code);
+		logger.debug("getOpenIdRedirect, view:{}",view);
 		if (code == null || code.isEmpty()) {
 			httpSession.setAttribute("openid", "");
 		} else {
-			Map<Object, Object> retMap = WeixinTools.getUnionId(code);
+			Map<String, Object> retMap = WeixinTools.getUserWeixinInfo(code);
 			String nickname = (String)retMap.get("nickname");
 			String headImgUrl = (String)retMap.get("headimgurl");
 			String unionid = (String)retMap.get("unionid");
@@ -92,7 +93,7 @@ public class CommonController {
 		logger.debug("finishGetOpenIdRedirect");
 		view = view.replaceAll("_", "/").replaceAll("ARGS", "?").replaceAll("ARG","&");
 		logger.debug("getOpenIdRedirect, view:{}",view);
-		return "redirect:" + view;
+		return "forward:" + view;
 	}
 	
 	@RequestMapping("/getUnionIdRedirectForCourseInviteCard")
@@ -108,7 +109,7 @@ public class CommonController {
 		if (code == null || code.isEmpty()) {
 			httpSession.setAttribute("openid", "");
 		} else {
-			Map<Object, Object> retMap = WeixinTools.getUnionId(code);
+			Map<String, Object> retMap = WeixinTools.getUserWeixinInfo(code);
 			unionid = (String)retMap.get("unionid");
 			httpSession.setAttribute("openid", unionid);
 			httpSession.setAttribute("user_id", id);

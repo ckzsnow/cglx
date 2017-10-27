@@ -51,7 +51,7 @@ public class SessionFilter extends OncePerRequestFilter {
 			return;
 		}
 		if (doFilter) {
-			String userId = (String)request.getSession().getAttribute("user_id");
+			String userId = String.valueOf(request.getSession().getAttribute("user_id"));
 			String isAdmin = (String)request.getSession().getAttribute("is_admin");
 			if (null == userId || userId.isEmpty()) {
 				logger.debug("user id is null.");
