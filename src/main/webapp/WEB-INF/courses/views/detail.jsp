@@ -944,7 +944,8 @@ var _hmt = _hmt || [];
 		$.post('/course/getNavRecommendCourse', function(data) {
 			for(var index in data) {
 				if(data[index].is_series == 1) {
-					var link = !isWeiXin() ? ('/courses/jsp?id='+data[index].id) : ('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=_courses_jspARGSid='+data[index].id+'&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect');
+					//var link = !isWeiXin() ? ('/courses/jsp?id='+data[index].id) : ('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=_courses_jspARGSid='+data[index].id+'&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect');
+					var link = '/courses/jsp?id='+data[index].id;
 					$('#big').append('<div class="recommend-big"><a href="'+link+'" target="_blank">' 
 							+ '<img src="/cglx/files/imgs/'+data[index].snapshot+'" alt=""><div class="detail"><span class="left">'
 							+ '共'+data[index].sub_count+'节课</span> <span class="right"><span class="spend-price">¥'+data[index].total+'</span>'
@@ -955,7 +956,8 @@ var _hmt = _hmt || [];
 							+ '共'+data[index].sub_count+'节课</span> <span class="right"><span class="spend-price">¥'+data[index].total+'</span>'
 							+ '(省'+data[index].discount+'元) </span></div></a></div>');						
 				} else {
-					var link = !isWeiXin() ? ('/courses/jsp?id='+data[index].id+'&view=detail') : ('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=_courses_jspARGSid='+data[index].id+'ANDview=detail&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect');
+					//var link = !isWeiXin() ? ('/courses/jsp?id='+data[index].id+'&view=detail') : ('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=_courses_jspARGSid='+data[index].id+'ANDview=detail&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect');
+					var link = '/courses/jsp?id='+data[index].id+'&view=detail';
 					$('#small').append('<div class="recommend-every-course"><a href="'+link+'" target="_blank">'
 							+ '<div class="recommend-every-pic"><img src="/cglx/files/imgs/'+data[index].snapshot+'" alt=""></div>'
 							+ '<div class="recommend-every-introduct"><div class="every-title">'+data[index].title+'</div>'

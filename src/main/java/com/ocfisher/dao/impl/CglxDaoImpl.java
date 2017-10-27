@@ -1035,11 +1035,16 @@ public class CglxDaoImpl implements ICglxDao {
 	@Override
 	public long addUserByOpenid(String openid, String nickname, String headimage) {
 		long ret = -1;
+		Map<String, Object> queryMap = null;
+		try{
+			String sqlSelect = "select * from user where open_id=?";
+			queryMap = jdbcTemplate.queryForMap(sqlSelect, new Object[]{openid});
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
 		try{
 			KeyHolder keyHolder = new GeneratedKeyHolder();
-			String sqlSelect = "select * from user where open_id=?";
 			String sqlInsert = "insert into user(open_id, name, headimage, create_time) values (?, ?, ?, ?)";
-			Map<String, Object> queryMap = jdbcTemplate.queryForMap(sqlSelect, new Object[]{openid});
 			if(queryMap == null || queryMap.isEmpty()){
 				jdbcTemplate.update(new PreparedStatementCreator() {
 					public PreparedStatement createPreparedStatement(
@@ -1057,6 +1062,7 @@ public class CglxDaoImpl implements ICglxDao {
 			} else {
 				ret = (long)queryMap.get("id");
 			}
+			logger.debug("execute sql success! key : {}", ret);
 		}catch(Exception e){
 			logger.error("exception : {}", e.toString());
 		}

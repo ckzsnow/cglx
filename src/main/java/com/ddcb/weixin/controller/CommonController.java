@@ -196,6 +196,7 @@ public class CommonController {
 				try{
 					cglxDao.addUserByOpenid(unionid, nickname, headimgurl);
 					Map<String, Object> userMap = cglxDao.getUserByOpenId(unionid);
+					logger.debug("execute getUserByOpenId map : {}", userMap.toString());
 					id = String.valueOf(userMap.get("id"));
 					if(id != null && !id.isEmpty()) {
 						httpSession.setAttribute("user_id", id);

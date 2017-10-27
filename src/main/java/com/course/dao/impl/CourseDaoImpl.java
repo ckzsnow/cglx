@@ -460,7 +460,7 @@ public class CourseDaoImpl implements ICourseDao {
 	public Map<String, Object> getSubcourseDetailById(int id, String user_id) {
 		Map<String, Object> resultMap = null;
 		String sql = "select * from (select *, CASE WHEN unix_timestamp(now()) BETWEEN unix_timestamp(starttime) AND unix_timestamp(deadline) "
-				+ "THEN cost * rebate/10 ELSE cost END AS fee ,IFNULL(course_2.tea,course.teacher) " 
+				+ "THEN cost * rebate/10 ELSE cost END AS fee,IFNULL(course_2.tea,course.teacher) " 
 				+ "as final_tea, IFNULL(course_2.tea_position, course.teacher_position) as final_position, "
 				+ "IFNULL(course_2.tea_abstract, course.teacher_abstract) as final_abstract, " 
 				+ "IFNULL(course_2.tea_image, course.teacher_image) as final_image, "
