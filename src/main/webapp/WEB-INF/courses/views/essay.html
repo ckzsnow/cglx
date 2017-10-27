@@ -400,7 +400,8 @@ var _hmt = _hmt || [];
 		$.post('/course/getCourseByTag', {'tag':'文书写作'}, function(data) {
 			if (!checkJsonIsEmpty(data)) {
 				for(var index in data) {
-					var link = !isWeiXin() ? ('/courses/jsp?id='+data[index].id+'&view=detail') : ('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=_courses_jspARGSid='+data[index].id+'ANDview=detail&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect');
+					//var link = !isWeiXin() ? ('/courses/jsp?id='+data[index].id+'&view=detail') : ('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=_courses_jspARGSid='+data[index].id+'ANDview=detail&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect');
+					var link = '/courses/jsp?id='+data[index].id+'&view=detail';
 					$('.video-content ').append('<li class="video-info info normal"><a href="'+link+'" target="_blank">'
 							+ '<div class="info-logo"><img src="/cglx/files/imgs/'+data[index].snapshot+'" alt="'+data[index].title+'"></div>'
 							+ '<div class="info-content"><div class="info-title">'+data[index].title+'</div><div class="info-author">'
