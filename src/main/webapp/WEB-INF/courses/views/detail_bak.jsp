@@ -1085,27 +1085,6 @@ var _hmt = _hmt || [];
 				}, 500);
 			});
 		}
-		
-		var interval;
-		/* function addPlayHistory() {
-			$.post('/course/addPlayHistory', {course_id : id}, function(data) {
-			});
-		} */
-		
-		document.getElementById('video_src').addEventListener('play', function() {
-			$.post('/course/addPlayHistory', {course_id : id}, function(data) {
-			});
-			//addPlayHistory();
-			interval = setInterval(function() {
-				$.post('/course/addPlayHistory', {course_id : id}, function(data) {
-				});
-			}, 2*60*1000);
-		});
-		
-		document.getElementById('video_src').addEventListener('pause', function() {
-			clearInterval(interval);
-		});
-		
 	</script>
 
 </body>

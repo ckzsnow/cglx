@@ -844,21 +844,22 @@ public class CglxDaoImpl implements ICglxDao {
 			String sql = "(select articles.*, tag.name, DATE_FORMAT(articles.create_time, '%Y-%m-%d') as "
 					+ "readable_date, 'article' as data_type, '0' as publish_time from articles as "
 					+ "articles INNER JOIN tag as tag on tag.id=articles.tag_id "
-					+ "where articles.title like '%"+key+"%' or articles.abstract like '%"+key+"%' order "
-					+ "by articles.create_time desc) union (select id, title, sub_title as abstract, 0 "
+					+ "where articles.title like '%"+key+"%' or articles.abstract like '%"+key+"%')"
+					+ " union (select id, title, sub_title as abstract, 0 "
 					+ "as tag_id, image, name as author, 0 as recommend, create_time, name, "
 					+ "DATE_FORMAT(create_time, '%Y-%m-%d') as readable_date, 'media' "
 					+ "as data_type, publish_time from medias "
-					+ "where title like '%"+key+"%' or sub_title like '%"+key+"%' order by "
-					+ "articles.create_time desc) union (SELECT id, title, sub_title as abstract, "
+					+ "where title like '%"+key+"%' or sub_title like '%"+key+"%')"
+					+ "union (SELECT id, title, sub_title as abstract, "
 					+ "'0' as tag_id, image, tag_country_name as author, '0' as recommend, create_time, "
 					+ "tag_category_name as name, DATE_FORMAT(create_time, '%Y-%m-%d') as "
 					+ "readable_date, 'case' as data_type, '0' as publish_time FROM cases "
-					+ "where title like '%"+key+"%' order by create_time desc) union (select id, "
+					+ "where title like '%"+key+"%') "
+					+ "union (select id, "
 					+ "title, abstract, '0' as tag_id, snapshot as image, teacher as author, '0' "
 					+ "as recommend, create_time, tag as name, DATE_FORMAT(create_time, '%Y-%m-%d') "
 					+ "as readable_date, 'course' as data_type, '0' as publish_time FROM course "
-					+ "where title like '%"+key+"%' or abstract like '%"+key+"%' order by create_time desc)";
+					+ "where title like '%"+key+"%' or abstract like '%"+key+"%') order by readable_date desc";
 			retList = jdbcTemplate.queryForList(sql);
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());

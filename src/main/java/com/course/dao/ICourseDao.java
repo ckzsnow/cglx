@@ -56,4 +56,8 @@ public interface ICourseDao {
 
 	List<Map<String, Object>> getPaidUserListByCourseId(String course_id);
 
+	boolean addPlayHistory(String user_id, String course_id);
+
+	List<Map<String, Object>> getPlayHistoryList();
+
 }
