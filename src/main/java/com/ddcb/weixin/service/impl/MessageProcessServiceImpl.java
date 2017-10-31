@@ -273,7 +273,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 		String ret = "";
 		URL url;
 		try {
-			url = new URL("https://api.weixin.qq.com/cgi-bin/user/info?access_token="+WeixinCache.getAccessToken()+"&openid="+openId+"&lang=zh_CN");
+			url = new URL("https://api.weixin.qq.com/sns/userinfo?access_token="+WeixinCache.getAccessToken()+"&openid="+openId+"&lang=zh_CN");
 			HttpURLConnection http = (HttpURLConnection) url.openConnection();
 			http.setRequestMethod("GET");
 			http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");

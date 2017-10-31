@@ -18,10 +18,15 @@ import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ocfisher.dao.ICglxDao;
+import com.ocfisher.dao.IUserOpenIdUnionIdDao;
+import com.ocfisher.dao.impl.CglxDaoImpl;
+import com.ocfisher.dao.impl.UserOpenIdUnionIdDaoImpl;
 
 public class WeixinTools {
 
@@ -131,11 +136,12 @@ public class WeixinTools {
 		Map<Object, Object> map = httpGet(url);
 		logger.debug("GetOpenId code return info:{}", map.toString());
 		String openId = (String)map.get("openid");
+		String accessToken = (String)map.get("access_token"); 
 		logger.debug("GetOpenId openId : {}", openId);
 		ObjectMapper om = new ObjectMapper();
 		Map<String, Object> retMap = new HashMap<>();
 		try {
-			retMap = om.readValue(getUserInfoByOpenId(openId), Map.class);
+			retMap = om.readValue(getUserInfoByOpenId(accessToken, openId), Map.class);
 		} catch (JsonParseException e) {
 			logger.error(e.toString());
 		} catch (JsonMappingException e) {
@@ -147,11 +153,11 @@ public class WeixinTools {
 		return retMap;
 	}
 	
-	private static String getUserInfoByOpenId(String openId){
+	private static String getUserInfoByOpenId(String accessToken, String openId){
 		String ret = "";
 		URL url;
 		try {
-			url = new URL("https://api.weixin.qq.com/cgi-bin/user/info?access_token="+WeixinCache.getAccessToken()+"&openid="+openId+"&lang=zh_CN");
+			url = new URL("https://api.weixin.qq.com/sns/userinfo?access_token="+accessToken+"&openid="+openId+"&lang=zh_CN");
 			HttpURLConnection http = (HttpURLConnection) url.openConnection();
 			http.setRequestMethod("GET");
 			http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -171,6 +177,24 @@ public class WeixinTools {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(WeixinTools.getSign("http://www.bangbangzhang.com/views/weixinviews/expense_account.html?userOpenId=oJO1gtyVvLuWxm6N4T1JuYMzgysw"));
+		String ret = "";
+		URL url;
+		try {
+			url = new URL("https://api.weixin.qq.com/sns/userinfo?access_token=&openid=&lang=zh_CN");
+			HttpURLConnection http = (HttpURLConnection) url.openConnection();
+			http.setRequestMethod("GET");
+			http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			http.setDoOutput(true);
+			http.setDoInput(true);
+			http.connect();
+			InputStream is = http.getInputStream();
+			int size = is.available();
+			byte[] jsonBytes = new byte[size];
+			is.read(jsonBytes);
+			ret = new String(jsonBytes, "UTF-8");
+			logger.debug("push result : {}", ret);
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
 	}
 }

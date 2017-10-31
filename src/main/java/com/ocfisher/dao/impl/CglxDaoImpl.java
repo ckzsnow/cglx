@@ -1068,4 +1068,16 @@ public class CglxDaoImpl implements ICglxDao {
 		}
 		return ret;
 	}
+
+	@Override
+	public boolean updateUserInfoByOpenId(String openId, String name, String headimage) {
+		String sql = "update user set name=?, headimage=? where open_id=?";
+		int affectedRows = 0;
+		try {
+			affectedRows = jdbcTemplate.update(sql, name, headimage, openId);
+		} catch(Exception ex) {
+			logger.error(ex.toString());
+		}
+		return affectedRows != 0;
+	}
 }

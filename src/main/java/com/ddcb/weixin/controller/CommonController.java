@@ -18,6 +18,7 @@ import com.ddcb.utils.WeixinTools;
 import com.ddcb.weixin.service.IMessageProcessService;
 import com.ddcb.weixin.service.ITokenCheckService;
 import com.ocfisher.dao.ICglxDao;
+import com.ocfisher.dao.IUserOpenIdUnionIdDao;
 
 @Controller
 public class CommonController {
@@ -33,7 +34,10 @@ public class CommonController {
 	
 	@Autowired
 	private ICglxDao cglxDao;
-
+	
+	@Autowired
+	private IUserOpenIdUnionIdDao userOpenIdUnionIdDao;
+	
 	@RequestMapping("/weixinRequest")
 	@ResponseBody
 	public String processWeixinRequest(HttpServletRequest request,HttpSession httpSession) {
@@ -84,11 +88,35 @@ public class CommonController {
 			String nickname = (String)retMap.get("nickname");
 			String headImgUrl = (String)retMap.get("headimgurl");
 			String unionid = (String)retMap.get("unionid");
+			String openid = (String)retMap.get("openid");
 			logger.debug("getOpenIdRedirect, nickname:{},headImgUrl:{},unionid:{}",nickname,headImgUrl,unionid);
 			long pId = cglxDao.addUserByOpenid(unionid, nickname,headImgUrl);
 			logger.debug("getOpenIdRedirect, pId:{}",pId);
 			httpSession.setAttribute("user_id", pId);
 			httpSession.setAttribute("openid", unionid);
+			new Thread(new Runnable(){
+				@Override
+				public void run() {
+					Map<String, Object> map = cglxDao.getUserByOpenId(unionid);
+					logger.debug("getOpenIdRedirect, getUserByOpenId map:{}",map==null?"is null":map.toString());
+					if(map == null || map.isEmpty()) {
+						logger.debug("getOpenIdRedirect, getUserByOpenId is null!");
+					} else {
+						String name = (String)map.get("name");
+						logger.debug("getOpenIdRedirect, getUserByOpenId name :{}", name);
+						if(name == null || ("null").equals(name) || name.isEmpty()){
+							cglxDao.updateUserInfoByOpenId(unionid, nickname, headImgUrl);
+						}
+						Map<String, Object> retMap = userOpenIdUnionIdDao.getUserByOpenIdAndUnionId(openid, unionid);
+						if(retMap == null || retMap.isEmpty()){
+							logger.debug("getUserWeixinInfo, userOpenIdUnionIdDao, getUserByOpenIdAndUnionId not found.");
+							userOpenIdUnionIdDao.addUser(openid, unionid);
+						} else {
+							logger.debug("getUserWeixinInfo, userOpenIdUnionIdDao, getUserByOpenIdAndUnionId found.");
+						}
+					}
+				}}
+			).start();
 		}
 		logger.debug("finishGetOpenIdRedirect");
 		view = view.replaceAll("_", "/").replaceAll("ARGS", "?").replaceAll("ARG","&");
