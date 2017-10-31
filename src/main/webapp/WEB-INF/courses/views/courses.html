@@ -469,19 +469,21 @@ var _hmt = _hmt || [];
 				//var link = !isWeiXin() ? ('/courses/jsp?id='+data[index].id) : ('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=_courses_jspARGSid='+data[index].id+'&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect');
 				var link = '/courses/jsp?id='+data[index].id;
 				if(data[index].is_recommend==1) {
+					var html = data[index].o_cost==data[index].total?'':'<div class="info-savefee" style="text-decoration:line-through;">￥'+data[index].o_cost+'</div>';
 					$("#recommend_course").append('<li class="video-info info large"><a href="'+link+'" target="_blank">'
 							+ '<div class="info-logo"><img src="/cglx/files/imgs/'+data[index].snapshot+'"></div><div class="info-content-big">'
 							+ '<div class="info-course">共 '+data[index].sub_count+' 节课 <span>时长:'+data[index].sub_time_total+'分钟</span>'
-							+ '</div><div class="series-right"><div class="info-fee"><span>¥</span>'+data[index].total+'</div>'
-							+ '<div class="info-savefee">（省<span>'+data[index].discount+'</span>元）</div></div></div></a></li>');
+							+ '</div><div class="series-right"><div class="info-fee"><span>¥</span>'+data[index].total+'&nbsp;&nbsp;</div>'
+							+ html + '</div></div></a></li>');
 					$("#slideWrapper").append('<li class="slide-animation" style="z-index: 0; display: none;"><a '
 							+ 'href="'+link+'" target="_blank"><img src="/cglx/files/imgs/'+data[index].snapshot+'"></a></li>');
 				} else {
+					var html = data[index].o_cost==data[index].total?'':'<div class="info-savefee" style="text-decoration:line-through;">￥'+data[index].o_cost+'</div>';
 					$("#recommend_course").append('<li class="video-info info small"><a href="'+link+'" target="_blank">'
 							+ '<div class="info-logo"><img src="/cglx/files/imgs/'+data[index].snapshot+'"></div><div class="info-content">'
 							+ '<div class="info-course">共 '+data[index].sub_count+' 节课 <span>时长:'+data[index].sub_time_total+'分钟</span>'
-							+ '</div><div class="series-right"><div class="info-fee"><span>¥</span>'+data[index].total+'</div>'
-							+ '<div class="info-savefee">（省<span>'+data[index].discount+'</span>元）</div></div></div></a></li>');
+							+ '</div><div class="series-right"><div class="info-fee"><span>¥</span>'+data[index].total+'&nbsp;&nbsp;</div>'
+							+ html + '</div></div></a></li>');
 					$("#slideWrapper").append('<li class="slide-animation" style="z-index: 0; display: list-item; opacity: 1;">'
 							+ '<a href="'+link+'" target="_blank"><img src="/cglx/files/imgs/'+data[index].snapshot+'"></a></li>');
 				}

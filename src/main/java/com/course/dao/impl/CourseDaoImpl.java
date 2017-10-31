@@ -44,7 +44,7 @@ public class CourseDaoImpl implements ICourseDao {
 					+ "course.is_series=1 and course.is_recommend=1 group by parent_id order by course.create_time desc limit 0,1";*/
 			String sql = "select *, sum(course_2.time) AS sub_time_total, course_2.*, sum(course_2.cost) AS sub_total, "
 					+ "convert(ABS(course_tmp.total - sum(course_2.cost)),decimal(10,2)) AS discount, "
-					+ "count(course_2.parent_id) AS sub_count from (SELECT is_recommend, id, snapshot, is_series, "
+					+ "count(course_2.parent_id) AS sub_count from (SELECT is_recommend, id, snapshot, is_series, cost as o_cost, "
 					+ "CASE WHEN unix_timestamp(now()) BETWEEN unix_timestamp(starttime) AND unix_timestamp(deadline) THEN course.cost * rebate / 10 "
 					+ "ELSE course.cost END AS total, create_time from course) as course_tmp "
 					+ "LEFT JOIN (SELECT course.parent_id, course.cost, course.time FROM course) AS course_2 ON course_2.parent_id = course_tmp.id "
@@ -62,12 +62,12 @@ public class CourseDaoImpl implements ICourseDao {
 					+ "course.is_series=1 and course.is_recommend=2 group by parent_id order by course.create_time desc limit 0,2";*/
 			String sql2 = "select *, sum(course_2.time) AS sub_time_total, course_2.*, sum(course_2.cost) AS sub_total, "
 					+ "convert(ABS(course_tmp.total - sum(course_2.cost)),decimal(10,2)) AS discount, "
-					+ "count(course_2.parent_id) AS sub_count from (SELECT is_recommend, id, snapshot, is_series, "
+					+ "count(course_2.parent_id) AS sub_count from (SELECT is_recommend, id, snapshot, is_series, cost as o_cost, "
 					+ "CASE WHEN unix_timestamp(now()) BETWEEN unix_timestamp(starttime) AND unix_timestamp(deadline) THEN course.cost * rebate / 10 "
 					+ "ELSE course.cost END AS total, create_time from course) as course_tmp "
 					+ "LEFT JOIN (SELECT course.parent_id, course.cost, course.time FROM course) AS course_2 ON course_2.parent_id = course_tmp.id "
 					+ "WHERE course_tmp.is_series = 1 AND course_tmp.is_recommend = 2 GROUP BY "
-					+ "parent_id ORDER BY course_tmp.create_time DESC LIMIT 0, 2;";
+					+ "parent_id ORDER BY course_tmp.create_time DESC LIMIT 0, 2";
 			retList2 = jdbcTemplate.queryForList(sql2);
 			logger.debug("getRecommendCourse is_recommend=2 query result : {}", retList2.toString());
 			
@@ -535,4 +535,31 @@ public class CourseDaoImpl implements ICourseDao {
 		}
 		return retMap;
 	}
+
+	@Override
+	public boolean addPlayHistory(String user_id, String course_id) {
+		String sql = "insert into playhistory (user_id, course_id, create_time) values (?, ?, ?)";
+		int affectedRows = 0;
+		try{
+			affectedRows = jdbcTemplate.update(sql, user_id, course_id, new Timestamp(System.currentTimeMillis()));
+		} catch(Exception e) {
+			logger.debug(e.toString());
+		}
+		return affectedRows != 0;
+	}
+
+	@Override
+	public List<Map<String, Object>> getPlayHistoryList() {
+		List<Map<String, Object>> resultList = null;
+		String sql = "select count(DISTINCT p.user_id) as count,c.title, p.course_id from playhistory "
+				+ "as p LEFT JOIN course as c on c.id=p.course_id group by p.course_id";
+		try{
+			resultList = jdbcTemplate.queryForList(sql);
+		} catch(Exception e) {
+			logger.debug(e.toString());
+		}
+		return resultList;
+	}
+	
+	
 }

@@ -428,6 +428,20 @@ public class CourseController {
 		return courseDao.getPaidUserListByCourseId(course_id);
 	}
 	
+	@RequestMapping("/course/addPlayHistory")
+	@ResponseBody
+	public void addPlayHistory(HttpServletRequest request) {
+		String user_id = (String)request.getSession().getAttribute("user_id");
+		String course_id = request.getParameter("course_id");
+		courseDao.addPlayHistory(user_id, course_id);
+	}
+	
+	@RequestMapping("/course/getPlayHistoryList")
+	@ResponseBody
+	public List<Map<String, Object>> getPlayHistoryList() {
+		return courseDao.getPlayHistoryList();
+	}
+	
 	private String getGernarateFileName(MultipartFile file) {
 		String extendName = file.getOriginalFilename().substring(file.getOriginalFilename().indexOf(".") + 1);
 		return UUID.randomUUID().toString() + (extendName == null ? ".unknown" : "." + extendName);

@@ -1,5 +1,7 @@
 package com.ddcb.weixin.controller;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -142,16 +144,16 @@ public class CommonController {
 	}
 	
 	@RequestMapping("/getQrcodeUrl")
-	@ResponseBody
 	public String getQrcodeUrl(HttpServletRequest request) {
 		String redirect = request.getParameter("redirect");
-		redirect = redirect.replace("/", "SPRI")
+		redirect = URLEncoder.encode(redirect);
+		/*redirect = redirect.replace("/", "SPRI")
 				.replace("?", "QUES")
-				.replace("=", "EQUA");
+				.replace("=", "EQUA");*/
 		logger.debug("redirect : {}", redirect);
 		String url = WebAppCache.generateQrcodeUrl("uri="+redirect);
 		logger.debug("qrcode url :{}", url);
-		return url;
+		return "redirect:" + url;
 	}
 	
 	@RequestMapping("/wxLoginSuccess")
@@ -211,9 +213,10 @@ public class CommonController {
 		logger.debug("finishGetOpenIdRedirect");
 		logger.debug("code :{}, openId :{}, id :{}", code, openid, id);
 		String redirect = request.getParameter("uri");
-		redirect = redirect.replace("SPRI", "/")
+		/*redirect = redirect.replace("SPRI", "/")
 				.replace("QUES", "?")
-				.replace("EQUA", "=");
+				.replace("EQUA", "=");*/
+		redirect = URLDecoder.decode(redirect);
 		logger.debug("redirect : {}", redirect);
 		return "redirect:" + redirect;
 	}
