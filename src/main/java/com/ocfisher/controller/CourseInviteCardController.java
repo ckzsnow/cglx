@@ -61,25 +61,55 @@ public class CourseInviteCardController {
 		String person_count = request.getParameter("person_count");
 		String isSeries = request.getParameter("isSeries");
 		String realPath = "/data/cglx/course_invite_card";
-		String fileName = "";
+		String inviteCardTemplateImg = "";
+		String spreadCardTemplateImg = "";
 		if(multipartRequest != null) {
 			Iterator<String> ite = multipartRequest.getFileNames();
-			if(ite.hasNext()){
-				MultipartFile file = multipartRequest.getFile(ite.next());
-				fileName = UUID.randomUUID().toString() + ".jpg";
-				try {
-					FileUtils.copyInputStreamToFile(file.getInputStream(), new File(realPath, fileName));
-					long courseId = Long.valueOf(course_id);
-					int isSeries_ = Integer.valueOf(isSeries);
-					int needInvitePersonCount = Integer.valueOf(person_count);
-					if(courseInviteCardDao.addCourseCard(courseId, isSeries_, fileName, needInvitePersonCount)){
-						retMap.put("msg", "添加成功！");
-						retMap.put("error", "0");
+			int index = 0;
+			try {
+				while(ite.hasNext()){
+					MultipartFile file = multipartRequest.getFile(ite.next());
+					String fileName = "";
+					if(index == 0){
+						spreadCardTemplateImg = UUID.randomUUID().toString() + ".jpg";
+						fileName = spreadCardTemplateImg;
+					} else {
+						inviteCardTemplateImg = UUID.randomUUID().toString() + ".jpg";
+						fileName = inviteCardTemplateImg;
 					}
-				} catch(Exception e) {
-					logger.error("Failed in saving file, exception : {}", e.toString());
+					FileUtils.copyInputStreamToFile(file.getInputStream(), new File(realPath, fileName));
 				}
+				long courseId = Long.valueOf(course_id);
+				int isSeries_ = Integer.valueOf(isSeries);
+				int needInvitePersonCount = Integer.valueOf(person_count);
+				if(courseInviteCardDao.addCourseCard(courseId, isSeries_, inviteCardTemplateImg, needInvitePersonCount, spreadCardTemplateImg)){
+					retMap.put("msg", "添加成功！");
+					retMap.put("error", "0");
+				}
+			} catch(Exception e) {
+				logger.error("Failed in saving file, exception : {}", e.toString());
 			}
+		}
+		return retMap;
+	}
+	
+	@RequestMapping("/course/updateCourseInviteCardPublishStatus")
+	@ResponseBody
+	public Map<String, String> updateCourseInviteCardPublishStatus(HttpServletRequest request) {
+		Map<String, String> retMap = new HashMap<>();
+		retMap.put("msg", "更新失败！");
+		retMap.put("error", "1");
+		String course_id = request.getParameter("id");
+		String status = request.getParameter("status");
+		try {
+			long courseId = Long.valueOf(course_id);
+			int status_ = Integer.valueOf(status);
+			if(courseInviteCardDao.updateCourseCardPublishStatus(courseId, status_)){
+				retMap.put("msg", "更新成功！");
+				retMap.put("error", "0");
+			}
+		} catch(Exception e) {
+			logger.error("Failed in saving file, exception : {}", e.toString());
 		}
 		return retMap;
 	}

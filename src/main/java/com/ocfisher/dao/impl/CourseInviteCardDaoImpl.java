@@ -34,11 +34,11 @@ public class CourseInviteCardDaoImpl implements ICourseInviteCardDao {
 	}
 
 	@Override
-	public boolean addCourseCard(long courseId, int isSeries, String templateName, int needInvitePersonCount) {
+	public boolean addCourseCard(long courseId, int isSeries, String templateName, int needInvitePersonCount, String spreadTemplateName) {
 		try{
-			String sql= "replace into course_invite_card(course_id, is_series, template_name, need_invite_person_count, create_time) values (?,?,?,?,?)";
+			String sql= "replace into course_invite_card(course_id, is_series, template_name, need_invite_person_count, spread_template_name, create_time) values (?,?,?,?,?,?)";
 			int num = jdbcTemplate.update(sql, 
-					courseId, isSeries, templateName, needInvitePersonCount, new Timestamp(System.currentTimeMillis()));
+					courseId, isSeries, templateName, needInvitePersonCount, spreadTemplateName, new Timestamp(System.currentTimeMillis()));
 			return num > 0;
 		}catch(Exception e){
 			logger.error("exception : {}", e.toString());
@@ -143,5 +143,17 @@ public class CourseInviteCardDaoImpl implements ICourseInviteCardDao {
 			logger.error("delete course_invite_card exception : {}", e.toString());
 		}
 		return false;
+	}
+
+	@Override
+	public boolean updateCourseCardPublishStatus(long courseId, int status) {
+		String sql = "update course_invite_card set publish_status=? where course_id=?";
+		int affectedRows = 0;
+		try {
+			affectedRows = jdbcTemplate.update(sql, status, courseId);
+		} catch(Exception ex) {
+			logger.error(ex.toString());
+		}
+		return affectedRows != 0;
 	}	
 }

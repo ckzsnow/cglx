@@ -29,8 +29,12 @@ import com.ddcb.utils.WeixinCache;
 import com.ddcb.utils.WeixinMsgType;
 import com.ddcb.weixin.service.ICourseInviteCardService;
 import com.ddcb.weixin.service.IMessageProcessService;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ocfisher.dao.ICglxDao;
+import com.ocfisher.dao.ICourseInviteCardDao;
+import com.ocfisher.dao.ICourseInviteCardUnionidDao;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.core.util.QuickWriter;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -49,6 +53,12 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 	
 	@Autowired
 	private ICourseInviteCardService courseInviteCardService;
+	
+	@Autowired
+	private ICourseInviteCardDao courseInviteCardDao;
+	
+	@Autowired
+	private ICourseInviteCardUnionidDao courseInviteCardUnionidDao;
 	
 	@Override
 	public String processWeixinMessage(HttpServletRequest request,HttpSession httpSession) {
@@ -138,9 +148,28 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 			}
 		}).start();
 		new Thread(new Runnable() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
-				courseInviteCardService.pushCourseInviteCard(userOpenId);
+				ObjectMapper om = new ObjectMapper();
+				try {
+					Map<String, Object> retMap = om.readValue(getUserInfoByOpenId(userOpenId), Map.class);
+					String unionid = (String)retMap.get("unionid");
+					courseInviteCardService.pushCourseInviteCard(userOpenId);
+					List<Map<String, Object>> courseList = courseInviteCardDao.getAllCourse();
+					if(courseList != null && !courseList.isEmpty()){
+						logger.debug("processSubscribeEvent, courseList : {}", courseList.toString());
+						for(Map<String, Object> map : courseList){
+							courseInviteCardUnionidDao.addInfo(unionid, (Long)map.get("course_id"), (Integer)map.get("is_series"));	
+						}
+					}
+				} catch (JsonParseException e) {
+					logger.error(e.toString());
+				} catch (JsonMappingException e) {
+					logger.error(e.toString());
+				} catch (IOException e) {
+					logger.error(e.toString());
+				}
 			}
 		}).start();
 		return result;
@@ -166,6 +195,16 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 				if(currentUnionId != null && currentUnionId.equals(srcUnionId)){
 					result = sendTextMessage("亲爱的小伙伴，您不能支持您自己呦，赶紧邀请您的好友来支持吧~", inputMsg);
 				}
+			}
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> retMap = om.readValue(getUserInfoByOpenId(inputMsg.getFromUserName()), Map.class);
+			String unionid = (String)retMap.get("unionid");
+			List<Map<String, Object>> courseList = courseInviteCardUnionidDao.getNotSendCourseInvite(unionid);
+			if(courseList != null && !courseList.isEmpty()){
+				logger.debug("processScanEvent, courseList : {}", courseList.toString());
+				
+			} else {
+				logger.debug("processScanEvent, courseList is null!");
 			}
 		} catch(Exception ex) {
 			logger.error(ex.toString());
@@ -273,7 +312,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 		String ret = "";
 		URL url;
 		try {
-			url = new URL("https://api.weixin.qq.com/sns/userinfo?access_token="+WeixinCache.getAccessToken()+"&openid="+openId+"&lang=zh_CN");
+			url = new URL("https://api.weixin.qq.com/cgi-bin/user/info?access_token="+WeixinCache.getAccessToken()+"&openid="+openId+"&lang=zh_CN");
 			HttpURLConnection http = (HttpURLConnection) url.openConnection();
 			http.setRequestMethod("GET");
 			http.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");

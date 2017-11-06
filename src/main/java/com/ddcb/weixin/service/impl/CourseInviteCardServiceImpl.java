@@ -114,7 +114,7 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 			byte[] jsonBytes = new byte[size];
 			is.read(jsonBytes);
 			ret = new String(jsonBytes, "UTF-8");
-			logger.debug("push result : {}", ret);
+			logger.debug("CourseInviteCardServiceImpl getUserInfoByOpenId result : {}", ret);
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
 		}

@@ -13,9 +13,11 @@ public interface ICourseInviteCardDao {
 	
 	public int getCourseActivityExpireRecordByOpenIdAndCourseId(String openId, long courseId);
 	
-	public boolean addCourseCard(long courseId, int isSeries, String templateName, int needInvitePersonCount);
+	public boolean addCourseCard(long courseId, int isSeries, String templateName, int needInvitePersonCount, String spreadTemplateName);
 	
 	public boolean delCourseCard(long courseId);
+	
+	public boolean updateCourseCardPublishStatus(long courseId, int status);
 	
 	public boolean addCourseInviteRecord(String srcOpenId, String friendOpenId, long courseId);
 	

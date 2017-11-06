@@ -188,7 +188,8 @@
 											<th style="width: 20%">标题</th>
 											<th>是否为系列课</th>
 											<th>创建时间</th>
-											<th>邀请卡模板图</th>
+											<th>课程宣传卡模板图</th>
+											<th>课程邀请卡模板图</th>
 											<th>需要邀请的人数</th>
 											<th>操作</th>
 										</tr>
@@ -232,7 +233,14 @@
 										</div>
 
 										<div class="form-group">
-											<label for="inputEmail3" class="col-sm-2 control-label">邀请卡模板图</label>
+											<label for="inputEmail3" class="col-sm-2 control-label">课程宣传卡模板图</label>
+											<div class="col-sm-10">
+												<input type="file" id="courseSpreadImg">
+											</div>
+										</div>
+										
+										<div class="form-group">
+											<label for="inputEmail3" class="col-sm-2 control-label">课程邀请卡模板图</label>
 											<div class="col-sm-10">
 												<input type="file" id="templateImg">
 											</div>
@@ -288,14 +296,21 @@
 	<script>
 			$.post('/course/getInviteCardCourse', function(data) {
 				for(var index in data) {
+					var optStr = "";
+					if(data[index].publish_status=='0'){
+						optStr = '<td><a id="'+data[index].id+'" class="updatePublishStatus0" style="margin-right: 10px;color:blue">点击发布</a><a id="'+data[index].id+'" class="delete" style="margin-right: 10px;color:red">删除</a></td>';
+					} else {
+						optStr = '<td><a id="'+data[index].id+'" class="updatePublishStatus1" style="margin-right: 10px;color:red">取消发布</a><a id="'+data[index].id+'" class="delete" style="margin-right: 10px;color:red">删除</a></td>';
+					}
 					var str = '<tr>'
 						+ '<td>'+data[index].id+'</td>'
 						+ '<td>'+data[index].title+'</td>'
 						+ '<td>'+(data[index].is_series==0?"非系列课":"系列课")+'</td>'
 						+ '<td>'+data[index].readable_date+'</td>'
+						+ '<td><a href="/cglx/files/course_invite_card/'+data[index].spread_template_name+'" target="_blank">点击查看</a></td>'
 						+ '<td><a href="/cglx/files/course_invite_card/'+data[index].template_name+'" target="_blank">点击查看</a></td>'
 						+ '<td>'+data[index].need_invite_person_count+'</td>'
-						+ '<td><a id="'+data[index].id+'" class="delete" style="margin-right: 10px;color:red">删除</a></td>'
+						+ optStr
 						+ '</tr>';
 					$('#tbody').append(str);
 				}
@@ -309,6 +324,27 @@
 					if(confirm(msg)==true) {
 						var id = $(this).attr('id');
 						$.post('/course/deleteCourseInviteCardById', {id:id}, function(data) {
+							alert(data.msg);
+							window.location.reload();
+						});
+					}
+				});
+				$('.updatePublishStatus0').on('click', function() {
+					var msg = "确定要发布当前课程为活动课程么？";
+					if(confirm(msg)==true) {
+						var id = $(this).attr('id');
+						$.post('/course/updateCourseInviteCardPublishStatus', {id:id,status:'1'}, function(data) {
+							alert(data.msg);
+							window.location.reload();
+						});
+					}
+				});
+				$('.updatePublishStatus1').on('click', function() {
+					var id = $(this).attr('id');
+					var msg = "确定要取消发布么？";
+					if(confirm(msg)==true) {
+						var id = $(this).attr('id');
+						$.post('/course/updateCourseInviteCardPublishStatus', {id:id,status:'0'}, function(data) {
 							alert(data.msg);
 							window.location.reload();
 						});
@@ -343,6 +379,10 @@
 					alert("请选择邀请卡模板图！");
 					return;
 				}
+				if($('#courseSpreadImg').val() == ""){
+					alert("请选择邀请卡模板图！");
+					return;
+				}
 				$('.btn-primary').attr('disabled', "");
 				$("#progress_tip").show();
 				var course_id = $('#seriesName option:selected').attr('value');
@@ -353,6 +393,7 @@
 				fd.append('course_id', course_id);
 				fd.append('person_count', person_count);
 				fd.append('isSeries', isSeries);
+				fd.append('courseSpreadImg', $('#courseSpreadImg')[0].files[0]);
 				fd.append('templateImg', $('#templateImg')[0].files[0]);
 				var xhr = new XMLHttpRequest();
 				xhr.upload.addEventListener("progress", function(evt) {

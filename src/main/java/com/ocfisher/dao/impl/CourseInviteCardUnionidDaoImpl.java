@@ -1,6 +1,7 @@
 package com.ocfisher.dao.impl;
 
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -21,15 +22,15 @@ public class CourseInviteCardUnionidDaoImpl implements ICourseInviteCardUnionidD
 	private JdbcTemplate jdbcTemplate;
 
 	@Override
-	public Map<String, Object> getInfoByUnionIdAndCourseId(String unionid, long courseid) {
-		Map<String, Object> retMap = null;
+	public List<Map<String, Object>> getInfoByUnionIdAndCourseId(String unionid) {
+		List<Map<String, Object>> retList = null;
 		try {
-			String sql = "select * from course_invite_card_unionid where unionid=? and course_id=?";
-			retMap = jdbcTemplate.queryForMap(sql, new Object[]{unionid, courseid});
+			String sql = "select * from course_invite_card_unionid where unionid";
+			retList = jdbcTemplate.queryForList(sql, new Object[]{unionid});
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
 		}
-		return retMap;
+		return retList;
 	}
 
 	@Override
@@ -55,6 +56,18 @@ public class CourseInviteCardUnionidDaoImpl implements ICourseInviteCardUnionidD
 			logger.error("exception : {}", e.toString());
 		}
 		return false;
+	}
+
+	@Override
+	public List<Map<String, Object>> getNotSendCourseInvite(String unionid) {
+		List<Map<String, Object>> retList = null;
+		try {
+			String sql = "select cic.* from course_invite_card as cic LEFT JOIN course_invite_card_unionid as cicu on cicu.course_id=cic.course_id and cicu.unionid=? where ISNULL(unionid)";
+			retList = jdbcTemplate.queryForList(sql, new Object[]{unionid});
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return retList;
 	}
 
 	
