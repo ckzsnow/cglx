@@ -445,4 +445,9 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 	public static void main(String[] args) throws IOException{
 		
 	}
+
+	@Override
+	public Map<String, Object> getInviteCardByCourseId(String courseId) {
+		return courseInviteCardDao.getInviteCardByCourseId(courseId);
+	}
 }

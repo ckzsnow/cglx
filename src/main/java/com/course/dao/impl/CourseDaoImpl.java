@@ -212,7 +212,7 @@ public class CourseDaoImpl implements ICourseDao {
 	@Override
 	public List<Map<String, Object>> getInviteCardCourse() {
 		List<Map<String, Object>> result = null;
-		String sql = "select c.id, c.parent_id, c.title, c.is_series, DATE_FORMAT(c.create_time, '%Y-%m-%d') as readable_date, cic.template_name, cic.need_invite_person_count,cic.publish_status,cic.spread_template_name from course as c INNER JOIN course_invite_card as cic on cic.course_id=c.id";
+		String sql = "select c.id, c.parent_id, c.title, c.is_series, DATE_FORMAT(c.create_time, '%Y-%m-%d') as readable_date, cic.template_name, cic.need_invite_person_count, cic.publish_status, cic.spread_template_name from course as c INNER JOIN course_invite_card as cic on cic.course_id=c.id";
 		try {
 			result = jdbcTemplate.queryForList(sql);
 		} catch(Exception e) {

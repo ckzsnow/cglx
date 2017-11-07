@@ -34,11 +34,11 @@ public class CourseInviteCardDaoImpl implements ICourseInviteCardDao {
 	}
 
 	@Override
-	public boolean addCourseCard(long courseId, int isSeries, String templateName, int needInvitePersonCount, String spreadTemplateName) {
+	public boolean addCourseCard(long courseId, int isSeries, String templateName, int needInvitePersonCount, String spreadTemplateName, String copywriter) {
 		try{
-			String sql= "replace into course_invite_card(course_id, is_series, template_name, need_invite_person_count, spread_template_name, create_time) values (?,?,?,?,?,?)";
+			String sql= "replace into course_invite_card(course_id, is_series, template_name, need_invite_person_count, spread_template_name, create_time, copywriter) values (?,?,?,?,?,?,?)";
 			int num = jdbcTemplate.update(sql, 
-					courseId, isSeries, templateName, needInvitePersonCount, spreadTemplateName, new Timestamp(System.currentTimeMillis()));
+					courseId, isSeries, templateName, needInvitePersonCount, spreadTemplateName, new Timestamp(System.currentTimeMillis()), copywriter);
 			return num > 0;
 		}catch(Exception e){
 			logger.error("exception : {}", e.toString());
@@ -155,5 +155,17 @@ public class CourseInviteCardDaoImpl implements ICourseInviteCardDao {
 			logger.error(ex.toString());
 		}
 		return affectedRows != 0;
+	}
+
+	@Override
+	public Map<String, Object> getInviteCardByCourseId(String courseId) {
+		String sql = "select * from course_invite_card where course_id=?";
+		Map<String, Object> resultMap = null;
+		try {
+			resultMap = jdbcTemplate.queryForMap(sql, courseId);
+		} catch(Exception ex) {
+			logger.error(ex.toString());
+		}
+		return resultMap;
 	}	
 }

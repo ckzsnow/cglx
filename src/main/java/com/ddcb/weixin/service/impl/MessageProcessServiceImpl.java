@@ -107,26 +107,46 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 	}
 	
 	private String processSubscribeEvent(InputMessage inputMsg){
-		String result = sendTextMessage(
-				"亲爱的小伙伴，千山万水你还是来了。\r\n欢迎关注UDIY研习社！我们是一个有爱有干货的留学生互助共享平台。\r\n点击下方免费领取微课~\r\n<a href='http://www.udiyclub.com/courses/jsp?id=2&view=detail'>95后博士教你如何制霸北美CS专业</a>\r\n<a href='http://www.udiyclub.com/courses/jsp?id=23&view=detail'>全方位雅思口语短期内大提分</a>\r\n更多有趣实用的留学内容，点击菜单查看哦~", 
-				inputMsg);
+		String copywriter = "";
+		String result = "";
+		/*sendTextMessage(
+		"亲爱的小伙伴，千山万水你还是来了。\r\n欢迎关注UDIY研习社！我们是一个有爱有干货的留学生互助共享平台。\r\n点击下方免费领取微课~\r\n<a href='http://www.udiyclub.com/courses/jsp?id=2&view=detail'>95后博士教你如何制霸北美CS专业</a>\r\n<a href='http://www.udiyclub.com/courses/jsp?id=23&view=detail'>全方位雅思口语短期内大提分</a>\r\n更多有趣实用的留学内容，点击菜单查看哦~", 
+		inputMsg);*/
 		String qrcodeArgs = inputMsg.getEventKey().trim();
 		logger.debug("processSubscribeEvent, subscribe, args :{}", qrcodeArgs);
-		if(qrcodeArgs != null && qrcodeArgs.startsWith("qrscene_")&&
-				qrcodeArgs.split("###").length ==3){
-			qrcodeArgs = qrcodeArgs.substring(8);
-			List<String> qrsceneList = Arrays.asList(qrcodeArgs.split("###"));
-			logger.debug("qrsceneList : {}", qrsceneList.toString());
-			final String courseId = qrsceneList.get(0);
-			final String isSeries = qrsceneList.get(1);
-			final String srcOpenId = qrsceneList.get(2);
-			final String friendOpenId = inputMsg.getFromUserName();
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					courseInviteCardService.pushCourseInviteNotify(srcOpenId, friendOpenId, courseId, isSeries);
+		if(qrcodeArgs != null && qrcodeArgs.startsWith("qrscene_")){
+			if(qrcodeArgs.split("###").length ==3) {
+				qrcodeArgs = qrcodeArgs.substring(8);
+				List<String> qrsceneList = Arrays.asList(qrcodeArgs.split("###"));
+				logger.debug("qrsceneList : {}", qrsceneList.toString());
+				final String courseId = qrsceneList.get(0);
+				final String isSeries = qrsceneList.get(1);
+				final String srcOpenId = qrsceneList.get(2);
+				final String friendOpenId = inputMsg.getFromUserName();
+				Map<String, Object> resultMap = courseInviteCardService.getInviteCardByCourseId(courseId);
+				logger.debug("processSubscribeEvent resultMap : {}", resultMap.toString());
+				if(resultMap != null && !resultMap.isEmpty()) {
+					copywriter = (String)resultMap.get("copywriter");
 				}
-			}).start();
+				result = sendTextMessage(copywriter, inputMsg);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						courseInviteCardService.pushCourseInviteNotify(srcOpenId, friendOpenId, courseId, isSeries);
+					}
+				}).start();
+			} else if(qrcodeArgs.split("###").length == 2) {
+				qrcodeArgs = qrcodeArgs.substring(8);
+				List<String> qrsceneList = Arrays.asList(qrcodeArgs.split("###"));
+				logger.debug("qrsceneList : {}", qrsceneList.toString());
+				final String courseId = qrsceneList.get(0);
+				Map<String, Object> resultMap = courseInviteCardService.getInviteCardByCourseId(courseId);
+				logger.debug("processSubscribeEvent resultMap : {}", resultMap.toString());
+				if(resultMap != null && !resultMap.isEmpty()) {
+					copywriter = (String)resultMap.get("copywriter");
+				}
+				result = sendTextMessage(copywriter, inputMsg);
+			}
 		} else {
 			logger.debug("processSubscribeEvent, qrcodeArgs:{}", qrcodeArgs);
 		}

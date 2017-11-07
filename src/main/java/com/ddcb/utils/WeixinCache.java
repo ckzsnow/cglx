@@ -18,8 +18,6 @@ public class WeixinCache {
 
 	private static long accessTokenExpire = 0;
 	
-	private static String refreshToken = "";
-	
 	public static String getJsTicket() {
 		if ((System.currentTimeMillis() / 1000) > jsTicketExpire) {
 			logger.debug("jsTicket has expired, refresh the ticket from weixin server.");

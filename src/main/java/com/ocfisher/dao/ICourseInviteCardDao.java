@@ -13,7 +13,7 @@ public interface ICourseInviteCardDao {
 	
 	public int getCourseActivityExpireRecordByOpenIdAndCourseId(String openId, long courseId);
 	
-	public boolean addCourseCard(long courseId, int isSeries, String templateName, int needInvitePersonCount, String spreadTemplateName);
+	public boolean addCourseCard(long courseId, int isSeries, String templateName, int needInvitePersonCount, String spreadTemplateName, String copywriter);
 	
 	public boolean delCourseCard(long courseId);
 	
@@ -27,4 +27,6 @@ public interface ICourseInviteCardDao {
 	
 	
 	public Map<String, Object> getUserAndUserCourseByUserOpenId(String openId, long courseId);
+
+	public Map<String, Object> getInviteCardByCourseId(String courseId);
 }
