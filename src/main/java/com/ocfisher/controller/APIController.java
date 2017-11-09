@@ -614,7 +614,13 @@ public class APIController {
 	@ResponseBody
 	public Map<String, Object> getUserInfo(HttpSession httpSession, HttpServletRequest request) {
 		String user_id = String.valueOf(httpSession.getAttribute("user_id"));
-		logger.debug("getUserInfo user_id:{}",user_id);
+		String unionid = String.valueOf(httpSession.getAttribute("openid"));
+		String openid_ = String.valueOf(httpSession.getAttribute("openid_"));
+		httpSession.setAttribute("user_id", user_id);
+		httpSession.setAttribute("openid", unionid);
+		httpSession.setAttribute("openid_", openid_);
+		
+		logger.debug("getUserInfo user_id:{}, openid:{}, openid_:{}",user_id,unionid,openid_);
 		if (user_id == null || ("null").equals(user_id) || user_id.isEmpty()) {
 			return null;
 		} else {

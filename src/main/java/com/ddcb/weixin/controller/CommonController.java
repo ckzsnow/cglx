@@ -76,8 +76,8 @@ public class CommonController {
 	}
 
 	@RequestMapping("/getOpenIdRedirect")
-	public String getOpenIdRedirect(HttpSession httpSession,
-			HttpServletRequest request) {
+	public String getOpenIdRedirect(HttpServletRequest request) {
+		HttpSession httpSession = request.getSession();
 		logger.debug("getOpenIdRedirect");
 		String code = request.getParameter("code");
 		String view = request.getParameter("view");
@@ -91,11 +91,12 @@ public class CommonController {
 			String headImgUrl = (String)retMap.get("headimgurl");
 			String unionid = (String)retMap.get("unionid");
 			String openid = (String)retMap.get("openid");
-			logger.debug("getOpenIdRedirect, nickname:{},headImgUrl:{},unionid:{}",nickname,headImgUrl,unionid);
+			logger.debug("getOpenIdRedirect, nickname:{},headImgUrl:{},unionid:{},openid:{}",nickname,headImgUrl,unionid,openid);
 			long pId = cglxDao.addUserByOpenid(unionid, nickname,headImgUrl);
 			logger.debug("getOpenIdRedirect, pId:{}",pId);
 			httpSession.setAttribute("user_id", pId);
 			httpSession.setAttribute("openid", unionid);
+			httpSession.setAttribute("openid_", openid);
 			new Thread(new Runnable(){
 				@Override
 				public void run() {

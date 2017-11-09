@@ -72,11 +72,11 @@ public class WeixinUserController {
 	@ResponseBody
 	public String weixinUserCoursePay(HttpSession httpSession, HttpServletRequest request) {
 		String userId = (String) httpSession.getAttribute("user_id");
-		String openId = (String) httpSession.getAttribute("openid");
+		String openId = (String) httpSession.getAttribute("openid_");
 		String courseId = request.getParameter("course_id");
 		Map<String, Object> courseMap = courseDao.getCourseById(Long.valueOf(courseId));
 		String fee = (String) courseMap.get("cost");
-		logger.debug("weixinUserCoursePay course_id : {}", courseId);
+		logger.debug("weixinUserCoursePay course_id : {}, userId :{}, openId:{}", courseId,userId,openId);
 		if (userId == null || userId.isEmpty()) {
 			return "\"error_msg\":\"no user id\"";
 		}

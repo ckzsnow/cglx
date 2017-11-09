@@ -1041,7 +1041,7 @@ public class CglxDaoImpl implements ICglxDao {
 			String sqlSelect = "select * from user where open_id=?";
 			queryMap = jdbcTemplate.queryForMap(sqlSelect, new Object[]{openid});
 		} catch(Exception e) {
-			logger.error(e.toString());
+			logger.error("addUserByOpenid select user error", e.toString());
 		}
 		try{
 			KeyHolder keyHolder = new GeneratedKeyHolder();

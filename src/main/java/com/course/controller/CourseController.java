@@ -341,7 +341,12 @@ public class CourseController {
 	@ResponseBody
 	public List<Map<String, Object>> getMyCourse(HttpServletRequest request){
 		HttpSession session = request.getSession();
-		String user_id = (String)session.getAttribute("user_id");
+		String user_id = "";
+		try {
+			user_id = (String)session.getAttribute("user_id");
+		} catch(Exception e) {
+			logger.error("getMyCourse user_id error : {}", e.toString());
+		}
 		return courseDao.getPaidCourse(user_id);
 	} 
 	
@@ -394,16 +399,22 @@ public class CourseController {
 	
 	@RequestMapping("/course/addFreeCourse")
 	@ResponseBody
-	public Map<String, Object> addFreeCourse(HttpServletRequest request) {
+	public Map<String, Object> addFreeCourse(HttpSession httpSession, HttpServletRequest request) {
 		Map<String, Object> retMap = new HashMap<>();
 		String user_id = "";
 		String course_id = "";
+		String test_id = "";
 		try {
-			user_id = (String) request.getSession().getAttribute("user_id");
 			course_id = request.getParameter("course_id");
+			user_id = (String)httpSession.getAttribute("user_id");
+			test_id = (String)httpSession.getAttribute("test_id");
 		} catch(Exception e) {
-			logger.error(e.toString());
+			logger.error("addFreeCourseController error", e.toString());
 		}
+		
+		logger.debug("addFreeCourseController user_id : {}", user_id);
+		logger.debug("addFreeCourseController course_id : {}", course_id);
+		logger.debug("addFreeCourseController test_id : {}", test_id);
 		if(courseDao.addFreeCourse(user_id, course_id)) {
 			retMap.put("error_code", "0");
 			retMap.put("error_msg", "");

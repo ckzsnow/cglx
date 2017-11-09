@@ -393,6 +393,7 @@ public class CourseDaoImpl implements ICourseDao {
 		} catch(Exception e) {
 			logger.error("getPaidCourse error : {}", e.toString());
 		}
+		logger.debug("getPaidCourse resultList : {}", result.toString());
 		return result;
 	}
 	
