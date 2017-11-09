@@ -7,12 +7,11 @@
 <%
 	WebApplicationContext wac = WebApplicationContextUtils
 			.getRequiredWebApplicationContext(this.getServletContext());
-	String code = (String) session.getAttribute("url_code");
 	Map<String, String> result = new HashMap<>();
-	result = WeixinTools.getSign(
-			"http://www.udiyclub.com/view/subpage?code=" + code + "&state=123");
 	String subpageId = (String) session.getAttribute("subpage_id");
 	String subpageTagId = (String) session.getAttribute("subpage_tagid");
+	result = WeixinTools.getSign(
+			"http://www.udiyclub.com/view/subpagejsp?id=" + subpageId + "&tagId=" + subpageTagId);
 %>
 <!DOCTYPE html>
 <html>

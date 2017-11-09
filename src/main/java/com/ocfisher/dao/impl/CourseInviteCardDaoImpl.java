@@ -167,5 +167,67 @@ public class CourseInviteCardDaoImpl implements ICourseInviteCardDao {
 			logger.error(ex.toString());
 		}
 		return resultMap;
+	}
+
+	@Override
+	public List<Map<String, Object>> getAllCourseInviteCardDetail() {
+		List<Map<String, Object>> retList = null;
+		try {
+			String sql = "select cic.course_id, c.title from course_invite_card cic left join course c on cic.course_id=c.id";
+			retList = jdbcTemplate.queryForList(sql);
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return retList;
+	}
+
+	@Override
+	public int getCourseSpreadRecordByUnionId(String unionid) {
+		int count = 0;
+		try {
+			String sql = "select count(*) from user_course_spread_record where union_id=?";
+			count = jdbcTemplate.queryForObject(sql, new Object[]{unionid}, Integer.class);
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return count;
+	}
+
+	@Override
+	public int getCourseInviteRecordByFriendOpendIdAndCourseId(String open_id, String course_id) {
+		int count = 0;
+		try {
+			String sql = "select count(*) from user_course_invite_record where friend_open_id=? and course_id=?";
+			count = jdbcTemplate.queryForObject(sql, new Object[]{open_id, course_id}, Integer.class);
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return count;
+	}
+
+	@Override
+	public boolean addUserSubscribe(String open_id, String union_id) {
+		int affectedRows = 0;
+		try {
+			String sql = "replace into user_subscribe (union_id, status, create_time) values (?,?,?)";
+			affectedRows = jdbcTemplate.update(sql, union_id, 1, new Timestamp(System.currentTimeMillis()));
+			String addOidUidSql = "insert ino user_openid_unionid (open_id, union_id, create_time) values (?,?,?)";
+			jdbcTemplate.update(addOidUidSql, open_id, union_id, new Timestamp(System.currentTimeMillis()));
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return affectedRows != 0;
+	}
+
+	@Override
+	public boolean updateUserSubscribeStatus(String union_id, int status) {
+		int affectedRows = 0;
+		try {
+			String sql = "update user_subscribe set status=? where union_id=?";
+			affectedRows = jdbcTemplate.update(sql, status, union_id);
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return affectedRows != 0;
 	}	
 }

@@ -499,7 +499,7 @@ public class CourseDaoImpl implements ICourseDao {
 		try {
 			affectedRows = jdbcTemplate.update(sql, user_id, course_id, new Timestamp(System.currentTimeMillis()));
 		} catch(Exception e) {
-			logger.error(e.toString());
+			logger.error("addFreeCourse sql error : {}", e.toString());
 		}
 		return affectedRows != 0;
 	}

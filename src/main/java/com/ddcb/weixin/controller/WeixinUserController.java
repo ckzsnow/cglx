@@ -48,7 +48,10 @@ public class WeixinUserController {
 	public String jspRedirect(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		String view = request.getParameter("view");
+		logger.debug("jspRedirect id : {}", id);
+		logger.debug("jspRedirect view : {}", view);
 		request.getSession().setAttribute("course_id", id);
+		request.getSession().setAttribute("view", view);
 		if (view == null || view.isEmpty()) {
 			return "courses/views/seriesDetail";
 		} else {

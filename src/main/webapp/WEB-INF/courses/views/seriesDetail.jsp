@@ -7,11 +7,10 @@
 <%
 	WebApplicationContext wac = WebApplicationContextUtils
 			.getRequiredWebApplicationContext(this.getServletContext());
-	String code = (String) session.getAttribute("url_code");
 	String courseId = (String) session.getAttribute("course_id");
 	Map<String, String> result = new HashMap<>();
 	result = WeixinTools.getSign(
-			"http://www.udiyclub.com/courses/views?code=" + code + "&state=123");	
+			"http://www.udiyclub.com/courses/jsp?id=" + courseId);	
 %>
 <!DOCTYPE html>
 <html>
@@ -560,29 +559,32 @@ var _hmt = _hmt || [];
 	<script src="/courses/js/courseSeriesDetail.min.js"></script>
 	<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
-	wx.config({
-		appId: 'wxf139053a88924f58',
-		timestamp: <%=result.get("timestamp")%>,
-		nonceStr: '<%=result.get("nonceStr")%>',
-		signature: '<%=result.get("signature")%>',
-		jsApiList: [
-			'onMenuShareQQ',
-			'onMenuShareTimeline',
-			'onMenuShareAppMessage',
-			'chooseWXPay'
-		]
-	});
-	var imgUrl = "http://www.udiyclub.com/images/logo.png";
-	var descContent = "DIY研习社－中国留学生互助交流平台，让留学不孤单";
-	var shareTitle = "DIY研习社";
-	var lineLink = "http://www.udiyclub.com";
-	$('.name').on('click', function(event) {
-		event.stopPropagation();
-		$('#logout').toggle('fast');
-	});
-	$(document).on('click', function() {
-		$('#logout').hide(500);
-	});
+	
+		wx.config({
+			appId: 'wxf139053a88924f58',
+			timestamp: <%=result.get("timestamp")%>,
+			nonceStr: '<%=result.get("nonceStr")%>',
+			signature: '<%=result.get("signature")%>',
+			jsApiList: [
+				'onMenuShareQQ',
+				'onMenuShareTimeline',
+				'onMenuShareAppMessage',
+				'chooseWXPay'
+			]
+		});
+		var imgUrl = "http://www.udiyclub.com/images/logo.png";
+		var descContent = "DIY研习社－中国留学生互助交流平台，让留学不孤单";
+		var shareTitle = "DIY研习社";
+		var lineLink = "http://www.udiyclub.com";
+		
+		$('.name').on('click', function(event) {
+			event.stopPropagation();
+			$('#logout').toggle('fast');
+		});
+		$(document).on('click', function() {
+			$('#logout').hide(500);
+		});
+		
 		(function ($) {
 	        $.getUrlParam = function (name) {
 	            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");

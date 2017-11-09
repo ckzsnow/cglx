@@ -2,6 +2,7 @@ package com.ocfisher.controller;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.support.DefaultMultipartHttpServletRequ
 
 import com.ddcb.utils.WeixinCache;
 import com.ddcb.weixin.service.impl.CourseInviteCardServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -130,6 +132,49 @@ public class CourseInviteCardController {
 		}
 		return retMap;
 	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/course/getInviteCardByCourseId")
+	@ResponseBody
+	public void getInviteCardByCourseId(HttpServletRequest request) {
+		String open_id = request.getParameter("open_id");
+		String course_id = request.getParameter("course_id");
+		logger.debug("getInviteCardByCourseId openid : {}", open_id);
+		logger.debug("getInviteCardByCourseId course_id : {}", course_id);
+		try{
+			ObjectMapper om = new ObjectMapper();
+			Map<String,Object> retMap = om.readValue(CourseInviteCardServiceImpl.getUserInfoByOpenId(open_id), Map.class);
+			String nickname = (String)retMap.get("nickname");
+			String headImgUrl = (String)retMap.get("headimgurl");
+			String unionid = (String)retMap.get("unionid");
+			Map<String, Object> courseMap = courseInviteCardDao.getCourseById(Long.valueOf(course_id));
+			Integer isSeries = (Integer)courseMap.get("is_series");
+			String templateName = (String)courseMap.get("template_name");
+			String args = course_id + "###" + isSeries + "###" + open_id;
+			String json = "{\"expire_seconds\": 2592000, \"action_name\": \"QR_STR_SCENE\", \"action_info\""+
+					": {\"scene\": {\"scene_str\": \""+args+"\"}}}";
+			String action = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="
+					+ WeixinCache.getAccessToken();
+			String ret = CourseInviteCardServiceImpl.connectWeiXinInterface(action, json);
+			JSONObject jsonObject = JSONObject.fromObject(ret);
+			if (jsonObject.has("url")) {
+				System.out.println("url:" + jsonObject.getString("url"));
+				String url = jsonObject.getString("url");
+				logger.debug("qrcode url : {}", url);
+				CourseInviteCardServiceImpl.generateQRCode(url, open_id, templateName);
+				logger.debug("pushCourseInviteCard, nickname:{},headImgUrl:{},unionid:{}",nickname,headImgUrl,unionid);
+				BufferedImage headImage = ImageIO.read(new URL(headImgUrl));
+				CourseInviteCardServiceImpl.generateHeadImageCode(headImage, nickname, open_id);
+				CourseInviteCardServiceImpl.pushImageToUser(open_id);
+			} else {
+				System.out.println(jsonObject.toString());
+			}
+		}catch(Exception ex){
+			logger.error(ex.toString());
+		}
+	}
+	
+	
 	
 	private String generateSpreadCard(String course_id, String is_series, String templateName) {
 		String qrCodeFileName = "";

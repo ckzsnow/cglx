@@ -98,7 +98,7 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 		}
 	}
 	
-	private static String getUserInfoByOpenId(String openId){
+	public static String getUserInfoByOpenId(String openId){
 		String ret = "";
 		URL url;
 		try {

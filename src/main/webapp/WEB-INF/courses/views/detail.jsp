@@ -7,11 +7,11 @@
 <%
 	WebApplicationContext wac = WebApplicationContextUtils
 			.getRequiredWebApplicationContext(this.getServletContext());
-	String code = (String) session.getAttribute("url_code");
 	String courseId = (String) session.getAttribute("course_id");
+	String view = (String) session.getAttribute("view");
 	Map<String, String> result = new HashMap<>();
 	result = WeixinTools.getSign(
-			"http://www.udiyclub.com/courses/views?code=" + code + "&state=123");	
+			"http://www.udiyclub.com/courses/jsp?id=" + courseId + "&view=" + view);	
 %>
 
 <!DOCTYPE html>
@@ -649,23 +649,22 @@ var _hmt = _hmt || [];
 	<script type="text/javascript" src="/js/qrcode.min.js"></script>
 	<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script>
-	wx.config({
-		appId: 'wxf139053a88924f58',
-		timestamp: <%=result.get("timestamp")%>,
-		nonceStr: '<%=result.get("nonceStr")%>',
-		signature: '<%=result.get("signature")%>',
-		jsApiList: [
-			'onMenuShareQQ',
-			'onMenuShareTimeline',
-			'onMenuShareAppMessage',
-			'chooseWXPay'
-		]
-	});
-	
-	var imgUrl = "http://www.udiyclub.com/images/logo.png";
-	var descContent = "DIY研习社－中国留学生互助交流平台，让留学不孤单";
-	var shareTitle = "DIY研习社";
-	var lineLink = "http://www.udiyclub.com";
+		wx.config({
+			appId: 'wxf139053a88924f58',
+			timestamp: <%=result.get("timestamp")%>,
+			nonceStr: '<%=result.get("nonceStr")%>',
+			signature: '<%=result.get("signature")%>',
+			jsApiList: [
+				'onMenuShareQQ',
+				'onMenuShareTimeline',
+				'onMenuShareAppMessage',
+				'chooseWXPay'
+			]
+		});
+		var imgUrl = "http://www.udiyclub.com/images/logo.png";
+		var descContent = "DIY研习社－中国留学生互助交流平台，让留学不孤单";
+		var shareTitle = "DIY研习社";
+		var lineLink = "http://www.udiyclub.com";
 	
 		$('.name').on('click', function(event) {
 			event.stopPropagation();
@@ -801,6 +800,7 @@ var _hmt = _hmt || [];
 				}
 			});
 		});
+		
 		if(!isWeiXin()) {
 			$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
 				if (!checkJsonIsEmpty(data)) {
