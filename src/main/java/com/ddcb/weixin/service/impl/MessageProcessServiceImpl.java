@@ -286,6 +286,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					final String courseId = qrsceneList.get(0);
 					final String isSeries = qrsceneList.get(1);
 					final String srcOpenId = qrsceneList.get(2);
+					logger.debug("processScanEvent courseId:{}, isSeries:{}, srcOpenId:{}", courseId, isSeries, srcOpenId);
 					Map<String, Object> resultMap = courseInviteCardService.getInviteCardByCourseId(courseId);
 					logger.debug("processScanEvent resultMap : {}", resultMap.toString());
 					
@@ -355,8 +356,8 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 				result = sendTextMessage("抱歉，你所输入的课程邀请卡不存在~", inputMsg);
 			} else {
 				result = sendTextMessage("请稍等，您的专属课程邀请卡正在制作中哦~", inputMsg);
-				Map<String, Object> courseMap = inviteCardList.get(Integer.valueOf(inputMsg.getContent().trim()) - 1);
-				logger.debug("sendImageMessage : ");
+				Map<String, Object> courseMap = inviteCardList.get(index);
+				logger.debug("processTextMessage chosen courseMap : {}, index:{}", courseMap.toString(), index);
 				new Thread(new Runnable() {
 					@Override
 					public void run() {

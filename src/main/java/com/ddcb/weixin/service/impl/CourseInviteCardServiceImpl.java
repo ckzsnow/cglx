@@ -306,14 +306,16 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 		long courseId_ = 0;
 		try {
 			courseId_ = Long.valueOf(courseId);
+			logger.debug("pushCourseInviteNotify courseId_ : {}", courseId_);
 			ObjectMapper om = new ObjectMapper();
 			Map<String,Object> retMap = om.readValue(getUserInfoByOpenId(friendOpenId), Map.class);
 			String friendName = (String)retMap.get("nickname");
 			String friendUnionId = (String)retMap.get("unionid");
 			retMap = om.readValue(getUserInfoByOpenId(srcOpenId), Map.class);
 			String srcUnionId = (String)retMap.get("unionid");
+			logger.debug("pushCourseInviteNotify srcUnionId:{}, friendName:{},friendUnionId:{},courseId_", srcUnionId,friendName,friendUnionId,courseId_);
 			Map<String, Object> inviteCardCourseMap = courseInviteCardDao.getCourseById(courseId_);
-			if(inviteCardCourseMap == null){				
+			if(inviteCardCourseMap == null){
 				int expireCount = courseInviteCardDao.getCourseActivityExpireRecordByOpenIdAndCourseId(srcUnionId, courseId_);
 				if(expireCount > 0) {
 					logger.debug("has push expire message!");
@@ -375,15 +377,26 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 					Date currentTime = new Date();
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					String dateString = formatter.format(currentTime);
+					
+					logger.debug("pushCourseInviteNotify currentSupportTotal:{},needInvitePersonCount:{},"
+							+ "coursePrice:{},courseTitle:{}",currentSupportTotal,needInvitePersonCount,
+							coursePrice,courseTitle);
+					
 					if(currentSupportTotal >= needInvitePersonCount) {
 						//需要添加用户已经购买课程，同时如果已经添加，那么不应该再次推送消息给用户
 						Map<String, Object> uMap = courseInviteCardDao.getUserAndUserCourseByUserOpenId(srcUnionId, courseId_);
-						if(uMap != null && !uMap.isEmpty() && ((String)uMap.get("user_course_id"))!=null){
-							logger.debug("pushCourseInviteNotify, has pushed!");
-							logger.debug("pushCourseInviteNotify getUserCourseCountByUserOpenId : {}", uMap.toString());
-						} else if(uMap != null && !uMap.isEmpty() && uMap.get("user_course_id")==null){
-							logger.debug("pushCourseInviteNotify getUserCourseCountByUserOpenId : {}", uMap.toString());
-							if(courseDao.addUserCourseAndPayStatus(String.valueOf(uMap.get("user_id")), courseId, "invite_card")){
+						if(uMap != null && !uMap.isEmpty() && uMap.get("user_course_id")!=null){
+							logger.debug("pushCourseInviteNotify uMap : {}", uMap.toString());
+							if((int)uMap.get("pay_status") == 0) {
+								courseDao.updateUserCourseById(String.valueOf(uMap.get("user_course_id")));
+								pushSuccessInfo(srcOpenId, currentSupportTotal, needInvitePersonCount, friendName, dateString, coursePrice, courseTitle, uMap, courseId, isSeries);
+								logger.debug("pushCourseInviteNotify update user_course success!");
+							} else if(Integer.valueOf((String)uMap.get("pay_status")) == 1) {
+								logger.debug("pushCourseInviteNotify user has buyed this course");
+							}
+						} else {
+							logger.debug("pushCourseInviteNotify uMap is null");
+							if(courseDao.addUserCourseAndPayStatus(srcUnionId, courseId, "invite_card")){
 								String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetUnionIdRedirectForCourseInviteCard%3Fid%3D"+String.valueOf(uMap.get("user_id"))+"%26course_id%3D"+courseId+"%26is_series%3D"+isSeries+"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
 								String json = "{"+""
 										+ "\"touser\": \"" + srcOpenId + "\","
@@ -442,8 +455,34 @@ public class CourseInviteCardServiceImpl implements ICourseInviteCardService {
 		}
 	}
 	
-	public static void main(String[] args) throws IOException{
-		
+	public static void pushSuccessInfo(String srcOpenId, int currentSupportTotal, int needInvitePersonCount, 
+			String friendName, String dateString, String coursePrice, String courseTitle, Map<String, Object> uMap, 
+			String courseId, String isSeries){
+		String url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri"
+				+ "=http%3A%2F%2Fwww.udiyclub.com%2FgetUnionIdRedirectForCourseInviteCard%3Fid%3D"
+				+String.valueOf(uMap.get("user_id"))+"%26course_id%3D"+courseId+"%26is_series%3D"
+				+isSeries+"&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+		String json = "{"+""
+				+ "\"touser\": \"" + srcOpenId + "\","
+				+ "\"template_id\": \"Zf7etJwv9pv2RSTo95WuMIcLMNMQRNCrTFMChsx79Is\","
+				+ "\"url\": \""+url+"\","
+				+ "\"miniprogram\": {\"appid\":\"\",\"pagepath\":\"\"},"
+				+ "\"data\": {"
+				+     "\"first\": {\"value\":\"收到好友【助攻】x1，目前【助攻】总数："+String.valueOf(currentSupportTotal)+"\",\"color\":\"\"},"
+				+     "\"keyword1\": {\"value\":\""+friendName+"\",\"color\":\"\"},"
+				+     "\"keyword2\": {\"value\":\""+dateString+"\",\"color\":\"\"},"
+				+     "\"remark\": {\"value\":\"您已经获得"+String.valueOf(needInvitePersonCount)+"个好友的【助攻】，现在可以免费获得价值"+coursePrice+"元的'"+courseTitle+"'课程啦~点击详情即可进入！\",\"color\":\"\"}"
+				+ "}"
+				+ "}";
+		logger.debug("pushCourseInviteNotify, json dta : {}", json);
+		String action = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token="
+				+ WeixinCache.getAccessToken();
+		try {
+			String ret = connectWeiXinInterface(action, json);
+			logger.debug("pushCourseInviteNotify ret : {}", ret);
+		} catch (Exception e) {
+			logger.error("weixin push failed, exception : {}", e.toString());
+		}
 	}
 
 	@Override

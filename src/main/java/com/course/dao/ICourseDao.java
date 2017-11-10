@@ -60,4 +60,6 @@ public interface ICourseDao {
 
 	List<Map<String, Object>> getPlayHistoryList();
 
+	boolean updateUserCourseById(String userCourseId);
+
 }

@@ -422,11 +422,11 @@ public class CourseDaoImpl implements ICourseDao {
 	}
 	
 	@Override
-	public boolean addUserCourseAndPayStatus(String user_id, String course_id, String tradeNo) {
-		String sql = "replace into user_course (user_id, course_id, pay_status, trade_no, create_time) values (?,?,?,?,?)";
+	public boolean addUserCourseAndPayStatus(String open_id, String course_id, String tradeNo) {
+		String sql = "replace into user_course (user_id, course_id, pay_status, trade_no, create_time) values ((select id from user where open_id='"+open_id+"'),?,?,?,?)";
 		int affectedRows = 0;
 		try {
-			affectedRows = jdbcTemplate.update(sql, user_id, course_id, 1, tradeNo, new Timestamp(System.currentTimeMillis()));
+			affectedRows = jdbcTemplate.update(sql, course_id, 1, tradeNo, new Timestamp(System.currentTimeMillis()));
 		} catch(Exception e) {
 			logger.error(e.toString());
 		}
@@ -560,6 +560,18 @@ public class CourseDaoImpl implements ICourseDao {
 			logger.debug(e.toString());
 		}
 		return resultList;
+	}
+
+	@Override
+	public boolean updateUserCourseById(String userCourseId) {
+		String sql = "update user_course set pay_status=1 where id=?";
+		int affectedRows = 0;
+		try {
+			affectedRows = jdbcTemplate.update(sql, userCourseId);
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return affectedRows != 0;
 	}
 	
 	

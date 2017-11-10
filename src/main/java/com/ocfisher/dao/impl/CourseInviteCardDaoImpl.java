@@ -25,7 +25,7 @@ public class CourseInviteCardDaoImpl implements ICourseInviteCardDao {
 	public List<Map<String, Object>> getAllCourse() {
 		List<Map<String, Object>> retList = null;
 		try {
-			String sql = "select * from course_invite_card";
+			String sql = "select * from course_invite_card order by course_id";
 			retList = jdbcTemplate.queryForList(sql);
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
@@ -99,10 +99,10 @@ public class CourseInviteCardDaoImpl implements ICourseInviteCardDao {
 	public Map<String, Object> getUserAndUserCourseByUserOpenId(String openId, long courseId) {
 		Map<String, Object> retMap = null;
 		try {
-			String sql = "select u.id as user_id, uc.id as user_course_id from user as u LEFT JOIN user_course as uc on u.open_id=? and u.id=uc.user_id and uc.course_id=? where u.open_id=?";
-			retMap = jdbcTemplate.queryForMap(sql, new Object[]{openId, courseId, openId});
+			String sql = "select u.id as user_id, uc.id as user_course_id, uc.pay_status from user as u LEFT JOIN user_course as uc on u.id=uc.user_id and uc.course_id=? where u.open_id=?";
+			retMap = jdbcTemplate.queryForMap(sql, new Object[]{courseId, openId});
 		} catch (Exception e) {
-			logger.error("exception : {}", e.toString());
+			logger.error("getUserAndUserCourseByUserOpenId exception : {}", e.toString());
 		}
 		return retMap;
 	}
@@ -173,7 +173,7 @@ public class CourseInviteCardDaoImpl implements ICourseInviteCardDao {
 	public List<Map<String, Object>> getAllCourseInviteCardDetail() {
 		List<Map<String, Object>> retList = null;
 		try {
-			String sql = "select cic.course_id, c.title from course_invite_card cic left join course c on cic.course_id=c.id";
+			String sql = "select cic.course_id, c.title from course_invite_card cic left join course c on cic.course_id=c.id order by cic.course_id";
 			retList = jdbcTemplate.queryForList(sql);
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
