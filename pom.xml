@@ -201,7 +201,7 @@
             <groupId>com.google.zxing</groupId>  
             <artifactId>javase</artifactId>  
             <version>2.2</version>  
-        </dependency>  
+        </dependency> 
 		
 	</dependencies>
 
