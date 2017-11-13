@@ -634,11 +634,14 @@ public class APIController {
 	
 	@RequestMapping("/user/checkSubscribe")
 	@ResponseBody
-	public Map<String, Object> checkSubscribe(HttpServletRequest request) {
+	public Map<String, Object> checkSubscribe(HttpSession httpSession) {
 		Map<String, Object> retMap = new HashMap<>();
 		try {
-			String unionid = (String)request.getSession().getAttribute("openid");
-			logger.debug("checkSubscribe unionid : {}", unionid);
+			String user_id = (String)httpSession.getAttribute("user_id");
+			String unionid = (String)httpSession.getAttribute("openid");
+			String openid_ = (String)httpSession.getAttribute("openid_");
+			
+			logger.debug("checkSubscribe user_id:{}, unionid:{}, open_id:{}", user_id,unionid,openid_);
 			if(unionid.isEmpty()) {
 				retMap.put("check_code", "0");
 				return retMap;

@@ -30,6 +30,17 @@ $.ajax({
 			$("#mobile_not_login").hide();
 			$("#mobile_login").show();
 			
+			if(isWeiXin()) {
+				$.post('/user/checkSubscribe', function(data) {
+					if(!checkJsonIsEmpty(data)) {
+						var status = data.check_code;
+						if(status == 0) {
+							$('#focus_button').css('display', 'block');
+						}
+					}
+				});
+			}
+			
 		} else if(isWeiXin()){
 			var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=###########&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
 			var searchStr = window.location.search;
@@ -389,14 +400,6 @@ $('.weixinLogin').mouseout(function() {
 	$('#mobile_login').prepend('<li class="activity"><a href="/view/success.html" class="myorder-btn">成功案例</a></li>');
 	if(isWeiXin()) {
 		$($('#mobile_login').find('li')[3]).remove();
-		$.post('/user/checkSubscribe', function(data) {
-			if(!checkJsonIsEmpty(data)) {
-				var status = data.check_code;
-				if(status == 0) {
-					$('#focus_button').css('display', 'block');
-				}
-			}
-		});
 	}
 })();
 $('#focus_button').on('click', function() {

@@ -1087,7 +1087,7 @@ public class CglxDaoImpl implements ICglxDao {
 		Map<String, Object> resultMap = null;
 		try{
 			String sql = "select * from user_subscribe where union_id=?";
-			resultMap = jdbcTemplate.queryForMap(sql);
+			resultMap = jdbcTemplate.queryForMap(sql, unionid);
 		} catch(Exception e) {
 			
 		}

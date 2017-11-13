@@ -208,6 +208,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 						int count = courseInviteCardDao.getCourseInviteRecordByFriendOpendIdAndCourseId(union_id, courseId);
 						if (count == 0) {
 							copywriter = (String) resultMap.get("copywriter");
+							copywriter = copywriter.replace("_@", "\n").replace("_#", "\r").replace("_$", " ");
 							result = sendTextMessage(copywriter, inputMsg);
 							// 给邀请用户发送助攻通知
 							pushCourseInviteNotify(srcOpenId, open_id, courseId, isSeries);
@@ -233,6 +234,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					logger.debug("processSubscribeEvent resultMap : {}", resultMap.toString());
 					if (resultMap != null && !resultMap.isEmpty()) {
 						copywriter = (String) resultMap.get("copywriter");
+						copywriter = copywriter.replace("_@", "\n").replace("_#", "\r").replace("_$", " ");
 					}
 					result = sendTextMessage(copywriter, inputMsg);
 					generateInviteCardAndPushToUser(resultMap, open_id);
@@ -305,6 +307,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 						int count = courseInviteCardDao.getCourseInviteRecordByFriendOpendIdAndCourseId(union_id, courseId);
 						if (count == 0) {
 							copywriter = (String) resultMap.get("copywriter");
+							copywriter = copywriter.replace("_@", "\n").replace("_#", "\r").replace("_$", " ");
 							logger.debug("processScanEvent copywriter : {}", copywriter);
 							result = sendTextMessage(copywriter, inputMsg);
 							// 给邀请用户发送助攻通知
@@ -334,6 +337,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					logger.debug("processSubscribeEvent resultMap : {}", resultMap.toString());
 					if (resultMap != null && !resultMap.isEmpty()) {
 						copywriter = (String) resultMap.get("copywriter");
+						copywriter = copywriter.replace("_@", "\n").replace("_#", "\r").replace("_$", " ");
 					}
 					result = sendTextMessage(copywriter, inputMsg);
 					generateInviteCardAndPushToUser(resultMap, open_id);
