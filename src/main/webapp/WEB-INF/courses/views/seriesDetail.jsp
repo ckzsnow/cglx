@@ -321,6 +321,20 @@ var _hmt = _hmt || [];
                 </div>
             </div>
         </div>
+        
+        
+        <div id="focus_button" style="position:fixed;right:.2rem;bottom:1rem;z-index: 9999;width: 60px;height: 60px;background: url(/images/focus.png) no-repeat;background-size: 100%;display:none"></div>
+        
+        <div id="focus" class="cglx-login-mask mobile-login" style="display: none;position: fixed;top: 0;bottom: 0;left: 0;right: 0;z-index: 99999;background: rgba(0,0,0,.8);">
+            <div class="mobile-dialog login-regist">
+                <div class="login-close close"></div>
+                <div class="login-regist-card card" data-show="true">
+                    <div class="logo"></div>
+                    <img src="/images/qrcode.jpg" width="100%">
+                    <p style="text-align:center">关注公众号，获取更多内容</p>
+                </div>
+            </div>
+        </div>
 
 	<div class="wap-wrapper" id="wap-wrapper">
 		<div class="tips">很抱歉，因微信支付限制，只能从微信内或者电脑端购买</div>
@@ -641,6 +655,7 @@ var _hmt = _hmt || [];
 			}
 			imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.banner;
 			shareTitle = data.title;
+			lineLink = window.location.href;
 			execWeixinShare();
 			
 			$('.buy-series').on('click', function() {
@@ -704,7 +719,7 @@ var _hmt = _hmt || [];
 					$('#small').append('<div class="recommend-every-course"><a href="/courses/jsp?id='+data[index].id+'&view=detail" target="_blank">'
 							+ '<div class="recommend-every-pic"><img src="/cglx/files/imgs/'+data[index].snapshot+'" alt=""></div>'
 							+ '<div class="recommend-every-introduct"><div class="every-title">'+data[index].title+'</div>'
-							+ '<div class="every-price-mobile"><span class="money">￥'+data[index].cost+'</span></div></div></a></div>');
+							+ '<div class="every-price-mobile"><span class="money">￥'+data[index].cost_+'</span></div></div></a></div>');
 					
 					$('#recommend-small').append('<div class="every-course"><a href="/courses/jsp?id='+data[index].id+'&view=detail"><div class="info-left-recommond">'
 							+ '<div class="video-title">'+data[index].title+'</div><div class="video-teacher">'+data[index].final_tea+'/'+data[index].final_position+'</div>'

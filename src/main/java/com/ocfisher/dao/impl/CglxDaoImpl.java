@@ -1081,4 +1081,16 @@ public class CglxDaoImpl implements ICglxDao {
 		}
 		return affectedRows != 0;
 	}
+
+	@Override
+	public Map<String, Object> getUserSubscribeByUionId(String unionid) {
+		Map<String, Object> resultMap = null;
+		try{
+			String sql = "select * from user_subscribe where union_id=?";
+			resultMap = jdbcTemplate.queryForMap(sql);
+		} catch(Exception e) {
+			
+		}
+		return resultMap;
+	}
 }

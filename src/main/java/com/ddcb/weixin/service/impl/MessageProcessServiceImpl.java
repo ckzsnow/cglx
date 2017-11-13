@@ -288,6 +288,10 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					final String srcOpenId = qrsceneList.get(2);
 					logger.debug("processScanEvent courseId:{}, isSeries:{}, srcOpenId:{}", courseId, isSeries, srcOpenId);
 					Map<String, Object> resultMap = courseInviteCardService.getInviteCardByCourseId(courseId);
+					if(resultMap == null || resultMap.isEmpty()) {
+						result = sendTextMessage("抱歉，此课程邀请卡活动已经结束，请关注公众号最新活动~", inputMsg);
+						return result;
+					}
 					logger.debug("processScanEvent resultMap : {}", resultMap.toString());
 					
 					Map<String, Object> sourceMap = om.readValue(getUserInfoByOpenId(srcOpenId), Map.class);
@@ -323,6 +327,10 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					final String courseId = qrsceneList.get(0);
 					final String isSeries = qrsceneList.get(1);
 					Map<String, Object> resultMap = courseInviteCardService.getInviteCardByCourseId(courseId);
+					if(resultMap == null || resultMap.isEmpty()) {
+						result = sendTextMessage("抱歉，此课程邀请卡活动已经结束，请关注公众号最新活动~", inputMsg);
+						return result;
+					}
 					logger.debug("processSubscribeEvent resultMap : {}", resultMap.toString());
 					if (resultMap != null && !resultMap.isEmpty()) {
 						copywriter = (String) resultMap.get("copywriter");

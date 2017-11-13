@@ -632,6 +632,34 @@ public class APIController {
 		}
 	}
 	
+	@RequestMapping("/user/checkSubscribe")
+	@ResponseBody
+	public Map<String, Object> checkSubscribe(HttpServletRequest request) {
+		Map<String, Object> retMap = new HashMap<>();
+		try {
+			String unionid = (String)request.getSession().getAttribute("openid");
+			logger.debug("checkSubscribe unionid : {}", unionid);
+			if(unionid.isEmpty()) {
+				retMap.put("check_code", "0");
+				return retMap;
+			}
+			Map<String, Object> userSubscribeMap = cglxDao.getUserSubscribeByUionId(unionid);
+			if(userSubscribeMap == null || userSubscribeMap.isEmpty()) {
+				logger.debug("checkSubscribe userSubscribeMap empty!");
+				retMap.put("check_code", "0");
+				return retMap;
+			} else {
+				logger.debug("checkSubscribe userSubscribeMap : {}", userSubscribeMap.toString());
+				retMap.put("check_code", userSubscribeMap.get("status"));
+				return retMap;
+			}
+		} catch(Exception e) {
+			logger.error("checkSubscribe error : {}", e.toString());
+			retMap.put("check_code", "0");
+			return retMap;
+		}
+	}
+	
 	@RequestMapping("/user/getAllUserInfo")
 	@ResponseBody
 	public List<Map<String, Object>> getAllUserInfo(HttpSession httpSession, HttpServletRequest request) {

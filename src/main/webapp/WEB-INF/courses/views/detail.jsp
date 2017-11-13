@@ -796,6 +796,7 @@ var _hmt = _hmt || [];
 					}
 					imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
 					shareTitle = data.title;
+					lineLink = window.location.href;
 					execWeixinShare();
 				}
 			});

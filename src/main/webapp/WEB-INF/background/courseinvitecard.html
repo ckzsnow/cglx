@@ -362,7 +362,7 @@
 			}
 			$.post('/course/getCourseBriefBak', function(data) {
 				for(var index in data) {
-					$('#seriesName').append('<option value="'+data[index].id+'" parent_id="'+data[index].parent_id+'">'+data[index].title+'('+(data[index].parent_id == "0"?"非系列课":"系列课")+')<option>');
+					$('#seriesName').append('<option value="'+data[index].id+'" is_series="'+data[index].is_series+'">'+data[index].title+'('+(data[index].is_series == "0"?"非系列课":"系列课")+')<option>');
 				}
 			});	
 			$('.delete').on('click', function() {
@@ -436,9 +436,9 @@
 			$('.btn-primary').attr('disabled', "");
 			$("#progress_tip").show();
 			var course_id = $('#seriesName option:selected').attr('value');
-			var parent_id = $('#seriesName option:selected').attr('parent_id');
+			var is_series = $('#seriesName option:selected').attr('is_series');
 			var person_count = $('#personcount').val().trim();
-			var isSeries = parent_id == "0"?0:1;
+			var isSeries = is_series;
 			var fd = new FormData();
 			fd.append('course_id', course_id);
 			fd.append('person_count', person_count);
