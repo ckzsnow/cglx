@@ -577,7 +577,7 @@ var _hmt = _hmt || [];
 				</div>
 				
 				<!-- 手机底部购买 -->
-				<div class="price-pay-box" style="height: .6rem;background: #fff;padding: 0 15px;line-height: .6rem;position: fixed;z-index: 100;width: 100%;bottom: -15px;box-sizing: border-box;box-shadow: rgba(0,0,0,.1) 0 0 4px;border-top: 1px solid rgba(0,0,0,.1);">
+				<div class="price-pay-box" style="position: fixed;height: .6rem;background: #fff;padding: 0 15px;line-height: .6rem;z-index: 100;width: 100%;bottom:0;box-sizing: border-box;box-shadow: rgba(0,0,0,.1) 0 0 4px;border-top: 1px solid rgba(0,0,0,.1);">
 	                <div class="price" style="float: left;color: #ff4c7c;font-size: .2rem;"><span>¥</span><span class="cost"></span></div>
 	                <div class="join-button watch-video my-btn" style="font-size: .18rem; float: right;width: 1rem;height: .4rem;color: #fff;cursor: pointer;line-height: 40px;margin-top: .1rem;background: #f5a623;text-align: center;border-radius: 4px;">立即购买</div>
 				</div>
@@ -702,7 +702,18 @@ var _hmt = _hmt || [];
 				if (!checkJsonIsEmpty(data)) {
 					cost = data.cost;
 					$('.course_title').html(data.title);
-					$('.cost').html(data.fee);
+					
+					var deadline = data.deadline;
+					var now = (new Date()).valueOf();
+					var d_value = deadline-now;
+					var remain_day = parseInt((d_value)/1000/60/60/24);
+					var remain_hour = parseInt((d_value - remain_day*1000*60*60*24)/1000/60/60);
+					var remain_min = parseInt((d_value - remain_day*1000*60*60*24 - remain_hour*1000*60*60)/1000/60);
+					
+					
+					$('.cost').html(data.fee + '  <span style="font-size:12px;color:black">(' + data.rebate + '折 剩余时间：'+remain_day+'天'+remain_hour+'小时'+remain_min+'分钟)</span>');
+					
+					//$('.cost').html(data.fee);
 					$('#time').html(data.time);
 					$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
 					$('#teacher').html(data.final_tea);
@@ -803,6 +814,7 @@ var _hmt = _hmt || [];
 		});
 		
 		if(!isWeiXin()) {
+			$('.price-pay-box').css('display', 'none');
 			$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
 				if (!checkJsonIsEmpty(data)) {
 					cost = data.cost;
@@ -822,7 +834,15 @@ var _hmt = _hmt || [];
 					} else {
 						$('.cost').html(data.cost);
 					} */
-					$('.cost').html(data.fee);
+					var deadline = data.deadline;
+					var now = (new Date()).valueOf();
+					var d_value = deadline-now;
+					var remain_day = parseInt((d_value)/1000/60/60/24);
+					var remain_hour = parseInt((d_value - remain_day*1000*60*60*24)/1000/60/60);
+					var remain_min = parseInt((d_value - remain_day*1000*60*60*24 - remain_hour*1000*60*60)/1000/60);
+					
+					
+					$('.cost').html(data.fee + '  <span style="font-size:12px;color:black">(' + data.rebate + '折 剩余时间：'+remain_day+'天'+remain_hour+'小时'+remain_min+'分钟)</span>');
 					$('#time').html(data.time);
 					$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
 					$('#teacher').html(data.final_tea);
@@ -1106,6 +1126,20 @@ var _hmt = _hmt || [];
 		document.getElementById('video_src').addEventListener('pause', function() {
 			clearInterval(interval);
 		});
+		
+		function add0(m){return m<10?'0'+m:m }
+		function format(shijianchuo)
+		{
+			//shijianchuo是整数，否则要parseInt转换
+			var time = new Date(shijianchuo);
+			var y = time.getFullYear();
+			var m = time.getMonth()+1;
+			var d = time.getDate();
+			var h = time.getHours();
+			var mm = time.getMinutes();
+			var s = time.getSeconds();
+			return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+		}   
 		
 	</script>
 
