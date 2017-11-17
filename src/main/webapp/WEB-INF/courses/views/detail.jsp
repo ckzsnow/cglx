@@ -43,7 +43,72 @@
 	video::-webkit-media-controls-panel {
 	    width: calc(100% + 30px); /* Adjust as needed */
 	}
+	.bottom-buy-link-mobile {
+		position: fixed;
+		height: .6rem;
+		background: #fff;
+		padding: 0 15px;
+		width: 100%;
+		bottom: 0;
+		box-sizing: border-box;
+		box-shadow: rgba(0, 0, 0, .1) 0 0 4px;
+		border-top: 1px solid rgba(0, 0, 0, .1)
+	}
+	.bottom-buy-link-mobile .buy-link-btn {
+		position: absolute;
+		right: .15rem;
+		bottom: .09rem;
+		width: 1rem;
+		height: .4rem;
+		line-height: .4rem;
+		color: #fff;
+		margin-top: .15rem;
+		background: #f5a623;
+		cursor: pointer;
+		font-size: .18rem;
+		text-align: center;
+		border-radius: 5px
+	}
 	
+	.bottom-buy-link-mobile .price {
+		display: inline-block;
+		margin-top: .05rem;
+		width: 2rem;
+		color: #ff4c7c;
+		font-size: .16rem
+	}
+	.bottom-buy-link-mobile .price .moneygreen {
+		color: #7ed321
+	}
+	.bottom-buy-link-mobile .price .fee {
+		font-size: .2rem
+	}
+	.bottom-buy-link-mobile .price .save-fee {
+		font-size: .14rem;
+		color: #202020
+	}
+	.bottom-buy-link-mobile .price .p-course {
+		color: #555
+	}
+	.bottom-buy-link-mobile .price .p-course .course,
+		.page-video-series .bottom-buy-link-mobile .price .p-course .min {
+		color: #202020
+	}
+	.bottom-buy-link-mobile .buy-link-btn {
+		position: absolute;
+		right: .15rem;
+		bottom: .09rem;
+		width: 1rem;
+		height: .4rem;
+		line-height: .4rem;
+		color: #fff;
+		margin-top: .15rem;
+		background: #f5a623;
+		cursor: pointer;
+		font-size: .18rem;
+		text-align: center;
+		border-radius: 5px
+	}
 </style>
 <script>
 var _hmt = _hmt || [];
@@ -399,7 +464,7 @@ var _hmt = _hmt || [];
 
 
 							<div class="price">
-								<span>¥</span><span class="cost"></span>
+								<span>¥</span><span class="cost_title"></span><span class="remain_title"></span>
 							</div>
 
 							<!-- button -->
@@ -577,10 +642,27 @@ var _hmt = _hmt || [];
 				</div>
 				
 				<!-- 手机底部购买 -->
-				<div class="price-pay-box" style="position: fixed;height: .6rem;background: #fff;padding: 0 15px;line-height: .6rem;z-index: 100;width: 100%;bottom:0;box-sizing: border-box;box-shadow: rgba(0,0,0,.1) 0 0 4px;border-top: 1px solid rgba(0,0,0,.1);">
+				<!-- <div class="price-pay-box" style="position: fixed;height: .6rem;background: #fff;padding: 0 15px;line-height: .6rem;z-index: 100;width: 100%;bottom:0;box-sizing: border-box;box-shadow: rgba(0,0,0,.1) 0 0 4px;border-top: 1px solid rgba(0,0,0,.1);">
 	                <div class="price" style="float: left;color: #ff4c7c;font-size: .2rem;"><span>¥</span><span class="cost"></span></div>
+	                <p class="p-course"><span class="number-course">共<span class="course sub_count"></span>节课 - <span class="min sub_time_total"></span></span></p>
+                    </div>
 	                <div class="join-button watch-video my-btn" style="font-size: .18rem; float: right;width: 1rem;height: .4rem;color: #fff;cursor: pointer;line-height: 40px;margin-top: .1rem;background: #f5a623;text-align: center;border-radius: 4px;">立即购买</div>
-				</div>
+				</div> -->
+				
+				
+				<!-- mobile 固定购买栏 -->
+				<div class="bottom-buy-link-mobile">
+                    <div class="price">
+                        
+                        <span class="fee cost"></span><span style="font-size:18px;font-style:italic;color:gray;text-decoration:line-through;" class="original-price"></span>
+                        
+                        <p class="p-course" style="font-size:12px"></p>
+                    </div>
+                    
+                        <div class="buy-link-btn buy-series">立即购买</div>
+                    
+                </div>
+				
 				
 				<!-- pc 立即购买固定栏 -->
 				<div class="bottom-buy-link-wrap">
@@ -710,10 +792,13 @@ var _hmt = _hmt || [];
 					var remain_hour = parseInt((d_value - remain_day*1000*60*60*24)/1000/60/60);
 					var remain_min = parseInt((d_value - remain_day*1000*60*60*24 - remain_hour*1000*60*60)/1000/60);
 					
+					$('.cost_title').html(data.fee + '  <span style="font-size:12px;color:black">(' + data.rebate + '折 剩余时间：'+remain_day+'天'+remain_hour+'小时'+remain_min+'分钟)</span>');
+					$('.cost').html('￥' + data.fee + '   ');
+					if(now < deadline && now > data.starttime) {
+						$('.p-course').html('还剩' + remain_day+'天'+remain_hour+'小时'+remain_min+'分钟');
+					}
+					$('.original-price').html('￥' + data.cost);
 					
-					$('.cost').html(data.fee + '  <span style="font-size:12px;color:black">(' + data.rebate + '折 剩余时间：'+remain_day+'天'+remain_hour+'小时'+remain_min+'分钟)</span>');
-					
-					//$('.cost').html(data.fee);
 					$('#time').html(data.time);
 					$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
 					$('#teacher').html(data.final_tea);
@@ -814,7 +899,7 @@ var _hmt = _hmt || [];
 		});
 		
 		if(!isWeiXin()) {
-			$('.price-pay-box').css('display', 'none');
+			$('.bottom-buy-link-mobile').css('bottom', '-15px');
 			$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
 				if (!checkJsonIsEmpty(data)) {
 					cost = data.cost;
@@ -842,7 +927,14 @@ var _hmt = _hmt || [];
 					var remain_min = parseInt((d_value - remain_day*1000*60*60*24 - remain_hour*1000*60*60)/1000/60);
 					
 					
-					$('.cost').html(data.fee + '  <span style="font-size:12px;color:black">(' + data.rebate + '折 剩余时间：'+remain_day+'天'+remain_hour+'小时'+remain_min+'分钟)</span>');
+					$('.cost_title').html(data.fee);
+					if(now < deadline && now > data.starttime) {
+						$('.remain_title').html('<span style="font-size:12px;color:black">    (' + data.rebate + '折 剩余时间：'+remain_day+'天'+remain_hour+'小时'+remain_min+'分钟)</span>');
+					}
+					$('.cost').html('￥' + data.fee + '   ');
+					$('.remain').html(remain_day+'天'+remain_hour+'小时'+remain_min+'分钟');
+					$('.original-price').html('￥' + data.cost);
+					
 					$('#time').html(data.time);
 					$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
 					$('#teacher').html(data.final_tea);

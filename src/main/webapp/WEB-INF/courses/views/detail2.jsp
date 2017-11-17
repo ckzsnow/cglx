@@ -8,11 +8,14 @@
 	WebApplicationContext wac = WebApplicationContextUtils
 			.getRequiredWebApplicationContext(this.getServletContext());
 	String courseId = (String) session.getAttribute("course_id");
+	String view = (String) session.getAttribute("view");
 	Map<String, String> result = new HashMap<>();
 	result = WeixinTools.getSign(
-			"http://www.udiyclub.com/courses/jsp?id=" + courseId);	
+			"http://www.udiyclub.com/courses/jsp?id=" + courseId + "&view=" + view);	
 %>
+
 <!DOCTYPE html>
+<!-- saved from url=(0033)http://www.xfz.cn/course/117.html -->
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -24,9 +27,24 @@
 	content="DIY研习社是国内首家留学互助共享平台，致力于为所有留学申请者提供资源共享、交际交流的渠道和机会，社员和内容覆盖留学申请所有主流国家。">
 <title>DIY研习社－中国留学生互助交流平台，让留学不孤单</title>
 <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
-<link href="/courses/css/courseSeriesDetail.min.css" rel="stylesheet">
+
+<link href="/courses/css/video.min.css" rel="stylesheet">
 <script src="/js/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/login.css">
+<style>
+	video::-internal-media-controls-download-button {
+	    display:none;
+	}
+	
+	video::-webkit-media-controls-enclosure {
+	    overflow:hidden;
+	}
+	
+	video::-webkit-media-controls-panel {
+	    width: calc(100% + 30px); /* Adjust as needed */
+	}
+	
+</style>
 <script>
 var _hmt = _hmt || [];
 (function() {
@@ -50,8 +68,7 @@ var _hmt = _hmt || [];
 					<li class="news" data-id="news"><a href="/view/homepage.html">留学专栏</a>
 					</li>
 					<li class="active"><a href="/courses/views/courses.html">在线课程</a></li>
-					<li class="activity" data-id="activity"><a
-						href="/view/success.html">成功案例</a></li>
+					<li class="activity" data-id="activity"><a href="/view/success.html">成功案例</a></li>
 					<li class="gift" data-id="gift"><a href="/view/about.html">关于我们</a>
 					</li>
 					<li class="search" data-id="search"><a href="/view/search.html">搜索</a>
@@ -321,49 +338,20 @@ var _hmt = _hmt || [];
                 </div>
             </div>
         </div>
-        
-        
-        <div id="focus_button" style="position:fixed;right:.2rem;bottom:1rem;z-index: 9999;width: 60px;height: 60px;background: url(/images/focus.png) no-repeat;background-size: 100%;display:none"></div>
-        
-        <div id="focus" class="cglx-login-mask mobile-login" style="display: none;position: fixed;top: 0;bottom: 0;left: 0;right: 0;z-index: 99999;background: rgba(0,0,0,.8);">
-            <div class="mobile-dialog login-regist">
-                <div class="login-close close"></div>
-                <div class="login-regist-card card" data-show="true">
-                    <div class="logo"></div>
-                    <img src="/images/qrcode.jpg" width="100%">
-                    <p style="text-align:center">关注公众号，获取更多内容</p>
-                </div>
-            </div>
-        </div>
 
-	<div class="wap-wrapper" id="wap-wrapper">
-		<div class="tips">很抱歉，因微信支付限制，只能从微信内或者电脑端购买</div>
-		<div class="info">
-			<div class="title">文化娱乐产业投资逻辑</div>
-			<div class="link">http://www.xfz.cn/course/series/10.html</div>
-		</div>
-		<div class="wx-tips">微信内打开方法：长按网址复制，在微信内发送该网址，在消息内打开。</div>
-		<div class="bottom-logo"></div>
-	</div>
 	<div class="wrapper" id="wrapper">
-		<input type="hidden" name="productId"
-			value="e683b6a20f4a4dd088a72bcf84316baa"> <input
-			type="hidden" name="title" value="文化娱乐产业投资逻辑"> <input
-			type="hidden" name="img"
-			value="http://static-image.xfz.cn/1501670834_106.jpg-seriescourse.list">
-		<input type="hidden" name="desc" value="文娱大IP是如何投出来的？">
 		<nav class="video-nav">
 			<div class="container">
 				<div class="nav-title">
 					<a href="/courses/views/courses.html">在线课堂</a>
 				</div>
 				<ul>
-					<li><a href="/courses/views/courses.html">最新课程</a></li>
+					<li class="active"><a href="/courses/views/courses.html">最新课程</a></li>
 					<li><a href="/courses/views/essay.html">文书写作</a></li>
 					<li><a href="/courses/views/major.html">院校专业</a></li>
 					<li><a href="/courses/views/case.html">成功案例</a></li>
 					<li><a href="/courses/views/experience.html">留学体验</a></li>
-					<li class="active"><a href="/courses/views/series.html">系列课</a></li>
+					<li><a href="/courses/views/series.html">系列课</a></li>
 				</ul>
 				<div class="my-course"><a href="/view/mycourse.html">我的课堂</a></div>
 			</div>
@@ -371,119 +359,208 @@ var _hmt = _hmt || [];
 		<!-- mobile nav -->
 		<nav class="second-mobile-nav">
 			<ul>
-				<li><a href="/courses/views/courses.html">最新课程</a></li>
+				<li class="active"><a href="/courses/views/courses.html">最新课程</a></li>
 				<li><a href="/courses/views/essay.html">文书写作</a></li>
 				<li><a href="/courses/views/major.html">院校专业</a></li>
 				<li><a href="/courses/views/case.html">成功案例</a></li>
 				<li><a href="/courses/views/experience.html">留学体验</a></li>
-				<li class="active"><a href="/courses/views/series.html">系列课</a></li>
-				<li class="my-course">我的课堂</li>
+				<li><a href="/courses/views/series.html">系列课</a></li>
+				<li class="my-course"><a href="/view/mycoures.html">我的课堂</a></li>
 			</ul>
 		</nav>
-		<div class=""></div>
-		<div class="page-video-series">
+		<div class="page-video">
 			<div class="detail-content">
-				<div class="info-left">
-					<!-- 系类课程banner部分 -->
-					<div class="series-banner">
-						<div class="series-banner-img">
-							<img src="" id="banner">
+				<div class="video">
+					<!-- 视频区 头部banner -->
+					<div class="banner">
+						<!-- banner信息 -->
+						<div class="banner-left">
+							<div class="video-title course_title"></div>
+							<div class="video-info">
+								<div class="wxApi">
+									<input type="hidden" name="course-photo" id="course-photo"
+										value="http://static-image.xfz.cn/1503558453_980.jpg">
+								</div>
+								<div class="share">
+									<i>分享至：</i> 
+									<a class="share_bg weixin weixin-top"></a> 
+									<a class="share_bg sina" target="_blank" href="javascript:callshare()" id="share_weibo" data=""></a>
+									<div class="panel-weixin panel-weixin-top" style="display: none;">
+									<section class="weixin-section">
+										<div id="weixin_qrcode" style="margin:10px;"></div>
+									</section>
+									<h3>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</h3>
+								</div>
+								</div>
+							</div>
 						</div>
-						<div class="series-word" id="abstract"></div>
+						<!-- banner buy button -->
+						<div class="buy-link">
+
+
+							<div class="price">
+								<span>¥</span><span class="cost"></span>
+							</div>
+
+							<!-- button -->
+
+							<div class="buy-btn not_buy join-button watch-video my-btn">立即购买</div>
+
+
+						</div>
 					</div>
-					<div class="series-main">
-
-						<!-- 系列课程购买价格栏 -->
-						<div class="series-all-price">
-							<div class="series-course-price">
-								<span class="number-course">共
-									<span class="course sub_count"></span>
-									节课 - 
-									<span class="min sub_time_total"></span>
-								</span> 
-								<span class="price-course">组合价：
-									<span class="price cost"></span>
-									<span class="money">&nbsp;&nbsp;(省<span class="discount"></span>元)</span>
-                                </span>
+					<!-- 视频播放区 -->
+					<div class="video-detail watch-video" id="video-snap" style="display:block">
+						<!-- 无播放权限 -->
+						<div class="no-auth-player">
+							<div class="bg-photo">
+								<img id="course_snapshot" src="">
 							</div>
-
-							<button class="series-buy-btn buy-series">立即购买</button>
-
-						</div>
-
-
-
-						<!-- 系列课程讲师介绍 -->
-						<div class="series-introduct-teacher">
-							<p class="teacher">课程讲师</p>
-							<div class="intro">
-								<div class="photo">
-									<img id="teacher_img" src="" width="60" height="60" alt="">
-								</div>
-								<div class="info">
-									<p class="name" id="teacher"></p>
-									<p class="position" id="teacher_position"></p>
+							<div class="no-login-mask">
+								<div class="player-icon">
+									<img src="/courses/images/pc-icon-replay.png">
 								</div>
 							</div>
-							<p class="text" id="teacher_abstract"></p>
 						</div>
+					</div>
+					<video id="video_src" webkit-playsinline="true" playsinline="true" width="100%" height="85%" style="display:none;">
+					</video>
+					
+				</div>
+				<!-- mobile 购买按钮状态 -->
+				<div class="mobile-buy-status">
+					<div class="title course_title"></div>
+					<div class="time">时长: <span id="time"></span>分钟</div>
 
+					<div class="buy-status no-buy"></div>
 
-						<div class="course-title">
-							<p>课程详情</p>
-						</div>
+					<!-- 所属系列课手机 -->
 
-						<div class="series-course-all">
-						</div>
-						<!-- 帮助中心 -->
-						<div class="series-help">
-							<div class="help-title">
-								<p>帮助中心</p>
+					<div class="series-recommend">
+						<span class="tips"></span>
+						<p class="info-title">所属系列课:<span class="parent_title"></span></p>
+						<div class="info">
+							<div class="price-and-len">
 							</div>
-							<div>
-								<ul>
-									<li id="help"></li>
-									<!-- <li>2. 课程暂不支持下载观看，均为在线观看视频。</li>
-									<li>3. 课程一经购买，不可转让、不可退款；仅限购买账号观看。</li>
-									<li>4. 如有问题请咨询客服饭桌君： 电话：18618172287 微信：fanzhuojun888</li> -->
-								</ul>
-							</div>
-						</div>
-						<!-- 小饭桌夜校栏目 -->
-						<div class="series-about">
-							<div class="series-about-title">
-								<p>关于DIY研习社在线课堂</p>
-							</div>
-							<div>
-								<ul>
-									<li id="about">
-										DIY研习社在线课程是DIY研习社旗下的视频课程产品，旨在汇聚各大机构的优秀顾问和有成功经验的个人导师，为留学申请者提供实战的指导，帮大家更低成本、更高效率、更好体验的获取留学申请知识和方法。课程内容覆盖留学申请、出国语言、名企实习面试等，课程体验广受学生好评。
-									</li>
-								</ul>
+							<div class="detail">
+								<a class="parent_href" target="_blank">查看详情></a>
 							</div>
 						</div>
-						<!-- 课程推荐 -->
-						<div class="series-recommend-all">
-							<div class="series-height"></div>
-							<div class="series-title">
-								<span>课程推荐</span>
+					</div>
+
+				</div>
+				<!-- 课程详情介绍 -->
+				<div class="info-left">
+					<!-- 所属系列课pc -->
+
+					<div class="series-info">
+						<div class="sub-title">
+							<span>所属系列课</span>
+						</div>
+						<div class="main-content">
+							<div class="info-img-left">
+								<img id="parent_snapshot" >
 							</div>
-							<!-- 手机推荐课堂-->
-							<div class="course-recommend">
-								<div class="big" id="big">
-
-
+							<div class="info-detail-right">
+								<p class="content parent_title"></p>
+								<div class="price-and-len">
 								</div>
-								<div class="small" id="small">
-
-
+								<div class="detail">
+									<a class="parent_href" target="_blank">查看详情></a>
 								</div>
 							</div>
-
 						</div>
+					</div>
+
+					<div class="teacher-info">
+						<div class="teacher-title">课程讲师</div>
+						<div class="icon guide-img"></div>
+						<div class="guide-person">
+
+							<div class="photo">
+								<img id="teacher_image" src="">
+							</div>
+
+							<div class="person-info">
+								<span class="name" id="teacher"></span> <span class="position"
+									id="teacher_position"></span>
+							</div>
+						</div>
+						<div class="content" id="teacher_abstract"></div>
+					</div>
+
+					<div class="info">
+						<div class="sub-title">
+							<span>课程简介</span>
+						</div>
+						<div class="content">
+							<p id="description"></p>
+						</div>
+					</div>
+
+					<div class="info">
+						<div class="sub-title">
+							<span>课程大纲</span>
+						</div>
+						<div class="content">
+							<p id="outline"></p>
+						</div>
+					</div>
+
+					<div class="info">
+						<div class="sub-title">
+							<span>课程信息</span>
+						</div>
+						<div class="content">
+							<p id="info"></p>
+						</div>
+					</div>
+
+					<div class="info">
+						<div class="sub-title">
+							<span>适宜人群</span>
+						</div>
+						<div class="content">
+							<p id="crowds"></p>
+						</div>
+					</div>
+
+					<div class="info">
+						<div class="sub-title">
+							<span>帮助中心</span>
+						</div>
+						<div class="content">
+							<p id="help"></p>
+						</div>
+					</div>
+					<div class="info">
+						<div class="sub-title">
+							<span>关于DIY研习社在线课程</span>
+						</div>
+						<div class="content">
+							<p id="about">
+							DIY研习社在线课程是DIY研习社旗下的视频课程产品，旨在汇聚各大机构的优秀顾问和有成功经验的个人导师，为留学申请者提供实战的指导，帮大家更低成本、更高效率、更好体验的获取留学申请知识和方法。课程内容覆盖留学申请、出国语言、名企实习面试等，课程体验广受学生好评。
+							</p>
+						</div>
+					</div>
+					<!-- mobile 课程推荐 -->
+					<div class="info mobile-course-recommend">
+						<div class="sub-title">
+							<span>课程推荐</span>
+						</div>
+						<!-- 手机推荐课堂-->
+						<div class="course-recommend">
+							<div class="big" id="big">
+
+							</div>
+							<div class="small" id="small">
+
+							</div>
+						</div>
+
 					</div>
 				</div>
-				<!-- 右侧栏 -->
+				<!-- pc 右侧课程推荐 -->
 				<div class="info-right">
 					<!-- pc推荐课堂 -->
 					<div class="recommend">
@@ -492,57 +569,54 @@ var _hmt = _hmt || [];
 						</div>
 						<div class="recommend-big" id="recommend-big">
 
-
 						</div>
 						<div class="recommend-small" id="recommend-small">
 
 						</div>
 					</div>
+				</div>
+				
+				<!-- 手机底部购买 -->
+				<div class="price-pay-box" style="position: fixed;height: .6rem;background: #fff;padding: 0 15px;line-height: .6rem;z-index: 100;width: 100%;bottom:0;box-sizing: border-box;box-shadow: rgba(0,0,0,.1) 0 0 4px;border-top: 1px solid rgba(0,0,0,.1);">
+	                <div class="price" style="float: left;color: #ff4c7c;font-size: .2rem;"><span>¥</span><span class="cost"></span></div>
+	                <div class="join-button watch-video my-btn" style="font-size: .18rem; float: right;width: 1rem;height: .4rem;color: #fff;cursor: pointer;line-height: 40px;margin-top: .1rem;background: #f5a623;text-align: center;border-radius: 4px;">立即购买</div>
+				</div>
+				
+				<!-- pc 立即购买固定栏 -->
+				<div class="bottom-buy-link-wrap">
+					<div class="bottom-buy-link">
+
+						<div class="buy-link-btn watch-video my-btn">立即购买</div>
+
+						<div class="info course_title"></div>
+
+						<div class="price">
+							<span>￥</span> <span class="cost"></span>
+						</div>
+
+					</div>
+				</div>
+				<!-- pc 立即购买浮动栏 -->
+				<div class="bottom-buy-link-float">
+
+					<div class="buy-link-btn watch-video my-btn">立即购买</div>
+
+					<div class="info course_title"></div>
+
+					<div class="price">
+						<span>￥</span> <span class="cost"></span>
+					</div>
 
 				</div>
-
-				<!-- mobile 固定购买栏 -->
-				<div class="bottom-buy-link-mobile">
-                    <div class="price">
-                        
-                        <p class="money">组合价:<span class="fee cost"></span><span style="font-size:18px;font-style:italic;color:gray;text-decoration:line-through;" class="original-price"></span></p>
-                        
-                        <p class="p-course" style="font-size:12px"><span class="number-course">共<span class="course sub_count"></span>节课</span><span class="remain"></span></p>
-                    </div>
-                    
-                        <div class="buy-link-btn buy-series">立即购买</div>
-                    
-                </div>
-				<!-- pc 购买栏 -->
-				<div class="bottom-buy-link-wrap">
-                    <div class="bottom-buy-link" style="display: none;">
-                        
-                            <div class="buy-link-btn buy-series">立即购买</div>
-                        
-                        <div class="info">
-                            <span class="number-course">共<span class="course sub_count"></span>节课 - <span class="min sub_time_total"></span></span>
-                            <span class="price-course">组合价：<span class="price cost"></span><span class="money">&nbsp;&nbsp;(省<span class="discount"></span>元)</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-				<!-- pc 购买浮动栏 -->
-				<div class="bottom-buy-link-float" style="display: block;">
-                    
-                        <div class="buy-link-btn buy-series">立即购买</div>
-                    
-                    <div class="info">
-                        <span class="number-course">共<span class="course sub_count"></span>节课 - <span class="min sub_time_total"></span></span>
-                        <span class="price-course">组合价：<span class="price cost"></span><span class="money">&nbsp;&nbsp;(省<span class="discount"></span>元)</span>
-                        </span>
-                    </div>
-                </div>
-
 			</div>
 		</div>
 		<div class="mask">
 			<div class="bigImg"></div>
 		</div>
+	</div>
+	<!-- <div class="loading"></div> -->
+	<div class="mask">
+		<div class="bigImg"></div>
 	</div>
 
 	<footer class="footer-simple">
@@ -568,12 +642,13 @@ var _hmt = _hmt || [];
 			<p>©2017 上海邦融网络科技有限责任公司  沪ICP备15002235号-6</p>
 		</div>
 	</footer>
-	<script src="/courses/js/main.js"></script>
+
+	<script src="/js/main.js"></script>
 	<script type="text/javascript" src="/js/login2.js"></script>
 	<script src="/courses/js/courseSeriesDetail.min.js"></script>
+	<script type="text/javascript" src="/js/qrcode.min.js"></script>
 	<script src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-	<script type="text/javascript">
-	
+	<script>
 		wx.config({
 			appId: 'wxf139053a88924f58',
 			timestamp: <%=result.get("timestamp")%>,
@@ -590,7 +665,7 @@ var _hmt = _hmt || [];
 		var descContent = "DIY研习社－中国留学生互助交流平台，让留学不孤单";
 		var shareTitle = "DIY研习社";
 		var lineLink = "http://www.udiyclub.com";
-		
+	
 		$('.name').on('click', function(event) {
 			event.stopPropagation();
 			$('#logout').toggle('fast');
@@ -599,6 +674,12 @@ var _hmt = _hmt || [];
 			$('#logout').hide(500);
 		});
 		
+		function callshare(){
+			var shareTitle = $("#share_weibo").attr("title");
+			var shareImg = $("#share_weibo").attr("image");
+			var shareURL = $("#share_weibo").attr("url");
+			window.open("http://v.t.sina.com.cn/share/share.php?title="+encodeURIComponent(shareTitle)+"&url="+encodeURIComponent(shareURL)+"&pic="+encodeURIComponent(shareImg)+"&source=bookmark","_blank");
+		};
 		(function ($) {
 	        $.getUrlParam = function (name) {
 	            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
@@ -606,62 +687,237 @@ var _hmt = _hmt || [];
 	            if (r != null) return unescape(r[2]); return null;
 	        }
 	    })(jQuery);	
-
+	
+		//var id = $.getUrlParam('id');
+		var video_src;
 		var id = <%=courseId%>;
 		var cost;
+		var playVideoEvent = 1;
+		var seekingVideoEvent = 0;
+		var courseDate = 0;
+		var currentDate = 0;
+		var courseLength = 0;
+		document.addEventListener("WeixinJSBridgeReady", function () {
+			$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
+				if (!checkJsonIsEmpty(data)) {
+					cost = data.cost;
+					$('.course_title').html(data.title);
+					
+					var deadline = data.deadline;
+					var now = (new Date()).valueOf();
+					var d_value = deadline-now;
+					var remain_day = parseInt((d_value)/1000/60/60/24);
+					var remain_hour = parseInt((d_value - remain_day*1000*60*60*24)/1000/60/60);
+					var remain_min = parseInt((d_value - remain_day*1000*60*60*24 - remain_hour*1000*60*60)/1000/60);
+					
+					
+					$('.cost').html(data.fee + '  <span style="font-size:12px;color:black">(' + data.rebate + '折 剩余时间：'+remain_day+'天'+remain_hour+'小时'+remain_min+'分钟)</span>');
+					
+					//$('.cost').html(data.fee);
+					$('#time').html(data.time);
+					$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
+					$('#teacher').html(data.final_tea);
+					$('#teacher_position').html(data.final_position);
+					
+					var final_abstract = data.final_abstract;
+					final_abstract = final_abstract.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#teacher_abstract').html(final_abstract);
+					
+					var description = data.description;
+					//description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#description').html(description);
+					
+					var outline = data.outline;
+					outline = outline.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#outline').html(outline);
+					
+					var info = data.info;
+					info = info.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#info').html(info);
+					
+					var crowds = data.crowds;
+					crowds = crowds.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#crowds').html(crowds);
+					
+					var help = data.final_help;
+					help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;')
+					$('#help').html(help);
+					
+					//$('#about').html(data.final_about);
+					$('.buy-status').html(data.pay_status == 1?'已购买':'未购买')
+					$('#course_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
+					if(data.pay_status == 1) {
+						$('.my-btn').html('已购买').css('background-color', '#ccc');
+						$('#video-snap').css('display', 'none');
+						$('#video_src').css('display', 'block');
+						document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
+						var playtime = data.playtime;
+						var str =playtime;
+						str = str.replace(/-/g,"/");
+						courseDate = new Date(str).getTime() / 1000;
+						currentDate = new Date().getTime() / 1000;
+						courseLength = parseInt(data.time) * 60;
+						if(currentDate < courseDate) {
+							alert('课程尚未开播，开播时间为：' + playtime);
+							var interval = window.setInterval(function(){
+								currentDate = new Date().getTime() / 1000;
+								if(currentDate >= courseDate) {
+									document.getElementById("video_src").src = data.video_src;
+									document.getElementById("video_src").controls = "controls";
+									document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
+									clearInterval(interval);
+								} 
+							},3000);
+						} else {
+							document.getElementById("video_src").src = data.video_src;
+						}
+						document.getElementById("video_src").addEventListener('timeupdate', function(){
+							if(document.getElementById("video_src").currentTime != 0 && playVideoEvent == 1) {
+								playVideoEvent = 2;
+								document.getElementById("video_src").pause();
+								courseDate = new Date(str).getTime() / 1000;
+								if(currentDate - courseDate < courseLength) {
+									document.getElementById("video_src").currentTime = currentDate - courseDate;
+								}
+								document.getElementById("video_src").play();
+							}
+						});
+						var slideTime = true;
+						document.getElementById("video_src").addEventListener('seeking', function(){
+							if(playVideoEvent == 2 && seekingVideoEvent == 0) {
+								seekingVideoEvent = 1;
+								return;
+							}
+							if(!slideTime) {
+								seekingVideoEvent = 1;
+								slideTime = true;
+								return;
+							}
+							if(seekingVideoEvent == 2) {
+								seekingVideoEvent = 0;
+								courseDate = new Date(str).getTime() / 1000;
+								if(currentDate - courseDate < courseLength) {
+									slideTime = false;
+									document.getElementById("video_src").currentTime = currentDate - courseDate;
+								}
+							}
+							seekingVideoEvent++;
+						});
+						
+					}
+					imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
+					shareTitle = data.title;
+					lineLink = window.location.href;
+					execWeixinShare();
+				}
+			});
+		});
 		
-		if(isWeiXin()) {
-			$('.bottom-buy-link-float').css('display', 'none');
+		if(!isWeiXin()) {
+			$('.price-pay-box').css('display', 'none');
+			$.post('/course/getSubcourseDetailById', {id : id}, function(data) {
+				if (!checkJsonIsEmpty(data)) {
+					cost = data.cost;
+					$('.course_title').html(data.title);
+					
+					/* var rebate = data.rebate / 10;
+					var starttime = data.starttime;
+					var deadline = data.deadline;
+					var cost = data.cost;
+					var starttimeDate = new Date(starttime).getTime() / 1000;
+					var deadlineDate = new Date(deadline).getTime() / 1000;
+					var currentDate = new Date().getTime() / 1000;
+					if(starttime!=null && deadline!=null) {
+						if(deadlineDate>currentDate && currentDate>starttimeDate) {
+							$('.cost').html(rebate*cost);
+						}
+					} else {
+						$('.cost').html(data.cost);
+					} */
+					var deadline = data.deadline;
+					var now = (new Date()).valueOf();
+					var d_value = deadline-now;
+					var remain_day = parseInt((d_value)/1000/60/60/24);
+					var remain_hour = parseInt((d_value - remain_day*1000*60*60*24)/1000/60/60);
+					var remain_min = parseInt((d_value - remain_day*1000*60*60*24 - remain_hour*1000*60*60)/1000/60);
+					
+					
+					$('.cost').html(data.fee + '  <span style="font-size:12px;color:black">(' + data.rebate + '折 剩余时间：'+remain_day+'天'+remain_hour+'小时'+remain_min+'分钟)</span>');
+					$('#time').html(data.time);
+					$('#teacher_image').attr('src', '/cglx/files/imgs/' + data.final_image);
+					$('#teacher').html(data.final_tea);
+					$('#teacher_position').html(data.final_position);
+					
+					var final_abstract = data.final_abstract;
+					final_abstract = final_abstract.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#teacher_abstract').html(final_abstract);
+					
+					var description = data.description;
+					//description = description.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#description').html(description);
+					
+					var outline = data.outline;
+					outline = outline.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#outline').html(outline);
+					
+					var info = data.info;
+					info = info.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#info').html(info);
+					
+					var crowds = data.crowds;
+					crowds = crowds.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#crowds').html(crowds);
+					
+					var help = data.final_help;
+					help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
+					$('#help').html(help);
+					
+					//$('#about').html(data.final_about);
+					$('.buy-status').html(data.pay_status == 1?'已购买':'未购买')
+					$('#course_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
+					if(data.pay_status == 1) {
+						$('.my-btn').html('已购买').css('background-color', '#ccc');
+						$('#video-snap').css('display', 'none');
+						$('#video_src').css('display', 'block');
+						document.getElementById("video_src").src = data.video_src;
+						document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
+						//document.getElementById("video_src").controls = "controls";
+						var playtime = data.playtime;
+						var str =playtime;
+						str = str.replace(/-/g,"/");
+						var courseDate = new Date(str).getTime() / 1000;
+						var currentDate = new Date().getTime() / 1000;
+						var courseLength = parseInt(data.time) * 60;
+						if(currentDate > courseDate && currentDate-courseDate>courseLength) {
+							document.getElementById("video_src").controls = "controls";
+							document.getElementById("video_src").play();
+						} else if(currentDate > courseDate && currentDate-courseDate<courseLength) {
+							document.getElementById("video_src").currentTime = currentDate-courseDate;
+							document.getElementById("video_src").play();
+						} else {
+							alert('课程尚未开播，开播时间为：' + playtime);
+							var interval = window.setInterval(function(){
+								currentDate = new Date().getTime() / 1000;
+								if(currentDate > courseDate && currentDate-courseDate>courseLength) {
+									document.getElementById("video_src").controls = "controls";
+									document.getElementById("video_src").play();
+									clearInterval(interval); 
+								} else if(currentDate > courseDate && currentDate-courseDate<courseLength) {
+									document.getElementById("video_src").currentTime = currentDate-courseDate;
+									document.getElementById("video_src").play();
+									clearInterval(interval); 
+								} 
+							},5000);
+						}
+					}
+					imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
+					shareTitle = data.title;
+					execWeixinShare();
+				}
+			});
 		}
-		
-		$.post('/course/getSeriesDetailById', {id : id}, function(data) {
-			
-			cost = data.cost;
-			$('#banner').attr('src', '/cglx/files/imgs/' + data.banner);
-
-
-			var deadline = data.deadline;
-			var now = (new Date()).valueOf();
-			var d_value = deadline-now;
-			var remain_day = parseInt((d_value)/1000/60/60/24);
-			var remain_hour = parseInt((d_value - remain_day*1000*60*60*24)/1000/60/60);
-			var remain_min = parseInt((d_value - remain_day*1000*60*60*24 - remain_hour*1000*60*60)/1000/60);
-			
-			$('.cost_title').html(data.fee + '  <span style="font-size:12px;color:black">(' + data.rebate + '折 剩余时间：'+remain_day+'天'+remain_hour+'小时'+remain_min+'分钟)</span>');
-			$('.cost').html('￥' + data.total + '   ');
-			if(now < deadline && now > data.starttime) {
-				$('.remain').html('&nbsp;还剩' + remain_day+'天'+remain_hour+'小时'+remain_min+'分钟');
-			}
-			$('.original-price').html('￥' + data.cost);
-			
-			$('.discount').html(data.discount);
-			var abstract_ = data.abstract;
-			abstract_ = abstract_.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-			$('#abstract').html(abstract_);
-			
-			$('.sub_count').html(data.sub_count);
-			$('.sub_time_total').html(data.sub_time_total + "分钟");
-			$('#teacher_img').attr('src', '/cglx/files/imgs/' + data.teacher_image);
-			$('#teacher_position').html(data.teacher_position);
-			
-			var teacher_abstract = data.teacher_abstract;
-			teacher_abstract = teacher_abstract.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-			$('#teacher_abstract').html(teacher_abstract);
-			
-			var help = data.help;
-			help = help.replace(/_@/g, '<br/>').replace(/_#/g, '<br/>').replace(/\s/g, '&nbsp;');
-			$('#help').html(help);
-			
-			//$('#about').html(data.about);
-			if(data.pay_status == 1) {
-				$('.buy-series').html('已购买').css('background-color', '#ccc');
-			}
-			imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.banner;
-			shareTitle = data.title;
-			lineLink = window.location.href;
-			execWeixinShare();
-			
-			$('.buy-series').on('click', function() {
+		function bindPayEvent(eleClass, arg) {
+			$('.' + eleClass).on('click', function() {
 				if(user_id == '') {
 					if(window.screen.width < 700) {
 						$('#login-btn-m').click();
@@ -669,7 +925,7 @@ var _hmt = _hmt || [];
 		 				$('#login-btn').click();
 		 			}
 				} else {
-					if($(this).html() == '已购买') return;
+					if(arg == '已购买') return;
 					if(cost == 0) {
 						$.post('/course/addFreeCourse', {course_id : id}, function(data) {
 							if(data.error_code == 0) {
@@ -688,18 +944,22 @@ var _hmt = _hmt || [];
 					}
 				}
 			});
-			
-		});
+		}
 		
-		$.post('/course/getSeriesSubCourseById', {id : id}, function(data) {
-			for(var index in data) {
-				$('.series-course-all').append('<div class="series-every-course"><a href="/courses/jsp?id='+data[index].id+'&view=detail" target="_blank">'
-						+ '<div class="series-every-pic"><img src="/cglx/files/imgs/'+data[index].snapshot+'" alt="">'
-						+ '</div><div class="series-every-introduct"><div class="every-title"><span class="course">【课时'+(parseInt(index)+1)+'】'
-						+ '</span>'+data[index].title+'</div><div class="every-price-pc"><span class="time">时长：&nbsp;&nbsp;'+data[index].time+'分钟</span>'
-						+ '<span class="money">单价:<span class="monpri">￥'+data[index].fee+'</span></span></div><div class="every-price-mobile">'
-						+ '单价: <span class="money">￥'+data[index].fee+'</span></div><div class="every-lead">'+data[index].abstract+'</div></div></a></div>');
-			}
+		bindPayEvent('my-btn', $('.my-btn').html());
+		bindPayEvent('video-detail', null);
+		$.post('/course/getParentCourseBrief', {id : id}, function(data) {
+			if(!checkJsonIsEmpty(data)) {
+				$('.parent_title').html(data.title);
+				$('.price-and-len').html('<p>组合价: <span>¥' + data.total + '</span>(省' + data.discount + '元)</p>'
+						+ '<p>共'+ data.sub_count + '节课 - ' + data.sub_time_total +'分钟</p>');
+				
+				$('.parent_href').attr('href', '/courses/jsp?id=' + data.parent_id);
+				$('#parent_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
+			} else {
+				$('.series-info').css('display', 'none');
+				$('.series-recommend').css('display', 'none');
+			} 
 		});
 		
 		$.post('/course/getNavRecommendCourse', function(data) {
@@ -707,30 +967,35 @@ var _hmt = _hmt || [];
 				if(data[index].is_series == 1) {
 					//var link = !isWeiXin() ? ('/courses/jsp?id='+data[index].id) : ('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=_courses_jspARGSid='+data[index].id+'&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect');
 					var link = '/courses/jsp?id='+data[index].id;
-					$('#big').append('<div class="recommend-big"><a href="/courses/jsp?id='+data[index].id+'" target="_blank">' 
+					$('#big').append('<div class="recommend-big"><a href="'+link+'" target="_blank">' 
 							+ '<img src="/cglx/files/imgs/'+data[index].snapshot+'" alt=""><div class="detail"><span class="left">'
 							+ '共'+data[index].sub_count+'节课</span> <span class="right"><span class="spend-price">¥'+data[index].total+'</span>'
 							+ '(省'+data[index].discount+'元) </span></div></a></div>');
 					
-					$('#recommend-big').append('<div class="item"><a href="/courses/jsp?id='+data[index].id+'"><div class="photo">'
+					$('#recommend-big').append('<div class="item"><a href="'+link+'"><div class="photo">'
 							+ '<img	src="/cglx/files/imgs/'+data[index].snapshot+'"></div><div class="info"><span class="left">'
 							+ '共'+data[index].sub_count+'节课</span> <span class="right"><span class="spend-price">¥'+data[index].total+'</span>'
 							+ '(省'+data[index].discount+'元) </span></div></a></div>');						
 				} else {
 					//var link = !isWeiXin() ? ('/courses/jsp?id='+data[index].id+'&view=detail') : ('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=_courses_jspARGSid='+data[index].id+'ANDview=detail&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect');
 					var link = '/courses/jsp?id='+data[index].id+'&view=detail';
-					$('#small').append('<div class="recommend-every-course"><a href="/courses/jsp?id='+data[index].id+'&view=detail" target="_blank">'
+					$('#small').append('<div class="recommend-every-course"><a href="'+link+'" target="_blank">'
 							+ '<div class="recommend-every-pic"><img src="/cglx/files/imgs/'+data[index].snapshot+'" alt=""></div>'
 							+ '<div class="recommend-every-introduct"><div class="every-title">'+data[index].title+'</div>'
 							+ '<div class="every-price-mobile"><span class="money">￥'+data[index].cost_+'</span></div></div></a></div>');
 					
-					$('#recommend-small').append('<div class="every-course"><a href="/courses/jsp?id='+data[index].id+'&view=detail"><div class="info-left-recommond">'
+					$('#recommend-small').append('<div class="every-course"><a href="'+link+'"><div class="info-left-recommond">'
 							+ '<div class="video-title">'+data[index].title+'</div><div class="video-teacher">'+data[index].final_tea+'/'+data[index].final_position+'</div>'
 							+ '</div><div class="photo-right"><span class="tags"></span> <img src="/cglx/files/imgs/'+data[index].snapshot+'" alt="">'
 							+ '</div></a></div>');
 				}
 			}
 		});
+		
+		$('.mobile-mycourse').on('click', function() {
+			window.location.href = '/view/mycourse.html';
+		});
+		
 		function isWeiXin(){ 
 			var ua = window.navigator.userAgent.toLowerCase(); 
 			if(ua.match(/MicroMessenger/i) == 'micromessenger'){ 
@@ -754,12 +1019,14 @@ var _hmt = _hmt || [];
 	    		            signType: jsonData.signType,
 	    		            paySign: jsonData.paySign,
 	    		            success: function (res) {
+	    		            	/* window.location.href = '/view/mycourse.html'; */
 	    		            	window.location.reload();
 	    		            	if(res.errMsg != null && res.errMsg == "chooseWXPay:ok") {
 	                				ele.innerHTML = "点击进入";
 	                				ele.removeEventListener('tap', handler);
 	                				ele.addEventListener('tap', enterClass);
 	    		            		alert("支付成功!");
+	    		            		window.location.reload();
 	    		            	} else {
 	    		            		alert("支付失败！");
 	    		            	}																            
@@ -772,6 +1039,16 @@ var _hmt = _hmt || [];
 	    		});
 			});
 		}
+		
+		var weixin_share_url = "http://www.udiyclub.com/courses/jsp?id=" + id + "&view=detail";
+		var qrcode = new QRCode(document.getElementById("weixin_qrcode"), {
+			text: weixin_share_url,
+			width: 70,
+			height: 70,
+			colorDark : "#000000",
+			colorLight : "#ffffff",
+			correctLevel : QRCode.CorrectLevel.H
+		});
 		
 		function execWeixinShare(){
 			wx.ready(function() {
@@ -829,6 +1106,42 @@ var _hmt = _hmt || [];
 				}, 500);
 			});
 		}
+		
+		var interval;
+		/* function addPlayHistory() {
+			$.post('/course/addPlayHistory', {course_id : id}, function(data) {
+			});
+		} */
+		
+		document.getElementById('video_src').addEventListener('play', function() {
+			$.post('/course/addPlayHistory', {course_id : id}, function(data) {
+			});
+			//addPlayHistory();
+			interval = setInterval(function() {
+				$.post('/course/addPlayHistory', {course_id : id}, function(data) {
+				});
+			}, 2*60*1000);
+		});
+		
+		document.getElementById('video_src').addEventListener('pause', function() {
+			clearInterval(interval);
+		});
+		
+		function add0(m){return m<10?'0'+m:m }
+		function format(shijianchuo)
+		{
+			//shijianchuo是整数，否则要parseInt转换
+			var time = new Date(shijianchuo);
+			var y = time.getFullYear();
+			var m = time.getMonth()+1;
+			var d = time.getDate();
+			var h = time.getHours();
+			var mm = time.getMinutes();
+			var s = time.getSeconds();
+			return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+		}   
+		
 	</script>
+
 </body>
 </html>
