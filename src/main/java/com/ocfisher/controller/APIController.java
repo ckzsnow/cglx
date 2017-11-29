@@ -625,8 +625,10 @@ public class APIController {
 			return null;
 		} else {
 			Map<String, Object> retMap = cglxDao.getUserById(user_id);
-			if (retMap != null)
+			if (retMap != null) {
 				retMap.remove("password");
+				retMap.put("openid_", openid_);
+			}
 			logger.debug("getUserInfo user map:{}",retMap.toString());
 			return retMap;
 		}

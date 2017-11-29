@@ -22,6 +22,16 @@ $.ajax({
     data: {},
     success: function(data) {
     	if (!checkJsonIsEmpty(data)) {
+    		if((data.openid_==null || data.openid_=='' || data.openid_=='null') && isWeiXin()){
+    			var url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxf139053a88924f58&redirect_uri=http%3A%2F%2Fwww.udiyclub.com%2FgetOpenIdRedirect%3Fview=###########&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+    			var searchStr = window.location.search;
+    			var pathname = window.location.pathname;
+    			var view= pathname.replace(new RegExp("/","gm"),"_");
+    			var args = searchStr.replace("?","ARGS").replace(new RegExp("&","gm"),"ARG");
+    			console.log(view+args);
+    			window.location.href = url.replace("###########",view+args);
+    			return;
+    		}
 			$("#user_id").html((data.name!=null&&data.name!='')?data.name:(data.openid!=null?data.openid:data.phone));
 			user_id = data.id;
 			$('#headimgurl').attr('src', data.headimage==null?'/images/topic_photo.png':data.headimage);
@@ -384,6 +394,7 @@ $('.weixinLogin').on('click', function() {
 	url = url.substring(url.indexOf('//')+2);
 	var redirect = url.substring(url.indexOf('/'));
 	redirect = encodeURIComponent(redirect);
+	redirect = redirect.replace("%26", "AND");
 	window.location.href = ('/getQrcodeUrl?redirect=' + redirect);
 	console.log('=======');
 	return false;

@@ -244,6 +244,8 @@ public class CommonController {
 		logger.debug("finishGetOpenIdRedirect");
 		logger.debug("code :{}, openId :{}, id :{}", code, openid, id);
 		String redirect = request.getParameter("uri");
+		logger.debug("original redirect : {}", redirect);
+		redirect = redirect.replace("AND", "%26");
 		/*redirect = redirect.replace("SPRI", "/")
 				.replace("QUES", "?")
 				.replace("EQUA", "=");*/

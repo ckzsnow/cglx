@@ -475,7 +475,7 @@ var _hmt = _hmt || [];
 						</div>
 					</div>
 					<!-- 视频播放区 -->
-					<div class="video-detail watch-video" id="video-snap" style="display:block">
+					<div class="video-detail watch-video" id="video-snap" style="display:none">
 						<!-- 无播放权限 -->
 						<div class="no-auth-player">
 							<div class="bg-photo">
@@ -488,7 +488,7 @@ var _hmt = _hmt || [];
 							</div>
 						</div>
 					</div>
-					<video id="video_src" webkit-playsinline="true" playsinline="true" width="100%" height="85%" style="display:none;">
+					<video id="video_src" controls webkit-playsinline="true" playsinline="true" width="100%" height="85%" style="display:none;">
 					</video>
 					
 				</div>
@@ -659,7 +659,7 @@ var _hmt = _hmt || [];
                         <p class="p-course" style="font-size:12px"></p>
                     </div>
                     
-                        <div class="buy-link-btn buy-series">立即购买</div>
+                        <div class="buy-link-btn buy-series my-btn" style="display:none">立即购买</div>
                     
                 </div>
 				
@@ -833,6 +833,7 @@ var _hmt = _hmt || [];
 					$('#course_snapshot').attr('src', '/cglx/files/imgs/' + data.snapshot);
 					if(data.pay_status == 1) {
 						$('.my-btn').html('已购买').css('background-color', '#ccc');
+						$('.my-btn').unbind('click');
 						$('#video-snap').css('display', 'none');
 						$('#video_src').css('display', 'block');
 						document.getElementById("video_src").poster = "/cglx/files/imgs/" + data.snapshot;
@@ -889,11 +890,14 @@ var _hmt = _hmt || [];
 							seekingVideoEvent++;
 						});
 						
+					} else {
+						$('.video-detail').css('display','block');
 					}
 					imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
 					shareTitle = data.title;
 					lineLink = window.location.href;
 					execWeixinShare();
+					$('.buy-link-btn.buy-series.my-btn').css('display','block');
 				}
 			});
 		});
@@ -1001,6 +1005,8 @@ var _hmt = _hmt || [];
 								} 
 							},5000);
 						}
+					} else {
+						$('.video-detail').css('display','block');
 					}
 					imgUrl = "http://www.udiyclub.com/cglx/files/imgs/"+data.snapshot;
 					shareTitle = data.title;
