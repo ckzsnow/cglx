@@ -301,108 +301,108 @@ var _hmt = _hmt || [];
                 </div>
             </div>
         </div>
-        <div class="cglx-login-mask mobile-login" style="display: none;position: fixed;top: 0;bottom: 0;left: 0;right: 0;z-index: 99999;background: rgba(0,0,0,.8);">
-            <div class="mobile-dialog login-regist" id="mobile_login_view">
-                <div class="login-close close"></div>
-                <div class="login-regist-card card" data-show="true">
-                    <div class="logo"></div>
-                    <div class="login-regist-phone-input">
-                        <input id="mobile_login_phone" type="tel" pattern="^d{11}$" class="login-phone input long-input" placeholder="手机号" maxlength="11">
-                        <i class="phone-status-icon"></i>
-                    </div>
-                    <div class="login-regist-phone-input">
-                        <input id="mobile_login_pwd" type="password" class="login-phone input long-input" placeholder="密码" maxlength="11">
-                        <i class="phone-status-icon"></i>
-                    </div>
-                    <p class="tips" id="mobile_login_tip"></p>
-                    <div class="login-submit submit" id="mobile_login_submit">立即登录</div>
-                    <p class="voice-code" style="text-align: center;">
-                        <span style="text-decoration: none;">
-                            <a href="javascript:$('#mobile_login_view').hide();$('#mobile_register_view').show();">注册账号</a>
-                        </span>
-                        <span style="color:black;cursor: none;text-decoration: none;">|</span>
-                        <span style="text-decoration: none;">
-                            <a href="javascript:$('#mobile_login_view').hide();$('#mobile_forget_view').show();">忘记密码</a>
-                        </span>
-                    </p>
-                    <div class="voice-code" style="text-align: center;">
-                    	<a class="weixinLogin" href="">
-                    		<img class="loginLogo" alt="" src="/images/login1.png" style="width:50px;height:50px;border-radius:50%"></img>
-                    	</a>
-                    </div>
+    <div class="cglx-login-mask mobile-login" style="display: none;position: fixed;top: 0;bottom: 0;left: 0;right: 0;z-index: 99999;background: rgba(0,0,0,.8);">
+        <div class="mobile-dialog login-regist" id="mobile_login_view">
+            <div class="login-close close"></div>
+            <div class="login-regist-card card" data-show="true">
+                <div class="logo"></div>
+                <div class="login-regist-phone-input">
+                    <input id="mobile_login_phone" type="tel" pattern="^d{11}$" class="login-phone input long-input" placeholder="手机号" maxlength="11">
+                    <i class="phone-status-icon"></i>
                 </div>
-            </div>
-            <div class="mobile-dialog login-regist" style="display:none;height:5rem" id="mobile_register_view">
-                <div class="login-close close"></div>
-                <div class="login-regist-card card" data-show="true">
-                    <div class="logo"></div>
-                    <div class="login-regist-phone-input">
-                        <input id="mobile_reg_phone" type="tel" pattern="^d{11}$" class="login-phone input long-input" placeholder="手机号" maxlength="11">
-                        <i class="phone-status-icon"></i>
-                    </div>
-                    <div class="login-regist-phone-input">
-                        <input id="mobile_reg_pwd" type="password" class="login-phone input long-input" placeholder="密码" maxlength="11">
-                        <i class="phone-status-icon"></i>
-                    </div>
-                    <p class="p-height"></p>
-                    <div class="verify">
-                        <input id="mobile_reg_verify" type="tel" pattern="^d{4}$" class="verify-code input short-input" placeholder="验证码" maxlength="4" validate="^d{4}$">
-                        <div id="mobile_reg_get_code" class="send-verify-code input-button short-button btn-disable" send="false">发送验证码</div>
-                    </div>
-                    <p class="tips" id="mobile_reg_tip"></p>
-                    <div class="login-submit submit" id="mobile_reg_submit">立即注册</div>
-                    <p class="voice-code" style="text-align: center;">
-                        <span style="text-decoration: none;">
-                            <a href="javascript:$('#mobile_register_view').hide();$('#mobile_login_view').show();">登录账号</a>
-                        </span>
-                        <span style="color:black;cursor: none;text-decoration: none;">|</span>
-                        <span style="text-decoration: none;">
-                            <a href="javascript:$('#mobile_register_view').hide();$('#mobile_forget_view').show();">忘记密码</a>
-                        </span>
-                    </p>
-                    <div class="voice-code" style="text-align: center;">
-                    	<a class="weixinLogin" href="">
-                    		<img class="loginLogo" alt="" src="/images/login1.png" style="width:50px;height:50px;border-radius:50%"></img>
-                    	</a>
-                    </div>
+                <div class="login-regist-phone-input">
+                    <input id="mobile_login_pwd" type="password" class="login-phone input long-input" placeholder="密码" maxlength="11">
+                    <i class="phone-status-icon"></i>
                 </div>
-            </div>
-            <div class="mobile-dialog login-regist" style="display:none;height:5rem" id="mobile_forget_view">
-                <div class="login-close close"></div>
-                <div class="login-regist-card card" data-show="true">
-                    <div class="logo"></div>
-                    <div class="login-regist-phone-input">
-                        <input id="mobile_forget_phone" type="tel" pattern="^d{11}$" class="login-phone input long-input" placeholder="手机号" maxlength="11">
-                        <i class="phone-status-icon"></i>
-                    </div>
-                    <div class="login-regist-phone-input">
-                        <input id="mobile_forget_pwd" type="password" class="login-phone input long-input" placeholder="设定新密码" maxlength="11">
-                        <i class="phone-status-icon"></i>
-                    </div>
-                    <p class="p-height"></p>
-                    <div class="verify">
-                        <input id="mobile_forget_verify" type="tel" pattern="^d{4}$" class="verify-code input short-input" placeholder="验证码" maxlength="4" validate="^d{4}$">
-                        <div id="mobile_forget_get_code" class="send-verify-code input-button short-button btn-disable" send="false">发送验证码</div>
-                    </div>
-                    <p class="tips" id="mobile_forget_tip"></p>
-                    <div class="login-submit submit" id="mobile_forget_submit">提交</div>
-                    <p class="voice-code" style="text-align: center;">
-                        <span style="text-decoration: none;">
-                            <a href="javascript:$('#mobile_forget_view').hide();$('#mobile_login_view').show();">登录账号</a>
-                        </span>
-                        <span style="color:black;cursor: none;text-decoration: none;">|</span>
-                        <span style="text-decoration: none;">
-                            <a href="javascript:$('#mobile_forget_view').hide();$('#mobile_register_view').show();">注册账号</a>
-                        </span>
-                    </p>
-                    <div class="voice-code" style="text-align: center;">
-                    	<a class="weixinLogin" href="">
-                    		<img class="loginLogo" alt="" src="/images/login1.png" style="width:50px;height:50px;border-radius:50%"></img>
-                    	</a>
-                    </div>
+                <p class="tips" id="mobile_login_tip"></p>
+                <div class="login-submit submit" id="mobile_login_submit">立即登录</div>
+                <p class="voice-code" style="text-align: center;">
+                    <span style="text-decoration: none;">
+                        <a href="javascript:$('#mobile_login_view').hide();$('#mobile_register_view').show();">注册账号</a>
+                    </span>
+                    <span style="color:black;cursor: none;text-decoration: none;">|</span>
+                    <span style="text-decoration: none;">
+                        <a href="javascript:$('#mobile_login_view').hide();$('#mobile_forget_view').show();">忘记密码</a>
+                    </span>
+                </p>
+                <div class="voice-code" style="text-align: center;">
+                	<a class="weixinLogin" href="">
+                		<img class="loginLogo" alt="" src="/images/login1.png" style="width:50px;height:50px;border-radius:50%"></img>
+                	</a>
                 </div>
             </div>
         </div>
+        <div class="mobile-dialog login-regist" style="display:none;height:5rem" id="mobile_register_view">
+            <div class="login-close close"></div>
+            <div class="login-regist-card card" data-show="true">
+                <div class="logo"></div>
+                <div class="login-regist-phone-input">
+                    <input id="mobile_reg_phone" type="tel" pattern="^d{11}$" class="login-phone input long-input" placeholder="手机号" maxlength="11">
+                    <i class="phone-status-icon"></i>
+                </div>
+                <div class="login-regist-phone-input">
+                    <input id="mobile_reg_pwd" type="password" class="login-phone input long-input" placeholder="密码" maxlength="11">
+                    <i class="phone-status-icon"></i>
+                </div>
+                <p class="p-height"></p>
+                <div class="verify">
+                    <input id="mobile_reg_verify" type="tel" pattern="^d{4}$" class="verify-code input short-input" placeholder="验证码" maxlength="4" validate="^d{4}$">
+                    <div id="mobile_reg_get_code" class="send-verify-code input-button short-button btn-disable" send="false">发送验证码</div>
+                </div>
+                <p class="tips" id="mobile_reg_tip"></p>
+                <div class="login-submit submit" id="mobile_reg_submit">立即注册</div>
+                <p class="voice-code" style="text-align: center;">
+                    <span style="text-decoration: none;">
+                        <a href="javascript:$('#mobile_register_view').hide();$('#mobile_login_view').show();">登录账号</a>
+                    </span>
+                    <span style="color:black;cursor: none;text-decoration: none;">|</span>
+                    <span style="text-decoration: none;">
+                        <a href="javascript:$('#mobile_register_view').hide();$('#mobile_forget_view').show();">忘记密码</a>
+                    </span>
+                </p>
+                <div class="voice-code" style="text-align: center;">
+                	<a class="weixinLogin" href="">
+                		<img class="loginLogo" alt="" src="/images/login1.png" style="width:50px;height:50px;border-radius:50%"></img>
+                	</a>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-dialog login-regist" style="display:none;height:5rem" id="mobile_forget_view">
+            <div class="login-close close"></div>
+            <div class="login-regist-card card" data-show="true">
+                <div class="logo"></div>
+                <div class="login-regist-phone-input">
+                    <input id="mobile_forget_phone" type="tel" pattern="^d{11}$" class="login-phone input long-input" placeholder="手机号" maxlength="11">
+                    <i class="phone-status-icon"></i>
+                </div>
+                <div class="login-regist-phone-input">
+                    <input id="mobile_forget_pwd" type="password" class="login-phone input long-input" placeholder="设定新密码" maxlength="11">
+                    <i class="phone-status-icon"></i>
+                </div>
+                <p class="p-height"></p>
+                <div class="verify">
+                    <input id="mobile_forget_verify" type="tel" pattern="^d{4}$" class="verify-code input short-input" placeholder="验证码" maxlength="4" validate="^d{4}$">
+                    <div id="mobile_forget_get_code" class="send-verify-code input-button short-button btn-disable" send="false">发送验证码</div>
+                </div>
+                <p class="tips" id="mobile_forget_tip"></p>
+                <div class="login-submit submit" id="mobile_forget_submit">提交</div>
+                <p class="voice-code" style="text-align: center;">
+                    <span style="text-decoration: none;">
+                        <a href="javascript:$('#mobile_forget_view').hide();$('#mobile_login_view').show();">登录账号</a>
+                    </span>
+                    <span style="color:black;cursor: none;text-decoration: none;">|</span>
+                    <span style="text-decoration: none;">
+                        <a href="javascript:$('#mobile_forget_view').hide();$('#mobile_register_view').show();">注册账号</a>
+                    </span>
+                </p>
+                <div class="voice-code" style="text-align: center;">
+                	<a class="weixinLogin" href="">
+                		<img class="loginLogo" alt="" src="/images/login1.png" style="width:50px;height:50px;border-radius:50%"></img>
+                	</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<div class="wrapper" id="wrapper">
 		<nav class="video-nav">
@@ -701,6 +701,48 @@ var _hmt = _hmt || [];
 		<div class="bigImg"></div>
 	</div>
 
+
+	<div class="cglx-login-mask bindPhonePC" style="display: none;position: fixed;z-index: 99999;background:rgba(56,62,68,.9)">
+	    <div class="login-dialog dialog" style="display:block;height:470px;background:none">
+	        <div class="login-close close" style="top:0"></div>
+	        <div class="login-fill-card">
+	            <div class="login-card card" style="height:200px;margin-top: -112px;">
+	                <div class="inputs">
+	                	<p style="font-weight:bold;font-size:12px;margin:10px 70px;">请绑定手机后购买</p>
+	                    <div class="login-phone-input">
+	                        <input id="phoneNum" type="text" pattern="^\d{11}$" class="login-phone input long-input" placeholder="仅支持中国大陆手机号" maxlength="11" autocomplete="off">
+	                    </div>
+	                    <div class="verify" style="margin-top:10px">
+	                        <input id="verify_code" type="text" pattern="^\d{4}$" class="verify-code input short-input" placeholder="验证码" maxlength="4" validate="^\d{4}$" autocomplete="off">
+	                        <input id="get_verify_code" type="button" class="send-verify-code input-button short-button btn-disable" send="false" value="发送验证码">
+	                    </div>
+	                    <p class="tips" id="pc_bind_tip" style="font-size: 12px;margin: 10px 40px;color: red;"></p>
+	                    <div class="login-submit submit" id="bindphonePC" style="margin-top:10px">绑定手机</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+
+	<div class="cglx-login-mask bindPhoneMB" style="display: none;position: fixed;top: 0;bottom: 0;left: 0;right: 0;z-index: 99999;background: rgba(0,0,0,.8);">
+        <div class="mobile-dialog login-regist" style="display:block;height:3rem" id="mobile_register_view">
+            <div class="login-close close"></div>
+            <div class="login-regist-card card" data-show="true">
+            	<p style="font-weight:bold;font-size:0.18rem;margin:10px 80px;">请绑定手机后购买</p>
+                <div class="login-regist-phone-input">
+                    <input id="phoneNumMB" type="tel" pattern="^d{11}$" class="login-phone input long-input" placeholder="手机号" maxlength="11">
+                    <i class="phone-status-icon"></i>
+                </div>
+                <div class="verify" style="margin-top:20px">
+                    <input id="verify_code_mb" type="tel" pattern="^d{4}$" class="verify-code input short-input" placeholder="验证码" maxlength="4" validate="^d{4}$">
+                    <div id="get_verify_code_mb" class="send-verify-code input-button short-button btn-disable" send="false">发送验证码</div>
+                </div>
+                <p class="tips" id="mobile_bind_tip"></p>
+                <div class="login-submit submit" id="bindphoneMB">绑定手机</div>
+            </div>
+        </div>
+    </div>
+
 	<footer class="footer-simple">
 		<div class="section">
 			<section class="link-section">
@@ -909,20 +951,6 @@ var _hmt = _hmt || [];
 					cost = data.cost;
 					$('.course_title').html(data.title);
 					
-					/* var rebate = data.rebate / 10;
-					var starttime = data.starttime;
-					var deadline = data.deadline;
-					var cost = data.cost;
-					var starttimeDate = new Date(starttime).getTime() / 1000;
-					var deadlineDate = new Date(deadline).getTime() / 1000;
-					var currentDate = new Date().getTime() / 1000;
-					if(starttime!=null && deadline!=null) {
-						if(deadlineDate>currentDate && currentDate>starttimeDate) {
-							$('.cost').html(rebate*cost);
-						}
-					} else {
-						$('.cost').html(data.cost);
-					} */
 					var deadline = data.deadline;
 					var now = (new Date()).valueOf();
 					var d_value = deadline-now;
@@ -1024,22 +1052,33 @@ var _hmt = _hmt || [];
 		 			}
 				} else {
 					if(arg == '已购买') return;
-					if(cost == 0) {
-						$.post('/course/addFreeCourse', {course_id : id}, function(data) {
-							if(data.error_code == 0) {
-								window.location.href = '/view/mycourse.html';
+					$.post('/user/getUserInfo',function(data){
+						var phone = data.phone;
+						if(phone==null || phone=='') {
+							if(isWeiXin()){
+								$('.bindPhoneMB').css('display','block');
 							} else {
-								alert(data.error_msg);
-								return;
+								$('.bindPhonePC').css('display','block');
 							}
-						});
-					} else {
-						if(isWeiXin()) {
-							weixinPay();
 						} else {
-				 			window.location.href = '/courses/views/orderPay.html?id=' + id;
+							if(cost == 0) {
+								$.post('/course/addFreeCourse', {course_id : id}, function(data) {
+									if(data.error_code == 0) {
+										window.location.href = '/view/mycourse.html';
+									} else {
+										alert(data.error_msg);
+										return;
+									}
+								});
+							} else {
+								if(isWeiXin()) {
+									weixinPay();
+								} else {
+						 			window.location.href = '/courses/views/orderPay.html?id=' + id;
+								}
+							}
 						}
-					}
+					});
 				}
 			});
 		}
@@ -1239,6 +1278,9 @@ var _hmt = _hmt || [];
 			return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
 		}   
 		
+		$('.close').on('click',function(){
+			$(this).parent().parent().css('display','none');
+		});
 	</script>
 
 </body>

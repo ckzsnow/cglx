@@ -422,6 +422,171 @@ $("#mobile_forget_get_code").click(function(){
 	});
 });
 
+$("#get_verify_code").click(function(){
+	$(this).attr({"disabled":"disabled"});
+	$(this).attr("style", "background: rgb(204, 204, 204);");
+	var j = 60;
+	$("#get_verify_code").val(j + "s");
+	var i = setInterval(function(){
+		j--;
+		if(j<0) {
+			clearInterval(i);
+			$("#get_verify_code").removeAttr("disabled");
+			$("#get_verify_code").removeAttr("style");
+			$("#get_verify_code").val("发送验证码");
+		} else {
+			$("#get_verify_code").val(j + "s");
+		}
+	}, 1000);
+	$.ajax({
+		url: '/user/userGetCheckCode',
+		type: "POST",
+		data: {user_id:$("#phoneNum").val()},
+		success: function(data) {
+			if (!checkJsonIsEmpty(data)) {
+				if(data.error != "0") {
+					$("#pc_bind_tip").html("");
+					$("#pc_bind_tip").show();
+					$("#pc_bind_tip").html(data.msg);
+				}
+			} else {
+				$("#pc_bind_tip").html("");
+				$("#pc_bind_tip").show();
+				$("#pc_bind_tip").html("服务器暂时无法完成您的请求！");
+			}
+		},
+		error: function(status, error) {
+			$("#pc_bind_tip").html("");
+			$("#pc_bind_tip").show();
+			$("#pc_bind_tip").html("服务器暂时无法完成您的请求！");
+		}
+	});
+});
+
+$("#get_verify_code_mb").click(function(){
+	$(this).attr({"disabled":"disabled"});
+	$(this).attr("style", "background: rgb(204, 204, 204);");
+	var j = 60;
+	$("#get_verify_code_mb").html(j + "s");
+	var i = setInterval(function(){
+		j--;
+		if(j<0) {
+			clearInterval(i);
+			$("#get_verify_code_mb").removeAttr("disabled");
+			$("#get_verify_code_mb").removeAttr("style");
+			$("#get_verify_code_mb").html("发送验证码");
+		} else {
+			$("#get_verify_code_mb").html(j + "s");
+		}
+	}, 1000);
+	$.ajax({
+		url: '/user/userGetCheckCode',
+		type: "POST",
+		data: {user_id:$("#phoneNumMB").val()},
+		success: function(data) {
+			if (!checkJsonIsEmpty(data)) {
+				if(data.error != "0") {
+					$("#mobile_bind_tip").html("");
+					$("#mobile_bind_tip").show();
+					$("#mobile_bind_tip").html("");
+				}
+			} else {
+				$("#mobile_bind_tip").html("");
+				$("#mobile_bind_tip").show();
+				$("#mobile_bind_tip").html("服务器暂时无法完成您的请求！");
+			}
+		},
+		error: function(status, error) {
+			$("#mobile_bind_tip").html("");
+			$("#mobile_bind_tip").show();
+			$("#mobile_bind_tip").html("服务器暂时无法完成您的请求！");
+		}
+	});
+});
+
+$("#bindphonePC").click(function(){
+	$("#pc_bind_tip").html("");
+	$("#pc_bind_tip").hide();
+	var phone = $("#phoneNum").val();
+	var check_code = $("#verify_code").val();
+	$.ajax({
+		url: '/user/bindPhone',
+		type: "POST",
+		data: {phone:phone,check_code:check_code},
+		success: function(data) {
+			if(data.error == 0) {
+				if(cost == 0) {
+					$.post('/course/addFreeCourse', {course_id : id}, function(data) {
+						if(data.error_code == 0) {
+							window.location.href = '/view/mycourse.html';
+						} else {
+							alert(data.error_msg);
+							return;
+						}
+					});
+				} else {
+					if(isWeiXin()) {
+						weixinPay();
+					} else {
+			 			window.location.href = '/courses/views/orderPay.html?id=' + id;
+					}
+				}
+			} else {
+				$("#pc_bind_tip").html("");
+				$("#pc_bind_tip").show();
+				$("#pc_bind_tip").html(data.msg);
+			}
+		},
+		error: function(status, error) {
+			$("#pc_bind_tip").html("");
+			$("#pc_bind_tip").show();
+			$("#pc_bind_tip").html("服务器暂时无法完成您的请求！");
+		}
+	});
+});
+
+$("#bindphoneMB").click(function(){
+	$("#mobile_bind_tip").html("");
+	$("#mobile_bind_tip").hide();
+	var phone = $("#phoneNumMB").val();
+	var check_code = $("#verify_code_mb").val();
+	$.ajax({
+		url: '/user/bindPhone',
+		type: "POST",
+		data: {phone:phone,check_code:check_code},
+		success: function(data) {
+			if(data.error == 0) {
+				$('.bindPhoneMB').css('display', 'none');
+				if(cost == 0) {
+					$.post('/course/addFreeCourse', {course_id : id}, function(data) {
+						if(data.error_code == 0) {
+							window.location.href = '/view/mycourse.html';
+						} else {
+							alert(data.error_msg);
+							return;
+						}
+					});
+				} else {
+					if(isWeiXin()) {
+						weixinPay();
+					} else {
+			 			window.location.href = '/courses/views/orderPay.html?id=' + id;
+					}
+				}
+			} else {
+				$("#mobile_bind_tip").html("");
+				$("#mobile_bind_tip").show();
+				$("#mobile_bind_tip").html(data.msg);
+			}
+		},
+		error: function(status, error) {
+			$("#mobile_bind_tip").html("");
+			$("#mobile_bind_tip").show();
+			$("#mobile_bind_tip").html("服务器暂时无法完成您的请求！");
+		}
+	});
+});
+
 function userlogout() {
 	$('#logout').hide(500);
 	$(".login-success-wrapper").hide();

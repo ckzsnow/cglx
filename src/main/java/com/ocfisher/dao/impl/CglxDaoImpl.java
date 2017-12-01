@@ -1117,4 +1117,16 @@ public class CglxDaoImpl implements ICglxDao {
 		}
 		return resultMap;
 	}
+
+	@Override
+	public boolean bindPhone(String user_id, String phone) {
+		String sql = "update user set phone=? where id=?";
+		int affectedRows = 0;
+		try{
+			affectedRows = jdbcTemplate.update(sql, phone, user_id);
+		} catch(Exception e) {
+			logger.error("bindPhone error:{}", e.toString());
+		}
+		return affectedRows!=0;
+	}
 }

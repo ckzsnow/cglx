@@ -137,4 +137,6 @@ public interface ICglxDao {
 	public boolean updateJoinGroup(String fileName);
 	
 	public Map<String, Object> getJoinGroupInfo();
+
+	public boolean bindPhone(String user_id, String phone);
 }

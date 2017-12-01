@@ -545,6 +545,49 @@ var _hmt = _hmt || [];
 		</div>
 	</div>
 
+
+	<div class="cglx-login-mask bindPhonePC" style="display: none;position: fixed;z-index: 99999;background:rgba(56,62,68,.9)">
+	    <div class="login-dialog dialog" style="display:block;height:470px;background:none">
+	        <div class="login-close close" style="top:0"></div>
+	        <div class="login-fill-card">
+	            <div class="login-card card" style="height:200px;margin-top: -112px;">
+	                <div class="inputs">
+	                	<p style="font-weight:bold;font-size:12px;margin:10px 70px;">请绑定手机后购买</p>
+	                    <div class="login-phone-input">
+	                        <input id="phoneNum" type="text" pattern="^\d{11}$" class="login-phone input long-input" placeholder="仅支持中国大陆手机号" maxlength="11" autocomplete="off">
+	                    </div>
+	                    <div class="verify" style="margin-top:10px">
+	                        <input id="verify_code" type="text" pattern="^\d{4}$" class="verify-code input short-input" placeholder="验证码" maxlength="4" validate="^\d{4}$" autocomplete="off">
+	                        <input id="get_verify_code" type="button" class="send-verify-code input-button short-button btn-disable" send="false" value="发送验证码">
+	                    </div>
+	                    <p class="tips" id="pc_bind_tip" style="font-size: 12px;margin: 10px 40px;color: red;"></p>
+	                    <div class="login-submit submit" id="bindphonePC" style="margin-top:10px">绑定手机</div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+
+	<div class="cglx-login-mask bindPhoneMB" style="display: none;position: fixed;top: 0;bottom: 0;left: 0;right: 0;z-index: 99999;background: rgba(0,0,0,.8);">
+        <div class="mobile-dialog login-regist" style="display:block;height:3rem" id="mobile_register_view">
+            <div class="login-close close"></div>
+            <div class="login-regist-card card" data-show="true">
+            	<p style="font-weight:bold;font-size:0.18rem;margin:10px 80px;">请绑定手机后购买</p>
+                <div class="login-regist-phone-input">
+                    <input id="phoneNumMB" type="tel" pattern="^d{11}$" class="login-phone input long-input" placeholder="手机号" maxlength="11">
+                    <i class="phone-status-icon"></i>
+                </div>
+                <div class="verify" style="margin-top:20px">
+                    <input id="verify_code_mb" type="tel" pattern="^d{4}$" class="verify-code input short-input" placeholder="验证码" maxlength="4" validate="^d{4}$">
+                    <div id="get_verify_code_mb" class="send-verify-code input-button short-button btn-disable" send="false">发送验证码</div>
+                </div>
+                <p class="tips" id="mobile_bind_tip"></p>
+                <div class="login-submit submit" id="bindphoneMB">绑定手机</div>
+            </div>
+        </div>
+    </div>
+
+
 	<footer class="footer-simple">
 		<div class="section">
 			<section class="link-section">
@@ -670,22 +713,33 @@ var _hmt = _hmt || [];
 		 			}
 				} else {
 					if($(this).html() == '已购买') return;
-					if(cost == 0) {
-						$.post('/course/addFreeCourse', {course_id : id}, function(data) {
-							if(data.error_code == 0) {
-								window.location.href = '/view/mycourse.html';
+					$.post('/user/getUserInfo',function(data){
+						var phone = data.phone;
+						if(phone==null || phone=='') {
+							if(isWeiXin()){
+								$('.bindPhoneMB').css('display','block');
 							} else {
-								alert(data.error_msg);
-								return;
+								$('.bindPhonePC').css('display','block');
 							}
-						});
-					} else {
-						if(isWeiXin()) {
-							weixinPay();
 						} else {
-				 			window.location.href = '/courses/views/orderPay.html?id=' + id;
+							if(cost == 0) {
+								$.post('/course/addFreeCourse', {course_id : id}, function(data) {
+									if(data.error_code == 0) {
+										window.location.href = '/view/mycourse.html';
+									} else {
+										alert(data.error_msg);
+										return;
+									}
+								});
+							} else {
+								if(isWeiXin()) {
+									weixinPay();
+								} else {
+						 			window.location.href = '/courses/views/orderPay.html?id=' + id;
+								}
+							}
 						}
-					}
+					});
 				}
 			});
 			

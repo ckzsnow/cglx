@@ -574,12 +574,46 @@ public class APIController {
 			}
 		}
 	}
+	
+	@RequestMapping("/user/bindPhone")
+	@ResponseBody
+	public Map<String, String> bindPhone(HttpSession httpSession, HttpServletRequest request) {
+		Map<String, String> retMap = new HashMap<>();
+		String phone = request.getParameter("phone");
+		String check_code = request.getParameter("check_code");
+		String sessionCheckCode = (String) httpSession.getAttribute("check_code");
+		String user_id = (String)httpSession.getAttribute("user_id");
+		
+		logger.debug("bindPhone phone:{},check_code:{},sessionCheckCode:{},open_id:{}",phone,check_code,sessionCheckCode,user_id);
+		if (phone == null || check_code == null) {
+			retMap.put("error", "1");
+			retMap.put("msg", "输入信息不能为空，请检查！");
+			return retMap;
+		}
+		if (!check_code.equals(sessionCheckCode)) {
+			retMap.put("error", "1");
+			retMap.put("msg", "验证码不正确，请检查！");
+			return retMap;
+		}
+		
+		if(cglxDao.bindPhone(user_id, phone)) {
+			retMap.put("error", "0");
+			retMap.put("msg", "");
+			return retMap;
+		} else {
+			retMap.put("error", "1");
+			retMap.put("msg", "服务器内部错误，请稍后重试！");
+			return retMap;
+		}
+		
+	}
 
 	@RequestMapping("/user/userGetCheckCode")
 	@ResponseBody
 	public Map<String, String> userGetCheckCode(HttpSession httpSession, HttpServletRequest request) {
 		Map<String, String> retMap = new HashMap<>();
 		String phone = request.getParameter("user_id");
+		logger.debug("userGetCheckCode phone : {}", phone);
 		sendSMSCode(retMap, phone);
 		if (retMap.containsKey("send_status") && ("success").equals(retMap.get("send_status"))) {
 			retMap.put("error", "0");
@@ -591,6 +625,8 @@ public class APIController {
 		}
 		return retMap;
 	}
+	
+	
 
 	@RequestMapping("/user/userLogout")
 	public String userLogout(HttpSession httpSession, HttpServletRequest request) {
