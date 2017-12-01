@@ -1413,4 +1413,40 @@ public class APIController {
 		return retMap;
 	}
 	
+	@RequestMapping("/joingroup/updateImg")
+	@ResponseBody
+	public Map<String, String> updateImg(DefaultMultipartHttpServletRequest multipartRequest,
+			HttpServletRequest request) {
+		Map<String, String> retMap = new HashMap<>();
+		String realPath = "/data/cglx/files/imgs";
+		if (multipartRequest != null) {
+			Iterator<String> iterator = multipartRequest.getFileNames();
+			while (iterator.hasNext()) {
+				MultipartFile multifile = multipartRequest.getFile((String) iterator.next());
+				String fileName = getGernarateFileName(multifile);
+				try {
+					FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, fileName));
+					cglxDao.updateJoinGroup(fileName);
+				} catch (IOException e) {
+					logger.error("Failed in saving file, exception : {}", e.toString());
+				}
+			}
+			retMap.put("msg", "添加成功");
+			retMap.put("error", "0");
+			return retMap;
+		} else {
+			retMap.put("msg", "上传文件为空！");
+			retMap.put("error", "1");
+			return retMap;
+		}
+	}
+	
+	@RequestMapping("/joingroup/getJoinGroupInfo")
+	@ResponseBody
+	public Map<String, Object> getJoinGroupInfo() {
+		Map<String, Object> retMap = new HashMap<>();
+		retMap = cglxDao.getJoinGroupInfo();
+		return retMap;
+	}
+	
 }

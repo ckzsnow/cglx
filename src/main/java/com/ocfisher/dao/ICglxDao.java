@@ -133,4 +133,8 @@ public interface ICglxDao {
 	public List<Map<String, Object>> getRelatedCase(String categoryTag, String countryTag, int beginIndex, int length);
 
 	public Map<String, Object> getUserSubscribeByUionId(String unionid);
+	
+	public boolean updateJoinGroup(String fileName);
+	
+	public Map<String, Object> getJoinGroupInfo();
 }

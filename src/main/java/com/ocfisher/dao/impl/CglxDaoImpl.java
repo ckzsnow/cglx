@@ -1093,4 +1093,28 @@ public class CglxDaoImpl implements ICglxDao {
 		}
 		return resultMap;
 	}
+	
+	@Override
+	public boolean updateJoinGroup(String fileName) {
+		try{
+			String sql= "update join_group set file_name=?, create_date=? where id=1";
+			int num = jdbcTemplate.update(sql, fileName, new Timestamp(System.currentTimeMillis()));
+			return num > 0;
+		}catch(Exception e){
+			logger.error("exception : {}", e.toString());
+		}
+		return false;
+	}
+
+	@Override
+	public Map<String, Object> getJoinGroupInfo() {
+		Map<String, Object> resultMap = null;
+		try{
+			String sql = "select * from join_group where id=1";
+			resultMap = jdbcTemplate.queryForMap(sql);
+		} catch(Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return resultMap;
+	}
 }

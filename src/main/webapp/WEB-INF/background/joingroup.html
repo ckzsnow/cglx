@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="/css/_all-skins.min.css">
 <!-- jQuery 2.2.3 -->
 <script src="/js/jquery.min.js"></script>
+
 </head>
 
 <body class="hold-transition skin-blue fixed sidebar-mini">
@@ -53,15 +54,16 @@
 								class="fa fa-bell-o"></i> <span class="label label-warning">0</span>
 						</a>
 							<ul class="dropdown-menu">
-								<li class="header">暂无消息</li>
+								<li class="header">暂无信息</li>
 								<li>
 									<!-- inner menu: contains the actual data -->
 									<ul class="menu">
 										<li><a href="#"> <i class="fa fa-users text-aqua"></i>
+
 										</a></li>
 									</ul>
 								</li>
-								<li class="footer"><a href="#">查看全部</a></li>
+								<li class="footer"><a href="#">查看所有</a></li>
 							</ul></li>
 						<!-- User Account: style can be found in dropdown.less -->
 						<li class="dropdown user user-menu"><a href="#"
@@ -74,11 +76,11 @@
 								<li class="user-header"><img
 									src="/images/user3-128x128.jpg" class="img-circle"
 									alt="User Image">
-									<p class="username"></p></li>
+									<p class="username">admin</p></li>
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="pull-right">
-										<a href="#" id="logout" class="btn btn-default btn-flat">退出</a>
+										<a id="logout" class="btn btn-default btn-flat">退出</a>
 									</div>
 								</li>
 							</ul></li>
@@ -100,15 +102,16 @@
 							alt="User Image">
 					</div>
 					<div class="pull-left info" style="margin-top: 10px;">
-						<p class="username"></p>
+						<p class="username">admin</p>
 					</div>
 				</div>
 				<!-- sidebar menu: : style can be found in sidebar.less -->
 				<ul class="sidebar-menu">
 					<li class="header">DIY研习社</li>
-					<li><a href="bannerlist.html"> <i class="fa fa-dashboard"></i><span>横幅列表</span>
+					<li ><a href="bannerlist.html"> <i
+							class="fa fa-dashboard"></i><span>横幅列表</span>
 					</a></li>
-					<li ><a href="joingroup.html"> <i
+					<li class="active"><a href="joingroup.html"> <i
 							class="fa fa-dashboard"></i><span>加群管理</span>
 					</a></li>
 					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
@@ -119,13 +122,12 @@
 						<ul class="treeview-menu">
 							<li><a href="articallist.html"><i class="fa fa-circle-o"></i>文章列表</a>
 							</li>
-							<li><a href="addartical.html"><i class="fa fa-circle-o"></i>添加文章</a>
-							</li>
+							<li class="active"><a href="addartical.html"><i
+									class="fa fa-circle-o"></i>添加文章</a></li>
 						</ul></li>
 					<li><a href="appreport.html"> <i class="fa fa-dashboard"></i><span>申请分享列表</span>
 					</a></li>
-					<li class="active"><a href="userlist.html"> <i
-							class="fa fa-dashboard"></i><span>用户列表</span>
+					<li><a href="userlist.html"> <i class="fa fa-dashboard"></i><span>用户列表</span>
 					</a></li>
 					<li><a href="evalist.html"> <i class="fa fa-dashboard"></i><span>申请表列表</span>
 					</a></li>
@@ -174,52 +176,83 @@
 			<!-- /.sidebar -->
 		</aside>
 
+		<!-- =============================================== -->
+
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
 			<!-- Main content -->
 			<section class="content">
 				<div class="row">
 					<div class="col-md-12">
-						<div class="box box-primary" style="margin: 10px auto;">
+						<!-- interactive chart -->
+						<div class="box box-primary">
 							<div class="box-header with-border">
-								<i class="fa fa-table"></i>
-								<h3 class="box-title">用户列表</h3>
+								<i class="fa fa-plus"></i>
+								<h3 class="box-title">群二维码图片</h3>
 							</div>
-							<!-- /.box-header -->
-							<div class="box-body no-padding">
-								<table class="table table-striped">
-									<tbody id="tbody">
-										<tr>
-											<th>ID</th>
-											<th>姓名</th>
-											<th>学校</th>
-											<th>专业</th>
-											<th>电话</th>
-											<th>编辑</th>
-										</tr>
-									</tbody>
-								</table>
+							<div class="box-body">
+								<div id="interactive">
+									<form class="form-horizontal">
+										<div class="box-body">
+											<div class="form-group">
+												<label for="exampleInputFile" class="col-sm-2 control-label"
+													style="line-height: 34px;">图片上传</label>
+												<div class="col-sm-10">
+													<input type="file" id="inputFile"
+														class="form-control detail">
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="exampleInputFile" class="col-sm-2 control-label"
+													style="line-height: 34px;">当前入群二维码图片</label>
+												<div class="col-sm-10" style='width:200px;height:250px;border:1px solid black;margin-left:15px;'>
+													<img id='join_group_img' src='' style='margin-left:-15px;width:200px;max-height:240px;'>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="exampleInputFile" class="col-sm-2 control-label"
+													style="line-height: 34px;">当前入群图片链接</label>
+												<div class="col-sm-10">
+													<input type="text" id="url"
+														class="form-control detail">
+												</div>
+											</div>
+											<div id="progress_tip" class="progress"
+												style="display: none; margin-top: 10px;">
+												<div
+													class="progress-bar progress-bar-primary progress-bar-striped"
+													role="progressbar" aria-valuenow="50" aria-valuemin="0"
+													aria-valuemax="100">
+													<span class="sr-only" id="text_tips"
+														style="position: relative;">0%</span>
+												</div>
+											</div>
+										</div>
+										<!-- /.box-body -->
+										<div class="box-footer">
+											<button type="submit" id="submit_btn" class="btn btn-primary">上传</button>
+										</div>
+								</div>
 							</div>
-							<!-- /.box-body -->
 						</div>
-						<!-- /.box -->
+						<!-- /.box-body-->
 					</div>
-					<!-- /.col -->
+					<!-- /.box -->
 				</div>
-				<!-- /.row -->
-			</section>
-			<!-- /.content -->
+				<!-- /.col -->
 		</div>
-		<!-- /.content-wrapper -->
-		<footer class="main-footer">
-			<div class="pull-right hidden-xs">
-				<b>Version</b> 1.0.0
-			</div>
-			<strong>Copyright &copy; 2016-2017.</strong> All rights reserved.
-		</footer>
+		</section>
+		<!-- /.content -->
+	</div>
+	<!-- /.content-wrapper -->
+	<footer class="main-footer">
+		<div class="pull-right hidden-xs">
+			<b>Version</b> 1.0.0
+		</div>
+		<strong>Copyright &copy; 2016-2017. </strong> All rights reserved.
+	</footer>
 	</div>
 	<!-- ./wrapper -->
-
 	<!-- jQuery 2.2.3 -->
 	<script src="/js/jquery.min.js"></script>
 	<!-- Bootstrap 3.3.6 -->
@@ -228,49 +261,74 @@
 	<script src="/js/jquery.slimscroll.min.js"></script>
 	<!-- AdminLTE App -->
 	<script src="/js/app.min.js"></script>
-	<script>
-		$
-				.post(
-						'/user/getAllUserInfo',
-						function(data) {
-							for ( var index in data) {
-								$('#tbody')
-										.append(
-												'<tr>'
-														+ '<td>'
-														+ data[index].id
-														+ '</td>'
-														+ '<td>'
-														+ data[index].name
-														+ '</td>'
-														+ '<td>'
-														+ data[index].school
-														+ '</td>'
-														+ '<td>'
-														+ data[index].major
-														+ '</td>'
-														+ '<td>'
-														+ data[index].phone
-														+ '</td>'
-														+ '<td><button type="button" class="btn btn-danger" id="'+data[index].id+'">删除</button></td>'
-														+ '</tr>');
-							}
 
-							$('.btn-danger').on('click', function() {
-								if (confirm('确定要删除此信息吗？')) {
-									var id = $(this).attr('id');
-									$.post('/user/deleteUserInfo', {
-										id : id
-									}, function(data) {
-										window.location.reload();
-									});
-								}
-							});
-						});
-		$('#logout').on('click', function() {
-			window.location.href = '/user/userLogout?view=homepage';
-		});
-	</script>
+	<script type="text/javascript">
+			function checkJsonIsEmpty(json) {
+				var isEmpty = true;
+				if (json == null) return true;
+				for (var jsonKey in json) {
+					isEmpty = false;
+					break;
+				}
+				return isEmpty;
+			}
+			$.post('/joingroup/getJoinGroupInfo', function(data) {
+				if(checkJsonIsEmpty(data)) {
+					alert('获取数据失败！');
+				} else {
+					$('#join_group_img').attr('src', "/cglx/files/imgs/" + data.file_name);
+					$('#url').val('http://www.udiyclub.com/view/join_group.html');
+				}
+			});
+			$('.btn-primary').on('click', function() {
+				if($('#inputFile')[0].files[0] == null || $('#inputFile')[0].files[0] == "") {
+					alert("您还没有选择图片文件！");
+					return;
+				}
+				$('.btn-primary').attr('disabled', "");
+				$("#progress_tip").show();
+				var fileObj = $('#inputFile')[0].files[0];
+				var fd = new FormData();
+				fd.append('files', fileObj);
+				var xhr = new XMLHttpRequest();
+				xhr.upload.addEventListener("progress", function(evt) {
+					if (evt.lengthComputable) {
+						var percentComplete = Math.round(evt.loaded * 100 / evt.total);
+						var percent = percentComplete + "%";
+						$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", percent);
+						$('#text_tips').html(percent);
+					}
+				}, false);
+				xhr.addEventListener("load", function(evt) {
+					$("#progress_tip").hide();
+					$('.btn-primary').removeAttr('disabled');
+					$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
+					$('#text_tips').html("0%");
+					var res = JSON.parse(evt.target.responseText);
+					if (res.error == '0') {
+						alert("提交信息成功");
+						window.location.reload();
+					} else {
+						alert("提交信息失败！");
+					}
+				}, false);
+				xhr.addEventListener("error", function(evt) {
+					$("#progress_tip").hide();
+					$('.btn-primary').removeAttr('disabled');
+					$('.progress-bar.progress-bar-primary.progress-bar-striped').css("width", "0%");
+					$('#text_tips').html("0%");
+					alert("提交信息失败！");
+				}, false);
+				xhr.open('post', "/joingroup/updateImg");
+				xhr.send(fd);
+			});
+			
+			$('#logout').on('click', function() {
+				window.location.href = '/user/userLogout?view=homepage';
+			});
+			
+		</script>
+
 </body>
 
 </html>
