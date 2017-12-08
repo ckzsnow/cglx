@@ -552,7 +552,7 @@ var _hmt = _hmt || [];
 	        <div class="login-fill-card">
 	            <div class="login-card card" style="height:200px;margin-top: -112px;">
 	                <div class="inputs">
-	                	<p style="font-weight:bold;font-size:12px;margin:10px 70px;">请绑定手机后购买</p>
+	                	<p style="text-align:center;font-weight:bold;font-size:12px;margin:20px 0px;">手机验证</p>
 	                    <div class="login-phone-input">
 	                        <input id="phoneNum" type="text" pattern="^\d{11}$" class="login-phone input long-input" placeholder="仅支持中国大陆手机号" maxlength="11" autocomplete="off">
 	                    </div>
@@ -561,7 +561,7 @@ var _hmt = _hmt || [];
 	                        <input id="get_verify_code" type="button" class="send-verify-code input-button short-button btn-disable" send="false" value="发送验证码">
 	                    </div>
 	                    <p class="tips" id="pc_bind_tip" style="font-size: 12px;margin: 10px 40px;color: red;"></p>
-	                    <div class="login-submit submit" id="bindphonePC" style="margin-top:10px">绑定手机</div>
+	                    <div class="login-submit submit" id="bindphonePC" style="margin-top:20px">确定</div>
 	                </div>
 	            </div>
 	        </div>
@@ -572,7 +572,7 @@ var _hmt = _hmt || [];
         <div class="mobile-dialog login-regist" style="display:block;height:3rem" id="mobile_register_view">
             <div class="login-close close"></div>
             <div class="login-regist-card card" data-show="true">
-            	<p style="font-weight:bold;font-size:0.18rem;margin:10px 80px;">请绑定手机后购买</p>
+            	<p style="text-align:center;font-weight:bold;font-size:0.18rem;margin:20px 0px;">手机验证</p>
                 <div class="login-regist-phone-input">
                     <input id="phoneNumMB" type="tel" pattern="^d{11}$" class="login-phone input long-input" placeholder="手机号" maxlength="11">
                     <i class="phone-status-icon"></i>
@@ -582,7 +582,7 @@ var _hmt = _hmt || [];
                     <div id="get_verify_code_mb" class="send-verify-code input-button short-button btn-disable" send="false">发送验证码</div>
                 </div>
                 <p class="tips" id="mobile_bind_tip"></p>
-                <div class="login-submit submit" id="bindphoneMB">绑定手机</div>
+                <div class="login-submit submit" id="bindphoneMB">确定</div>
             </div>
         </div>
     </div>
