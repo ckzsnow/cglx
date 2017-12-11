@@ -414,7 +414,7 @@ var _hmt = _hmt || [];
 					<li class="active"><a href="/courses/views/courses.html">最新课程</a></li>
 					<li><a href="/courses/views/essay.html">文书写作</a></li>
 					<li><a href="/courses/views/major.html">院校专业</a></li>
-					<li><a href="/courses/views/case.html">成功案例</a></li>
+					<li><a href="/courses/views/case.html">实习求职</a></li>
 					<li><a href="/courses/views/experience.html">留学体验</a></li>
 					<li><a href="/courses/views/series.html">系列课</a></li>
 				</ul>
@@ -427,7 +427,7 @@ var _hmt = _hmt || [];
 				<li class="active"><a href="/courses/views/courses.html">最新课程</a></li>
 				<li><a href="/courses/views/essay.html">文书写作</a></li>
 				<li><a href="/courses/views/major.html">院校专业</a></li>
-				<li><a href="/courses/views/case.html">成功案例</a></li>
+				<li><a href="/courses/views/case.html">实习求职</a></li>
 				<li><a href="/courses/views/experience.html">留学体验</a></li>
 				<li><a href="/courses/views/series.html">系列课</a></li>
 				<li class="my-course"><a href="/view/mycoures.html">我的课堂</a></li>
