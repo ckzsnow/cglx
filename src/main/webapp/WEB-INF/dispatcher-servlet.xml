@@ -102,6 +102,8 @@
 	<context:component-scan base-package="com.ocfisher.dao.impl" />
 	<context:component-scan base-package="com.course.controller" />
 	<context:component-scan base-package="com.course.dao.impl" />
+	<context:component-scan base-package="com.document.controller" />
+	<context:component-scan base-package="com.document.dao.impl" />
 	<context:component-scan base-package="com.ddcb.weixin.controller" />
 	<context:component-scan base-package="com.ddcb.weixin.service" />
 	<context:component-scan base-package="com.ddcb.weixin.service.impl" />

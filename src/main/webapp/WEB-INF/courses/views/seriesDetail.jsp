@@ -49,6 +49,8 @@ var _hmt = _hmt || [];
 				<ul>
 					<li class="news" data-id="news"><a href="/view/homepage.html">留学专栏</a>
 					</li>
+					<li class="news"><a href="/view/mentor.html">留学服务</a>
+					</li>
 					<li class="active"><a href="/courses/views/courses.html">在线课程</a></li>
 					<li class="activity" data-id="activity"><a
 						href="/view/success.html">成功案例</a></li>
