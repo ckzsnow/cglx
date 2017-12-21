@@ -387,7 +387,11 @@
 				var i=1;
 				for(var index in data){
 					$('#join_group_img_'+(i)).attr('src', "/cglx/files/imgs/" + data[index].file_name);
-					$('#url_'+(i)).val('http://www.udiyclub.com/view/join_group_'+(i-1)+'.html');
+					if(i==1){
+						$('#url_'+(i)).val('http://www.udiyclub.com/view/join_group.html');
+					} else {
+						$('#url_'+(i)).val('http://www.udiyclub.com/view/join_group_'+(i-1)+'.html');
+					}
 					i++;
 				}
 			});
