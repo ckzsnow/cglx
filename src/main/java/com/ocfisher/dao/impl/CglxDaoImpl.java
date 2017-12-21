@@ -1095,10 +1095,10 @@ public class CglxDaoImpl implements ICglxDao {
 	}
 	
 	@Override
-	public boolean updateJoinGroup(String fileName) {
+	public boolean updateJoinGroup(String fileName, int id) {
 		try{
-			String sql= "update join_group set file_name=?, create_date=? where id=1";
-			int num = jdbcTemplate.update(sql, fileName, new Timestamp(System.currentTimeMillis()));
+			String sql= "update join_group set file_name=?, create_date=? where id=?";
+			int num = jdbcTemplate.update(sql, fileName, new Timestamp(System.currentTimeMillis()), id);
 			return num > 0;
 		}catch(Exception e){
 			logger.error("exception : {}", e.toString());
@@ -1107,15 +1107,18 @@ public class CglxDaoImpl implements ICglxDao {
 	}
 
 	@Override
-	public Map<String, Object> getJoinGroupInfo() {
-		Map<String, Object> resultMap = null;
+	public List<Map<String, Object>> getJoinGroupInfo(int id) {
+		List<Map<String, Object>> resultList = null;
 		try{
-			String sql = "select * from join_group where id=1";
-			resultMap = jdbcTemplate.queryForMap(sql);
+			String sql = "select * from join_group";
+			if(id != 0) {
+				sql = "select * from join_group where id = " + String.valueOf(id);
+			}
+			resultList = jdbcTemplate.queryForList(sql);
 		} catch(Exception e) {
 			logger.error("exception : {}", e.toString());
 		}
-		return resultMap;
+		return resultList;
 	}
 
 	@Override

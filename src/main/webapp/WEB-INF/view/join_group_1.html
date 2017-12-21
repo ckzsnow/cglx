@@ -29,11 +29,11 @@ var _hmt = _hmt || [];
 			}
 			return isEmpty;
 		}
-		$.post('/joingroup/getJoinGroupInfo', function(data) {
+        $.post('/joingroup/getJoinGroupInfo?id=2', function(data) {
 			if(checkJsonIsEmpty(data)) {
 				
 			} else {
-				$('#img').attr('src', "/cglx/files/imgs/" + data.file_name);
+				$('#img').attr('src', "/cglx/files/imgs/" + data[0].file_name);
 				$('#img').show();
 			}
 		});

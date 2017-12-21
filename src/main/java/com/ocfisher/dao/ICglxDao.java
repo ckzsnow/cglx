@@ -134,9 +134,9 @@ public interface ICglxDao {
 
 	public Map<String, Object> getUserSubscribeByUionId(String unionid);
 	
-	public boolean updateJoinGroup(String fileName);
+	public boolean updateJoinGroup(String fileName, int id);
 	
-	public Map<String, Object> getJoinGroupInfo();
+	public List<Map<String, Object>> getJoinGroupInfo(int id);
 
 	public boolean bindPhone(String user_id, String phone);
 }

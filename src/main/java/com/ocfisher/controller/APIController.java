@@ -1455,6 +1455,8 @@ public class APIController {
 			HttpServletRequest request) {
 		Map<String, String> retMap = new HashMap<>();
 		String realPath = "/data/cglx/files/imgs";
+		String id = request.getParameter("id");
+		int id_ = Integer.valueOf(id) + 1;
 		if (multipartRequest != null) {
 			Iterator<String> iterator = multipartRequest.getFileNames();
 			while (iterator.hasNext()) {
@@ -1462,7 +1464,7 @@ public class APIController {
 				String fileName = getGernarateFileName(multifile);
 				try {
 					FileUtils.copyInputStreamToFile(multifile.getInputStream(), new File(realPath, fileName));
-					cglxDao.updateJoinGroup(fileName);
+					cglxDao.updateJoinGroup(fileName, id_);
 				} catch (IOException e) {
 					logger.error("Failed in saving file, exception : {}", e.toString());
 				}
@@ -1479,10 +1481,15 @@ public class APIController {
 	
 	@RequestMapping("/joingroup/getJoinGroupInfo")
 	@ResponseBody
-	public Map<String, Object> getJoinGroupInfo() {
-		Map<String, Object> retMap = new HashMap<>();
-		retMap = cglxDao.getJoinGroupInfo();
-		return retMap;
+	public List<Map<String, Object>> getJoinGroupInfo(HttpServletRequest request) {
+		List<Map<String, Object>> retList = new ArrayList<>();
+		String id = request.getParameter("id");
+		int id_ = 0;
+		if(id != null && !id.isEmpty()){
+			id_ = Integer.valueOf(id);
+		}
+		retList = cglxDao.getJoinGroupInfo(id_);
+		return retList;
 	}
 	
 }
