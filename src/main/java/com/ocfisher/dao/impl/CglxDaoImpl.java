@@ -912,6 +912,29 @@ public class CglxDaoImpl implements ICglxDao {
 		}
 		return true;
 	}
+	
+	@Override
+	public boolean updateApplyFree(Map<String, String[]> paramsMap) {
+		int affectedRows = 0;
+		StringBuilder sbName = new StringBuilder();
+		StringBuilder sbWen = new StringBuilder();
+		List<Object> args = new ArrayList<>();
+		for(Entry<String, String[]> entry : paramsMap.entrySet()) {
+			args.add(entry.getValue()[0]);
+			sbName.append(entry.getKey() + ",");
+			sbWen.append("?,");
+		}
+		sbName.append("create_time");
+		sbWen.append("?");
+		args.add(new Timestamp(System.currentTimeMillis()));
+		try {
+			String sql = "insert into apply_free ("+sbName.toString()+") values("+sbWen.toString()+")";
+			affectedRows = jdbcTemplate.update(sql, args.toArray());
+		} catch (Exception e) {
+			logger.error("exception : {}", e.toString());
+		}
+		return affectedRows>0;
+	}
 
 	@Override
 	public boolean deleteApplyReport(long id) {
@@ -1132,4 +1155,17 @@ public class CglxDaoImpl implements ICglxDao {
 		}
 		return affectedRows!=0;
 	}
+
+	@Override
+	public List<Map<String, Object>> getAllApplyFree() {
+		String sql = "select * from apply_free";
+		List<Map<String, Object>> retList = null;
+		try{
+			retList = jdbcTemplate.queryForList(sql);
+		} catch(Exception e) {
+			logger.error("bindPhone error:{}", e.toString());
+		}
+		return retList;
+	}
+
 }

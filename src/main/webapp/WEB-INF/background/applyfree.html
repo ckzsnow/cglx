@@ -111,21 +111,21 @@
 					<li ><a href="joingroup.html"> <i
 							class="fa fa-dashboard"></i><span>加群管理</span>
 					</a></li>
-					<li class="treeview active"><a href="#"> <i
-							class="fa fa-joomla"></i> <span>文章</span> <span
-							class="pull-right-container"> <i
+					<li class="treeview"><a href="#"> <i class="fa fa-joomla"></i>
+							<span>文章</span> <span class="pull-right-container"> <i
 								class="fa fa-angle-left pull-right"></i>
 						</span>
 					</a>
 						<ul class="treeview-menu">
-							<li class="active"><a href="articallist.html"><i
-									class="fa fa-circle-o"></i>文章列表</a></li>
+							<li><a href="articallist.html"><i class="fa fa-circle-o"></i>文章列表</a>
+							</li>
 							<li><a href="addartical.html"><i class="fa fa-circle-o"></i>添加文章</a>
 							</li>
 						</ul></li>
-					<li><a href="appreport.html"> <i class="fa fa-dashboard"></i><span>申请分享列表</span>
+					<li><a href="appreport.html"> <i
+							class="fa fa-dashboard"></i><span>申请分享列表</span>
 					</a></li>
-					<li><a href="applyfree.html"> <i
+					<li class="active"><a href="applyfree.html"> <i
 							class="fa fa-dashboard"></i><span>免费留学服务申请表</span>
 					</a></li>
 					<li><a href="userlist.html"> <i class="fa fa-dashboard"></i><span>用户列表</span>
@@ -186,20 +186,21 @@
 						<div class="box box-primary" style="margin: 10px auto;">
 							<div class="box-header with-border">
 								<i class="fa fa-table"></i>
-								<h3 class="box-title">文章列表</h3>
+								<h3 class="box-title">申请分享列表</h3>
 							</div>
 							<!-- /.box-header -->
 							<div class="box-body no-padding">
 								<table class="table table-striped">
 									<tbody id="tbody">
 										<tr>
-											<th style="width: 5%">ID</th>
-											<th style="width: 40%">标题</th>
-											<th style="width: 10%">标签</th>
-											<th style="width: 10%">作者</th>
-											<th style="width: 10%">是否推荐</th>
-											<th style="width: 10%">创建时间</th>
-											<th style="width: 15%">操作</th>
+											<th>姓名</th>
+											<th>电话</th>
+											<th>学校</th>
+											<th>专业</th>
+											<th>标准化成绩</th>
+											<th>语言</th>
+											<th>目标国家</th>
+											<th>目标专业</th>
 										</tr>
 									</tbody>
 								</table>
@@ -215,6 +216,7 @@
 			<!-- /.content -->
 		</div>
 		<!-- /.content-wrapper -->
+
 		<footer class="main-footer">
 			<div class="pull-right hidden-xs">
 				<b>Version</b> 1.0.0
@@ -233,57 +235,22 @@
 	<!-- AdminLTE App -->
 	<script src="/js/app.min.js"></script>
 	<script>
-		function deleteData(id) {
-			$.ajax({
-				url : '/articles/deleteArticle',
-				type : "POST",
-				data : {
-					id : id
-				},
-				success : function(data) {
-					alert("删除成功！");
-					window.location.reload();
-				},
-				error : function() {
-					alert("删除失败！");
-				}
-			});
-		}
-		$
-				.post(
-						'/articles/getAllArticles',
-						function(data) {
-							for ( var index in data) {
-								$('#tbody')
-										.append(
-												'<tr>' + '<td>'
-														+ data[index].id
-														+ '</td>'
-														+ '<td>'
-														+ data[index].title
-														+ '</td>'
-														+ '<td>'
-														+ data[index].tag_name
-														+ '</td>'
-														+ '<td>'
-														+ data[index].author
-														+ '</td>'
-														+ '<td>'
-														+ (data[index].recommend == "0" ? "<span>非推荐</span>"
-																: "<span style='color:red;'>推荐</span>")
-														+ '</td>'
-														+ '<td>'
-														+ data[index].readable_date
-														+ '</td>'
-														+ '<td><a style="cursor:pointer;" href="addartical.html?id='
-														+ data[index].id
-														+ '">编辑</a><a href="javascript:if(confirm(\'您确定要删除当前数据么？\')){deleteData('
-														+ data[index].id
-														+ ')}" style="cursor:pointer;margin-left:10px;">删除</a></td>'
-														+ '</tr>');
-							}
-						});
-
+		var form = {};
+		$.post('/applyFree/getAllApplyFree',function(data) {
+			form = data;
+			for ( var index in data) {
+				$('#tbody').append('<tr>'
+					+ '<td>'+data[index].name+'</td>'
+					+ '<td>'+data[index].phone+'</td>'
+					+ '<td>'+data[index].school+'</td>'
+					+ '<td>'+data[index].major+'</td>'
+					+ '<td>'+data[index].standard_score+'</td>'
+					+ '<td>'+data[index].language+'</td>'
+					+ '<td>'+data[index].target_country+'</td>'
+					+ '<td>'+data[index].target_major+'</td>'
+					+ '</tr>');
+			}
+		});
 		$('#logout').on('click', function() {
 			window.location.href = '/user/userLogout?view=homepage';
 		});

@@ -139,4 +139,8 @@ public interface ICglxDao {
 	public List<Map<String, Object>> getJoinGroupInfo(int id);
 
 	public boolean bindPhone(String user_id, String phone);
+
+	public boolean updateApplyFree(Map<String, String[]> paramsMap);
+
+	public List<Map<String, Object>> getAllApplyFree();
 }

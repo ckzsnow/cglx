@@ -17,6 +17,7 @@ import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -1356,6 +1357,35 @@ public class APIController {
 		return cglxDao.getAllApplyReport();
 	}
 	
+	@RequestMapping("/applyFree/getAllApplyFree")
+	@ResponseBody
+	public List<Map<String, Object>> getAllApplyFree(HttpServletRequest request) {
+		return cglxDao.getAllApplyFree();
+	}
+	
+	@RequestMapping("/applyFree/updateApplyFree")
+	@ResponseBody
+	public Map<String, String> updateApplyFree(HttpServletRequest request) {
+		Map<String, String> retMap = new HashMap<>();
+		Map<String, String[]> paramsMap = new HashMap<>(request.getParameterMap());
+		String verify_code = paramsMap.get("verify_code")[0];
+		String verify_code_ = (String) request.getSession().getAttribute("check_code");
+		if(StringUtils.isEmpty(verify_code) || !verify_code_.equals(verify_code)) {
+			retMap.put("msg", "验证码错误！");
+			retMap.put("error", "2");
+			return retMap;
+		}
+		paramsMap.remove("verify_code");
+		if (cglxDao.updateApplyFree(paramsMap)) {
+			retMap.put("msg", "更新成功");
+			retMap.put("error", "0");
+		} else {
+			retMap.put("msg", "写入数据库失败！");
+			retMap.put("error", "1");
+		}
+		return retMap;
+	}
+	
 	@RequestMapping("/applyReport/updateApplyReport")
 	@ResponseBody
 	public Map<String, String> updateApplyReport(HttpServletRequest request) {
@@ -1370,6 +1400,7 @@ public class APIController {
 		}
 		return retMap;
 	}
+	
 	
 	@RequestMapping("/applyReport/deleteApplyReport")
 	@ResponseBody

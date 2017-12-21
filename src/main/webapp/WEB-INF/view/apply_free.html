@@ -79,7 +79,7 @@ var _hmt = _hmt || [];
                         <div class="btn-submit" onclick="media.validateForm()">提交</div>
                     </div>
                 </div>
-                <div class="submit-success hide">
+                <div class="submit-success hide" style="padding:0">
                     <p class="success">提交成功！</p>
                     <p class="concat">DIY研习社工作人员会尽快与您联系！</p>
                     <p class="concat">记得保持电话畅通哦！</p>
@@ -90,107 +90,6 @@ var _hmt = _hmt || [];
             </div>
         </div>
     <script src="/js/jquery.min.js"></script>
-    <script type="text/javascript">
-        var media = {
-    	    roundOtherShow: false,
-    	    needOtherShow: false,
-    	    postData: {},
-    	    init: function () {
-    	        $('.form input[type=text], .form textarea, .form select').each(function (_, ele) {
-    	            $(ele).on('focus', function () {
-    	                $(ele).parent().removeClass('error');
-    	                $('.tips').css('display','none');
-    	            })
-    	        })
-    	    },
-    	    validateForm: function () {
-    	        var self = this
-    	        var flag = true
-    	        $('.form input[type=text], .form textarea, .form select').each(function (_, ele) {
-    	            if (!$(ele).val()) {
-    	                var name = $(ele).attr('name')
-    	                $(ele).parent().addClass('error');
-    	                flag = false;
-    	            }
-    	        })
-    	        if (!flag) {
-    	            $('.submit .tips').show()
-    	            return
-    	        }
-    	        this.addDataToPostData()
-    	    },
-    	    addDataToPostData: function () {
-    	        var self = this,
-    	            name
-    	        $('.entrepreneur-form-items input[type=text]').each(function (_, ele) {
-    	            name = $(ele).attr('name')
-    	            if (name) {
-    	                self.postData[name] = $(ele).val()
-    	            }
-    	        })
-    	        this.submitForm()
-    	    },
-    	    submitForm: function () {
-    	        var self = this
-    	        $('.btn-submit').html('正在提交中……').off();
-    	        $.ajax({
-    	            url: '/applyReport/updateApplyReport',
-    	            type: 'post',
-    	            data: this.postData,
-    	            success: function (res) {
-    	                if (res.error == "0") {
-    	                    $('.form').addClass('hide')
-    	                    $('.intro').addClass('hide')
-    	                    $('.submit-success').removeClass('hide')
-    	                }
-    	            },
-    	            error: function (status, error) {
-    	                $('.btn-submit').html('提交失败，请点击重新提交')
-    	            }
-    	        })
-    	    }
-    	}
-        window.onload = function() {
-            media.init()
-        }
-    </script>
-    <script>
-        $("#getVerifyCode").click(function() {
-        	var phone = $('#phone').val();
-        	if(!checkMobile(phone)) {
-        		$('#phone').parent().addClass('error');
-        		$('.tips').html('请填写正确的手机号！');
-        		$('.tips').css('display', 'block');
-        		return;
-        	}
-            var a, b;
-            $(this).attr({
-                disabled: "disabled"
-            }),
-            $(this).css("background", "rgb(204, 204, 204)"),
-            a = 60,
-            $("#getVerifyCode").html(a + "s 后重试"),
-            b = setInterval(function() {
-                a--,
-                0 > a ? (clearInterval(b),
-                $("#getVerifyCode").removeAttr("disabled"),
-                $("#getVerifyCode").removeAttr("style"),
-                $("#getVerifyCode").html("发送验证码")) : $("#getVerifyCode").html(a + "s 后重试")
-            }, 1e3);
-            $.post('/user/userGetCheckCode',{user_id: $("#phone").val()},function(data) {
-            	if(data.error != 0){
-                	$('.tips').html(a.msg);
-                	$('.tips').show();
-                }
-            });
-        });
-        
-        function checkMobile(phone){ 
- 			if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(phone))){
-  				return false; 
- 			} 
- 			return true;
-		} 
-        </script>
+    <script src="/js/apply_free.js"></script>
     </body>
 </html>
