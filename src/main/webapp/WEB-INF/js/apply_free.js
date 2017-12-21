@@ -14,12 +14,13 @@ var media = {
     	        var self = this;
     	        var flag = true;
     	        $('.form input[type=text], .form textarea, .form select').each(function (_, ele) {
+    	        	if($(ele).attr('id') == 'language' || $(ele).attr('id') == 'standard_score') return;
     	            if (!$(ele).val()) {
     	                var name = $(ele).attr('id');
     	                $(ele).parent().addClass('error');
     	                flag = false;
     	            }
-    	        })
+    	        });
     	        if (!flag) {
     	            $('.submit .tips').show();
     	            return;
