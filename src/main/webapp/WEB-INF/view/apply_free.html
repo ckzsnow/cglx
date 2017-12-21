@@ -1,0 +1,196 @@
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1.0">
+        <meta name="keywords" content="DIY研习社,留学、美国留学、英国留学、澳洲留学、加拿大留学、韩国留学、日本留学、法国留学、德国留学、欧洲留学、新西兰留学、香港留学、新加坡留学、留学申请、留学文书、个人陈述、留学简历、留学推荐信、DIY留学、留学中介">
+        <meta name="description" content="DIY研习社是国内首家留学互助共享平台，致力于为所有留学申请者提供资源共享、交际交流的渠道和机会，社员和内容覆盖留学申请所有主流国家。">
+        <title>DIY研习社－中国留学生互助交流平台，让留学不孤单</title>
+        <link rel="icon" href="/images/favicon.ico" type="image/x-icon"/>
+        <link rel="stylesheet" href="/css/apply.css">
+        <script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?5be0eb674b2390f73d8ef4abb25cb281";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+        
+    </head>
+    <body>
+        <div class="wrap">
+            <header>
+                <h1>DIY研习社免费留学服务</h1>
+            </header>
+            <div class="container">
+                <div class="intro">您好，感谢您的信任和支持。DIY研习社是当下国内首家非商业化留学互助共享平台，致力于为所有留学申请者提供资源共享、交际交流的渠道和机会，社员和内容覆盖留学申请所有主流国家。我们从创立之初，就确立了共享和帮带的文化，老带新、先带后，在这种努力下，我们从0到1，从小到大，快速发展。因此，您如果有语言备考、名企实习、留学申请、国外生活、职场发展等有益于社员发展的经验、知识，我们非常期待您能参与到我们的分享团队里来。只要您的分享能帮到大家，您在这里，不仅可以获得广大支持者，还可以获得平台给予的一定福利～</div>
+                <div class="form" action="">
+                    <h2>联系人信息</h2>
+                    <div class="entrepreneur-form-items">
+                        <div class="form-item">
+                            <label>姓名</label>
+                            <input type="text" id="name">
+                        </div>
+                        <div class="form-item">
+                            <label>手机号</label>
+                            <input type="text" id="phone">
+                        </div>
+                        <div class="form-item">
+                            <label>验证码</label>
+                            <input type="text" class="verify_input" id="verify_code">
+                            <span class="msgs" id="getVerifyCode" style="margin-left: 0px;display: inline-block;width: 98px;color: #fff;font-size: 10px;text-align: center;height: 24px;line-height: 24px;background: #0697DA;cursor: pointer;">获取验证码</span>
+                        </div>
+                        <div class="form-item">
+                            <label>学校</label>
+                            <input type="text" id="school">
+                        </div>
+                        <div class="form-item">
+                            <label>专业</label>
+                            <input type="text" id="major">
+                        </div>
+                        <div class="form-item">
+                            <label>成绩</label>
+                            <input type="text" id="score">
+                        </div>
+                        <div class="form-item">
+                            <label>年级</label>
+                            <input type="text" id="grade">
+                        </div>
+                        <div class="form-item">
+                            <label>语言</label>
+                            <input type="text" id="language">
+                        </div>
+                        <div class="form-item">
+                            <label>标准化成绩</label>
+                            <input type="text" id="standard_score">
+                        </div>
+                        <div class="form-item">
+                            <label>意向国家</label>
+                            <input type="text" id="target_country">
+                        </div>
+                        <div class="form-item">
+                            <label>意向专业</label>
+                            <input type="text" id="target_major">
+                        </div>
+                    </div>
+                    <div class="form-item submit">
+                        <div class="tips">请完整填写相应资料</div>
+                        <div class="btn-submit" onclick="media.validateForm()">提交</div>
+                    </div>
+                </div>
+                <div class="submit-success hide">
+                    <p class="success">提交成功！</p>
+                    <p class="concat">DIY研习社工作人员会尽快与您联系！</p>
+                    <p class="concat">记得保持电话畅通哦！</p>
+                    <div class="btn">
+                        <a href="homepage.html">返回首页</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        var media = {
+    	    roundOtherShow: false,
+    	    needOtherShow: false,
+    	    postData: {},
+    	    init: function () {
+    	        $('.form input[type=text], .form textarea, .form select').each(function (_, ele) {
+    	            $(ele).on('focus', function () {
+    	                $(ele).parent().removeClass('error');
+    	                $('.tips').css('display','none');
+    	            })
+    	        })
+    	    },
+    	    validateForm: function () {
+    	        var self = this
+    	        var flag = true
+    	        $('.form input[type=text], .form textarea, .form select').each(function (_, ele) {
+    	            if (!$(ele).val()) {
+    	                var name = $(ele).attr('name')
+    	                $(ele).parent().addClass('error');
+    	                flag = false;
+    	            }
+    	        })
+    	        if (!flag) {
+    	            $('.submit .tips').show()
+    	            return
+    	        }
+    	        this.addDataToPostData()
+    	    },
+    	    addDataToPostData: function () {
+    	        var self = this,
+    	            name
+    	        $('.entrepreneur-form-items input[type=text]').each(function (_, ele) {
+    	            name = $(ele).attr('name')
+    	            if (name) {
+    	                self.postData[name] = $(ele).val()
+    	            }
+    	        })
+    	        this.submitForm()
+    	    },
+    	    submitForm: function () {
+    	        var self = this
+    	        $('.btn-submit').html('正在提交中……').off();
+    	        $.ajax({
+    	            url: '/applyReport/updateApplyReport',
+    	            type: 'post',
+    	            data: this.postData,
+    	            success: function (res) {
+    	                if (res.error == "0") {
+    	                    $('.form').addClass('hide')
+    	                    $('.intro').addClass('hide')
+    	                    $('.submit-success').removeClass('hide')
+    	                }
+    	            },
+    	            error: function (status, error) {
+    	                $('.btn-submit').html('提交失败，请点击重新提交')
+    	            }
+    	        })
+    	    }
+    	}
+        window.onload = function() {
+            media.init()
+        }
+    </script>
+    <script>
+        $("#getVerifyCode").click(function() {
+        	var phone = $('#phone').val();
+        	if(!checkMobile(phone)) {
+        		$('#phone').parent().addClass('error');
+        		$('.tips').html('请填写正确的手机号！');
+        		$('.tips').css('display', 'block');
+        		return;
+        	}
+            var a, b;
+            $(this).attr({
+                disabled: "disabled"
+            }),
+            $(this).css("background", "rgb(204, 204, 204)"),
+            a = 60,
+            $("#getVerifyCode").html(a + "s 后重试"),
+            b = setInterval(function() {
+                a--,
+                0 > a ? (clearInterval(b),
+                $("#getVerifyCode").removeAttr("disabled"),
+                $("#getVerifyCode").removeAttr("style"),
+                $("#getVerifyCode").html("发送验证码")) : $("#getVerifyCode").html(a + "s 后重试")
+            }, 1e3);
+            $.post('/user/userGetCheckCode',{user_id: $("#phone").val()},function(data) {
+            	if(data.error != 0){
+                	$('.tips').html(a.msg);
+                	$('.tips').show();
+                }
+            });
+        });
+        
+        function checkMobile(phone){ 
+ 			if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(phone))){
+  				return false; 
+ 			} 
+ 			return true;
+		} 
+        </script>
+    </body>
+</html>
