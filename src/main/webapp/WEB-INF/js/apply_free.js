@@ -40,8 +40,10 @@ var media = {
     	        this.submitForm()
     	    },
     	    submitForm: function () {
+    	    	if($('.btn-submit').html() == '正在提交中……') return;
     	        var self = this
-    	        $('.btn-submit').html('正在提交中……').off();
+    	        $('.btn-submit').html('正在提交中……')
+    	        $('.btn-submit').attr('disabled', 'true');
     	        $.post('/applyFree/updateApplyFree', this.postData, function(data){
     	        	$('.btn-submit').html('提交')
     	        	if(data.error==0) {

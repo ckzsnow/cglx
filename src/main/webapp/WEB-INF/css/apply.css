@@ -405,7 +405,7 @@
         padding-left: 80px;
         margin: 0 auto 30px;
         background-repeat: no-repeat;
-        background-image: url(../img/success-icon.png)
+        background-image: url(/images/success-icon.png)
     }
 
     .submit-success .concat {
@@ -868,7 +868,7 @@
         line-height: .4rem;
         margin: 0 auto .14rem;
         background-repeat: no-repeat;
-        background-image: url(../img/success-icon.png);
+        background-image: url(/images/success-icon.png);
         background-size: auto 100%
     }
 
