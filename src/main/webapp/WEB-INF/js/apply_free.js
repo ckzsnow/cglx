@@ -48,6 +48,7 @@ var media = {
     	        	$('.btn-submit').html('提交')
     	        	if(data.error==0) {
 	    	        	$('.submit-success').css('display', 'block');
+	    	        	location.href="#success";  
     	        	} else {
     	        		$('.tips').html(data.msg);
     	        		$('.tips').css('display', 'block');

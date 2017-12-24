@@ -928,7 +928,7 @@ public class CglxDaoImpl implements ICglxDao {
 		sbWen.append("?");
 		args.add(new Timestamp(System.currentTimeMillis()));
 		try {
-			String sql = "insert into apply_free ("+sbName.toString()+") values("+sbWen.toString()+")";
+			String sql = "replace into apply_free ("+sbName.toString()+") values("+sbWen.toString()+")";
 			affectedRows = jdbcTemplate.update(sql, args.toArray());
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
