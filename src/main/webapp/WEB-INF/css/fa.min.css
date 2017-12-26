@@ -590,7 +590,7 @@
         height: 348px;
         margin: auto;
         overflow: hidden;
-        background: url(/images/fabgpc.png) no-repeat;
+        background: url(/images/fabgpc.jpg) no-repeat;
         background-size: 100% 100%
     }
 
@@ -1557,7 +1557,7 @@
         height: 2.44rem;
         margin: auto;
         overflow: hidden;
-        background: url(../images/fabg.png) no-repeat;
+        background: url(../images/fabg.jpg) no-repeat;
         background-size: auto 100%
     }
 
