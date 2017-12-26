@@ -668,10 +668,29 @@
         background-position-x: 25px
     }
 
+
+	.page-rong .intro .rong-intro li.teacher {
+        background: url(../images/teacher.png) 50px no-repeat
+    }
+
+    .page-rong .intro .rong-intro li.practice {
+        background: url(../images/practice.png) left no-repeat
+    }
+
+    .page-rong .intro .rong-intro li.change {
+        background: url(../images/change.png) 40px no-repeat
+    }
+
+    .page-rong .intro .rong-intro li.add {
+        background: url(../images/add.png) left no-repeat;
+        background-position-x: 25px
+    }
+
+
     .page-rong .service-team {
         list-style: none;
         width: 1170px;
-        margin: 0 auto 80px;
+        margin: 0 auto 30px;
         overflow: hidden
     }
 
@@ -743,7 +762,7 @@
     }
 
     .page-rong .button-bottom {
-        height: 100px;
+        /* height: 100px; */
         background: #fff;
         color: #fff;
         position: relative
@@ -775,6 +794,7 @@
     }
 
     .page-rong .float-mail {
+        z-index: 9999;
         position: fixed;
         bottom: 20px;
         margin-left: -250px;
@@ -1626,6 +1646,31 @@
         background: url(../images/bridge.png) center center no-repeat;
         background-size: 50%
     }
+    
+    
+    
+    .page-rong .intro .rong-intro li.teacher {
+        background: url(../images/teacher.png) center center no-repeat;
+        background-size: 35%
+    }
+
+    .page-rong .intro .rong-intro li.practice {
+        background: url(../images/practice.png) center center no-repeat;
+        background-size: 50%
+    }
+
+    .page-rong .intro .rong-intro li.change {
+        background: url(../images/change.png) center center no-repeat;
+        background-size: 50%
+    }
+
+    .page-rong .intro .rong-intro li.add {
+        background: url(../images/add.png) center center no-repeat;
+        background-size: 50%
+    }
+    
+    
+    
 
     .page-rong .service-team {
         list-style: none;
