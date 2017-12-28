@@ -75,7 +75,7 @@ public class WeixinUserController {
 		String openId = (String) httpSession.getAttribute("openid_");
 		String courseId = request.getParameter("course_id");
 		Map<String, Object> courseMap = courseDao.getCourseById(Long.valueOf(courseId));
-		String fee = (String) courseMap.get("cost");
+		String fee = (String) courseMap.get("fee");
 		logger.debug("weixinUserCoursePay course_id : {}, userId :{}, openId:{}", courseId,userId,openId);
 		if (userId == null || userId.isEmpty()) {
 			return "\"error_msg\":\"no user id\"";
@@ -109,7 +109,7 @@ public class WeixinUserController {
 		String openId = (String) httpSession.getAttribute("openid");
 		String courseId = request.getParameter("course_id");
 		Map<String, Object> courseMap = courseDao.getCourseById(Long.valueOf(courseId));
-		int fee = RealCostUtil.getRealCost(courseMap.get("cost"), courseMap.get("starttime"), courseMap.get("deadline"), courseMap.get("rebate"));
+		double fee = RealCostUtil.getRealCost(courseMap.get("cost"), courseMap.get("starttime"), courseMap.get("deadline"), courseMap.get("rebate"));
 		logger.debug("weixinUserCoursePay course_id : {}", courseId);
 		if (userId == null || userId.isEmpty()) {
 			retMap.put("error_msg", "no user id");

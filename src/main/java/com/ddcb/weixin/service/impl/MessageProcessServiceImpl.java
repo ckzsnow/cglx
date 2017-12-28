@@ -361,6 +361,8 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 			sendTextMessage("", inputMsg);
 			logger.debug("当前收到的消息内容" + inputMsg.getContent());
 			result = sendImageMessage("PMCPFwuiCp2HPAfNSNNt9eJz-gyBI5v2JrU9lieA-Aw", inputMsg);
+		} else if(inputMsg.getContent().indexOf("英文小说") != -1) {
+			result = sendTextMessage("Hi~这里是DIY研习社课堂！\n\n/:gift<Modern Library 100 Best Novels>分享给你 \n链接：https://pan.baidu.com/s/1eSk1g6e \n密码：v31y \n\n/:li点击菜单【邀请卡】，即可获取世界顶尖名校的学习工作经验~\n\n接下来还会有更多优质的内容与资源，欢迎持续关注哦！", inputMsg);
 		} else if (isNumeric(inputMsg.getContent().trim())) {
 			logger.debug("processTextMessage isNumeric check complete!");
 			int index = Integer.valueOf(inputMsg.getContent().trim()) - 1;

@@ -38,7 +38,7 @@ public class AlipayController {
 		String user_id = (String)request.getSession().getAttribute("user_id");
 		String course_id = request.getParameter("course_id");
 		Map<String, Object> courseMap = courseDao.getCourseById(Long.valueOf(course_id));
-		int cost = RealCostUtil.getRealCost(courseMap.get("cost"), courseMap.get("starttime"), courseMap.get("deadline"), courseMap.get("rebate"));
+		double cost = RealCostUtil.getRealCost(courseMap.get("cost"), courseMap.get("starttime"), courseMap.get("deadline"), courseMap.get("rebate"));
 		String tradeNo = UUID.randomUUID().toString();
 		if(!courseDao.addUserCourse(user_id, course_id, tradeNo)) {
 			//TODO

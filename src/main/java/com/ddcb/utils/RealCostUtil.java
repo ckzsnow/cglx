@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 
 public class RealCostUtil {
 	
-	public static int getRealCost(Object cost, Object starttime, Object deadline, Object rebate) {
-		int cost_ = Integer.valueOf((String)cost);
+	public static double getRealCost(Object cost, Object starttime, Object deadline, Object rebate) {
+		double cost_ = Double.valueOf((String)cost);
 		
 		if(starttime == null || deadline == null || rebate == null) {
 			return cost_; 
