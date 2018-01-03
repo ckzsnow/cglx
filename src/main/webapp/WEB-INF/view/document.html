@@ -374,7 +374,7 @@
 			        <div class="vuenture-pay-money-detail">
 			            <div class="vuenture-money-left">
 			                
-			                    <p class="venture-shop-price">价格:<span>8.8<span>元/次</span></span></p>
+			                    <p class="venture-shop-price">价格:<span id="price">8.8<span>元/次</span></span></p>
 			                
 			                <p>购买获取下载链接</p>
 			            </div>
@@ -404,9 +404,9 @@
 			                <ul>
 			                    <li>1、支付成功获取下载链接，下载链接当次有效，且仅供您本人使用，请勿外传！</li>
 			                    <li>2、本商品形式为文档，购买后概不退款，请您理解！</li>
-			                    <li>3、本商品版权归小饭桌（北京子木投资顾问有限公司）所有，仅供购买者阅读使用，请勿外传！</li>
-			                    <li>4、文档数据来源于小饭桌内部数据及网络公开数据，因人力与时间有限，不能保证所有引用数据的完整及正确性，请自行甄别。</li>
-			                    <li>5、文档的观点仅为小饭桌研究根据当时现有市场数据研究所得，很多因素会影响最终结果走向，研究结果仅供参考，阅读者因为本文观点受到一切损失，恕不负责。</li>
+			                    <li>3、本商品版权归DIY研习社所有，仅供购买者阅读使用，请勿外传！</li>
+			                    <li>4、文档数据来源于DIY研习社内部数据及网络公开数据，因人力与时间有限，不能保证所有引用数据的完整及正确性，请自行甄别。</li>
+			                    <li>5、文档的观点仅为DIY研习社研究根据当时现有市场数据研究所得，很多因素会影响最终结果走向，研究结果仅供参考，阅读者因为本文观点受到一切损失，恕不负责。</li>
 			                </ul>
 			            </div>
 			        </div>
@@ -443,50 +443,7 @@
 					   	<div class="no-data" style="display: none;"></div>
 					    <div class="list-container" style="display: block;">
 					        <ul class="list-unstyled ">
-							    <!-- <li>
-							        <img src="/images/pdf.png" alt="type">
-							        <p>
-							            <label data-url="/report/download?id=1254" data-id="1254">腾讯发布95页重磅报告：中国互联网未来5年的趋势是这样的！（完整版）.pdf</label>
-							            <span class="to-right">桔友2467b0afb7ad6</span>
-							        </p>
-							        <p>
-							            <span>#其他</span>
-							            <span class="to-right">分享于2017-08-29</span>
-							        </p>
-							    </li>
-							    <li>
-							        <img src="/images/pdf.png" alt="type">
-							        <p>
-							            <label data-url="/report/download?id=1254" data-id="1254">腾讯发布95页重磅报告：中国互联网未来5年的趋势是这样的！（完整版）.pdf</label>
-							            <span class="to-right">桔友2467b0afb7ad6</span>
-							        </p>
-							        <p>
-							            <span>#其他</span>
-							            <span class="to-right">分享于2017-08-29</span>
-							        </p>
-							    </li>
-							    <li>
-							        <img src="/images/pdf.png" alt="type">
-							        <p>
-							            <label data-url="/report/download?id=1254" data-id="1254">腾讯发布95页重磅报告：中国互联网未来5年的趋势是这样的！（完整版）.pdf</label>
-							            <span class="to-right">桔友2467b0afb7ad6</span>
-							        </p>
-							        <p>
-							            <span>#其他</span>
-							            <span class="to-right">分享于2017-08-29</span>
-							        </p>
-							    </li>
-							    <li>
-							        <img src="/images/pdf.png" alt="type">
-							        <p>
-							            <label data-url="/report/download?id=1254" data-id="1254">腾讯发布95页重磅报告：中国互联网未来5年的趋势是这样的！（完整版）.pdf</label>
-							            <span class="to-right">桔友2467b0afb7ad6</span>
-							        </p>
-							        <p>
-							            <span>#其他</span>
-							            <span class="to-right">分享于2017-08-29</span>
-							        </p>
-							    </li> -->
+							    
 							</ul>
 					        
 					        <!-- 分页-->
@@ -530,6 +487,14 @@
         <script type="text/javascript" src="/js/login.js"></script>
         <script type="text/javascript" src="/js/pager.js"></script>
         <script>
+        $('.name').on('click', function(event) {
+            event.stopPropagation();
+            $('#logout').toggle('fast');
+        });
+        $(document).on('click', function() {
+            $('#logout').hide(500);
+        });
+        	
 	        function loadData(index, key) {
 	        	$('.list-container').css('display', 'none');
 	        	$('.no-data').css('display', 'block');
@@ -541,12 +506,14 @@
 						for(var index in data) {
 							var docName = data[index].document;
 							docName = docName.replace(key, '<span style="color:#ff4d37">'+key+'</span>');
-							var html = '<li><img src="/images/pdf.png" alt="type"><p><label class="download">'
+							var html = '<li><img src="/images/pdf.png" alt="type"><p><label class="download" id="'+data[index].id+'">'
 									+ docName + '</label><span class="to-right">'+data[index].author+'</span></p>'
 					        		+ '<p><span>#'+data[index].tag+'</span><span class="to-right">分享于'+data[index].readable_date+'</span></p></li>';
 							$('.list-unstyled').append(html);
 						}
 						$('.download').on('click', function(){
+							console.log(user_id);
+							var doc_id = $(this).attr('id');
 							if(user_id == '') {
 								if(window.screen.width < 700) {
 									$('#login-btn-m').click();
@@ -562,10 +529,11 @@
 										} else {
 											$('.bindPhonePC').css('display','block');
 										}
-									} else if(data.country == null || data.country == '') {
-										
 									} else {
-										
+										$.post('/document/getDocDetailById', {id:doc_id}, function(data){
+											console.log(data);
+											
+										});
 									}
 								});
 							}
@@ -607,6 +575,7 @@
             	loadData(1, key);
                 initPage(key);
             });
+            
         </script>
     </body>
 </html>

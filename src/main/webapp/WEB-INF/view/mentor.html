@@ -672,5 +672,14 @@
         <script type="text/javascript" src="/js/login.js"></script>
         <script type="text/javascript" src="/js/swiper.min.js"></script>
         <script type="text/javascript" src="/js/main_logo.js"></script>
+        <script>
+        $('.name').on('click', function(event) {
+            event.stopPropagation();
+            $('#logout').toggle('fast');
+        });
+        $(document).on('click', function() {
+            $('#logout').hide(500);
+        });
+        </script>
     </body>
 </html>
