@@ -19,4 +19,8 @@ public interface IDocDao {
 
 	List<Map<String, Object>> getAllDocumentByKey(String key);
 
+	boolean updateUserDocById(String id);
+
+	boolean addUserDocAndPayStatus(String srcUnionId, String doc_id, String tradeNo);
+
 }

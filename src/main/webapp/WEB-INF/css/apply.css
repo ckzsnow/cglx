@@ -397,7 +397,7 @@
     }
 
     .submit-success .success {
-        width: 200px;
+        width: 370px;
         height: 66px;
         line-height: 66px;
         font-size: 36px;
@@ -863,7 +863,7 @@
         font-size: .24rem;
         color: #459ff3;
         padding-left: .5rem;
-        width: 1.3rem;
+        width: 2.5rem;
         height: .4rem;
         line-height: .4rem;
         margin: 0 auto .14rem;
@@ -875,7 +875,7 @@
     .submit-success .concat {
         font-size: .16rem;
         color: #666;
-        margin-top: .08rem
+        margin: .08rem
     }
 
     .submit-success .success-bp-tips {

@@ -462,7 +462,7 @@
 			
 			var copywriter = $('#copywriter').val();
 			copywriter = copywriter.replace(/\n/g, "_@").replace(/\r/g,'_#');
-			fd.append('copywriter', $('#copywriter').val());
+			fd.append('copywriter', copywriter);
 			var xhr = new XMLHttpRequest();
 			xhr.upload.addEventListener("progress", function(evt) {
 				if (evt.lengthComputable) {

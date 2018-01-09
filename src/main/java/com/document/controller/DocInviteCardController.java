@@ -56,7 +56,7 @@ public class DocInviteCardController {
 		retMap.put("msg", "删除失败！");
 		retMap.put("error", "1");
 		String id = request.getParameter("id");
-		if(docInviteCardDao.delCourseCard(id)){
+		if(docInviteCardDao.delDocInviteCard(id)){
 			retMap.put("msg", "删除成功！");
 			retMap.put("error", "0");
 			logger.debug("deleteCourseInviteCardById success!");
@@ -72,9 +72,9 @@ public class DocInviteCardController {
 		Map<String, String> retMap = new HashMap<>();
 		retMap.put("msg", "更新失败！");
 		retMap.put("error", "1");
-		String course_id = request.getParameter("id");
+		String doc_id = request.getParameter("id");
 		String status = request.getParameter("status");
-		if(docInviteCardDao.updateCourseCardPublishStatus(course_id, status)){
+		if(docInviteCardDao.updateDocInviteCardPublishStatus(doc_id, status)){
 			retMap.put("msg", "更新成功！");
 			retMap.put("error", "0");
 		}
@@ -124,8 +124,9 @@ public class DocInviteCardController {
 	
 	private String generateSpreadCard(String id, String templateName) {
 		String qrCodeFileName = "";
+		String args = (id+"AND");
 		String json = "{\"expire_seconds\": 2592000, \"action_name\": \"QR_STR_SCENE\", \"action_info\""+
-				": {\"scene\": {\"scene_str\": \""+id+"\"}}}";
+				": {\"scene\": {\"scene_str\": \""+args+"\"}}}";
 		String action = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="
 				+ WeixinCache.getAccessToken();
 		String ret = CourseInviteCardServiceImpl.connectWeiXinInterface(action, json);
@@ -143,10 +144,10 @@ public class DocInviteCardController {
 	
 	public static String generateSpreadQRCode(String content, String templateName) {
 		BufferedImage templateImage = null;
-		String realPath = "/data/cglx/course_invite_card";
+		String realPath = "/data/cglx/doc_invite_card";
 		String fileName = UUID.randomUUID().toString() + ".jpg";
         try {
-        	templateImage = ImageIO.read(new File("/data/cglx/course_invite_card/"+templateName));
+        	templateImage = ImageIO.read(new File("/data/cglx/doc_invite_card/"+templateName));
             int width = 200;  
             int height = 200;
             Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();

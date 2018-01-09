@@ -212,7 +212,6 @@
 										<tr>
 											<th>ID</th>
 											<th style="width: 20%">标题</th>
-											<th>是否为系列课</th>
 											<th>创建时间</th>
 											<th>课程宣传卡模板图</th>
 											<th>课程邀请卡模板图</th>
@@ -382,8 +381,8 @@
 					+ '<td>'+data[index].id+'</td>'
 					+ '<td>'+data[index].title+'</td>'
 					+ '<td>'+data[index].readable_date+'</td>'
-					+ '<td><a href="/cglx/files/course_invite_card/'+data[index].spread_template_name+'" target="_blank">点击查看</a></td>'
-					+ '<td><a href="/cglx/files/course_invite_card/'+data[index].template_name+'" target="_blank">点击查看</a></td>'
+					+ '<td><a href="/cglx/files/doc_invite_card/'+data[index].spread_template_name+'" target="_blank">点击查看</a></td>'
+					+ '<td><a href="/cglx/files/doc_invite_card/'+data[index].template_name+'" target="_blank">点击查看</a></td>'
 					+ '<td>'+data[index].need_invite_person_count+'</td>'
 					+ optStr
 					+ '</tr>';
@@ -392,7 +391,7 @@
 			
 			$.post('/document/getAllDocument', function(data) {
 				for(var index in data) {
-					$('#docNames').append('<option value="'+data[index].id+'">'+data[index].title+'<option>');
+					$('#docNames').append('<option value="'+data[index].id+'">'+data[index].title+'</option>');
 				}
 			});	
 			
@@ -480,7 +479,7 @@
 			
 			var copywriter = $('#copywriter').val();
 			copywriter = copywriter.replace(/\n/g, "_@").replace(/\r/g,'_#');
-			fd.append('copywriter', $('#copywriter').val());
+			fd.append('copywriter', copywriter);
 			
 			var xhr = new XMLHttpRequest();
 			xhr.upload.addEventListener("progress", function(evt) {

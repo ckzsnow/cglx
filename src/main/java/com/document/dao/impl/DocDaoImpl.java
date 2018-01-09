@@ -113,4 +113,28 @@ public class DocDaoImpl implements IDocDao{
 		return retList;
 	}
 
+	@Override
+	public boolean updateUserDocById(String id) {
+		String sql = "update user_document set pay_status=1 where id=?";
+		int affectedRows = 0;
+		try {
+			affectedRows = jdbcTemplate.update(sql, id);
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return affectedRows != 0;
+	}
+
+	@Override
+	public boolean addUserDocAndPayStatus(String srcUnionId, String doc_id, String tradeNo) {
+		String sql = "replace into user_document (user_id, doc_id, pay_status, trade_no, create_time) values ((select id from user where open_id='"+srcUnionId+"'),?,?,?,?)";
+		int affectedRows = 0;
+		try {
+			affectedRows = jdbcTemplate.update(sql, doc_id, 1, tradeNo, new Timestamp(System.currentTimeMillis()));
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return affectedRows != 0;
+	}
+
 }

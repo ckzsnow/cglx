@@ -32,7 +32,11 @@ import com.ddcb.utils.TextOutputMessage;
 import com.ddcb.utils.WeixinCache;
 import com.ddcb.utils.WeixinMsgType;
 import com.ddcb.weixin.service.ICourseInviteCardService;
+import com.ddcb.weixin.service.IDocInviteCardService;
 import com.ddcb.weixin.service.IMessageProcessService;
+import com.document.dao.IDocInviteCardDao;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ocfisher.dao.ICglxDao;
 import com.ocfisher.dao.ICourseInviteCardDao;
@@ -58,11 +62,17 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 	private ICourseInviteCardService courseInviteCardService;
 
 	@Autowired
+	private IDocInviteCardService docInviteCardService;
+	
+	@Autowired
 	private ICourseInviteCardDao courseInviteCardDao;
 
 	@Autowired
 	private ICourseInviteCardUnionidDao courseInviteCardUnionidDao;
 
+	@Autowired
+	private IDocInviteCardDao docInviteCardDao;
+	
 	@Override
 	public String processWeixinMessage(HttpServletRequest request, HttpSession httpSession) {
 		String result = "";
@@ -183,7 +193,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 			}
 
 			// 用户扫描二维码订阅
-			else {
+			else if(qrcodeArgs != null && qrcodeArgs.contains("###")){
 
 				// 三个参数为扫描邀请卡，参数为course_id，is_series，邀请人open_id
 				if (qrcodeArgs.split("###").length == 3) {
@@ -239,6 +249,76 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					result = sendTextMessage(copywriter, inputMsg);
 					generateInviteCardAndPushToUser(resultMap, open_id);
 					addPushRecord(open_id, courseId, isSeries);
+				}
+			}
+			
+			else if(qrcodeArgs != null && qrcodeArgs.contains("AND")) {
+				// 两个参数为扫描邀请卡，参数为doc_id，邀请人open_id
+				if(qrcodeArgs.split("AND").length == 1) {
+					List<String> qrsceneList = Arrays.asList(qrcodeArgs.split("AND"));
+					logger.debug("qrsceneList : {}", qrsceneList.toString());
+					final String doc_id = qrsceneList.get(0);
+					logger.debug("processDocDescribeEvent doc_id:{}", doc_id);
+					Map<String, Object> resultMap = docInviteCardDao.getInviteCardByDocId(doc_id);
+					if(resultMap == null || resultMap.isEmpty()) {
+						result = sendTextMessage("抱歉，此资料邀请卡活动已经结束，请关注公众号最新活动~", inputMsg);
+						return result;
+					}
+					logger.debug("processDocScanEvent resultMap : {}", resultMap.toString());
+					
+					if (resultMap != null && !resultMap.isEmpty()) {
+						copywriter = (String) resultMap.get("copywriter");
+						copywriter = copywriter.replace("_@", "\n").replace("_#", "\r").replace("_$", " ");
+					}
+					result = sendTextMessage(copywriter, inputMsg);
+					docInviteCardService.generateDocInviteCardAndPushToUser(resultMap, open_id);
+					docInviteCardService.addDocPushRecord(open_id, doc_id);
+				}
+
+				else if (qrcodeArgs.split("AND").length == 2) {
+					List<String> qrsceneList = Arrays.asList(qrcodeArgs.split("AND"));
+					logger.debug("qrsceneList : {}", qrsceneList.toString());
+					final String doc_id = qrsceneList.get(0);
+					final String srcOpenId = qrsceneList.get(1);
+					logger.debug("processDescribeEvent doc_id:{}, srcOpenId:{}", doc_id, srcOpenId);
+					
+					Map<String, Object> resultMap = docInviteCardDao.getInviteCardByDocId(doc_id);
+					if(resultMap == null || resultMap.isEmpty()) {
+						result = sendTextMessage("抱歉，此资料邀请卡活动已经结束，请关注公众号最新活动~", inputMsg);
+						return result;
+					}
+					
+					Map<String, Object> sourceMap = om.readValue(getUserInfoByOpenId(srcOpenId), Map.class);
+					String srcUnionId = (String) sourceMap.get("unionid");
+					
+					
+					if (union_id != null && union_id.equals(srcUnionId)) {
+						//用户扫描自己的邀请卡
+						result = sendTextMessage("亲爱的小伙伴，您不能支持您自己呦，赶紧邀请您的好友来支持吧~", inputMsg);
+						
+						//推送用户专属邀请卡，并保存推送记录
+						docInviteCardService.generateDocInviteCardAndPushToUser(resultMap, open_id);
+						docInviteCardService.addDocPushRecord(open_id, doc_id);
+						
+					} else {
+						//助攻好友
+						int count = docInviteCardDao.getDocInviteRecordByFriendOpendIdAndDocId(srcUnionId, union_id, doc_id);
+						if (count == 0) {
+							copywriter = (String) resultMap.get("copywriter");
+							copywriter = copywriter.replace("_@", "\n").replace("_#", "\r").replace("_$", " ");
+							logger.debug("processScanEvent copywriter : {}", copywriter);
+							result = sendTextMessage(copywriter, inputMsg);
+							
+							// 给邀请用户发送助攻通知
+							pushDocInviteNotify(srcOpenId, open_id, doc_id);
+							docInviteCardService.generateDocInviteCardAndPushToUser(resultMap, open_id);
+							docInviteCardService.addDocPushRecord(open_id, doc_id);
+						} else {
+							result = sendTextMessage("亲爱的小伙伴，活动您已经支持过了，不能重复支持呦。", inputMsg);
+							docInviteCardService.generateDocInviteCardAndPushToUser(resultMap, open_id);
+							docInviteCardService.addDocPushRecord(open_id, doc_id);
+						}
+					} 
 				}
 			}
 		} catch (Exception e) {
@@ -343,12 +423,90 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					generateInviteCardAndPushToUser(resultMap, open_id);
 					addPushRecord(open_id, courseId, isSeries);
 				}
+			} else if(qrcodeArgs != null && qrcodeArgs.contains("AND")) {
+				result = processDocScanEvent(qrcodeArgs, inputMsg, copywriter, open_id, union_id);
 			}
 		} catch (Exception e) {
 			logger.debug("processSubscribeEvent readValue exception : {}", e.toString());
 			return result;
 		}
 		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	private String processDocScanEvent(String qrcodeArgs, InputMessage inputMsg, String copywriter, String open_id, String union_id) throws Exception {
+		String result = "";
+		
+		//已关注，用户扫描宣传卡进入
+		if(qrcodeArgs.split("AND").length == 1) {
+			List<String> qrsceneList = Arrays.asList(qrcodeArgs.split("AND"));
+			logger.debug("qrsceneList : {}", qrsceneList.toString());
+			final String doc_id = qrsceneList.get(0);
+			logger.debug("processDocScanEvent doc_id:{}", doc_id);
+			Map<String, Object> resultMap = docInviteCardDao.getInviteCardByDocId(doc_id);
+			if(resultMap == null || resultMap.isEmpty()) {
+				result = sendTextMessage("抱歉，此资料邀请卡活动已经结束，请关注公众号最新活动~", inputMsg);
+				return result;
+			}
+			logger.debug("processDocScanEvent resultMap : {}", resultMap.toString());
+			
+			if (resultMap != null && !resultMap.isEmpty()) {
+				copywriter = (String) resultMap.get("copywriter");
+				copywriter = copywriter.replace("_@", "\n").replace("_#", "\r").replace("_$", " ");
+			}
+			result = sendTextMessage(copywriter, inputMsg);
+			docInviteCardService.generateDocInviteCardAndPushToUser(resultMap, open_id);
+			docInviteCardService.addDocPushRecord(open_id, doc_id);
+		}
+
+		// 已关注，用户扫描邀请卡进入
+		else if (qrcodeArgs.split("AND").length == 2) {
+			List<String> qrsceneList = Arrays.asList(qrcodeArgs.split("AND"));
+			logger.debug("qrsceneList : {}", qrsceneList.toString());
+			final String doc_id = qrsceneList.get(0);
+			final String srcOpenId = qrsceneList.get(1);
+			logger.debug("processScanEvent doc_id:{}, srcOpenId:{}", doc_id, srcOpenId);
+			
+			Map<String, Object> resultMap = docInviteCardDao.getInviteCardByDocId(doc_id);
+			if(resultMap == null || resultMap.isEmpty()) {
+				result = sendTextMessage("抱歉，此资料邀请卡活动已经结束，请关注公众号最新活动~", inputMsg);
+				return result;
+			}
+			
+			ObjectMapper om = new ObjectMapper();
+			Map<String, Object> sourceMap = om.readValue(getUserInfoByOpenId(srcOpenId), Map.class);
+			String srcUnionId = (String) sourceMap.get("unionid");
+			
+			
+			if (union_id != null && union_id.equals(srcUnionId)) {
+				//用户扫描自己的邀请卡
+				result = sendTextMessage("亲爱的小伙伴，您不能支持您自己呦，赶紧邀请您的好友来支持吧~", inputMsg);
+				
+				//推送用户专属邀请卡，并保存推送记录
+				docInviteCardService.generateDocInviteCardAndPushToUser(resultMap, open_id);
+				docInviteCardService.addDocPushRecord(open_id, doc_id);
+				
+			} else {
+				//助攻好友
+				int count = docInviteCardDao.getDocInviteRecordByFriendOpendIdAndDocId(srcUnionId, union_id, doc_id);
+				if (count == 0) {
+					copywriter = (String) resultMap.get("copywriter");
+					copywriter = copywriter.replace("_@", "\n").replace("_#", "\r").replace("_$", " ");
+					logger.debug("processScanEvent copywriter : {}", copywriter);
+					result = sendTextMessage(copywriter, inputMsg);
+					
+					// 给邀请用户发送助攻通知
+					pushDocInviteNotify(srcOpenId, open_id, doc_id);
+					docInviteCardService.generateDocInviteCardAndPushToUser(resultMap, open_id);
+					docInviteCardService.addDocPushRecord(open_id, doc_id);
+				} else {
+					result = sendTextMessage("亲爱的小伙伴，活动您已经支持过了，不能重复支持呦。", inputMsg);
+					docInviteCardService.generateDocInviteCardAndPushToUser(resultMap, open_id);
+					docInviteCardService.addDocPushRecord(open_id, doc_id);
+				}
+			} 
+		}
+		return "";
 	}
 
 	// 用户发送信息与服务号交互
@@ -542,7 +700,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 		return true;
 	}
 
-	public void generateInviteCardAndPushToUser(Map<String, Object> courseMap, String open_id) {
+	public void generateInviteCardAndPushToUser(Map<String, Object> docMap, String open_id) {
 		new Thread(new Runnable() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -555,10 +713,9 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					String nickname = (String) retMap.get("nickname");
 					String headImgUrl = (String) retMap.get("headimgurl");
 					String unionid = (String) retMap.get("unionid");
-					Integer isSeries = (Integer) courseMap.get("is_series");
-					String templateName = (String) courseMap.get("template_name");
-					String course_id = String.valueOf(courseMap.get("course_id"));
-					String args = course_id + "###" + isSeries + "###" + open_id;
+					String templateName = (String) docMap.get("template_name");
+					String doc_id = String.valueOf(docMap.get("doc_id"));
+					String args = doc_id + "AND" + open_id;
 					logger.debug("processTextMessage args : {}", args);
 					String json = "{\"expire_seconds\": 2592000, \"action_name\": \"QR_STR_SCENE\", \"action_info\""
 							+ ": {\"scene\": {\"scene_str\": \"" + args + "\"}}}";
@@ -596,6 +753,15 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 			}
 		}).start();
 	}
+	
+	public void pushDocInviteNotify(String srcOpenId, String open_id, String doc_id) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				docInviteCardService.pushDocInviteNotify(srcOpenId, open_id, doc_id);
+			}
+		}).start();
+	}
 
 	public void addPushRecord(String open_id, String course_id, String is_series) {
 		//添加推送邀请卡的记录
@@ -615,7 +781,4 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 		}).start();
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(isNumeric("35a"));
-	}
 }

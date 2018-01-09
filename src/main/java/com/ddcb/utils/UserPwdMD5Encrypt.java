@@ -29,6 +29,8 @@ public class UserPwdMD5Encrypt {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(UserPwdMD5Encrypt.getPasswordByMD5Encrypt("123456"));
+		String arg = "id###";
+		String[] strs = arg.split("###");
+		System.out.println(strs.length);
 	}
 }
