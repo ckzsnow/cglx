@@ -23,4 +23,12 @@ public interface IDocDao {
 
 	boolean addUserDocAndPayStatus(String srcUnionId, String doc_id, String tradeNo);
 
+	Map<String, Object> getUserDocByUserIdAndDocId(String user_id, String doc_id);
+
+	boolean addUserDoc(String userId, String doc_id, String orderId);
+
+	boolean updateUserDocByTradeNo(String outTradeNo, int i);
+
+	int getPayStatusByOrderIdAndCourseId(String doc_id, String orderId);
+
 }

@@ -85,7 +85,8 @@ $("#login_submit").click(function() {
             $("#user_id").html(a.user_id),
             $(".pc-login").hide(),
             $(".login-false-wrapper").hide(),
-            $(".login-success-wrapper").show())
+            $(".login-success-wrapper").show()),
+            window.location.reload()
         },
         error: function() {
             $("#login_tip").html(""),

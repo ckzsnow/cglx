@@ -92,7 +92,7 @@ public class DocDaoImpl implements IDocDao{
 	@Override
 	public List<Map<String, Object>> getDocByIndexAndKey(int start, int length, String key) {
 		List<Map<String, Object>> retList = null;
-		String sql = "select *, DATE_FORMAT(create_time,'%Y-%m-%d') as readable_date from document where document like '%" + key +"%' limit ?,?";
+		String sql = "select *, DATE_FORMAT(create_time,'%Y-%m-%d') as readable_date from document where title like '%" + key +"%' order by create_time desc limit ?,?";
 		try{
 			retList = jdbcTemplate.queryForList(sql, start, length);
 		}catch(Exception e){
@@ -135,6 +135,54 @@ public class DocDaoImpl implements IDocDao{
 			logger.error(e.toString());
 		}
 		return affectedRows != 0;
+	}
+
+	@Override
+	public Map<String, Object> getUserDocByUserIdAndDocId(String user_id, String doc_id) {
+		String sql = "select * from user_document where user_id=? and doc_id=?";
+		Map<String, Object> retMap = null;
+		try {
+			retMap = jdbcTemplate.queryForMap(sql, user_id, doc_id);
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return retMap;
+	}
+
+	@Override
+	public boolean addUserDoc(String userId, String doc_id, String orderId) {
+		String sql = "replace into user_document (user_id, doc_id, pay_status, trade_no, create_time) values ((select id from user where open_id='"+userId+"'),?,?,?,?)";
+		int affectedRows = 0;
+		try {
+			affectedRows = jdbcTemplate.update(sql, doc_id, 0, orderId, new Timestamp(System.currentTimeMillis()));
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return affectedRows != 0;
+	}
+
+	@Override
+	public boolean updateUserDocByTradeNo(String outTradeNo, int status) {
+		String sql = "update user_document set pay_status=? where trade_no=?";
+		int affectedRows = 0;
+		try {
+			affectedRows = jdbcTemplate.update(sql, status, outTradeNo);
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return affectedRows != 0;
+	}
+
+	@Override
+	public int getPayStatusByOrderIdAndCourseId(String doc_id, String orderId) {
+		int result = 0;
+		String sql = "select pay_status from user_document where trade_no=? and doc_id=?";
+		try{
+			result = jdbcTemplate.queryForObject(sql, new String[] {orderId, doc_id}, Integer.class);
+		} catch(Exception e) {
+			logger.error(e.toString());
+		}
+		return result;
 	}
 
 }
