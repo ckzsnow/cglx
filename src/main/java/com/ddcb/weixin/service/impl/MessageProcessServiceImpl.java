@@ -11,8 +11,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletInputStream;
@@ -35,8 +33,6 @@ import com.ddcb.weixin.service.ICourseInviteCardService;
 import com.ddcb.weixin.service.IDocInviteCardService;
 import com.ddcb.weixin.service.IMessageProcessService;
 import com.document.dao.IDocInviteCardDao;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ocfisher.dao.ICglxDao;
 import com.ocfisher.dao.ICourseInviteCardDao;
@@ -121,45 +117,135 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 		return result;
 	}
 
-	// 用户取消关注服务号
-	private String processUnsubscribeEvent(InputMessage inputMsg) {
-		final String open_id = inputMsg.getFromUserName();
-		new Thread(new Runnable() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public void run() {
-				ObjectMapper om = new ObjectMapper();
-				Map<String, Object> retMap = null;
-				try {
-					retMap = om.readValue(getUserInfoByOpenId(open_id), Map.class);
-				} catch (Exception e) {
-					logger.error("processSubscribeEvent readValue exception : {}", e.toString());
-				}
-				String union_id = (String) retMap.get("unionid");
-				courseInviteCardDao.updateUserSubscribeStatus(union_id, 0);
-			}
-		}).start();
-		return "";
-	}
+	// 用户发送信息与服务号交互
+	@SuppressWarnings("unchecked")
+	private String processTextMessage(InputMessage inputMsg) {
+		String result = sendTextMessage("抱歉，服务器出了点小意外，请您谅解~", inputMsg);
+		if (inputMsg.getContent().indexOf("入群") != -1) {
+			
+			sendTextMessage("", inputMsg);
+			logger.debug("当前收到的消息内容" + inputMsg.getContent());
+			result = sendImageMessage("PMCPFwuiCp2HPAfNSNNt9eJz-gyBI5v2JrU9lieA-Aw", inputMsg);
+			
+		} else if(inputMsg.getContent().indexOf("英文小说") != -1) {
+			
+			result = sendTextMessage("Hi~这里是DIY研习社课堂！\n\n/:gift<Modern Library 100 Best Novels>"
+					+ "分享给你 \n链接：https://pan.baidu.com/s/1eSk1g6e \n密码：v31y \n\n/:li点击菜单【邀请卡】，"
+					+ "即可获取世界顶尖名校的学习工作经验~\n\n接下来还会有更多优质的内容与资源，欢迎持续关注哦！", inputMsg);
+			
+		} else if (inputMsg.getContent().trim().contains("A")) {
+			
+			List<Map<String, Object>> inviteCardList = courseInviteCardDao.getAllCourse();
+			logger.debug("processTextMessage inviteCardList : {}", inviteCardList.toString());
+			int index = Integer.valueOf(inputMsg.getContent().trim().substring(1)) - 1;
+			if (index > inviteCardList.size()) {
+				result = sendTextMessage("抱歉，你所输入的课程邀请卡不存在~", inputMsg);
+			} else {
+				result = sendTextMessage("请稍等，您的专属课程邀请卡正在制作中哦~", inputMsg);
+				Map<String, Object> courseMap = inviteCardList.get(index);
+				logger.debug("processTextMessage chosen courseMap : {}, index:{}", courseMap.toString(), index);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							String open_id = inputMsg.getFromUserName();
+							logger.debug("processTextMessage open_id : {}", open_id);
+							ObjectMapper om = new ObjectMapper();
+							Map<String, Object> retMap = om
+									.readValue(CourseInviteCardServiceImpl.getUserInfoByOpenId(open_id), Map.class);
+							String nickname = (String) retMap.get("nickname");
+							String headImgUrl = (String) retMap.get("headimgurl");
+							String unionid = (String) retMap.get("unionid");
+							Integer isSeries = (Integer) courseMap.get("is_series");
+							String templateName = (String) courseMap.get("template_name");
+							String course_id = String.valueOf(courseMap.get("course_id"));
+							String args = course_id + "AND" + isSeries + "###" + open_id;
+							logger.debug("processTextMessage args : {}", args);
+							String json = "{\"expire_seconds\": 2592000, \"action_name\": \"QR_STR_SCENE\", \"action_info\""
+									+ ": {\"scene\": {\"scene_str\": \"" + args + "\"}}}";
+							String action = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="
+									+ WeixinCache.getAccessToken();
+							String ret = CourseInviteCardServiceImpl.connectWeiXinInterface(action, json);
+							logger.debug("processTextMessage ret : {}", ret);
+							JSONObject jsonObject = JSONObject.fromObject(ret);
+							if (jsonObject.has("url")) {
+								System.out.println("url:" + jsonObject.getString("url"));
+								String url = jsonObject.getString("url");
+								logger.debug("qrcode url : {}", url);
+								CourseInviteCardServiceImpl.generateQRCode(url, open_id, templateName);
+								logger.debug("pushCourseInviteCard, nickname:{},headImgUrl:{},unionid:{}", nickname,
+										headImgUrl, unionid);
+								BufferedImage headImage = ImageIO.read(new URL(headImgUrl));
+								CourseInviteCardServiceImpl.generateHeadImageCode(headImage, nickname, open_id);
+								CourseInviteCardServiceImpl.pushImageToUser(open_id);
+							} else {
+								System.out.println(jsonObject.toString());
+							}
+						} catch (Exception e) {
+							logger.error("processTextMessage ObjectMapper error : {}", e.toString());
+						}
 
-	// 用户点击服务号’邀请卡‘按钮
-	private String processClickEvent(InputMessage inputMsg) {
-		String result = "抱歉，当前暂无可参加的活动的邀请卡。";
-		try {
-			logger.debug("processScanEvent, scan args :{}", inputMsg.getEventKey().trim());
-			List<Map<String, Object>> inviteCardList = courseInviteCardDao.getAllCourseInviteCardDetail();
-			if (inviteCardList != null && !inviteCardList.isEmpty()) {
-				result = "当前可参加活动的课程邀请卡有：\r\n";
-				for (int index = 1; index <= inviteCardList.size(); index++) {
-					result += (index + "、" + inviteCardList.get(index - 1).get("title") + "\r\n");
-				}
-				result += "回复编号，获取课程邀请卡哦~";
+					}
+				}).start();
 			}
-		} catch (Exception e) {
-			logger.error(e.toString());
+		} else if(inputMsg.getContent().trim().contains("B")) {
+			
+			int index = Integer.valueOf(inputMsg.getContent().trim().substring(1)) - 1;
+			List<Map<String, Object>> docInviteCardList = docInviteCardDao.getInviteCardDoc();
+			if (index > docInviteCardList.size()) {
+				result = sendTextMessage("抱歉，你所输入的资料邀请卡不存在~", inputMsg);
+			} else {
+				result = sendTextMessage("请稍等，您的专属资料邀请卡正在制作中哦~", inputMsg);
+				Map<String, Object> docMap = docInviteCardList.get(index);
+				logger.debug("processTextMessage chosen docMap : {}, index:{}", docMap.toString(), index);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						try {
+							String open_id = inputMsg.getFromUserName();
+							logger.debug("processTextMessage doc open_id : {}", open_id);
+							ObjectMapper om = new ObjectMapper();
+							Map<String, Object> retMap = om
+									.readValue(DocInviteCardServiceImpl.getUserInfoByOpenId(open_id), Map.class);
+							String nickname = (String) retMap.get("nickname");
+							String headImgUrl = (String) retMap.get("headimgurl");
+							String unionid = (String) retMap.get("unionid");
+							String templateName = (String) docMap.get("template_name");
+							String doc_id = String.valueOf(docMap.get("doc_id"));
+							String args = doc_id + "AND" + open_id;
+							logger.debug("processTextMessage doc args : {}", args);
+							String json = "{\"expire_seconds\": 2592000, \"action_name\": \"QR_STR_SCENE\", \"action_info\""
+									+ ": {\"scene\": {\"scene_str\": \"" + args + "\"}}}";
+							String action = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="
+									+ WeixinCache.getAccessToken();
+							String ret = DocInviteCardServiceImpl.connectWeiXinInterface(action, json);
+							logger.debug("processTextMessage doc ret : {}", ret);
+							JSONObject jsonObject = JSONObject.fromObject(ret);
+							if (jsonObject.has("url")) {
+								System.out.println("url:" + jsonObject.getString("url"));
+								String url = jsonObject.getString("url");
+								logger.debug("qrcode doc url : {}", url);
+								DocInviteCardServiceImpl.generateQRCode(url, open_id, templateName);
+								logger.debug("pushDocInviteCard, nickname:{},headImgUrl:{},unionid:{}", nickname,
+										headImgUrl, unionid);
+								BufferedImage headImage = ImageIO.read(new URL(headImgUrl));
+								DocInviteCardServiceImpl.generateHeadImageCode(headImage, nickname, open_id);
+								DocInviteCardServiceImpl.pushImageToUser(open_id);
+							} else {
+								System.out.println(jsonObject.toString());
+							}
+						} catch (Exception e) {
+							logger.error("processTextMessage ObjectMapper error : {}", e.toString());
+						}
+
+					}
+				}).start();
+			}
+		} else {
+			result = sendTextMessage(
+					"亲爱的小伙伴，千山万水你还是来了。无论你身在何方，在做着什么，你找到组织啦。\r\n我们是一个有爱有干货的留学生互助共享平台。DIY研习社，让留学不孤单。\r\n后台回复关键词“入群”，即可加入DIY研习社最新创建的社群。如果无法入群，加群理事V信号senyuyan0904即可入群。",
+					inputMsg);
 		}
-		logger.debug("processClickEvent result : {}", result);
-		result = sendTextMessage(result, inputMsg);
 		return result;
 	}
 
@@ -280,7 +366,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					logger.debug("qrsceneList : {}", qrsceneList.toString());
 					final String doc_id = qrsceneList.get(0);
 					final String srcOpenId = qrsceneList.get(1);
-					logger.debug("processDescribeEvent doc_id:{}, srcOpenId:{}", doc_id, srcOpenId);
+					logger.debug("processDescribeEvent doc doc_id:{}, srcOpenId:{}", doc_id, srcOpenId);
 					
 					Map<String, Object> resultMap = docInviteCardDao.getInviteCardByDocId(doc_id);
 					if(resultMap == null || resultMap.isEmpty()) {
@@ -288,7 +374,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 						return result;
 					}
 					
-					Map<String, Object> sourceMap = om.readValue(getUserInfoByOpenId(srcOpenId), Map.class);
+					Map<String, Object> sourceMap = om.readValue(DocInviteCardServiceImpl.getUserInfoByOpenId(srcOpenId), Map.class);
 					String srcUnionId = (String) sourceMap.get("unionid");
 					
 					
@@ -326,24 +412,76 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 			return result;
 		}
 		
-		//添加user表，订阅即注册
-		final String userOpenId = inputMsg.getFromUserName();
+	//添加user表，订阅即注册
+	final String userOpenId = inputMsg.getFromUserName();
+	new Thread(new Runnable() {
+		@Override
+		public void run() {
+			try {
+				ObjectMapper om = new ObjectMapper();
+				Map<String, Object> retMap = om.readValue(getUserInfoByOpenId(userOpenId), Map.class);
+				String nickname = (String) retMap.get("nickname");
+				String headImgUrl = (String) retMap.get("headimgurl");
+				String unionid = (String) retMap.get("unionid");
+				cglxDao.addUserByOpenid(unionid, nickname, headImgUrl);
+			} catch (Exception ex) {
+				logger.error(ex.toString());
+			}
+		}
+	}).start();
+	
+	return result;
+}
+	
+	// 用户取消关注服务号
+	private String processUnsubscribeEvent(InputMessage inputMsg) {
+		final String open_id = inputMsg.getFromUserName();
 		new Thread(new Runnable() {
+			@SuppressWarnings("unchecked")
 			@Override
 			public void run() {
+				ObjectMapper om = new ObjectMapper();
+				Map<String, Object> retMap = null;
 				try {
-					ObjectMapper om = new ObjectMapper();
-					Map<String, Object> retMap = om.readValue(getUserInfoByOpenId(userOpenId), Map.class);
-					String nickname = (String) retMap.get("nickname");
-					String headImgUrl = (String) retMap.get("headimgurl");
-					String unionid = (String) retMap.get("unionid");
-					cglxDao.addUserByOpenid(unionid, nickname, headImgUrl);
-				} catch (Exception ex) {
-					logger.error(ex.toString());
+					retMap = om.readValue(getUserInfoByOpenId(open_id), Map.class);
+				} catch (Exception e) {
+					logger.error("processSubscribeEvent readValue exception : {}", e.toString());
 				}
+				String union_id = (String) retMap.get("unionid");
+				courseInviteCardDao.updateUserSubscribeStatus(union_id, 0);
 			}
 		}).start();
-		
+		return "";
+	}
+
+	// 用户点击服务号’邀请卡‘按钮
+	private String processClickEvent(InputMessage inputMsg) {
+		String result = "抱歉，当前暂无可参加的活动的邀请卡。";
+		String key = inputMsg.getEventKey();
+		try {
+			if(key.equals("COURSEINVITECARD")) {
+				logger.debug("processScanEvent, scan args :{}", inputMsg.getEventKey().trim());
+				List<Map<String, Object>> inviteCardList = courseInviteCardDao.getAllCourseInviteCardDetail();
+				if (inviteCardList != null && !inviteCardList.isEmpty()) {
+					result = "当前可参加活动的课程邀请卡有：\r\n";
+					for (int index = 1; index <= inviteCardList.size(); index++) {
+						result += ("A" + index + "、" + inviteCardList.get(index - 1).get("title") + "\r\n");
+					}
+					result += "回复编号，获取课程邀请卡哦~";
+				}
+			} else if(key.equals("DOCINVITECARD")){
+				List<Map<String, Object>> docInviteCardList = docInviteCardDao.getInviteCardDoc();
+				result = "当前可参加活动的资料邀请卡有：\r\n";
+				for (int index = 1; index <= docInviteCardList.size(); index++) {
+					result += ("B" + index + "、" + docInviteCardList.get(index - 1).get("title") + "\r\n");
+				}
+				result += "回复编号，获取资料邀请卡哦~";
+			}
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
+		logger.debug("processClickEvent result : {}", result);
+		result = sendTextMessage(result, inputMsg);
 		return result;
 	}
 
@@ -440,7 +578,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 		//已关注，用户扫描宣传卡进入
 		if(qrcodeArgs.split("AND").length == 1) {
 			List<String> qrsceneList = Arrays.asList(qrcodeArgs.split("AND"));
-			logger.debug("qrsceneList : {}", qrsceneList.toString());
+			logger.debug("processDocScanEvent qrsceneList : {}", qrsceneList.toString());
 			final String doc_id = qrsceneList.get(0);
 			logger.debug("processDocScanEvent doc_id:{}", doc_id);
 			Map<String, Object> resultMap = docInviteCardDao.getInviteCardByDocId(doc_id);
@@ -450,10 +588,8 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 			}
 			logger.debug("processDocScanEvent resultMap : {}", resultMap.toString());
 			
-			if (resultMap != null && !resultMap.isEmpty()) {
-				copywriter = (String) resultMap.get("copywriter");
-				copywriter = copywriter.replace("_@", "\n").replace("_#", "\r").replace("_$", " ");
-			}
+			copywriter = (String) resultMap.get("copywriter");
+			copywriter = copywriter.replace("_@", "\n").replace("_#", "\r").replace("_$", " ");
 			result = sendTextMessage(copywriter, inputMsg);
 			docInviteCardService.generateDocInviteCardAndPushToUser(resultMap, open_id);
 			docInviteCardService.addDocPushRecord(open_id, doc_id);
@@ -505,79 +641,6 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					docInviteCardService.addDocPushRecord(open_id, doc_id);
 				}
 			} 
-		}
-		return "";
-	}
-
-	// 用户发送信息与服务号交互
-	@SuppressWarnings("unchecked")
-	private String processTextMessage(InputMessage inputMsg) {
-		String result = "";
-		List<Map<String, Object>> inviteCardList = courseInviteCardDao.getAllCourse();
-		logger.debug("processTextMessage inviteCardList : {}", inviteCardList.toString());
-		if (inputMsg.getContent().indexOf("入群") != -1) {
-			sendTextMessage("", inputMsg);
-			logger.debug("当前收到的消息内容" + inputMsg.getContent());
-			result = sendImageMessage("PMCPFwuiCp2HPAfNSNNt9eJz-gyBI5v2JrU9lieA-Aw", inputMsg);
-		} else if(inputMsg.getContent().indexOf("英文小说") != -1) {
-			result = sendTextMessage("Hi~这里是DIY研习社课堂！\n\n/:gift<Modern Library 100 Best Novels>分享给你 \n链接：https://pan.baidu.com/s/1eSk1g6e \n密码：v31y \n\n/:li点击菜单【邀请卡】，即可获取世界顶尖名校的学习工作经验~\n\n接下来还会有更多优质的内容与资源，欢迎持续关注哦！", inputMsg);
-		} else if (isNumeric(inputMsg.getContent().trim())) {
-			logger.debug("processTextMessage isNumeric check complete!");
-			int index = Integer.valueOf(inputMsg.getContent().trim()) - 1;
-			if (index > inviteCardList.size()) {
-				result = sendTextMessage("抱歉，你所输入的课程邀请卡不存在~", inputMsg);
-			} else {
-				result = sendTextMessage("请稍等，您的专属课程邀请卡正在制作中哦~", inputMsg);
-				Map<String, Object> courseMap = inviteCardList.get(index);
-				logger.debug("processTextMessage chosen courseMap : {}, index:{}", courseMap.toString(), index);
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						try {
-							String open_id = inputMsg.getFromUserName();
-							logger.debug("processTextMessage open_id : {}", open_id);
-							ObjectMapper om = new ObjectMapper();
-							Map<String, Object> retMap = om
-									.readValue(CourseInviteCardServiceImpl.getUserInfoByOpenId(open_id), Map.class);
-							String nickname = (String) retMap.get("nickname");
-							String headImgUrl = (String) retMap.get("headimgurl");
-							String unionid = (String) retMap.get("unionid");
-							Integer isSeries = (Integer) courseMap.get("is_series");
-							String templateName = (String) courseMap.get("template_name");
-							String course_id = String.valueOf(courseMap.get("course_id"));
-							String args = course_id + "###" + isSeries + "###" + open_id;
-							logger.debug("processTextMessage args : {}", args);
-							String json = "{\"expire_seconds\": 2592000, \"action_name\": \"QR_STR_SCENE\", \"action_info\""
-									+ ": {\"scene\": {\"scene_str\": \"" + args + "\"}}}";
-							String action = "https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token="
-									+ WeixinCache.getAccessToken();
-							String ret = CourseInviteCardServiceImpl.connectWeiXinInterface(action, json);
-							logger.debug("processTextMessage ret : {}", ret);
-							JSONObject jsonObject = JSONObject.fromObject(ret);
-							if (jsonObject.has("url")) {
-								System.out.println("url:" + jsonObject.getString("url"));
-								String url = jsonObject.getString("url");
-								logger.debug("qrcode url : {}", url);
-								CourseInviteCardServiceImpl.generateQRCode(url, open_id, templateName);
-								logger.debug("pushCourseInviteCard, nickname:{},headImgUrl:{},unionid:{}", nickname,
-										headImgUrl, unionid);
-								BufferedImage headImage = ImageIO.read(new URL(headImgUrl));
-								CourseInviteCardServiceImpl.generateHeadImageCode(headImage, nickname, open_id);
-								CourseInviteCardServiceImpl.pushImageToUser(open_id);
-							} else {
-								System.out.println(jsonObject.toString());
-							}
-						} catch (Exception e) {
-							logger.error("processTextMessage ObjectMapper error : {}", e.toString());
-						}
-
-					}
-				}).start();
-			}
-		} else {
-			result = sendTextMessage(
-					"亲爱的小伙伴，千山万水你还是来了。无论你身在何方，在做着什么，你找到组织啦。\r\n我们是一个有爱有干货的留学生互助共享平台。DIY研习社，让留学不孤单。\r\n后台回复关键词“入群”，即可加入DIY研习社最新创建的社群。如果无法入群，加群理事V信号senyuyan0904即可入群。",
-					inputMsg);
 		}
 		return result;
 	}
@@ -690,7 +753,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 		return ret;
 	}
 
-	private static boolean isNumeric(String str) {
+	/*private static boolean isNumeric(String str) {
 		logger.debug("isNumeric str : {}", str);
 		Pattern pattern = Pattern.compile("[0-9]*$");
 		Matcher isNum = pattern.matcher(str);
@@ -698,7 +761,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 			return false;
 		}
 		return true;
-	}
+	}*/
 
 	public void generateInviteCardAndPushToUser(Map<String, Object> docMap, String open_id) {
 		new Thread(new Runnable() {

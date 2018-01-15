@@ -39,7 +39,7 @@ import com.google.zxing.common.BitMatrix;
 
 import net.sf.json.JSONObject;
 
-@Service("docInviteCardServiceImpl")
+@Service("docInviteCardService")
 public class DocInviteCardServiceImpl implements IDocInviteCardService {
 
 private static final Logger logger = LoggerFactory.getLogger(DocInviteCardServiceImpl.class);
@@ -431,13 +431,13 @@ private static final Logger logger = LoggerFactory.getLogger(DocInviteCardServic
 					}
 					int needInvitePersonCount = (Integer)docInviteCardMap.get("need_invite_person_count");
 					Map<String,Object> docMap = docDao.getDocDetailById(doc_id);
-					String price = (String)docMap.get("cost");
+					String price = (String)docMap.get("price");
 					String title = (String)docMap.get("title");
 					Date currentTime = new Date();
 					SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 					String dateString = formatter.format(currentTime);
 					
-					logger.debug("pushCourseInviteNotify currentSupportTotal:{},needInvitePersonCount:{},"
+					logger.debug("pushDocInviteNotify currentSupportTotal:{},needInvitePersonCount:{},"
 							+ "coursePrice:{},courseTitle:{}",currentSupportTotal,needInvitePersonCount,
 							price,title);
 					

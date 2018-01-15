@@ -24,7 +24,7 @@ public class DocInviteCardImpl implements IDocInviteCardDao {
 
 	@Override
 	public List<Map<String, Object>> getInviteCardDoc() {
-		String sql = "select dic.id,title,template_name,spread_template_name,need_invite_person_count,DATE_FORMAT(dic.create_time,'%Y-%m-%d') as readable_date, publish_status from doc_invite_card dic left join document doc on dic.doc_id=doc.id";
+		String sql = "select dic.id,title,template_name,spread_template_name,need_invite_person_count,doc_id,DATE_FORMAT(dic.create_time,'%Y-%m-%d') as readable_date, publish_status from doc_invite_card dic left join document doc on dic.doc_id=doc.id";
 		List<Map<String, Object>> retList = new ArrayList<>();
 		try{
 			retList = jdbcTemplate.queryForList(sql);

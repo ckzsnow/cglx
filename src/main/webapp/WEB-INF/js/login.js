@@ -77,16 +77,27 @@ $("#login_submit").click(function() {
             user_pwd: b
         },
         success: function(a) {
-            checkJsonIsEmpty(a) ? ($("#login_tip").html(""),
-            $("#login_tip").show(),
-            $("#login_tip").html("服务器暂时无法完成您的请求！")) : "0" != a.error ? ($("#login_tip").html(""),
-            $("#login_tip").show(),
-            $("#login_tip").html(a.error_msg)) : ("1" == a.user_type && (window.location.href = "/background/bannerlist.html"),
-            $("#user_id").html(a.user_id),
-            $(".pc-login").hide(),
-            $(".login-false-wrapper").hide(),
-            $(".login-success-wrapper").show()),
-            window.location.reload()
+        	if(checkJsonIsEmpty(a)) {
+        		$("#login_tip").html("");
+        	        $("#login_tip").show();
+        	        $("#login_tip").html("服务器暂时无法完成您的请求！");
+        	} else {
+        		if(a.error != 0) {
+        			$("#login_tip").html("");
+        			$("#login_tip").show();
+        			$("#login_tip").html(a.error_msg);
+        		} else {
+        			if(a.user_type == 1) {
+        				window.location.href = "/background/bannerlist.html";
+        			} else {
+        				$("#user_id").html(a.user_id);
+        				$(".pc-login").hide();
+        				$(".login-false-wrapper").hide();
+        				$(".login-success-wrapper").show();
+        				window.location.reload();
+        			}
+        		}
+        	}
         },
         error: function() {
             $("#login_tip").html(""),
