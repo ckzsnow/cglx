@@ -271,16 +271,17 @@ public class DocController {
 	public Map<String, String> weixinDocPay(HttpSession httpSession, HttpServletRequest request) {
 		Map<String, String> retMap = new HashMap<>();
 		String userId = (String) httpSession.getAttribute("user_id");
+		logger.debug("DocController weixinDocPay user_id : {}", userId);
 		String doc_id = request.getParameter("doc_id");
 		Map<String, Object> docMap = docDao.getDocDetailById(doc_id);
 		double fee = Double.valueOf(String.valueOf(docMap.get("price")));
-		logger.debug("weixinDocPay course_id : {}", doc_id);
+		logger.debug("DocController weixinDocPay doc_id : {}", doc_id);
 		if (userId == null || userId.isEmpty()) {
 			retMap.put("error_msg", "no user id");
 			return retMap;
 		}
 		WeixinPayUtils.setNotifyurl("http://www.udiyclub.com/document/weixinDocPayResult");
-		logger.debug("weixinUserCoursePay fee : {}", fee);
+		logger.debug("DocController weixinDocPay fee : {}", fee);
 		WxPayDto tpWxPay = new WxPayDto();
 		tpWxPay.setOpenId("oSTV_t9z_fYa7AQVYO0y5-OMFavQ");
 		tpWxPay.setBody("UDIY研习社");
@@ -293,7 +294,8 @@ public class DocController {
 			retMap.put("error_msg", "微信服务器无法获取到支付支付二维码，请稍后重试！");
 			return retMap;
 		}
-		if (docDao.addUserDoc(userId, doc_id, tpWxPay.getOrderId())) {
+		logger.debug("DocController weixinDocPay params : {}, {}", userId, doc_id);
+		if (docDao.addUserDoc(userId, doc_id, String.valueOf(fee), tpWxPay.getOrderId())) {
 			retMap.put("error_msg", "generateQrcode success");
 			retMap.put("qrcodePath", generateQrcode(qrcode));
 			retMap.put("orderId", tpWxPay.getOrderId());

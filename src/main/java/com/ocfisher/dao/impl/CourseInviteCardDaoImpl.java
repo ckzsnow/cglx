@@ -25,7 +25,7 @@ public class CourseInviteCardDaoImpl implements ICourseInviteCardDao {
 	public List<Map<String, Object>> getAllCourse() {
 		List<Map<String, Object>> retList = null;
 		try {
-			String sql = "select * from course_invite_card order by course_id";
+			String sql = "select * from course_invite_card where publish_status=1 order by course_id ";
 			retList = jdbcTemplate.queryForList(sql);
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());
@@ -173,7 +173,7 @@ public class CourseInviteCardDaoImpl implements ICourseInviteCardDao {
 	public List<Map<String, Object>> getAllCourseInviteCardDetail() {
 		List<Map<String, Object>> retList = null;
 		try {
-			String sql = "select cic.course_id, c.title from course_invite_card cic left join course c on cic.course_id=c.id order by cic.course_id";
+			String sql = "select cic.course_id, c.title from course_invite_card cic left join course c on cic.course_id=c.id where cic.publish_status=1 order by cic.course_id";
 			retList = jdbcTemplate.queryForList(sql);
 		} catch (Exception e) {
 			logger.error("exception : {}", e.toString());

@@ -142,5 +142,17 @@ public class DocInviteCardImpl implements IDocInviteCardDao {
 		}
 		return retMap;
 	}
+
+	@Override
+	public List<Map<String, Object>> getPublishedDocInviteCard() {
+		List<Map<String, Object>> retList = null;
+		try {
+			String sql = "select dic.*, d.title from doc_invite_card dic left join document d on dic.doc_id=d.id where dic.publish_status=1 order by dic.doc_id";
+			retList = jdbcTemplate.queryForList(sql);
+		} catch (Exception e) {
+			logger.error("getPublishedDocInviteCard exception : {}", e.toString());
+		}
+		return retList;
+	}
 	
 }

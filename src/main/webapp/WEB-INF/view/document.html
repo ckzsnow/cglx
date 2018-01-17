@@ -73,7 +73,8 @@ css.scss: 1848
 					</li>
 					<li class="gift" data-id="gift"><a href="about.html">关于我们</a>
 					</li>
-					<li class="search active" data-id="search"><a
+					<li class="search active"><a href="document.html">资料下载</a></li>
+					<li class="search" data-id="search"><a
 						href="search.html">搜索</a></li>
 				</ul>
 			</nav>
@@ -548,6 +549,7 @@ css.scss: 1848
 					$('.list-unstyled').append(html);
 				}
 				$('.download').on('click', function(){
+					if(window.screen.width < 700) return;
 					var userId = user_id;
 					
 					var doc_id = $(this).attr('id');

@@ -24,5 +24,7 @@ public interface IDocInviteCardDao {
 	int getDocInviteSupportTotal(String srcUnionId, String doc_id);
 
 	Map<String, Object> getUserAndUserDocByUserOpenId(String srcUnionId, String doc_id);
+
+	List<Map<String, Object>> getPublishedDocInviteCard();
 	
 }

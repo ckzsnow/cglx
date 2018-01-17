@@ -178,6 +178,7 @@ private static final Logger logger = LoggerFactory.getLogger(DocInviteCardServic
 	public static void generateQRCode(String content, String unionId, String templateName) {
 		BufferedImage templateImage = null;
         try {
+        	logger.debug("DocInviteCardServiceImpl generateQRCode params: content:{}, unionId:{}, templateName:{}", content, unionId, templateName);
         	templateImage = ImageIO.read(new File("/data/cglx/doc_invite_card/"+templateName));
             int width = 200;  
             int height = 200;
@@ -191,7 +192,7 @@ private static final Logger logger = LoggerFactory.getLogger(DocInviteCardServic
                 	templateImage.setRGB(36+i, 976+j, bitMatrix.get(i, j)? BLACK : WHITE);  
                 }  
             }
-            File imgFile = new File("/data/cglx/course_invite_card/"+unionId+".jpg");  
+            File imgFile = new File("/data/cglx/doc_invite_card/"+unionId+".jpg");  
             if(!imgFile.exists())  
                 imgFile.createNewFile();
             ImageIO.write(templateImage, "jpg", imgFile); 
@@ -202,6 +203,7 @@ private static final Logger logger = LoggerFactory.getLogger(DocInviteCardServic
 	
 	public static void generateHeadImageCode(BufferedImage headImage, String nickName, String openId) {
         try {
+        	logger.debug("DocInviteCardServiceImpl generateHeadImageCode begin!");
         	BufferedImage templateImage = ImageIO.read(new File("/data/cglx/doc_invite_card/"+openId + ".jpg"));
         	Image scaledImage = headImage.getScaledInstance(117, 117,Image.SCALE_DEFAULT);
         	BufferedImage finalImage = new BufferedImage(117, 117, BufferedImage.TYPE_INT_BGR);
@@ -217,6 +219,7 @@ private static final Logger logger = LoggerFactory.getLogger(DocInviteCardServic
             g.setFont(new Font("SimSun",Font.PLAIN,28));
             g.drawString(nickName,166,100);
             g.dispose();
+            logger.debug("DocInviteCardServiceImpl generateHeadImageCode pause!");
             File imgFile = new File("/data/cglx/doc_invite_card/"+openId+".jpg");  
             if(!imgFile.exists())  
                 imgFile.createNewFile();
@@ -375,7 +378,7 @@ private static final Logger logger = LoggerFactory.getLogger(DocInviteCardServic
 	@Override
 	public void pushDocInviteNotify(String srcOpenId, String friendOpenId, String doc_id) {
 		try {
-			logger.debug("pushCourseInviteNotify courseId_ : {}", doc_id);
+			logger.debug("pushCourseInviteNotify doc_id : {}", doc_id);
 			ObjectMapper om = new ObjectMapper();
 			Map<String,Object> retMap = om.readValue(getUserInfoByOpenId(friendOpenId), Map.class);
 			String friendName = (String)retMap.get("nickname");
@@ -426,7 +429,7 @@ private static final Logger logger = LoggerFactory.getLogger(DocInviteCardServic
 					logger.debug("getDocInviteSupportTotal, currentSupportTotal={}", currentSupportTotal);
 					Map<String, Object> docInviteCardMap = docInviteCardDao.getInviteCardByDocId(doc_id);
 					if(docInviteCardMap == null){
-						logger.debug("pushCourseInviteNotify, course not found in course_invite_card, courseid :{}", docInviteCardMap);
+						logger.debug("pushCourseInviteNotify, doc not found in doc_invite_card, doc_id :{}", doc_id);
 						return;
 					}
 					int needInvitePersonCount = (Integer)docInviteCardMap.get("need_invite_person_count");
@@ -438,7 +441,7 @@ private static final Logger logger = LoggerFactory.getLogger(DocInviteCardServic
 					String dateString = formatter.format(currentTime);
 					
 					logger.debug("pushDocInviteNotify currentSupportTotal:{},needInvitePersonCount:{},"
-							+ "coursePrice:{},courseTitle:{}",currentSupportTotal,needInvitePersonCount,
+							+ "docPrice:{},docTitle:{}",currentSupportTotal,needInvitePersonCount,
 							price,title);
 					
 					if(currentSupportTotal >= needInvitePersonCount) {
@@ -481,7 +484,7 @@ private static final Logger logger = LoggerFactory.getLogger(DocInviteCardServic
 									logger.error("weixin push failed, exception : {}", e.toString());
 								}
 							} else {
-								logger.debug("pushDocInviteNotify, add usercourse into db fail.");
+								logger.debug("pushDocInviteNotify, add userdoc into db fail.");
 							}
 						}
 					} else if(currentSupportTotal<needInvitePersonCount){
@@ -508,7 +511,7 @@ private static final Logger logger = LoggerFactory.getLogger(DocInviteCardServic
 						}
 					}
 				} else {
-					logger.debug("courseInviteCardDao, add fail.");
+					logger.debug("docInviteCardDao, add fail.");
 				}
 			}
 		} catch (Exception ex) {

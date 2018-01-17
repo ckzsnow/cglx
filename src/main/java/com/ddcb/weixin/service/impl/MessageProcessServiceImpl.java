@@ -159,7 +159,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 							Integer isSeries = (Integer) courseMap.get("is_series");
 							String templateName = (String) courseMap.get("template_name");
 							String course_id = String.valueOf(courseMap.get("course_id"));
-							String args = course_id + "AND" + isSeries + "###" + open_id;
+							String args = course_id + "###" + isSeries + "###" + open_id;
 							logger.debug("processTextMessage args : {}", args);
 							String json = "{\"expire_seconds\": 2592000, \"action_name\": \"QR_STR_SCENE\", \"action_info\""
 									+ ": {\"scene\": {\"scene_str\": \"" + args + "\"}}}";
@@ -191,7 +191,7 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 		} else if(inputMsg.getContent().trim().contains("B")) {
 			
 			int index = Integer.valueOf(inputMsg.getContent().trim().substring(1)) - 1;
-			List<Map<String, Object>> docInviteCardList = docInviteCardDao.getInviteCardDoc();
+			List<Map<String, Object>> docInviteCardList = docInviteCardDao.getPublishedDocInviteCard();
 			if (index > docInviteCardList.size()) {
 				result = sendTextMessage("抱歉，你所输入的资料邀请卡不存在~", inputMsg);
 			} else {
@@ -467,15 +467,17 @@ public class MessageProcessServiceImpl implements IMessageProcessService {
 					for (int index = 1; index <= inviteCardList.size(); index++) {
 						result += ("A" + index + "、" + inviteCardList.get(index - 1).get("title") + "\r\n");
 					}
-					result += "回复编号，获取课程邀请卡哦~";
+					result += "回复编号(字母要大写)，获取课程邀请卡哦~";
 				}
 			} else if(key.equals("DOCINVITECARD")){
-				List<Map<String, Object>> docInviteCardList = docInviteCardDao.getInviteCardDoc();
-				result = "当前可参加活动的资料邀请卡有：\r\n";
-				for (int index = 1; index <= docInviteCardList.size(); index++) {
-					result += ("B" + index + "、" + docInviteCardList.get(index - 1).get("title") + "\r\n");
+				List<Map<String, Object>> docInviteCardList = docInviteCardDao.getPublishedDocInviteCard();
+				if(docInviteCardList!=null && !docInviteCardList.isEmpty()) {
+					result = "当前可参加活动的资料邀请卡有：\r\n";
+					for (int index = 1; index <= docInviteCardList.size(); index++) {
+						result += ("B" + index + "、" + docInviteCardList.get(index - 1).get("title") + "\r\n");
+					}
+					result += "回复编号(字母要大写)，获取资料邀请卡哦~";
 				}
-				result += "回复编号，获取资料邀请卡哦~";
 			}
 		} catch (Exception e) {
 			logger.error(e.toString());

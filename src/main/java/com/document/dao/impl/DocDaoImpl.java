@@ -150,11 +150,11 @@ public class DocDaoImpl implements IDocDao{
 	}
 
 	@Override
-	public boolean addUserDoc(String userId, String doc_id, String orderId) {
-		String sql = "replace into user_document (user_id, doc_id, pay_status, trade_no, create_time) values ((select id from user where open_id='"+userId+"'),?,?,?,?)";
+	public boolean addUserDoc(String userId, String doc_id, String fee, String orderId) {
+		String sql = "replace into user_document (user_id, doc_id, paid, pay_status, trade_no, create_time) values (?,?,?,?,?,?)";
 		int affectedRows = 0;
 		try {
-			affectedRows = jdbcTemplate.update(sql, doc_id, 0, orderId, new Timestamp(System.currentTimeMillis()));
+			affectedRows = jdbcTemplate.update(sql, userId, doc_id, fee, 0, orderId, new Timestamp(System.currentTimeMillis()));
 		} catch(Exception e) {
 			logger.error(e.toString());
 		}
